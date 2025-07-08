@@ -36,18 +36,11 @@ In a monolithic setup, both prefill and decode run on the same GPU, which causes
 
 ### NVIDIA Dynamo
 
-- ✅ **Full support** for PD disaggregation (built-in)
-- Uses **NIXL** for efficient KV cache transfer between GPUs
-- Supports *conditional disaggregation* (hybrid mode)
-- Production-ready with Kubernetes operator
-- Actively maintained and part of NVIDIA’s AI Enterprise roadmap
+- [FEATURE]: Unifying Disagg Implementation in Dynamo [#1728](https://github.com/ai-dynamo/dynamo/issues/1728)
 
 ### vLLM (with LMCache)
 
-- ❌ Core vLLM does **not** support PD disaggregation natively
-- ✅ **Supported** via [LMCache](https://github.com/LMCache/lmcache) plugin stack (uses NIXL)
-- Experimental stage; production usage seen in LMCache production stack
-- vLLM community is exploring deeper native integration
+- vLLM community is exploring deeper native integration in https://github.com/vllm-project/production-stack/pull/340.
 
 ### AIBrix
 
@@ -55,18 +48,17 @@ In a monolithic setup, both prefill and decode run on the same GPU, which causes
 - Distributed KV pool enables PD scenarios
 - Roadmap includes dedicated prefill/decode workers
 - Currently focuses on control-plane and orchestration over vLLM
+- WIP issue: [Add Prefill/Decode Disaggregation Support in Inference Gateway](https://github.com/vllm-project/aibrix/issues/1223) and [#958](https://github.com/vllm-project/aibrix/issues/958).
 
 ### InftyAI/llmaz
 
-- ✅ **Explicit support**
-- `xPyD` mode (exclusive Prefill–Decode): supports multi-host disaggregated serving
-- Homogeneous PD disaggregation available from alpha version
-- Production intent, but still alpha with evolving APIs
+- Not supported yet.
+- Milestone [v0.3.0](https://github.com/InftyAI/llmaz/issues/433) includes PD disaggregation.
 
 
 ## References
 
-- https://github.com/NVIDIA/dynamo
+- https://github.com/ai-dynamo/dynamo
 - https://github.com/vllm-project/vllm
 - https://github.com/vllm-project/production-stack
 - https://github.com/vllm-project/aibrix
