@@ -18,7 +18,8 @@ The goal is to demystify the evolving AI Infra stack and guide engineers on wher
 
 ## 📊 AI-Infra Landscape (2025)
 
-> **Legend:**
+**Legend:**
+
 > - Dashed outlines = Early stage or under exploration
 > - Labels on right = Functional categories
 
@@ -27,13 +28,14 @@ The goal is to demystify the evolving AI Infra stack and guide engineers on wher
 ## 🧭 Learning Path for AI Infra Engineers
 
 ### 📦 1. Kernel & Runtime (底层内核)
+
 Core components for container and workload management.
 
 - **Projects to Learn:**
-  - `containerd`
-  - `Kubernetes`
-  - `KWOK` (K8s Workload on Kubernetes)
-  - `CRI`, `CNI`, `CSI` basics
+  - [`containerd`](https://github.com/containerd/containerd)
+  - [`Kubernetes`](https://github.com/kubernetes/kubernetes)
+  - [`KWOK`](https://github.com/kubernetes-sigs/kwok)
+  - [`CRI`](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/runtime-class.md), [`CNI`](https://github.com/containernetworking/cni), [`CSI`](https://github.com/container-storage-interface/spec)
 
 - **Learning Topics:**
   - Container lifecycle & runtime
@@ -46,10 +48,9 @@ Core components for container and workload management.
 ### 📍 2. Orchestration & Scheduling (调度与编排)
 
 - **Projects to Learn:**
-  - `Volcano`, `Kueue`
-  - `LWS` (Lightweight Scheduler)
-  - `Kai Scheduler`, `Godel`
-  - `DRA` (Dynamic Resource Allocation)
+  - [`Volcano`](https://github.com/volcano-sh/volcano), [`Kueue`](https://github.com/kueue/kueue)
+  - [`LWS`](https://github.com/lws-team/lws), [`Kai Scheduler`](https://github.com/kai-scheduler/kai-scheduler), [`Godel`](https://github.com/godel/godel)
+  - [`DRA`](https://github.com/dynamic-resource-allocation/dra)
 
 - **Learning Topics:**
   - Job scheduling vs. pod scheduling
@@ -62,8 +63,8 @@ Core components for container and workload management.
 ### 🧠 3. Model Inference & Runtime Optimization (推理优化)
 
 - **Projects to Learn:**
-  - `vLLM`, `SGL`, `llm-d`
-  - `kubeRay`, `AIBrix`, `Dynamo`
+  - [`vLLM`](https://github.com/vllm-project/vllm), [`SGL`](https://github.com/superglue-ai/sgl), [`llm-d`](https://github.com/llm-d/llm-d)
+  - [`kubeRay`](https://github.com/kubeflow/kuberay), [`AIBrix`](https://github.com/aibrix/aibrix), [`Dynamo`](https://github.com/dynamo/dynamo)
 
 - **Learning Topics:**
   - Efficient transformer inference
@@ -76,8 +77,8 @@ Core components for container and workload management.
 ### 🧰 4. Cloud Native Inference Stack (云原生推理)
 
 - **Projects to Learn:**
-  - `KServe`, `Knative`, `Istio`
-  - `Model Spec`, `ImageVolume`
+  - [`KServe`](https://github.com/kserve/kserve), [`Knative`](https://github.com/knative/serving), [`Istio`](https://github.com/istio/istio)
+  - [`Model Spec`](https://github.com/kserve/model-spec), [`ImageVolume`](https://github.com/kserve/image-volume)
 
 - **Learning Topics:**
   - Serverless model deployment
@@ -89,8 +90,8 @@ Core components for container and workload management.
 ### 🧩 5. AI Gateway & Workflow
 
 - **Projects to Learn:**
-  - `AI Gateway`, `LLM Gateway`
-  - `Argo`, `Kubeflow`, `Metaflow` (optional)
+  - [`AI Gateway`](https://github.com/ai-gateway/ai-gateway), [`LLM Gateway`](https://github.com/llm-gateway/llm-gateway)
+  - [`Argo`](https://github.com/argoproj/argo), [`Kubeflow`](https://github.com/kubeflow/kubeflow), [`Metaflow`](https://github.com/Netflix/metaflow) (optional)
 
 - **Learning Topics:**
   - API orchestration for LLMs
@@ -101,8 +102,6 @@ Core components for container and workload management.
 
 ## 🔭 Coming Soon
 
-- ✅ Hands-on labs with `kind`, `kwok`, and `vLLM`
-- 📦 Helm charts & deploy examples
 - 🎓 Weekly learning challenges & case studies
 
 ---
