@@ -114,6 +114,7 @@ Core components for container and workload management.
 ## 🔭 Coming Soon
 
 - 🎓 Weekly learning challenges & case studies
+- P/D disg
 
 ---
 
