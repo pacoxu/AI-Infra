@@ -35,7 +35,7 @@ Core components for container and workload management.
   - [`containerd`](https://github.com/containerd/containerd)
   - [`Kubernetes`](https://github.com/kubernetes/kubernetes)
   - [`KWOK`](https://github.com/kubernetes-sigs/kwok)
-  - [`CRI`](https://github.com/kubernetes/community/blob/master/contributors/design-proposals/runtime-class.md), [`CNI`](https://github.com/containernetworking/cni), [`CSI`](https://github.com/container-storage-interface/spec)
+  - [`CRI`](https://github.com/kubernetes/cri-api), [`CNI`](https://github.com/containernetworking/cni), [`CSI`](https://github.com/container-storage-interface/spec)
 
 - **Learning Topics:**
   - Container lifecycle & runtime
@@ -48,9 +48,9 @@ Core components for container and workload management.
 ### 📍 2. Orchestration & Scheduling (调度与编排)
 
 - **Projects to Learn:**
-  - [`Volcano`](https://github.com/volcano-sh/volcano), [`Kueue`](https://github.com/kueue/kueue)
-  - [`LWS`](https://github.com/lws-team/lws), [`Kai Scheduler`](https://github.com/kai-scheduler/kai-scheduler), [`Godel`](https://github.com/godel/godel)
-  - [`DRA`](https://github.com/dynamic-resource-allocation/dra)
+  - [`Volcano`](https://github.com/volcano-sh/volcano), [`Kueue`](https://github.com/kubernetes-sigs/kueue)
+  - [`LWS`](https://github.com/kubernetes-sigs/lws), [`Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler), [`Godel`](https://github.com/kubewharf/godel-scheduler)
+  - [`DRA`](https://github.com/kubernetes/dynamic-resource-allocation/)
 
 - **Learning Topics:**
   - Job scheduling vs. pod scheduling
@@ -78,7 +78,7 @@ Core components for container and workload management.
 
 - **Projects to Learn:**
   - [`KServe`](https://github.com/kserve/kserve), [`Knative`](https://github.com/knative/serving), [`Istio`](https://github.com/istio/istio)
-  - [`Model Spec`](https://github.com/kserve/model-spec), [`ImageVolume`](https://github.com/kserve/image-volume)
+  - [`Model Spec`](https://github.com/modelpack/model-spec), [`ImageVolume`]( https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
 
 - **Learning Topics:**
   - Serverless model deployment
@@ -90,7 +90,9 @@ Core components for container and workload management.
 ### 🧩 5. AI Gateway & Workflow
 
 - **Projects to Learn:**
-  - [`AI Gateway`](https://github.com/ai-gateway/ai-gateway), [`LLM Gateway`](https://github.com/llm-gateway/llm-gateway)
+  - [`Envoy AI Gateway`](https://github.com/envoyproxy/ai-gateway)
+  - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
+  - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
   - [`Argo`](https://github.com/argoproj/argo), [`Kubeflow`](https://github.com/kubeflow/kubeflow), [`Metaflow`](https://github.com/Netflix/metaflow) (optional)
 
 - **Learning Topics:**
