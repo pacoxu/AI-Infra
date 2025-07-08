@@ -7,10 +7,10 @@ This document introduces the concept of Prefill–Decode (PD) disaggregation in 
 - [What is PD Disaggregation](#what-is-pd-disaggregation)
 - [Project Support Status](#project-support-status)
   - [NVIDIA Dynamo](#nvidia-dynamo)
-  - [vLLM](#vllm)
+  - [vLLM production stack](#vllm-production-stack)
   - [AIBrix](#aibrix)
-  - [InftyAI llmaz](#inftyai-llmaz)
-- [Roadmap](#roadmap)
+  - [InftyAI/llmaz](#inftyaillmaz)
+- [References](#references)
 
 ---
 
@@ -38,23 +38,18 @@ In a monolithic setup, both prefill and decode run on the same GPU, which causes
 
 - [FEATURE]: Unifying Disagg Implementation in Dynamo [#1728](https://github.com/ai-dynamo/dynamo/issues/1728)
 
-### vLLM (with LMCache)
+### vLLM production stack
 
 - vLLM community is exploring deeper native integration in https://github.com/vllm-project/production-stack/pull/340.
 
 ### AIBrix
 
-- 🟡 **Indirect support**
-- Distributed KV pool enables PD scenarios
-- Roadmap includes dedicated prefill/decode workers
-- Currently focuses on control-plane and orchestration over vLLM
 - WIP issue: [Add Prefill/Decode Disaggregation Support in Inference Gateway](https://github.com/vllm-project/aibrix/issues/1223) and [#958](https://github.com/vllm-project/aibrix/issues/958).
 
 ### InftyAI/llmaz
 
 - Not supported yet.
 - Milestone [v0.3.0](https://github.com/InftyAI/llmaz/issues/433) includes PD disaggregation.
-
 
 ## References
 
