@@ -1,0 +1,34 @@
+# macOS system files
+.DS_Store
+.DS_file
+
+# Node modules (if any)
+node_modules/
+
+# Logs
+*.log
+
+# Markdown related
+*.md~
+
+# Images cache or thumbnails (if any)
+*.thumb.*
+*.cache.*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*~
+*.bak
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
