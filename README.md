@@ -6,7 +6,7 @@ Welcome to the **AI-Infra** repository! This project provides a curated landscap
 
 This landscape visualizes key components across the AI Infrastructure stack, mapped by:
 
-- **Horizontal Axis (X):** 
+- **Horizontal Axis (X):**
   - Left: Prototype / Early-stage projects
   - Right: Kernel & Runtime maturity
 
@@ -58,13 +58,22 @@ Core components for container and workload management.
   - Queue management & SLOs
   - Multi-model & multi-tenant scheduling
 
+
+- **RoadMap(Ongoing Proposals):**
+  - Gang Scheduling Support in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
+    - LWS Gang Scheduling [KEP](https://github.com/kubernetes-sigs/lws/pull/496)
+
 ---
 
 ### 🧠 3. Model Inference & Runtime Optimization (推理优化)
 
 - **Projects to Learn:**
-  - [`vLLM`](https://github.com/vllm-project/vllm), [`SGL`](https://github.com/superglue-ai/sgl), [`llm-d`](https://github.com/llm-d/llm-d)
-  - [`kubeRay`](https://github.com/kubeflow/kuberay), [`AIBrix`](https://github.com/aibrix/aibrix), [`Dynamo`](https://github.com/dynamo/dynamo)
+  - engine: [`vLLM`](https://github.com/vllm-project/vllm), [`SGL`](https://github.com/superglue-ai/sgl)
+  - inference platform:
+    - [`llm-d`](https://github.com/llm-d/llm-d)
+    - [`AIBrix`](https://github.com/aibrix/aibrix)
+    - [`Dynamo`](https://github.com/dynamo/dynamo)
+    - [`llmaz`](https://github.com/InftyAI/llmaz)
 
 - **Learning Topics:**
   - Efficient transformer inference
