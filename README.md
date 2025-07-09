@@ -83,12 +83,18 @@ Core components for container and workload management.
 ### 🧠 3. Model Inference & Runtime Optimization (推理优化)
 
 - **Projects to Learn:**
-  - engine: [`vLLM`](https://github.com/vllm-project/vllm), [`SGL`](https://github.com/superglue-ai/sgl)
+  - engine:
+    - [`vLLM`](https://github.com/vllm-project/vllm)
+    - [`SGL`](https://github.com/superglue-ai/sgl)
+    - [`Triton`](https://github.com/triton-inference-server/server)
+    - [`Text Generation Inference`](https://github.com/huggingface/text-generation-inference)
   - inference platform:
     - [`llm-d`](https://github.com/llm-d/llm-d)
     - [`AIBrix`](https://github.com/aibrix/aibrix)
     - [`Dynamo`](https://github.com/dynamo/dynamo)
     - [`llmaz`](https://github.com/InftyAI/llmaz)
+  - Others:
+    - [`KServe`](https://github.com/kserve/kserve): CNCF Incubating
 
 - **Learning Topics:**
   - Efficient transformer inference
@@ -117,9 +123,11 @@ Core components for container and workload management.
 ### 🧩 5. AI Gateway & Agentic Workflow
 
 - **Projects to Learn:**
-  - [`Envoy AI Gateway`](https://github.com/envoyproxy/ai-gateway)
-  - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
-  - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
+  - AI Gateway:
+    - [`Envoy AI Gateway`](https://github.com/envoyproxy/ai-gateway)
+    - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
+    - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
+    - [`DaoCloud knoway`](https://github.com/knoway-dev/knoway)
   - CD:
     - [`Argo`](https://github.com/argoproj/argo): CNCF Graduated
     - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating
@@ -136,13 +144,31 @@ Core components for container and workload management.
 
 ---
 
-## 🔭 Coming Soon
+## 🔭 Coming Soon & Something that may not be included
+
+For some reasons, some topics may not be included in this repo, but I may open some issues to discuss them and add some learning materials there.
+
+Coming Soon:
 
 - 🎓 Weekly learning challenges & case studies
 - AI Gateway details: Gateway API Inference Extension
+- Parallelism & Caching
 - Agentic Workflow development like Dify
 - KAgent or Dagger
-- AutoScaling Metrics and Strategies
+- AutoScaling Metrics and Strategies: TTFT, TPOT, ITL, etc.
+- SuperNode
+- Devices: RDMA, etc.
+- Observability: eBPF for LLM(Deepflow)
+- Model Quantization
+- LLM Security & Compliance/Policy
+- A general/basic guide about LLM, MoE, Ollama, etc.
+
+Something that may not be included:
+
+- Training
+- Wasm
+- MCP related and A2A
+- General Observability Projects: Prometheus, Grafana, OpenTelemetry, etc.
 
 ## 🤝 Contributing
 
@@ -151,9 +177,11 @@ We welcome contributions to improve this landscape and path! Whether it's a new 
 ## 📚 References
 
 - [CNCF Landscape](https://landscape.cncf.io/)
+- [Awesome LLMOps](https://awesome-llmops.inftyai.com/)
 - [CNCF TAG Workloads Foundation](https://github.com/cncf/toc/blob/main/tags/tag-workloads-foundation/README.md)
 - [CNCF TAG Infrastructure](https://github.com/cncf/toc/blob/main/tags/tag-infrastructure/README.md)
 - [CNCF AI Initiative](https://github.com/cncf/toc/issues?q=is%3Aissue%20state%3Aopen%20label%3Akind%2Finitiative)
+- Kubernetes SIG Network [AI Gateway Working Group](https://groups.google.com/a/kubernetes.io/g/steering/c/6VZdzwg4OqI/m/PKXCDtfRBQAJ?utm_medium=email&utm_source=footer):
 
 ## 📜 License
 
