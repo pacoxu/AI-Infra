@@ -48,8 +48,14 @@ Core components for container and workload management.
 ### 📍 2. Orchestration & Scheduling (调度与编排)
 
 - **Projects to Learn:**
-  - [`Volcano`](https://github.com/volcano-sh/volcano), [`Kueue`](https://github.com/kubernetes-sigs/kueue)
-  - [`LWS`](https://github.com/kubernetes-sigs/lws), [`Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler), [`Godel`](https://github.com/kubewharf/godel-scheduler)
+  - [`Kueue`](https://github.com/kubernetes-sigs/kueue): Kubernetes Subproject
+  - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating
+  - [`koordinator`](https://github.com/koordinator-sh/koordinator): CNCF Sandbox
+  - [`Godel Scheduler`](https://github.com/kubewharf/godel-scheduler)
+  - [`HAMI`](https://github.com/Project-HAMi/HAMi): CNCF Sandbox
+  - [`NVIDIA Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler)
+  - [`Apache YuniKorn`](https://github.com/apache/yunikorn-core)
+  - [`LWS`](https://github.com/kubernetes-sigs/lws)
   - [`DRA`](https://github.com/kubernetes/dynamic-resource-allocation/)
 
 - **Learning Topics:**
