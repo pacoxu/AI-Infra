@@ -32,10 +32,15 @@ The goal is to demystify the evolving AI Infra stack and guide engineers on wher
 Core components for container and workload management.
 
 - **Projects to Learn:**
-  - [`containerd`](https://github.com/containerd/containerd)
-  - [`Kubernetes`](https://github.com/kubernetes/kubernetes)
-  - [`KWOK`](https://github.com/kubernetes-sigs/kwok)
-  - [`CRI`](https://github.com/kubernetes/cri-api), [`CNI`](https://github.com/containernetworking/cni), [`CSI`](https://github.com/container-storage-interface/spec)
+  - [`Kubernetes`](https://github.com/kubernetes/kubernetes): CNCF First Graduated Project, Core.
+  - [`CRI`](https://github.com/kubernetes/cri-api)
+    - [`containerd`](https://github.com/containerd/containerd): Container Runtime.
+      - [NR](https://github.com/containerd/nri)
+    - [`KubeVirt`](https://github.com/kubevirt/kubevirt): Kubernetes SIG Project for running VMs in Kubernetes.
+    - 
+  - [`CNI`](https://github.com/containernetworking/cni)
+  - [`CSI`](https://github.com/container-storage-interface/spec)
+  - [`KWOK`](https://github.com/kubernetes-sigs/kwok): Kubernetes SIG Project for mock testing(especially for GPU nodes).
 
 - **Learning Topics:**
   - Container lifecycle & runtime
@@ -120,13 +125,18 @@ Core components for container and workload management.
 ## 🔭 Coming Soon
 
 - 🎓 Weekly learning challenges & case studies
-- P/D disg
-
----
+- AI Gateway details: Gateway API Inference Extension
+- Agentic Workflow development like Dify
+- KAgent or Dagger
 
 ## 🤝 Contributing
 
 We welcome contributions to improve this landscape and path! Whether it's a new project, learning material, or diagram update — please open a PR or issue.
+
+## 📚 References
+
+- [CNCF Landscape](https://landscape.cncf.io/)
+- 
 
 ## 📜 License
 
