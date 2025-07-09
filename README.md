@@ -35,12 +35,12 @@ Core components for container and workload management.
   - [`Kubernetes`](https://github.com/kubernetes/kubernetes): CNCF First Graduated Project, Core.
   - [`CRI`](https://github.com/kubernetes/cri-api)
     - [`containerd`](https://github.com/containerd/containerd): Container Runtime.
-      - [NR](https://github.com/containerd/nri)
     - [`KubeVirt`](https://github.com/kubevirt/kubevirt): Kubernetes SIG Project for running VMs in Kubernetes.
     - 
   - [`CNI`](https://github.com/containernetworking/cni)
   - [`CSI`](https://github.com/container-storage-interface/spec)
   - [`KWOK`](https://github.com/kubernetes-sigs/kwok): Kubernetes SIG Project for mock testing(especially for GPU nodes).
+  - [`Helm`](https://github.com/helm/helm): Package Manager for Kubernetes.
 
 - **Learning Topics:**
   - Container lifecycle & runtime
@@ -53,22 +53,26 @@ Core components for container and workload management.
 ### 📍 2. Orchestration & Scheduling (调度与编排)
 
 - **Projects to Learn:**
-  - [`Kueue`](https://github.com/kubernetes-sigs/kueue): Kubernetes Subproject
-  - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating
-  - [`koordinator`](https://github.com/koordinator-sh/koordinator): CNCF Sandbox
-  - [`Godel Scheduler`](https://github.com/kubewharf/godel-scheduler)
-  - [`HAMI`](https://github.com/Project-HAMi/HAMi): CNCF Sandbox
-  - [`NVIDIA Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler)
-  - [`Apache YuniKorn`](https://github.com/apache/yunikorn-core)
-  - [`LWS`](https://github.com/kubernetes-sigs/lws)
-  - [`DRA`](https://github.com/kubernetes/dynamic-resource-allocation/)
+  - Scheduling(Include [Batch, Kubernetes-WG](https://github.com/kubernetes/community/blob/master/wg-batch/README.md)):
+    - [`Kueue`](https://github.com/kubernetes-sigs/kueue): Kubernetes Subproject
+    - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating
+    - [`koordinator`](https://github.com/koordinator-sh/koordinator): CNCF Sandbox
+    - [`Godel Scheduler`](https://github.com/kubewharf/godel-scheduler)
+    - [`HAMI`](https://github.com/Project-HAMi/HAMi): CNCF Sandbox
+    - [`NVIDIA Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler)
+    - [`Apache YuniKorn`](https://github.com/apache/yunikorn-core)
+  - Workloads(Pod Group):
+    - [`LWS`](https://github.com/kubernetes-sigs/lws)
+    - Pod Group & Gang Scheduling KEPs: See roadmap below.
+  - Device Management([Kubernetes WG](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md)):
+    - [`DRA`](https://github.com/kubernetes/dynamic-resource-allocation/)
+    - [`NRI`](https://github.com/containerd/nri)
 
 - **Learning Topics:**
   - Job scheduling vs. pod scheduling
   - Binpack / Spread strategies
   - Queue management & SLOs
   - Multi-model & multi-tenant scheduling
-
 
 - **RoadMap(Ongoing Proposals):**
   - Gang Scheduling Support in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
@@ -92,6 +96,9 @@ Core components for container and workload management.
   - LLM serving stacks
   - Multi-accelerator orchestration
 
+- **RoadMap(Ongoing Proposals Or Working Groups):**
+  - [Serving WG](https://github.com/kubernetes/community/blob/master/wg-serving/README.md)
+
 ---
 
 ### 🧰 4. Cloud Native Inference Stack (云原生推理)
@@ -107,13 +114,20 @@ Core components for container and workload management.
 
 ---
 
-### 🧩 5. AI Gateway & Workflow
+### 🧩 5. AI Gateway & Agentic Workflow
 
 - **Projects to Learn:**
   - [`Envoy AI Gateway`](https://github.com/envoyproxy/ai-gateway)
   - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
   - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
-  - [`Argo`](https://github.com/argoproj/argo), [`Kubeflow`](https://github.com/kubeflow/kubeflow), [`Metaflow`](https://github.com/Netflix/metaflow) (optional)
+  - CD:
+    - [`Argo`](https://github.com/argoproj/argo): CNCF Graduated
+    - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating
+    - [`Metaflow`](https://github.com/Netflix/metaflow) (optional)
+  - Agentic Workflow:
+    - [`Dify`](https://github.com/langgenius/dify)
+    - [`KAgent`](https://github.com/kagent-dev/kagent): CNCF Sandbox
+    - [`Dagger`](https://github.com/dagger/dagger)
 
 - **Learning Topics:**
   - API orchestration for LLMs
@@ -128,6 +142,7 @@ Core components for container and workload management.
 - AI Gateway details: Gateway API Inference Extension
 - Agentic Workflow development like Dify
 - KAgent or Dagger
+- AutoScaling Metrics and Strategies
 
 ## 🤝 Contributing
 
@@ -136,7 +151,9 @@ We welcome contributions to improve this landscape and path! Whether it's a new 
 ## 📚 References
 
 - [CNCF Landscape](https://landscape.cncf.io/)
-- 
+- [CNCF TAG Workloads Foundation](https://github.com/cncf/toc/blob/main/tags/tag-workloads-foundation/README.md)
+- [CNCF TAG Infrastructure](https://github.com/cncf/toc/blob/main/tags/tag-infrastructure/README.md)
+- [CNCF AI Initiative](https://github.com/cncf/toc/issues?q=is%3Aissue%20state%3Aopen%20label%3Akind%2Finitiative)
 
 ## 📜 License
 
