@@ -27,9 +27,10 @@ The goal is to demystify the evolving AI Infra stack and guide engineers on wher
 
 ## 🧭 Learning Path for AI Infra Engineers
 
-### 📦 1. Kernel & Runtime (底层内核)
+### 📦 0. Kernel & Runtime (底层内核)
 
 Core components for container and workload management.
+If your company has a team to maintain a Kubernetes cluster or you are using Kubernetes as a service on cloud providers, you may skip this section.
 
 - **Projects to Learn:**
   - [`Kubernetes`](https://github.com/kubernetes/kubernetes): CNCF First Graduated Project, Core.
@@ -50,7 +51,7 @@ Core components for container and workload management.
 
 ---
 
-### 📍 2. Orchestration & Scheduling (调度与编排)
+### 📍 1. Scheduling & Workloads (调度与工作负载)
 
 - **Projects to Learn:**
   - Scheduling(Include [Batch, Kubernetes-WG](https://github.com/kubernetes/community/blob/master/wg-batch/README.md)):
@@ -80,7 +81,7 @@ Core components for container and workload management.
 
 ---
 
-### 🧠 3. Model Inference & Runtime Optimization (推理优化)
+### 🧠 2. Model Inference & Runtime Optimization (推理优化)
 
 - **Projects to Learn:**
   - engine:
@@ -107,25 +108,13 @@ Core components for container and workload management.
 
 ---
 
-### 🧰 4. Cloud Native Inference Stack (云原生推理)
-
-- **Projects to Learn:**
-  - [`KServe`](https://github.com/kserve/kserve), [`Knative`](https://github.com/knative/serving), [`Istio`](https://github.com/istio/istio)
-  - [`Model Spec`](https://github.com/modelpack/model-spec), [`ImageVolume`]( https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
-
-- **Learning Topics:**
-  - Serverless model deployment
-  - Inference service mesh
-  - Model versioning & rollout strategies
-
----
-
-### 🧩 5. AI Gateway & Agentic Workflow
+### 🧩 3. AI Gateway & Agentic Workflow
 
 - **Projects to Learn:**
   - AI Gateway:
-    - [`Envoy AI Gateway`](https://github.com/envoyproxy/ai-gateway)
     - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
+    - [`Envoy AI Gateway`](https://github.com/envoyproxy/ai-gateway)
+    - [`Istio`](https://github.com/istio/istio)
     - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
     - [`DaoCloud knoway`](https://github.com/knoway-dev/knoway)
   - CD:
@@ -136,11 +125,21 @@ Core components for container and workload management.
     - [`Dify`](https://github.com/langgenius/dify)
     - [`KAgent`](https://github.com/kagent-dev/kagent): CNCF Sandbox
     - [`Dagger`](https://github.com/dagger/dagger)
+  - Serverless:
+    - [`Knative`](https://github.com/knative/serving): Serverless solution
 
 - **Learning Topics:**
   - API orchestration for LLMs
   - Prompt routing and A/B testing
   - RAG workflows, vector DB integration
+
+---
+
+### 4. Ecosystem Initiatives
+
+- **Projects to Learn:**
+  - [`Model Spec`](https://github.com/modelpack/model-spec): CNCF Sandbox
+  - [`ImageVolume`]( https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
 
 ---
 
