@@ -37,9 +37,8 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - [`CRI`](https://github.com/kubernetes/cri-api)
     - [`containerd`](https://github.com/containerd/containerd): Container Runtime.
     - [`KubeVirt`](https://github.com/kubevirt/kubevirt): Kubernetes SIG Project for running VMs in Kubernetes.
-    - 
-  - [`CNI`](https://github.com/containernetworking/cni)
-  - [`CSI`](https://github.com/container-storage-interface/spec)
+  - [`CNI`](https://github.com/containernetworking/cni): focus on RDMA or other network devices.
+  - [`CSI`](https://github.com/container-storage-interface/spec): focus on Checkpoint/Restore, Model Download, Cache Management, etc.
   - [`KWOK`](https://github.com/kubernetes-sigs/kwok): Kubernetes SIG Project for mock testing(especially for GPU nodes).
   - [`Helm`](https://github.com/helm/helm): Package Manager for Kubernetes.
 
@@ -55,15 +54,15 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
 
 - **Projects to Learn:**
   - Scheduling(Include [Batch, Kubernetes-WG](https://github.com/kubernetes/community/blob/master/wg-batch/README.md)):
-    - [`Kueue`](https://github.com/kubernetes-sigs/kueue): Kubernetes Subproject
-    - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating
-    - [`koordinator`](https://github.com/koordinator-sh/koordinator): CNCF Sandbox
-    - [`Godel Scheduler`](https://github.com/kubewharf/godel-scheduler)
-    - [`HAMI`](https://github.com/Project-HAMi/HAMi): CNCF Sandbox
-    - [`NVIDIA Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler)
-    - [`Apache YuniKorn`](https://github.com/apache/yunikorn-core)
+    - [`Kueue`](https://github.com/kubernetes-sigs/kueue): Kubernetes Subproject for batch scheduling.
+    - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating.
+    - [`koordinator`](https://github.com/koordinator-sh/koordinator): CNCF Sandbox.
+    - [`Godel Scheduler`](https://github.com/kubewharf/godel-scheduler): ByteDance.
+    - [`HAMI`](https://github.com/Project-HAMi/HAMi): CNCF Sandbox.
+    - [`NVIDIA Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler): NVIDIA.
+    - [`Apache YuniKorn`](https://github.com/apache/yunikorn-core): Apache.
   - Workloads(Pod Group):
-    - [`LWS`](https://github.com/kubernetes-sigs/lws)
+    - [`LWS`](https://github.com/kubernetes-sigs/lws) LeaderWorkset: Kubernetes SIG Project.
     - Pod Group & Gang Scheduling KEPs: See roadmap below.
   - Device Management([Kubernetes WG](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md)):
     - [`DRA`](https://github.com/kubernetes/dynamic-resource-allocation/)
@@ -168,6 +167,7 @@ Something that may not be included:
 - Wasm
 - MCP related and A2A
 - General Observability Projects: Prometheus, Grafana, OpenTelemetry, etc.
+- RAG
 
 ## 🤝 Contributing
 
@@ -181,6 +181,7 @@ We welcome contributions to improve this landscape and path! Whether it's a new 
 - [CNCF TAG Infrastructure](https://github.com/cncf/toc/blob/main/tags/tag-infrastructure/README.md)
 - [CNCF AI Initiative](https://github.com/cncf/toc/issues?q=is%3Aissue%20state%3Aopen%20label%3Akind%2Finitiative)
 - Kubernetes SIG Network [AI Gateway Working Group](https://groups.google.com/a/kubernetes.io/g/steering/c/6VZdzwg4OqI/m/PKXCDtfRBQAJ?utm_medium=email&utm_source=footer):
+- [Kubernetes WG AI Conformance](https://github.com/kubernetes/community/pull/8515/) WIP
 
 ## 📜 License
 
