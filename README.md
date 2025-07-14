@@ -85,12 +85,13 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
 - **Projects to Learn:**
   - engine:
     - [`vLLM`](https://github.com/vllm-project/vllm)
-    - [`SGL`](https://github.com/superglue-ai/sgl)
+    - [`SGLang`](https://github.com/sgl-project/sglang)
     - [`Triton`](https://github.com/triton-inference-server/server)
     - [`Text Generation Inference`](https://github.com/huggingface/text-generation-inference)
   - inference platform:
     - [`llm-d`](https://github.com/llm-d/llm-d)
     - [`AIBrix`](https://github.com/aibrix/aibrix)
+    - [`OME`](https://github.com/sgl-project/ome)
     - [`Dynamo`](https://github.com/dynamo/dynamo)
     - [`llmaz`](https://github.com/InftyAI/llmaz)
   - Others:
