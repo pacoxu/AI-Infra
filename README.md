@@ -185,6 +185,16 @@ We welcome contributions to improve this landscape and path! Whether it's a new 
 
 If you have some resources about AI Infra, please share them in [#8](https://github.com/pacoxu/AI-Infra/issues/8).
 
+### Conferences
+
+There are some conferences about AI Infra, here I list some of them:
+
+- AI_dev: for instance, [AI_dev EU 2025](https://aideveu2025.sched.com/)
+- [PyTorch Conference](https://pytorch.org/pytorchcon/) by PyTorch Foundation
+- KubeCon+CloudNativeCon AI+ML Track, for instance, [KubeCon NA 2025](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/program/schedule-at-a-glance/) and co-located events [Cloud Native + Kubernetes AI Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/cloud-native-kubernetes-ai-day/)
+- AICon in China by QCon.
+- GOSIM(Global Open-Source Innovation Meetup): for instance, [GOSIM Hangzhou 2025](https://hangzhou2025.gosim.org/)
+
 ## 📜 License
 
 Apache License 2.0.
