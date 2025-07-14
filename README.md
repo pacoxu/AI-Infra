@@ -187,7 +187,7 @@ If you have some resources about AI Infra, please share them in [#8](https://git
 
 ### Conferences
 
-There are some conferences about AI Infra, here I list some of them:
+Here are some key conferences in the AI Infra space:
 
 - AI_dev: for instance, [AI_dev EU 2025](https://aideveu2025.sched.com/)
 - [PyTorch Conference](https://pytorch.org/pytorchcon/) by PyTorch Foundation
