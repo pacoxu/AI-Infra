@@ -37,7 +37,7 @@ I will add a new table to compare the features of the inference engines. Hence, 
 
 2. Simple Comparison of LLM Inference Engines (May, 2025) by [XiaoQing](https://x.com/xiaoqing224486/status/1896148173183410281) on X.com.
 
-| Feature         | KubeAI             | BentoML                          | KServe            | AIBrix              | Llama Stack           | Ilmaz              | KubeRay                  | MLflow                  | SkyPilot                   | Kaito                  |
+| Feature         | KubeAI             | BentoML                          | KServe            | AIBrix              | Llama Stack           | llmaz              | KubeRay                  | MLflow                  | SkyPilot                   | Kaito                  |
 |----------------|--------------------|----------------------------------|-------------------|----------------------|------------------------|---------------------|---------------------------|--------------------------|----------------------------|------------------------|
 | Supported Model| LLM, Multi-modal   | Any ML model                     | General ML model  | LLM (vLLM)           | LLaMA and other LLMs   | LLM                 | Any Ray model             | Any ML model             | Any AI/ML task             | Open-source LLM        |
 | API            | OpenAI Compatible  | Custom REST                      | REST/gRPC         | OpenAI + Custom      | OpenAI + Standard      | OpenAI Compatible   | REST + Ray API            | REST                     | No direct API              | OpenAI Compatible      |
