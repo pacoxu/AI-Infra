@@ -185,7 +185,7 @@ We welcome contributions to improve this landscape and path! Whether it's a new 
 
 If you have some resources about AI Infra, please share them in [#8](https://github.com/pacoxu/AI-Infra/issues/8).
 
-### Conferences
+### [Conferences](https://github.com/pacoxu/developers-conferences-agenda)
 
 Here are some key conferences in the AI Infra space:
 
