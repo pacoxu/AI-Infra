@@ -183,7 +183,7 @@ We welcome contributions to improve this landscape and path! Whether it's a new 
 - Kubernetes SIG Network [AI Gateway Working Group](https://groups.google.com/a/kubernetes.io/g/steering/c/6VZdzwg4OqI/m/PKXCDtfRBQAJ?utm_medium=email&utm_source=footer):
 - [Kubernetes WG AI Conformance](https://github.com/kubernetes/community/pull/8515/) WIP
 
-If you have some resources about AI Infra, please share them with me in [#8](https://github.com/pacoxu/AI-Infra/issues/8).
+If you have some resources about AI Infra, please share them in [#8](https://github.com/pacoxu/AI-Infra/issues/8).
 
 ## 📜 License
 
