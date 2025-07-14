@@ -133,6 +133,8 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - Prompt routing and A/B testing
   - RAG workflows, vector DB integration
 
+More details about inference can be found in [Inference](./inference/README.md), including [prefile-decode disaggregation](./inference/pd-disaggregation.md).
+
 ---
 
 ### 4. Ecosystem Initiatives
