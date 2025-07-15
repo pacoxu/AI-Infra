@@ -2,6 +2,7 @@
 
 Mainly compare AIBrix, llm-d, llmaz and OME.
 
+**Not Verified Yet:**
 | Feature                     | AIBrix              | vLLM Production Stack           | OME              | llm-d                  | llmaz                  |
 |-----------------------------|--------------------|----------------------------------|-------------------|----------------------|------------------------|
 | Supported Model             | LLM, Multi-modal   | Any ML model                     | General ML model  | LLM (vLLM)           | LLaMA and other LLMs   |
