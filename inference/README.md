@@ -2,6 +2,22 @@
 
 Mainly compare AIBrix, llm-d, llmaz and OME.
 
+| Feature                     | AIBrix              | vLLM Production Stack           | OME              | llm-d                  | llmaz                  |
+|-----------------------------|--------------------|----------------------------------|-------------------|----------------------|------------------------|
+| Supported Model             | LLM, Multi-modal   | Any ML model                     | General ML model  | LLM (vLLM)           | LLaMA and other LLMs   |
+| API                         | OpenAI Compatible  | Custom REST                      | REST/gRPC         | OpenAI + Custom      | OpenAI + Standard      |
+| Main Feature                | Inference Optim    | Packaging & Deployment           | Inference Service | Large-scale Inference| App Development        |
+| Scalability                 | Scale-from-Zero    | Manual or External Tool, BentoCloud supports both | Scale-to-Zero     | Dynamic Scaling       | Reliable Backend       |
+| Deployment Env              | Kubernetes         | Any (Local, Docker, BentoCloud, K8s) | Kubernetes    | Kubernetes           | Local/Container/Cloud  |
+| Extra Feature               | Model Cache        | Version Control                  | Pre-processing    | Gateway Routing      | Memory, Tools          |
+| Inference Engine (In-Tree)  | HF, vLLM                                 | vLLM                                                 | vLLM, SGLang, llama.cpp, TGI, Ollama              |
+| Model Cache                 | Limited (node share)                     | No                                                   | Limited (with Manta, reframing now)                |
+| Model Load Accelerator      | No                                       | Yes (with GPU Streaming)                             | No                                            |
+| Scale-to-Zero               | Yes (Knative)                            | No                                                   | No (WIP)                                            |
+| Multi-Host                  | Yes (with multiple deployments)          | Yes (with ray cluster)                               | Yes (with LWS)                                |
+| Multi-LoRA                  | No                                       | Yes (dynamic LoRA switching)                         | No (WIP with LoRA autoscaling)               |
+| LoRA Aware Routing          | No (WIP with Envoy AI Gateway)           | Yes                                                  | No (WIP with LoRA autoscaling)               |
+
 TODO:
 
 - Add OME
