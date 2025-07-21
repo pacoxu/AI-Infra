@@ -117,6 +117,8 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`Istio`](https://github.com/istio/istio)
     - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
     - [`DaoCloud knoway`](https://github.com/knoway-dev/knoway)
+    - [`Higress`](https://github.com/alibaba/higress): Alibaba
+    - [`OpenRouter`](https://github.com/OpenRouterTeam/openrouter-runner)
   - CD:
     - [`Argo`](https://github.com/argoproj/argo): CNCF Graduated
     - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating
