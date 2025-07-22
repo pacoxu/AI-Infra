@@ -76,7 +76,7 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
 
 - **RoadMap(Ongoing Proposals):**
   - Gang Scheduling Support in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
-    - LWS Gang Scheduling [KEP](https://github.com/kubernetes-sigs/lws/pull/496)
+    - LWS Gang Scheduling [KEP-407](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
 
 ---
 
