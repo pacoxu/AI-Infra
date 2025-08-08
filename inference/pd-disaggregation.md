@@ -51,6 +51,19 @@ In a monolithic setup, both prefill and decode run on the same GPU, which causes
 - Not supported yet.
 - Milestone [v0.3.0](https://github.com/InftyAI/llmaz/issues/433) includes PD disaggregation.
 
+### KServe
+
+- LMCache-based KV Offloading
+- Chunked Prefill
+- [WIP] Unified LLM Inference Service API and disaggregated p/d serving support [#4520](https://github.com/kserve/kserve/issues/4520).
+
+### LMCache
+
+LMCache is an LLM serving engine extension to reduce TTFT and increase throughput, especially under long-context scenarios. 
+
+- LMCache is supported in the vLLM production stack, llm-d, and KServe.
+- Stable support for non-prefix KV caches.
+
 ## References
 
 - https://github.com/ai-dynamo/dynamo
