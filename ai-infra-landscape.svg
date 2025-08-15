@@ -77,7 +77,8 @@
     <text x="610" y="133" class="project-name" fill="white">Azure</text>
     
     <polygon points="750,130 820,145 750,180 720,145" class="stable-project"/>
-    <text x="770" y="159" class="project-name" fill="white">Istio</text>
+    <image href="./logo/istio.svg" x="760" y="140" width="25" height="25"/>
+    <text x="770" y="175" class="project-name" fill="white" font-size="9px">Istio</text>
     
     <!-- AI Gateway / Inference Services -->
     <circle cx="350" cy="250" r="28" class="early-project"/>
@@ -90,19 +91,23 @@
     
     <!-- Center - vLLM (prominent position) -->
     <circle cx="580" cy="427.5" r="35" class="stable-project"/>
-    <text x="580" y="433" class="project-name" fill="white" font-size="16px">vLLM</text>
+    <image href="./logo/vllm.svg" x="560" y="407.5" width="40" height="40"/>
+    <text x="580" y="450" class="project-name" fill="white" font-size="10px">vLLM</text>
     
     <!-- SGLang and OME (inference engines) -->
     <circle cx="490" cy="377.5" r="28" fill="#ff6b35" stroke="#e55039" stroke-width="2"/>
-    <text x="490" y="382" class="project-name" fill="white">SGLang</text>
+    <image href="./logo/sglang.svg" x="474" y="361.5" width="32" height="32"/>
+    <text x="490" y="400" class="project-name" fill="white" font-size="9px">SGLang</text>
     
     <!-- OME (NEW PROJECT) - placed near other inference platforms -->
     <circle cx="420" cy="350" r="25" fill="#ff6b35" stroke="#e55039" stroke-width="2"/>
-    <text x="420" y="356" class="project-name" fill="white">OME</text>
+    <image href="./logo/ome.svg" x="407" y="337" width="26" height="26"/>
+    <text x="420" y="375" class="project-name" fill="white" font-size="9px">OME</text>
     
     <!-- KServe (CNCF Incubating) - NEW PROJECT -->
     <circle cx="780" cy="250" r="30" class="cncf-incubating"/>
-    <text x="780" y="257" class="project-name" fill="white">KServe</text>
+    <image href="./logo/kserve.svg" x="765" y="235" width="30" height="30"/>
+    <text x="780" y="275" class="project-name" fill="white" font-size="9px">KServe</text>
     
     <polygon points="810,220 870,220 870,280 810,280" class="cncf-graduated"/>
     <text x="840" y="245" class="project-name" fill="white">K8s</text>
@@ -119,7 +124,8 @@
     
     <!-- LMCache (NEW PROJECT) - positioned in caching/infrastructure layer -->
     <circle cx="680" cy="520" r="30" class="stable-project"/>
-    <text x="680" y="525" class="project-name" fill="white">LMCache</text>
+    <image href="./logo/lmcache.svg" x="665" y="505" width="30" height="30"/>
+    <text x="680" y="545" class="project-name" fill="white" font-size="9px">LMCache</text>
     
     <!-- Godel Scheduler -->
     <circle cx="300" cy="540" r="25" class="stable-project"/>
@@ -132,7 +138,8 @@
     
     <!-- NVIDIA Triton -->
     <circle cx="720" cy="397.5" r="28" fill="#76b900" stroke="#5d8f00" stroke-width="2"/>
-    <text x="720" y="403" class="project-name" fill="white">Triton</text>
+    <image href="./logo/triton.svg" x="704" y="381.5" width="32" height="32"/>
+    <text x="720" y="420" class="project-name" fill="white" font-size="9px">Triton</text>
     
     <!-- Bottom layer - Kubernetes and containerd -->
     <circle cx="680" cy="620" r="28" class="stable-project"/>
@@ -151,11 +158,13 @@
     
     <!-- Kubernetes (prominent bottom-right) -->
     <circle cx="900" cy="690" r="40" class="cncf-graduated"/>
-    <text x="900" y="698" class="project-name" fill="white" font-size="24px">⎈</text>
+    <image href="./logo/kubernetes.svg" x="870" y="660" width="60" height="60"/>
+    <text x="900" y="720" class="project-name" fill="white" font-size="9px">Kubernetes</text>
     
     <!-- containerd -->
     <circle cx="900" cy="757.5" r="35" class="stable-project"/>
-    <text x="900" y="763" class="project-name" fill="white">containerd</text>
+    <image href="./logo/containerd.svg" x="875" y="732.5" width="50" height="50"/>
+    <text x="900" y="785" class="project-name" fill="white" font-size="9px">containerd</text>
   </g>
   
   <!-- Grid lines (light) -->
