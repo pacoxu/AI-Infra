@@ -1,0 +1,12 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="knativeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0071ce"/>
+      <stop offset="100%" style="stop-color:#004c94"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="45" fill="url(#knativeGradient)" stroke="#004c94" stroke-width="2"/>
+  <path d="M25 35 L50 25 L75 35 L75 45 L50 35 L25 45 Z" fill="white"/>
+  <path d="M25 50 L50 40 L75 50 L75 60 L50 50 L25 60 Z" fill="white"/>
+  <path d="M25 65 L50 55 L75 65 L75 75 L50 65 L25 75 Z" fill="white"/>
+</svg>

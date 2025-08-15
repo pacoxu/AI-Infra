@@ -74,7 +74,8 @@
     <text x="485" y="155" class="project-name" fill="white">⚡</text>
     
     <circle cx="610" cy="127.5" r="30" class="stable-project"/>
-    <text x="610" y="133" class="project-name" fill="white">Azure</text>
+    <image href="./logo/envoy.svg" x="590" y="107.5" width="40" height="40"/>
+    <text x="610" y="155" class="project-name" fill="white" font-size="9px">Envoy AI Gateway</text>
     
     <polygon points="750,130 820,145 750,180 720,145" class="stable-project"/>
     <image href="./logo/istio.svg" x="760" y="140" width="25" height="25"/>
@@ -103,6 +104,11 @@
     <circle cx="420" cy="350" r="25" fill="#ff6b35" stroke="#e55039" stroke-width="2"/>
     <image href="./logo/ome.svg" x="407" y="337" width="26" height="26"/>
     <text x="420" y="375" class="project-name" fill="white" font-size="9px">OME</text>
+
+    <!-- llm-d - Inference disaggregation -->
+    <circle cx="360" cy="380" r="25" fill="#f59e0b" stroke="#d97706" stroke-width="2"/>
+    <image href="./logo/llm-d.svg" x="347" y="367" width="26" height="26"/>
+    <text x="360" y="405" class="project-name" fill="white" font-size="9px">llm-d</text>
     
     <!-- KServe (CNCF Incubating) - NEW PROJECT -->
     <circle cx="780" cy="250" r="30" class="cncf-incubating"/>
@@ -112,10 +118,47 @@
     <polygon points="810,220 870,220 870,280 810,280" class="cncf-graduated"/>
     <text x="840" y="245" class="project-name" fill="white">K8s</text>
     <text x="840" y="260" class="project-name" fill="white">native</text>
+
+    <!-- Add serverless and workflow layer -->
+    <!-- KNative - Serverless -->
+    <circle cx="850" cy="320" r="28" class="cncf-incubating"/>
+    <image href="./logo/knative.svg" x="832" y="302" width="36" height="36"/>
+    <text x="850" y="350" class="project-name" fill="white" font-size="9px">KNative</text>
+
+    <!-- LWS - LeaderWorkerSet -->
+    <circle cx="750" cy="350" r="25" class="cncf-sandbox"/>
+    <image href="./logo/lws.svg" x="735" y="335" width="30" height="30"/>
+    <text x="750" y="375" class="project-name" fill="white" font-size="9px">LWS</text>
+
+    <!-- KGateway -->
+    <circle cx="650" cy="300" r="25" class="early-project"/>
+    <image href="./logo/kgateway.svg" x="635" y="285" width="30" height="30"/>
+    <text x="650" y="325" class="project-name" fill="#374151" font-size="9px">KGateway</text>
     
     <!-- KubeRay (early stage) -->
     <circle cx="450" cy="320" r="25" class="early-project"/>
     <text x="450" y="327" class="project-name" fill="#374151">KubeRay</text>
+
+    <!-- Add more CNCF projects in scheduler/orchestration layer -->
+    <!-- Kueue - CNCF Incubating Job Scheduler -->
+    <circle cx="520" cy="470" r="28" class="cncf-incubating"/>
+    <image href="./logo/kueue.svg" x="502" y="452" width="36" height="36"/>
+    <text x="520" y="500" class="project-name" fill="white" font-size="9px">Kueue</text>
+
+    <!-- Volcano - Batch Scheduling -->
+    <circle cx="600" cy="490" r="28" class="cncf-incubating"/>
+    <image href="./logo/volcano.svg" x="582" y="472" width="36" height="36"/>
+    <text x="600" y="520" class="project-name" fill="white" font-size="9px">Volcano</text>
+
+    <!-- Koordinator - Resource Management -->
+    <circle cx="350" cy="480" r="25" class="cncf-sandbox"/>
+    <image href="./logo/koordinator.svg" x="335" y="465" width="30" height="30"/>
+    <text x="350" y="505" class="project-name" fill="white" font-size="9px">Koordinator</text>
+
+    <!-- HAMI Project - GPU Sharing -->
+    <circle cx="250" cy="450" r="25" class="cncf-sandbox"/>
+    <image href="./logo/hami.svg" x="235" y="435" width="30" height="30"/>
+    <text x="250" y="475" class="project-name" fill="white" font-size="9px">HAMI</text>
     
     <!-- Infrastructure & Scheduling Layer -->
     <circle cx="400" cy="470" r="28" class="stable-project"/>
@@ -141,9 +184,10 @@
     <image href="./logo/triton.svg" x="704" y="381.5" width="32" height="32"/>
     <text x="720" y="420" class="project-name" fill="white" font-size="9px">Triton</text>
     
-    <!-- Bottom layer - Kubernetes and containerd -->
-    <circle cx="680" cy="620" r="28" class="stable-project"/>
-    <text x="680" y="627" class="project-name" fill="white">KWOK</text>
+    <!-- KWOK -->
+    <circle cx="680" cy="620" r="28" class="cncf-incubating"/>
+    <image href="./logo/kwok.svg" x="662" y="602" width="36" height="36"/>
+    <text x="680" y="650" class="project-name" fill="white" font-size="9px">KWOK</text>
     
     <!-- Model Spec (CNCF Sandbox) -->
     <circle cx="170" cy="680" r="25" class="cncf-sandbox"/>

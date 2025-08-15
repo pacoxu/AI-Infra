@@ -1,0 +1,14 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="volcanoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#dc2626"/>
+      <stop offset="100%" style="stop-color:#991b1b"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="45" fill="url(#volcanoGradient)" stroke="#991b1b" stroke-width="2"/>
+  <polygon points="50,20 35,65 65,65" fill="#fbbf24"/>
+  <polygon points="50,20 45,35 55,35" fill="#f59e0b"/>
+  <circle cx="47" cy="28" r="2" fill="#dc2626"/>
+  <circle cx="53" cy="32" r="1.5" fill="#dc2626"/>
+  <text x="50" y="80" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="white">Volcano</text>
+</svg>
