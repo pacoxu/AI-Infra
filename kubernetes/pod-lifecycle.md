@@ -117,6 +117,35 @@ More refer to [Issue #1](https://github.com/pacoxu/AI-Infra/issues/1) or
 
 #### SideCar（Istio、Knative等）/ SideCar (Istio, Knative, etc.)
 
+**传统 Sidecar / Traditional Sidecar:**
+
+- 通过注入器（如 Istio）在 Pod 中添加辅助容器 / Added via injectors
+  (like Istio) as helper containers in the Pod
+- 与主容器并行运行，提供网络代理、监控等功能 / Run parallel to main
+  containers, providing network proxy, monitoring, etc.
+
+**原生 Sidecar 容器 / Native Sidecar Containers (Kubernetes 1.29+):**
+
+- 使用 Init 容器配置 `restartPolicy: Always` / Use init containers
+  with `restartPolicy: Always`
+- 在主容器启动前启动，但持续运行整个 Pod 生命周期 / Start before main
+  containers but run throughout the Pod lifecycle
+- 提供原生的 Sidecar 支持，无需外部注入 / Provide native sidecar
+  support without external injection
+
+```yaml
+apiVersion: v1
+kind: Pod
+spec:
+  initContainers:
+  - name: sidecar-container
+    image: busybox
+    restartPolicy: Always  # 使其成为 sidecar / Makes it a sidecar
+  containers:
+  - name: main-container
+    image: app
+```
+
 #### 启动后 / After Startup
 
 - Liveness 检查，可能会被 Kill / Liveness probe checks, might be killed
