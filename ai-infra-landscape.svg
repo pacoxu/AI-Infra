@@ -73,7 +73,7 @@
     <polygon points="460,130 510,130 485,175" class="stable-project"/>
     <text x="485" y="155" class="project-name" fill="white">⚡</text>
     
-    <rect x="560" y="110" width="100" height="35" rx="5" class="stable-project"/>
+    <circle cx="610" cy="127.5" r="30" class="stable-project"/>
     <text x="610" y="133" class="project-name" fill="white">Azure</text>
     
     <polygon points="750,130 820,145 750,180 720,145" class="stable-project"/>
@@ -89,11 +89,11 @@
     <text x="410" y="286" class="project-name" fill="#374151">Dynamo</text>
     
     <!-- Center - vLLM (prominent position) -->
-    <rect x="500" y="400" width="160" height="55" rx="5" class="stable-project"/>
+    <circle cx="580" cy="427.5" r="35" class="stable-project"/>
     <text x="580" y="433" class="project-name" fill="white" font-size="16px">vLLM</text>
     
     <!-- SGLang and OME (inference engines) -->
-    <rect x="450" y="360" width="80" height="35" rx="5" fill="#ff6b35" stroke="#e55039" stroke-width="2"/>
+    <circle cx="490" cy="377.5" r="28" fill="#ff6b35" stroke="#e55039" stroke-width="2"/>
     <text x="490" y="382" class="project-name" fill="white">SGLang</text>
     
     <!-- OME (NEW PROJECT) - placed near other inference platforms -->
@@ -118,7 +118,7 @@
     <text x="400" y="485" class="project-name" fill="white">scheduler</text>
     
     <!-- LMCache (NEW PROJECT) - positioned in caching/infrastructure layer -->
-    <rect x="620" y="500" width="120" height="40" rx="5" class="stable-project"/>
+    <circle cx="680" cy="520" r="30" class="stable-project"/>
     <text x="680" y="525" class="project-name" fill="white">LMCache</text>
     
     <!-- Godel Scheduler -->
@@ -131,7 +131,7 @@
     <text x="400" y="535" class="project-name" fill="#374151">Scheduler</text>
     
     <!-- NVIDIA Triton -->
-    <rect x="680" y="380" width="80" height="35" rx="5" fill="#76b900" stroke="#5d8f00" stroke-width="2"/>
+    <circle cx="720" cy="397.5" r="28" fill="#76b900" stroke="#5d8f00" stroke-width="2"/>
     <text x="720" y="403" class="project-name" fill="white">Triton</text>
     
     <!-- Bottom layer - Kubernetes and containerd -->
@@ -154,7 +154,7 @@
     <text x="900" y="698" class="project-name" fill="white" font-size="24px">⎈</text>
     
     <!-- containerd -->
-    <rect x="825" y="740" width="150" height="35" rx="5" class="stable-project"/>
+    <circle cx="900" cy="757.5" r="35" class="stable-project"/>
     <text x="900" y="763" class="project-name" fill="white">containerd</text>
   </g>
   
