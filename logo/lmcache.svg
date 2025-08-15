@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="45" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
-  <text x="50" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">LM</text>
-  <text x="50" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white">Cache</text>
+  <circle cx="50" cy="50" r="45" fill="#f97316" stroke="#ea580c" stroke-width="2"/>
+  <g transform="translate(50, 50)">
+    <!-- Cache-inspired design -->
+    <rect x="-18" y="-12" width="36" height="8" rx="2" fill="white"/>
+    <rect x="-18" y="-2" width="36" height="8" rx="2" fill="white"/>
+    <rect x="-18" y="8" width="36" height="8" rx="2" fill="white"/>
+    <text x="0" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="white">LMCache</text>
+  </g>
 </svg>

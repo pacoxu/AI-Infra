@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="100" height="100" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="50" cy="50" r="45" fill="#2563eb" stroke="#1d4ed8" stroke-width="2"/>
-  <text x="50" y="58" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white">vLLM</text>
+  <circle cx="50" cy="50" r="45" fill="#dc2626" stroke="#b91c1c" stroke-width="2"/>
+  <g transform="translate(50, 50)">
+    <!-- vLLM logo inspired design -->
+    <path d="M-12,-15 L-8,-15 L-2,5 L2,5 L8,-15 L12,-15 L4,10 L-4,10 Z" fill="white"/>
+    <text x="0" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="white">vLLM</text>
+  </g>
 </svg>
