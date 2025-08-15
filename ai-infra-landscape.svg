@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1211" height="916" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <!-- AI-Infra Landscape SVG - Editable Version -->
+  <defs>
+    <!-- Define styles for different project types -->
+    <style>
+      .title { font-family: Arial, sans-serif; font-size: 20px; font-weight: bold; text-anchor: middle; }
+      .subtitle { font-family: Arial, sans-serif; font-size: 16px; text-anchor: middle; }
+      .axis-label { font-family: Arial, sans-serif; font-size: 14px; text-anchor: middle; fill: #374151; }
+      .category-label { font-family: Arial, sans-serif; font-size: 10px; font-weight: bold; text-anchor: middle; }
+      .project-name { font-family: Arial, sans-serif; font-size: 9px; text-anchor: middle; }
+      .stable-project { fill: #2563eb; stroke: #1d4ed8; stroke-width: 2; }
+      .early-project { fill: #f3f4f6; stroke: #6b7280; stroke-width: 2; stroke-dasharray: 5,5; }
+      .cncf-graduated { fill: #059669; stroke: #047857; stroke-width: 2; }
+      .cncf-incubating { fill: #0891b2; stroke: #0e7490; stroke-width: 2; }
+      .cncf-sandbox { fill: #7c3aed; stroke: #6d28d9; stroke-width: 2; }
+      .note { font-family: Arial, sans-serif; font-size: 10px; }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1211" height="916" fill="#f8fafc"/>
+  
+  <!-- Title -->
+  <text x="605" y="30" class="title" fill="#1f2937">AI / 应用层</text>
+  
+  <!-- Axes Labels -->
+  <text x="100" y="460" class="axis-label" transform="rotate(-90, 100, 460)">原型/早期</text>
+  <text x="1111" y="460" class="axis-label" transform="rotate(-90, 1111, 460)">成熟/标准化</text>
+  <text x="605" y="900" class="axis-label">Kernel / Runtime</text>
+  
+  <!-- Legend -->
+  <text x="50" y="870" class="note" fill="#374151">• Do not include Storage/Network/VM related projects</text>
+  
+  <!-- Category Labels on the right -->
+  <g id="category-labels">
+    <rect x="1050" y="120" width="120" height="30" fill="#fef3c7" stroke="#f59e0b" rx="5"/>
+    <text x="1110" y="140" class="category-label" fill="#92400e">AI Gateway</text>
+    
+    <rect x="1050" y="200" width="120" height="40" fill="#fef3c7" stroke="#f59e0b" rx="5"/>
+    <text x="1110" y="220" class="category-label" fill="#92400e">workflow</text>
+    <text x="1110" y="235" class="category-label" fill="#92400e">serverless</text>
+    
+    <rect x="1050" y="280" width="120" height="40" fill="#fef3c7" stroke="#f59e0b" rx="5"/>
+    <text x="1110" y="300" class="category-label" fill="#92400e">cloud native</text>
+    <text x="1110" y="315" class="category-label" fill="#92400e">inference</text>
+    
+    <rect x="1050" y="360" width="120" height="30" fill="#fef3c7" stroke="#f59e0b" rx="5"/>
+    <text x="1110" y="380" class="category-label" fill="#92400e">inference</text>
+    
+    <rect x="1050" y="440" width="120" height="30" fill="#fef3c7" stroke="#f59e0b" rx="5"/>
+    <text x="1110" y="460" class="category-label" fill="#92400e">Scheduling</text>
+    
+    <rect x="1050" y="520" width="120" height="30" fill="#fef3c7" stroke="#f59e0b" rx="5"/>
+    <text x="1110" y="540" class="category-label" fill="#92400e">Orchestration</text>
+    
+    <rect x="1050" y="680" width="120" height="30" fill="#fef3c7" stroke="#f59e0b" rx="5"/>
+    <text x="1110" y="700" class="category-label" fill="#92400e">kernel</text>
+  </g>
+  
+  <!-- Main Projects Grid -->
+  <g id="projects">
+    <!-- Top Layer - AI Gateway -->
+    <polygon points="470,140 500,140 485,165" class="stable-project"/>
+    <text x="485" y="155" class="project-name" fill="white">⚡</text>
+    
+    <rect x="570" y="120" width="80" height="25" rx="5" class="stable-project"/>
+    <text x="610" y="138" class="project-name" fill="white">Azure</text>
+    
+    <polygon points="770,140 800,155 770,170 740,155" class="stable-project"/>
+    <text x="770" y="159" class="project-name" fill="white">Istio</text>
+    
+    <!-- AI Gateway / Inference Services -->
+    <circle cx="350" cy="250" r="20" class="early-project"/>
+    <text x="350" y="258" class="project-name" fill="#374151">AIBrix</text>
+    <text x="350" y="275" class="project-name" fill="#6b7280">production stack</text>
+    
+    <circle cx="410" cy="280" r="25" class="early-project"/>
+    <text x="410" y="288" class="project-name" fill="#374151">Dynamo</text>
+    
+    <!-- Center - vLLM (prominent position) -->
+    <rect x="520" y="420" width="120" height="40" rx="5" class="stable-project"/>
+    <text x="580" y="445" class="project-name" fill="white" font-size="12px">vLLM</text>
+    
+    <!-- SGLang and OME (inference engines) -->
+    <rect x="470" y="380" width="60" height="25" rx="5" fill="#ff6b35" stroke="#e55039" stroke-width="2"/>
+    <text x="500" y="397" class="project-name" fill="white">SGLang</text>
+    
+    <!-- OME (NEW PROJECT) - placed near other inference platforms -->
+    <circle cx="420" cy="350" r="18" fill="#ff6b35" stroke="#e55039" stroke-width="2"/>
+    <text x="420" y="356" class="project-name" fill="white">OME</text>
+    
+    <!-- KServe (CNCF Incubating) - NEW PROJECT -->
+    <circle cx="780" cy="250" r="22" class="cncf-incubating"/>
+    <text x="780" y="257" class="project-name" fill="white">KServe</text>
+    
+    <polygon points="820,240 850,240 850,270 820,270" class="cncf-graduated"/>
+    <text x="835" y="258" class="project-name" fill="white">K</text>
+    <text x="835" y="267" class="project-name" fill="white">n</text>
+    
+    <!-- KubeRay (early stage) -->
+    <circle cx="450" cy="360" r="18" class="early-project"/>
+    <text x="450" y="368" class="project-name" fill="#374151">KubeRay</text>
+    
+    <!-- Infrastructure & Scheduling Layer -->
+    <circle cx="400" cy="470" r="20" class="stable-project"/>
+    <text x="400" y="478" class="project-name" fill="white">vLLM</text>
+    <text x="400" y="492" class="project-name" fill="white">scheduler</text>
+    
+    <!-- LMCache (NEW PROJECT) - positioned in caching/infrastructure layer -->
+    <rect x="650" y="520" width="80" height="25" rx="5" class="stable-project"/>
+    <text x="690" y="538" class="project-name" fill="white">LMCache</text>
+    
+    <!-- Godel Scheduler -->
+    <circle cx="300" cy="540" r="18" class="stable-project"/>
+    <text x="300" y="548" class="project-name" fill="white">Godel</text>
+    
+    <!-- Kai Scheduler (NVIDIA) -->
+    <circle cx="400" cy="520" r="18" class="early-project"/>
+    <text x="400" y="526" class="project-name" fill="#374151">Kai</text>
+    <text x="400" y="536" class="project-name" fill="#374151">Scheduler</text>
+    
+    <!-- NVIDIA Triton -->
+    <rect x="700" y="400" width="60" height="25" rx="5" fill="#76b900" stroke="#5d8f00" stroke-width="2"/>
+    <text x="730" y="418" class="project-name" fill="white">Triton</text>
+    
+    <!-- Bottom layer - Kubernetes and containerd -->
+    <circle cx="680" cy="620" r="20" class="stable-project"/>
+    <text x="680" y="628" class="project-name" fill="white">KWOK</text>
+    
+    <!-- Model Spec (CNCF Sandbox) -->
+    <circle cx="170" cy="680" r="18" class="cncf-sandbox"/>
+    <text x="170" y="686" class="project-name" fill="white">Model</text>
+    <text x="170" y="696" class="project-name" fill="white">Spec</text>
+    
+    <!-- DRA Image Volume (early stage) -->
+    <circle cx="520" cy="650" r="20" class="early-project"/>
+    <text x="520" y="650" class="project-name" fill="#374151">DRA</text>
+    <text x="520" y="665" class="project-name" fill="#374151">Image</text>
+    <text x="520" y="675" class="project-name" fill="#374151">Volume</text>
+    
+    <!-- Kubernetes (prominent bottom-right) -->
+    <circle cx="900" cy="690" r="30" class="cncf-graduated"/>
+    <text x="900" y="698" class="project-name" fill="white" font-size="20px">⎈</text>
+    
+    <!-- containerd -->
+    <rect x="850" y="750" width="100" height="25" rx="5" class="stable-project"/>
+    <text x="900" y="768" class="project-name" fill="white">containerd</text>
+  </g>
+  
+  <!-- Grid lines (light) -->
+  <g id="grid" stroke="#e5e7eb" stroke-width="1" fill="none" opacity="0.5">
+    <line x1="200" y1="80" x2="200" y2="830"/>
+    <line x1="350" y1="80" x2="350" y2="830"/>
+    <line x1="500" y1="80" x2="500" y2="830"/>
+    <line x1="650" y1="80" x2="650" y2="830"/>
+    <line x1="800" y1="80" x2="800" y2="830"/>
+    <line x1="950" y1="80" x2="950" y2="830"/>
+    
+    <line x1="150" y1="200" x2="1040" y2="200"/>
+    <line x1="150" y1="300" x2="1040" y2="300"/>
+    <line x1="150" y1="400" x2="1040" y2="400"/>
+    <line x1="150" y1="500" x2="1040" y2="500"/>
+    <line x1="150" y1="600" x2="1040" y2="600"/>
+    <line x1="150" y1="700" x2="1040" y2="700"/>
+    <line x1="150" y1="800" x2="1040" y2="800"/>
+  </g>
+  
+  <!-- Border -->
+  <rect x="150" y="80" width="890" height="750" fill="none" stroke="#374151" stroke-width="2" stroke-dasharray="10,5"/>
+  
+</svg>

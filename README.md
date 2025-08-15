@@ -1,4 +1,4 @@
-<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/fe685204-ea88-4ab6-b252-451aacb1c48a" />
+![AI-Infra Landscape](./ai-infra-landscape.svg)
 
 
 # AI-Infra Landscape & Learning Path 🚀
@@ -26,7 +26,7 @@ The goal is to demystify the evolving AI Infra stack and guide engineers on wher
 > - Dashed outlines = Early stage or under exploration
 > - Labels on right = Functional categories
 
-![AI-Infra Landscape](./ai-infra-landscape.png)
+![AI-Infra Landscape](./ai-infra-landscape.svg)
 
 ## 🧭 Learning Path for AI Infra Engineers
 
