@@ -13,6 +13,8 @@ landscape by treating models as first-class Kubernetes custom resources,
 enabling sophisticated model parsing, automated runtime selection, and
 advanced deployment patterns including prefill-decode disaggregation.
 
+**Note**: [contributors](https://github.com/sgl-project/ome/graphs/contributors) shows this is a one-person project(104/168 commits) until now.
+
 ## Key Features
 
 ### Model Management
