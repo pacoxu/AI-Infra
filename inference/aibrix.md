@@ -76,10 +76,15 @@ For more details, see [PD Disaggregation](./pd-disaggregation.md).
 
 ```bash
 # Install component dependencies
-kubectl apply -f "https://github.com/vllm-project/aibrix/releases/download/v0.4.0/aibrix-dependency-v0.4.0.yaml" --server-side
+AIBRIX_VERSION="v0.4.0"
+GITHUB_BASE="https://github.com/vllm-project/aibrix/releases/download"
+kubectl apply -f \
+  "${GITHUB_BASE}/${AIBRIX_VERSION}/aibrix-dependency-${AIBRIX_VERSION}.yaml" \
+  --server-side
 
 # Install AIBrix components  
-kubectl apply -f "https://github.com/vllm-project/aibrix/releases/download/v0.4.0/aibrix-core-v0.4.0.yaml"
+kubectl apply -f \
+  "${GITHUB_BASE}/${AIBRIX_VERSION}/aibrix-core-${AIBRIX_VERSION}.yaml"
 ```
 
 ### Development Setup
@@ -114,6 +119,8 @@ kubectl apply -k config/default
 - **ASPLOS'25 Workshop**: [AIBrix: An Open-Source, Large-Scale LLM
   Inference Infrastructure for System
   Research](https://docs.google.com/presentation/d/1YDVsPFTIgGXnROGaJ1VKuDDAB4T5fzpE/edit)
+- **FORCE Conference**: [AIBrix 基于vLLM的高性价比LLM推理加速方案—FORCE大会直播回放](https://www.bilibili.com/video/BV1q6MezaEtP/)
+  (In Chinese)
 
 ---
 
