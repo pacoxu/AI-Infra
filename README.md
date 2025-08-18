@@ -93,7 +93,7 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`Text Generation Inference`](https://github.com/huggingface/text-generation-inference)
   - inference platform:
     - [`llm-d`](https://github.com/llm-d/llm-d)
-    - [`AIBrix`](https://github.com/aibrix/aibrix)
+    - [`AIBrix`](https://github.com/vllm-project/aibrix)
     - [`OME`](https://github.com/sgl-project/ome)
     - [`Dynamo`](https://github.com/dynamo/dynamo)
     - [`llmaz`](https://github.com/InftyAI/llmaz)
@@ -140,7 +140,7 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - Prompt routing and A/B testing
   - RAG workflows, vector DB integration
 
-More details about inference can be found in [Inference](./inference/README.md), including [prefile-decode disaggregation](./inference/pd-disaggregation.md).
+More details about inference can be found in [Inference](./inference/README.md), including [AIBrix introduction](./inference/aibrix.md) and [prefile-decode disaggregation](./inference/pd-disaggregation.md).
 
 ---
 
