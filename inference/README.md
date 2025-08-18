@@ -2,14 +2,16 @@
 
 Mainly compare AIBrix, llm-d, llmaz and OME.
 
+More details about specific platforms:
+
+- [OME: Kubernetes Operator for LLM Management](./ome.md)
+
 TODO:
 
-- Add OME
 - Add llm-d
 - Add KServe
 - Add AIBrix
 - Add llmaz
-- Add OME
 
 I will add a new table to compare the features of the inference engines. Hence, I will remove the below previous references tables.
 
