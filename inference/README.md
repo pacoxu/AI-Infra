@@ -2,6 +2,10 @@
 
 Mainly compare AIBrix, llm-d, llmaz and OME.
 
+More details about specific platforms:
+
+- [OME: Kubernetes Operator for LLM Management](./ome.md)
+
 ## Featured Projects
 
 ### AIBrix
@@ -22,9 +26,9 @@ for constructing scalable GenAI inference infrastructure.
 
 For detailed information, see [AIBrix Introduction](./aibrix.md).
 
+
 TODO:
 
-- Add OME
 - Add llm-d
 - Add KServe detailed introduction
 - Add llmaz detailed introduction
