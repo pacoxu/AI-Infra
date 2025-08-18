@@ -27,8 +27,8 @@ distributed inference capabilities.
 - **Distributed Inference**: Scalable architecture to handle large
   workloads across multiple nodes
 - **Distributed KV Cache**: Enables high-capacity, cross-engine KV reuse
-- **Cost-efficient Heterogeneous Serving**: Enables mixed GPU inference
-  to reduce costs with SLO guarantees
+- **Cost-efficient Heterogeneous Serving** (Experimental): Enables mixed
+  GPU inference to reduce costs with SLO guarantees
 - **GPU Hardware Failure Detection**: Proactive detection of GPU hardware
   issues
 
@@ -62,11 +62,21 @@ to provide a comprehensive LLM inference platform:
 
 ## Prefill/Decode Disaggregation Support
 
-AIBrix has work-in-progress support for prefill/decode disaggregation:
+AIBrix v0.4.0 introduces comprehensive Prefill/Decode (P/D) disaggregation
+support with StormService and RoleSet CRDs to enable fine-grained
+orchestration of P/D roles, along with routing to unlock disaggregated
+inference at scale.
 
-- WIP issue: [Add Prefill/Decode Disaggregation Support in Inference
-  Gateway](https://github.com/vllm-project/aibrix/issues/1223)
-- Related issue: [#958](https://github.com/vllm-project/aibrix/issues/958)
+Key features include:
+
+- StormService and RoleSet Custom Resource Definitions (CRDs)
+- Fine-grained orchestration of Prefill and Decode roles  
+- Advanced routing capabilities for disaggregated inference
+- Scalable architecture for large-scale deployments
+
+This feature was delivered through multiple PRs in the v0.4.0 release,
+including enhancements to the control plane, gateway routing, and
+distributed inference capabilities.
 
 For more details, see [PD Disaggregation](./pd-disaggregation.md).
 
