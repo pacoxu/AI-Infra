@@ -71,10 +71,6 @@ OME supports [`vLLM`](https://github.com/vllm-project/vllm) as a high-performanc
 runtime option with [built-in configurations](https://github.com/sgl-project/ome/tree/main/config/runtimes/vllm)
 for optimized LLM serving.
 
-### Triton Support
-
-General model inference support through NVIDIA Triton Inference Server for
-broader model compatibility.
 
 ## Kubernetes Ecosystem Integration
 
