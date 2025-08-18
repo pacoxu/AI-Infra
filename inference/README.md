@@ -2,16 +2,35 @@
 
 Mainly compare AIBrix, llm-d, llmaz and OME.
 
+## Featured Projects
+
+### AIBrix
+
+[`AIBrix`](https://github.com/vllm-project/aibrix) is an open-source,
+cloud-native solution optimized for deploying, managing, and scaling
+large language model (LLM) inference in enterprise environments. As part
+of the vLLM project ecosystem, AIBrix provides essential building blocks
+for constructing scalable GenAI inference infrastructure.
+
+**Key highlights:**
+
+- High-density LoRA management and dynamic switching
+- LLM-aware gateway and intelligent routing
+- App-tailored autoscaling for LLM workloads
+- Distributed inference and KV cache capabilities
+- Cost-efficient heterogeneous serving with SLO guarantees
+
+For detailed information, see [AIBrix Introduction](./aibrix.md).
+
 TODO:
 
 - Add OME
 - Add llm-d
-- Add KServe
-- Add AIBrix
-- Add llmaz
-- Add OME
+- Add KServe detailed introduction
+- Add llmaz detailed introduction
 
-I will add a new table to compare the features of the inference engines. Hence, I will remove the below previous references tables.
+I will add a new table to compare the features of the inference engines.
+Hence, I will remove the below previous references tables.
 
 ## Previous References
 
