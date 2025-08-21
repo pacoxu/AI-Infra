@@ -63,6 +63,13 @@ nodes. Originally from Red Hat OpenStack Platform, DCN provides:
 
 For more details, see the [Red Hat DCN Documentation](https://docs.redhat.com/en/documentation/red_hat_openstack_platform/17.1/html/deploying_a_distributed_compute_node_dcn_architecture/understanding_dcn).
 
+> **Note**: The DCN (Distributed Compute Node) architecture referenced here
+> is primarily an OpenStack cloud infrastructure concept. While the distributed
+> caching principles may apply to LLM inference scenarios, this documentation
+> link refers to general edge computing deployment patterns rather than
+> LLM-specific caching implementations. Further research is needed to validate
+> specific DCN applications for LLM inference prefix caching.
+
 ---
 
 ## Independent Prefix Caching
