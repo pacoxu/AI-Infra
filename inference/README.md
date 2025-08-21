@@ -5,6 +5,7 @@ Mainly compare AIBrix, llm-d, llmaz and OME.
 More details about specific platforms:
 
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
+- [Caching in LLM Inference](./caching.md)
 
 ## Featured Projects
 

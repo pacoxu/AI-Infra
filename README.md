@@ -140,7 +140,7 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - Prompt routing and A/B testing
   - RAG workflows, vector DB integration
 
-More details about inference can be found in [Inference](./inference/README.md), including [AIBrix introduction](./inference/aibrix.md) and [prefile-decode disaggregation](./inference/pd-disaggregation.md).
+More details about inference can be found in [Inference](./inference/README.md), including [AIBrix introduction](./inference/aibrix.md), [prefile-decode disaggregation](./inference/pd-disaggregation.md), and [caching mechanisms](./inference/caching.md).
 
 ---
 
