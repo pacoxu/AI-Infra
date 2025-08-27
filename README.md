@@ -156,6 +156,10 @@ More details about inference can be found in [Inference](./inference/README.md),
 
 For some reasons, some topics may not be included in this repo, but I may open some issues to discuss them and add some learning materials there.
 
+### 📅 Monthly Learning Plans
+
+- [September 2025 Learning Plan](./september-2025-learning-plan.md): A focused monthly learning plan covering AI-Infra concept updates, missing topics, project releases, and industry trends.
+
 Coming Soon:
 
 - 🎓 Weekly learning challenges & case studies
