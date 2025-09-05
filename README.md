@@ -152,24 +152,45 @@ More details about inference can be found in [Inference](./inference/README.md),
 
 ---
 
+## 📅 Learning Plans
+
+### [September 2025 Learning Plan](./learning-plans/september-2025.md)
+
+A comprehensive month-long learning journey covering the latest developments in AI Infrastructure:
+
+- **Week 1**: AI Gateway & Orchestration (Gateway API, Dify, KAgent, AutoScaling)
+- **Week 2**: Advanced Inference & Caching (Prefill-Decode, NIXL, Model Quantization)
+- **Week 3**: Infrastructure & Device Management (DRA, RDMA, eBPF Observability)
+- **Week 4**: Security, Compliance & Ecosystem (LLM Security, Model Spec, Production)
+
+**Highlights**: Hands-on labs, recent project releases, conference insights, and practical deployment guides.
+
+---
+
 ## 🔭 Coming Soon & Something that may not be included
 
 For some reasons, some topics may not be included in this repo, but I may open some issues to discuss them and add some learning materials there.
 
-Coming Soon:
+Recently Added (September 2025):
 
-- 🎓 Weekly learning challenges & case studies
-- AI Gateway details: Gateway API Inference Extension
-- Parallelism & Caching
-- Agentic Workflow development like Dify
-- KAgent or Dagger
-- AutoScaling Metrics and Strategies: TTFT, TPOT, ITL, etc.
-- SuperNode
-- Devices: RDMA, etc.
-- Observability: eBPF for LLM(Deepflow)
-- Model Quantization
-- LLM Security & Compliance/Policy
-- A general/basic guide about LLM, MoE, Ollama, etc.
+- ✅ 🎓 Weekly learning challenges & case studies
+- ✅ AI Gateway details: Gateway API Inference Extension
+- ✅ Parallelism & Caching
+- ✅ Agentic Workflow development like Dify
+- ✅ KAgent or Dagger
+- ✅ AutoScaling Metrics and Strategies: TTFT, TPOT, ITL, etc.
+- ✅ SuperNode
+- ✅ Devices: RDMA, etc.
+- ✅ Observability: eBPF for LLM(Deepflow)
+- ✅ Model Quantization
+- ✅ LLM Security & Compliance/Policy
+- ✅ A general/basic guide about LLM, MoE, Ollama, etc.
+
+Still Coming Soon:
+
+- Advanced training optimization techniques
+- Multi-cloud AI infrastructure patterns
+- Cost optimization and FinOps for AI workloads
 
 Something that may not be included:
 
