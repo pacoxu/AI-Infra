@@ -63,6 +63,7 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`Godel Scheduler`](https://github.com/kubewharf/godel-scheduler): ByteDance.
     - [`HAMI`](https://github.com/Project-HAMi/HAMi): CNCF Sandbox.
     - [`NVIDIA Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler): NVIDIA.
+    - [`NVIDIA Grove`](https://github.com/NVIDIA/grove): NVIDIA gang scheduling for AI workloads.
     - [`Apache YuniKorn`](https://github.com/apache/yunikorn-core): Apache.
   - Workloads(Pod Group):
     - [`LWS`](https://github.com/kubernetes-sigs/lws) LeaderWorkset: Kubernetes SIG Project.
