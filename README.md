@@ -19,7 +19,7 @@ This landscape visualizes key components across the AI Infrastructure stack, map
 
 The goal is to demystify the evolving AI Infra stack and guide engineers on where to focus their learning.
 
-## 📊 AI-Infra Landscape (2025)
+## 📊 AI-Infra Landscape (2025 June, needs an update)
 
 **Legend:**
 
