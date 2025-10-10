@@ -124,7 +124,7 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`Higress`](https://github.com/alibaba/higress): Alibaba
     - [`OpenRouter`](https://github.com/OpenRouterTeam/openrouter-runner)
     - [`Kong`](https://github.com/Kong/kong)
-    - 
+    - [`Semantic Router`](https://github.com/vllm-project/semantic-router): vLLM Project
   - CD:
     - [`Argo`](https://github.com/argoproj/argo): CNCF Graduated
     - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating
