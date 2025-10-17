@@ -72,6 +72,7 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - Device Management([Kubernetes WG](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md)):
     - [`DRA`](https://github.com/kubernetes/dynamic-resource-allocation/)
     - [`NRI`](https://github.com/containerd/nri)
+    - DRANET is a good example: https://github.com/google/dranet
 
 - **Learning Topics:**
   - Job scheduling vs. pod scheduling
@@ -94,10 +95,10 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`Triton`](https://github.com/triton-inference-server/server)
     - [`Text Generation Inference`](https://github.com/huggingface/text-generation-inference)
   - inference platform:
+    - [`Dynamo`](https://github.com/dynamo/dynamo)
     - [`llm-d`](https://github.com/llm-d/llm-d)
     - [`AIBrix`](https://github.com/vllm-project/aibrix)
     - [`OME`](https://github.com/sgl-project/ome)
-    - [`Dynamo`](https://github.com/dynamo/dynamo)
     - [`llmaz`](https://github.com/InftyAI/llmaz)
   - Others:
     - [`KServe`](https://github.com/kserve/kserve): CNCF Incubating
