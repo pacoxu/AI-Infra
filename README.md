@@ -60,13 +60,14 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`Kueue`](https://github.com/kubernetes-sigs/kueue): Kubernetes Subproject for batch scheduling.
     - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating.
     - [`koordinator`](https://github.com/koordinator-sh/koordinator): CNCF Sandbox.
-    - [`Godel Scheduler`](https://github.com/kubewharf/godel-scheduler): ByteDance.
+    - [`Godel Scheduler`](https://github.com/kubewharf/godel-scheduler): ByteDance.（with [katalyst](https://github.com/kubewharf/katalyst-core)）
     - [`HAMI`](https://github.com/Project-HAMi/HAMi): CNCF Sandbox.
     - [`NVIDIA Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler): NVIDIA.
     - [`NVIDIA Grove`](https://github.com/NVIDIA/grove): NVIDIA gang scheduling for AI workloads.
     - [`Apache YuniKorn`](https://github.com/apache/yunikorn-core): Apache.
   - Workloads(Pod Group):
     - [`LWS`](https://github.com/kubernetes-sigs/lws) LeaderWorkset: Kubernetes SIG Project.
+    - Volcano Enhanced AI Workloads: https://github.com/volcano-sh/volcano/issues/4554
     - Pod Group & Gang Scheduling KEPs: See roadmap below.
   - Device Management([Kubernetes WG](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md)):
     - [`DRA`](https://github.com/kubernetes/dynamic-resource-allocation/)
