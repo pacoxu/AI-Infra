@@ -457,7 +457,7 @@ Match isolation strength to threat model:
 | Trusted Internal Training | Standard | cgroups + SecurityContext |
 | Multi-Tenant Inference | Enhanced | + User namespaces |
 | External User Code | Strong | Kata Containers + Agent Sandbox |
-| Sensitive Data Processing | Maximum | Kata + Encrypted Storage + <br>Network Policy |
+| Sensitive Data Processing | Maximum | Kata + Encryption + Net Policy |
 
 ### Performance vs Security Trade-offs
 
