@@ -50,6 +50,9 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - Scheduler internals
   - Resource allocation & GPU management
   - Emulators & simulators (e.g. KWOK, Mocking Tools)
+  - **Workload Isolation**: See [Isolation Guide](./kubernetes/isolation.md)
+    for cgroups, security contexts, user namespaces, rootless containers,
+    VM-based isolation (Kata, gVisor), and checkpoint/restore
 
 ---
 
