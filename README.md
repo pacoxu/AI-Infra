@@ -193,9 +193,9 @@ We welcome contributions to improve this landscape and path! Whether it's a new 
 - [CNCF TAG Workloads Foundation](https://github.com/cncf/toc/blob/main/tags/tag-workloads-foundation/README.md)
 - [CNCF TAG Infrastructure](https://github.com/cncf/toc/blob/main/tags/tag-infrastructure/README.md)
 - [CNCF AI Initiative](https://github.com/cncf/toc/issues?q=is%3Aissue%20state%3Aopen%20label%3Akind%2Finitiative)
-- Kubernetes [WG AI Gateway](https://github.com/kubernetes/community/pull/8521/) WIP
-- Kubernetes [WG AI Conformance](https://github.com/kubernetes/community/pull/8515/) WIP
-- Kubernetes [WG AI Integration](https://github.com/kubernetes/community/pull/8519/) WIP
+- Kubernetes [WG AI Gateway](https://github.com/kubernetes/community/blob/master/wg-ai-gateway/README.md)
+- Kubernetes [WG AI Conformance](https://github.com/kubernetes/community/blob/master/wg-ai-conformance/README.md)
+- Kubernetes [WG AI Integration](https://github.com/kubernetes/community/blob/master/wg-ai-integration/README.md)
 
 If you have some resources about AI Infra, please share them in [#8](https://github.com/pacoxu/AI-Infra/issues/8).
 
