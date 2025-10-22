@@ -96,45 +96,43 @@ Key components of their framework:
 
 ### Training Operators
 
-- <a href="https://github.com/kubeflow/training-operator">
-  `Training Operator`</a>: Kubernetes-native operators for distributed
-  training (PyTorch, TensorFlow, XGBoost, etc.). Part of Kubeflow project.
-- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>:
+- [`Training Operator`](https://github.com/kubeflow/training-operator):
+  Kubernetes-native operators for distributed training (PyTorch, TensorFlow,
+  XGBoost, etc.). Part of Kubeflow project.
+- [`Volcano`](https://github.com/volcano-sh/volcano):
   CNCF Incubating project with gang scheduling and queue management for
   batch workloads.
-- <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>:
+- [`Kueue`](https://github.com/kubernetes-sigs/kueue):
   Kubernetes SIG project for job queueing and resource quotas.
 
 ### Fault Tolerance and Checkpointing
 
-- <a href="https://github.com/pytorch/pytorch/blob/main/torch/distributed/checkpoint/README.md">
-  `PyTorch Distributed Checkpoint`</a>: Native checkpointing in PyTorch
-  for fault tolerance.
-- <a href="https://github.com/NVIDIA/Megatron-LM">`Megatron-LM`</a>:
+- [`PyTorch Distributed Checkpoint`](https://github.com/pytorch/pytorch/tree/main/torch/distributed/checkpoint):
+  Native checkpointing in PyTorch for fault tolerance.
+- [`Megatron-LM`](https://github.com/NVIDIA/Megatron-LM):
   NVIDIA's framework for training large language models with built-in
   fault tolerance.
-- <a href="https://github.com/microsoft/DeepSpeed">`DeepSpeed`</a>:
+- [`DeepSpeed`](https://github.com/microsoft/DeepSpeed):
   Microsoft's deep learning optimization library with checkpointing and
   fault tolerance features.
 
 ### Monitoring and Observability
 
-- <a href="https://github.com/NVIDIA/dcgm-exporter">`DCGM Exporter`</a>:
+- [`DCGM Exporter`](https://github.com/NVIDIA/dcgm-exporter):
   NVIDIA Data Center GPU Manager exporter for Prometheus.
-- <a href="https://github.com/pytorch/kineto">`Kineto`</a>:
+- [`Kineto`](https://github.com/pytorch/kineto):
   PyTorch profiling library for GPU utilization analysis.
-- <a href="https://github.com/kubernetes-sigs/metrics-server">
-  `Metrics Server`</a>: Kubernetes SIG project for resource metrics.
+- [`Metrics Server`](https://github.com/kubernetes-sigs/metrics-server):
+  Kubernetes SIG project for resource metrics.
 
 ### Storage and Caching
 
-- <a href="https://github.com/fluid-cloudnative/fluid">`Fluid`</a>:
+- [`Fluid`](https://github.com/fluid-cloudnative/fluid):
   CNCF project for dataset orchestration and caching in Kubernetes.
-- <a href="https://github.com/ceph/ceph-csi">`Ceph CSI`</a>:
+- [`Ceph CSI`](https://github.com/ceph/ceph-csi):
   Container Storage Interface driver for Ceph.
-- <a href="https://github.com/juicedata/juicefs-csi-driver">
-  `JuiceFS CSI`</a>: High-performance distributed file system for
-  checkpoint storage.
+- [`JuiceFS CSI`](https://github.com/juicedata/juicefs-csi-driver):
+  High-performance distributed file system for checkpoint storage.
 
 ## Learning Topics
 
@@ -147,12 +145,9 @@ Key components of their framework:
   - Communication libraries: NCCL, Gloo, MPI
 
 - **PyTorch Distributed:**
-  - <a href="https://pytorch.org/tutorials/beginner/dist_overview.html">
-    DistributedDataParallel (DDP)</a>
-  - <a href="https://pytorch.org/docs/stable/fsdp.html">
-    Fully Sharded Data Parallel (FSDP)</a>
-  - <a href="https://pytorch.org/docs/stable/rpc.html">
-    RPC framework</a>
+  - [DistributedDataParallel (DDP)](https://pytorch.org/tutorials/beginner/dist_overview.html)
+  - [Fully Sharded Data Parallel (FSDP)](https://pytorch.org/docs/stable/fsdp.html)
+  - [RPC framework](https://pytorch.org/docs/stable/rpc.html)
 
 ### Kubernetes Integration
 
@@ -210,28 +205,24 @@ Key components of their framework:
 ### Academic Papers
 
 - **Fault Tolerance:**
-  - <a href="https://arxiv.org/abs/2509.16293">
-    "Training Large-Scale AI Models with Fault Tolerance"</a>
+  - ["Training Large-Scale AI Models with Fault Tolerance"](https://arxiv.org/abs/2509.16293)
     (arXiv:2509.16293v4)
 
 - **Distributed Training:**
-  - <a href="https://arxiv.org/abs/1910.02054">
-    "PyTorch Distributed: Experiences on Accelerating Data Parallel
-    Training"</a>
+  - ["PyTorch Distributed: Experiences on Accelerating Data Parallel
+    Training"](https://arxiv.org/abs/1910.02054)
 
 ### Industry Blog Posts
 
 - **ByteDance:**
-  - <a href="https://mp.weixin.qq.com/s/-KDhk_R4nj3C-uPG11VoYQ">
-    Large-Scale Training Optimization Practices</a> (Chinese)
+  - [Large-Scale Training Optimization Practices](https://mp.weixin.qq.com/s/-KDhk_R4nj3C-uPG11VoYQ)
+    (Chinese)
 
 - **Meta:**
-  - <a href="https://engineering.fb.com/2021/09/13/ml-applications/llama/">
-    Training Large Language Models at Scale</a>
+  - [Training Large Language Models at Scale](https://engineering.fb.com/2021/09/13/ml-applications/llama/)
 
 - **Microsoft:**
-  - <a href="https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/">
-    DeepSpeed: Extreme-scale model training for everyone</a>
+  - [DeepSpeed: Extreme-scale model training for everyone](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/)
 
 ## RoadMap (Ongoing Proposals)
 
@@ -246,8 +237,8 @@ Key components of their framework:
 
 ### Training Operator Enhancements
 
-- <a href="https://github.com/kubeflow/training-operator/issues">
-  Training Operator Issues</a>: Feature requests and enhancements
+- [Training Operator Issues](https://github.com/kubeflow/training-operator/issues):
+  Feature requests and enhancements
 - **Automatic Failure Recovery:**
   Self-healing training jobs with intelligent retry logic
 - **Cross-cluster Training:**
