@@ -147,7 +147,42 @@ More details about inference can be found in [Inference](./inference/README.md),
 
 ---
 
-### 4. Ecosystem Initiatives
+### 🎯 4. Training on Kubernetes
+
+- **Projects to Learn:**
+  - Training Operators:
+    - [`Training Operator`](https://github.com/kubeflow/training-operator):
+      Kubernetes-native operators for distributed training (PyTorch,
+      TensorFlow, XGBoost, etc.). Part of Kubeflow.
+    - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating.
+    - [`Kueue`](https://github.com/kubernetes-sigs/kueue):
+      Kubernetes SIG Project for job queueing.
+  - Fault Tolerance & Checkpointing:
+    - [`PyTorch Distributed`](https://pytorch.org/tutorials/beginner/dist_overview.html):
+      Native distributed training support.
+    - [`Megatron-LM`](https://github.com/NVIDIA/Megatron-LM): NVIDIA
+    - [`DeepSpeed`](https://github.com/microsoft/DeepSpeed): Microsoft
+  - Monitoring & Observability:
+    - [`DCGM Exporter`](https://github.com/NVIDIA/dcgm-exporter): NVIDIA
+    - [`Kineto`](https://github.com/pytorch/kineto): PyTorch Profiler
+  - Storage & Caching:
+    - [`Fluid`](https://github.com/fluid-cloudnative/fluid): CNCF Project
+
+- **Learning Topics:**
+  - Distributed training strategies (data/model/pipeline parallelism)
+  - Gang scheduling for distributed jobs
+  - Fault tolerance and checkpointing
+  - GPU error detection and recovery
+  - Training efficiency metrics (ETTR, MFU)
+  - Storage optimization for checkpoints
+
+More details about training can be found in
+[Training](./training/README.md), including fault tolerance strategies,
+ByteDance's training optimization framework, and industry best practices.
+
+---
+
+### 5. Ecosystem Initiatives
 
 - **Projects to Learn:**
   - [`Model Spec`](https://github.com/modelpack/model-spec): CNCF Sandbox
@@ -176,7 +211,6 @@ Coming Soon:
 
 Something that may not be included:
 
-- Training
 - Wasm
 - MCP related and A2A
 - General Observability Projects: Prometheus, Grafana, OpenTelemetry, etc.
