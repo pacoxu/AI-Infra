@@ -1,6 +1,6 @@
 # Comparisons of LLM Inference Engines
 
-Mainly compare AIBrix, llm-d, llmaz and OME.
+Mainly compare AIBrix, llm-d, llmaz, OME and Kthena.
 
 More details about specific platforms:
 
@@ -27,6 +27,19 @@ for constructing scalable GenAI inference infrastructure.
 
 For detailed information, see [AIBrix Introduction](./aibrix.md).
 
+### Kthena
+
+[`Kthena`](https://github.com/volcano-sh/kthena) is a Kubernetes-native LLM
+inference platform that transforms how organizations deploy and manage Large
+Language Models in production. Kthena is part of the Volcano ecosystem and
+provides comprehensive infrastructure for scalable LLM inference.
+
+**Key highlights:**
+
+- Kubernetes-native architecture for seamless cluster integration
+- Production-ready LLM deployment and lifecycle management
+- Optimized resource scheduling for inference workloads
+- Enterprise-grade scalability and reliability
 
 TODO:
 

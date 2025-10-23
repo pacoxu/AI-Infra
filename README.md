@@ -103,6 +103,7 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`AIBrix`](https://github.com/vllm-project/aibrix)
     - [`OME`](https://github.com/sgl-project/ome)
     - [`llmaz`](https://github.com/InftyAI/llmaz)
+    - [`Kthena`](https://github.com/volcano-sh/kthena)
   - Others:
     - [`KServe`](https://github.com/kserve/kserve): CNCF Incubating
 
