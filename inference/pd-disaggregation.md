@@ -9,6 +9,7 @@ This document introduces the concept of Prefill–Decode (PD) disaggregation in 
   - [LWS (LeaderWorkSet)](#lws-leaderworkset)
   - [SGLang RBG](#sglang-rbg)
   - [AIBrix StormService](#aibrix-stormservice)
+  - [Volcano Kthena](#volcano-kthena)
 - [Project Support Status](#project-support-status)
   - [NVIDIA Dynamo](#nvidia-dynamo)
   - [vLLM production stack](#vllm-production-stack)
@@ -126,6 +127,37 @@ StormService acts as a specialized controller that:
 This enables enterprise-grade P/D disaggregation with robust lifecycle
 management and multi-tenancy support.
 
+### Volcano Kthena
+
+[`Volcano Kthena`](https://github.com/volcano-sh/kthena) is a
+Kubernetes-native LLM inference platform that provides comprehensive
+infrastructure for deploying and managing Large Language Models in production
+environments. As part of the Volcano ecosystem, Kthena brings enterprise-grade
+capabilities to LLM inference workloads.
+
+**Key Capabilities:**
+
+- **Kubernetes-Native Architecture**: Deep integration with Kubernetes for
+  seamless workload orchestration and resource management
+- **Production-Ready Inference**: Enterprise-grade platform for deploying and
+  managing LLM inference at scale
+- **Volcano Integration**: Leverages Volcano's advanced scheduling
+  capabilities for optimal resource allocation
+- **Workload Orchestration**: Comprehensive lifecycle management for inference
+  workloads including scaling and failure handling
+
+**Integration with P/D Disaggregation:**
+
+Kthena provides infrastructure support for P/D disaggregation through:
+
+- Native Kubernetes workload management for disaggregated architectures
+- Coordinated scheduling of prefill and decode components
+- Resource optimization across disaggregated inference phases
+- Integration with Volcano's batch scheduling for efficient workload placement
+
+This makes Kthena well-suited for organizations building production LLM
+inference platforms with P/D disaggregation requirements.
+
 ---
 
 ## Project Support Status
@@ -164,6 +196,7 @@ LMCache is an LLM serving engine extension to reduce TTFT and increase throughpu
 
 - https://github.com/kubernetes-sigs/lws
 - https://github.com/sgl-project/rbg
+- https://github.com/volcano-sh/kthena
 - https://github.com/ai-dynamo/dynamo
 - https://github.com/vllm-project/vllm
 - https://github.com/vllm-project/production-stack
