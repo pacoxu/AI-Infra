@@ -2,10 +2,11 @@
 
 Mainly compare AIBrix, llm-d, llmaz, OME and Kthena.
 
-More details about specific platforms:
+More details about specific platforms and techniques:
 
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
 - [Caching in LLM Inference](./caching.md)
+- [Large Scale Experts (MoE Models)](./large-scale-experts.md)
 
 ## Featured Projects
 
