@@ -41,10 +41,27 @@ provides comprehensive infrastructure for scalable LLM inference.
 - Optimized resource scheduling for inference workloads
 - Enterprise-grade scalability and reliability
 
+### llm-d
+
+[`llm-d`](https://github.com/llm-d/llm-d) is a production-ready LLM inference
+platform that implements Prefill-Decode disaggregation using a dual
+LeaderWorkSet (LWS) architecture. llm-d demonstrates best practices for
+orchestrating disaggregated inference workloads on Kubernetes.
+
+**Key highlights:**
+
+- Dual LWS architecture for P/D disaggregation
+- LMCache integration for efficient KV cache management
+- Routing sidecar for intelligent request routing
+- Production-grade implementation for P/D disaggregation
+
+For detailed information about P/D disaggregation implementations, see
+[Prefill-Decode Disaggregation](./pd-disaggregation.md).
+
 TODO:
 
-- Add llm-d
-- Add KServe detailed introduction
+- Add KServe detailed introduction (basic P/D disaggregation info added to
+  [pd-disaggregation.md](./pd-disaggregation.md))
 - Add llmaz detailed introduction
 
 I will add a new table to compare the features of the inference engines.
