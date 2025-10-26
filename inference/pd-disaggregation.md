@@ -1,6 +1,8 @@
 # PD Disaggregation in LLM Inference
 
-This document introduces the concept of Prefill–Decode (PD) disaggregation in large language model (LLM) inference, its benefits, current implementation status in common AI Infra projects, and the future roadmap for its adoption.
+This document introduces the concept of Prefill–Decode (PD) disaggregation in
+large language model (LLM) inference, its benefits, current implementation
+status in common AI Infra projects, and the future roadmap for its adoption.
 
 ## Table of Contents
 
@@ -10,11 +12,13 @@ This document introduces the concept of Prefill–Decode (PD) disaggregation in 
   - [SGLang RBG](#sglang-rbg)
   - [AIBrix StormService](#aibrix-stormservice)
   - [Volcano Kthena](#volcano-kthena)
+  - [llm-d](#llm-d)
 - [Project Support Status](#project-support-status)
   - [NVIDIA Dynamo](#nvidia-dynamo)
   - [vLLM production stack](#vllm-production-stack)
   - [AIBrix](#aibrix)
   - [InftyAI/llmaz](#inftyaillmaz)
+  - [KServe](#kserve)
 - [References](#references)
 
 ---
@@ -26,7 +30,10 @@ In LLM inference, the process can be divided into two distinct phases:
 - **Prefill**: processes the entire input prompt in parallel, builds KV cache.
 - **Decode**: generates output tokens one by one using the KV cache.
 
-In a monolithic setup, both prefill and decode run on the same GPU, which causes resource contention (e.g., prefill latency impacting decode throughput). **PD Disaggregation** addresses this by disaggregating prefill and decode phases into separate GPU workers or nodes.
+In a monolithic setup, both prefill and decode run on the same GPU, which
+causes resource contention (e.g., prefill latency impacting decode throughput).
+**PD Disaggregation** addresses this by disaggregating prefill and decode
+phases into separate GPU workers or nodes.
 
 **Benefits:**
 
@@ -64,7 +71,7 @@ inference workloads.
 **Architecture Pattern:**
 
 ```text
-Prefill LWS + StatefulSet + Pods  →  KV Cache Transfer  →  Decode LWS + StatefulSet + Pods
+Prefill LWS + StatefulSet + Pods  →  KV Cache  →  Decode LWS + StatefulSet + Pods
 ```
 
 This approach enables independent scaling and resource management for each
@@ -158,6 +165,47 @@ Kthena provides infrastructure support for P/D disaggregation through:
 This makes Kthena well-suited for organizations building production LLM
 inference platforms with P/D disaggregation requirements.
 
+### llm-d
+
+[`llm-d`](https://github.com/llm-d/llm-d) is a production-ready LLM inference
+platform that implements Prefill-Decode disaggregation using a dual
+LeaderWorkSet (LWS) architecture. As a reference implementation for P/D
+disaggregation on Kubernetes, llm-d demonstrates best practices for
+orchestrating disaggregated inference workloads.
+
+**Key Architecture:**
+
+- **Dual LWS Design**: Uses two separate LeaderWorkSet instances:
+  - One LWS for prefill workers
+  - One LWS for decode workers
+- **KV Cache Transfer**: Implements efficient KV cache transfer between
+  prefill and decode phases
+- **LMCache Integration**: Supports LMCache for KV cache offloading and
+  management
+- **Routing Sidecar**: Includes
+  [`llm-d routing sidecar`](https://github.com/llm-d/llm-d-routing-sidecar)
+  for intelligent request routing and cache optimization
+
+**P/D Disaggregation Implementation:**
+
+llm-d's two-LWS architecture enables:
+
+- Independent scaling of prefill and decode workloads
+- Optimized resource allocation for each phase
+- Reduced TTFT through dedicated prefill workers
+- Improved decode throughput with isolated decode workers
+- Efficient KV cache management across disaggregated components
+
+**Architecture Pattern:**
+
+```text
+Client → Routing Sidecar → Prefill LWS → KV Cache (LMCache) → Decode LWS → Response
+```
+
+This architecture demonstrates a production-grade implementation of P/D
+disaggregation that balances performance, scalability, and operational
+simplicity.
+
 ---
 
 ## Project Support Status
@@ -168,11 +216,14 @@ inference platforms with P/D disaggregation requirements.
 
 ### vLLM production stack
 
-- vLLM community is exploring deeper native integration in https://github.com/vllm-project/production-stack/pull/340.
+- vLLM community is exploring deeper native integration in
+  [production-stack PR #340](https://github.com/vllm-project/production-stack/pull/340).
 
 ### AIBrix
 
-- WIP issue: [Add Prefill/Decode Disaggregation Support in Inference Gateway](https://github.com/vllm-project/aibrix/issues/1223) and [#958](https://github.com/vllm-project/aibrix/issues/958).
+- WIP issue:
+  [Add Prefill/Decode Disaggregation Support in Inference Gateway](https://github.com/vllm-project/aibrix/issues/1223)
+  and [#958](https://github.com/vllm-project/aibrix/issues/958).
 
 ### InftyAI/llmaz
 
@@ -181,28 +232,66 @@ inference platforms with P/D disaggregation requirements.
 
 ### KServe
 
-- LMCache-based KV Offloading
-- Chunked Prefill
-- [WIP] Unified LLM Inference Service API and disaggregated p/d serving support [#4520](https://github.com/kserve/kserve/issues/4520).
+[`KServe`](https://github.com/kserve/kserve) is a CNCF Incubating project that
+provides a Kubernetes-native platform for deploying and serving machine
+learning models at scale. KServe is actively developing support for LLM
+inference and P/D disaggregation through its LLMInferenceService CRD.
+
+**Current Capabilities:**
+
+- **LMCache Integration**: LMCache-based KV cache offloading for improved
+  TTFT and throughput
+- **Chunked Prefill**: Support for chunked prefill to optimize memory usage
+  and reduce latency spikes
+- **LLMInferenceService CRD**: Custom Resource Definition for unified LLM
+  inference service management
+
+**P/D Disaggregation Support:**
+
+KServe is working on native P/D disaggregation support through:
+
+- [WIP] Unified LLM Inference Service API and disaggregated p/d serving
+  support [#4520](https://github.com/kserve/kserve/issues/4520)
+- Integration with LMCache for efficient KV cache management across
+  disaggregated components
+- Standardized API for managing prefill and decode workloads
+
+**Architecture Goals:**
+
+The LLMInferenceService CRD aims to provide:
+
+- Declarative configuration for P/D disaggregation
+- Automatic orchestration of prefill and decode services
+- Built-in KV cache management and transfer
+- Integration with KServe's inference graph for complex serving patterns
+
+KServe's approach focuses on providing a high-level abstraction that
+simplifies P/D disaggregation deployment while maintaining flexibility for
+advanced use cases.
 
 ### LMCache
 
-LMCache is an LLM serving engine extension to reduce TTFT and increase throughput, especially under long-context scenarios. 
+LMCache is an LLM serving engine extension to reduce TTFT and increase
+throughput, especially under long-context scenarios.
 
 - LMCache is supported in the vLLM production stack, llm-d, and KServe.
 - Stable support for non-prefix KV caches.
 
 ## References
 
-- https://github.com/kubernetes-sigs/lws
-- https://github.com/sgl-project/rbg
-- https://github.com/volcano-sh/kthena
-- https://github.com/ai-dynamo/dynamo
-- https://github.com/vllm-project/vllm
-- https://github.com/vllm-project/production-stack
-- https://github.com/vllm-project/aibrix
-- https://github.com/InftyAI/llmaz
-- https://github.com/LMCache/lmcache
-- DistServe (OSDI’24): https://www.usenix.org/system/files/osdi24-zhong-yinmin.pdf
+- <https://github.com/kubernetes-sigs/lws>
+- <https://github.com/llm-d/llm-d>
+- <https://github.com/llm-d/llm-d-routing-sidecar>
+- <https://github.com/sgl-project/rbg>
+- <https://github.com/volcano-sh/kthena>
+- <https://github.com/ai-dynamo/dynamo>
+- <https://github.com/vllm-project/vllm>
+- <https://github.com/vllm-project/production-stack>
+- <https://github.com/vllm-project/aibrix>
+- <https://github.com/kserve/kserve>
+- <https://github.com/InftyAI/llmaz>
+- <https://github.com/LMCache/lmcache>
+- DistServe (OSDI'24): <https://www.usenix.org/system/files/osdi24-zhong-yinmin.pdf>
 
-**Some were generated by ChatGPT. So please be careful before you use them. This is a personal learning notes.**
+**Some were generated by ChatGPT. So please be careful before you use them.
+These are personal learning notes.**
