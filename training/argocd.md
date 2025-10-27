@@ -38,7 +38,9 @@ pipelines using Git as the single source of truth.
 ArgoCD complements Kubeflow by providing continuous deployment capabilities
 for ML workloads. As shown in the
 <a href="https://mp.weixin.qq.com/s/qFmMduuQtgOdjwQLaT95dw">Kubeflow
-ecosystem architecture</a>, ArgoCD integrates with various Kubeflow components:
+ecosystem architecture</a> (Chinese language resource) and referenced in the
+<a href="https://argo-cd.readthedocs.io/">official ArgoCD documentation</a>,
+ArgoCD integrates with various Kubeflow components:
 
 ![Kubeflow Ecosystem](https://github.com/user-attachments/assets/bc87980f-37d8-452f-ae1d-94cadc53a8f1)
 

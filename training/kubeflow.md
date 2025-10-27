@@ -29,7 +29,7 @@ the complete ML lifecycle:
   ML metadata and artifact tracking
 - <a href="https://github.com/kubeflow/mpi-operator">`MPI Operator`</a>:
   MPI-style distributed training support
-- <a href="https://github.com/kubeflow/common">`Training Operator`</a>:
+- <a href="https://github.com/kubeflow/training-operator">`Training Operator`</a>:
   Unified training operator for multiple frameworks
 
 ### Integration Components
@@ -86,7 +86,9 @@ distributed training on Kubernetes with a Python-first API.
 
 Based on the
 <a href="https://mp.weixin.qq.com/s/-PFG2ZHVKZ75vrUrwBZ4PQ">Kubeflow Trainer
-V2 introduction</a>, the key improvements include:
+V2 introduction</a> (Chinese language resource) and the
+<a href="https://www.kubeflow.org/docs/components/training/trainer-v2/">official
+Trainer V2 documentation</a>, the key improvements include:
 
 1. **Simplified Large-Scale AI/ML Task Management**
    - Abstracts away Kubernetes complexity
