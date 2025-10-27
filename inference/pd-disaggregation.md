@@ -212,7 +212,40 @@ simplicity.
 
 ### NVIDIA Dynamo
 
-- [FEATURE]: Unifying Disagg Implementation in Dynamo [#1728](https://github.com/ai-dynamo/dynamo/issues/1728)
+[`Dynamo`](https://github.com/ai-dynamo/dynamo) is NVIDIA's high-performance
+LLM inference engine that provides enterprise-grade serving capabilities with
+comprehensive support for Prefill-Decode disaggregation.
+
+**P/D Disaggregation Support:**
+
+- **Supported**: Dynamo has implemented P/D disaggregation for enhanced
+  performance and resource efficiency
+- **Multi-Node Architecture**: In multi-node deployments, Dynamo utilizes
+  LeaderWorkSet (LWS) for orchestrating disaggregated workloads
+- **Design Documentation**:
+  [Disaggregation Serving](https://github.com/ai-dynamo/dynamo/blob/main/docs/design_docs/disagg_serving.md)
+  \- Detailed design for separating prefill and decode phases
+- **Feature Comparison**:
+  [Feature Support Comparison](https://github.com/ai-dynamo/dynamo/blob/6deeecb1d6a9f4eb1770b4272bfa85a4b6226e0a/deploy/helm/README.md#feature-support-comparison)
+  \- Shows disaggregation capabilities alongside other features
+
+**Key Implementations:**
+
+- Support for disaggregated prefill and decode serving
+  [#998](https://github.com/ai-dynamo/dynamo/pull/998)
+- Enhanced disaggregation features
+  [#1511](https://github.com/ai-dynamo/dynamo/pull/1511)
+- Ongoing unification efforts
+  [#1728](https://github.com/ai-dynamo/dynamo/issues/1728)
+
+**Architecture:**
+
+Dynamo's disaggregation implementation enables:
+
+- Independent scaling of prefill and decode workloads
+- Optimized resource utilization across GPU clusters
+- Coordinated workload management using LWS in multi-node scenarios
+- Enterprise-ready deployment with Kubernetes integration
 
 ### vLLM production stack
 
