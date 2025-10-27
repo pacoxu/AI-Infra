@@ -133,8 +133,14 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`Kong`](https://github.com/Kong/kong)
     - [`Semantic Router`](https://github.com/vllm-project/semantic-router): vLLM Project
   - CD:
-    - [`Argo`](https://github.com/argoproj/argo): CNCF Graduated
-    - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating
+    - [`ArgoCD`](https://github.com/argoproj/argo-cd): CNCF Graduated,
+      declarative GitOps continuous delivery for Kubernetes. Essential for
+      managing training jobs and model deployments.
+    - [`Argo Workflows`](https://github.com/argoproj/argo-workflows):
+      CNCF Graduated, workflow engine for ML pipelines.
+    - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating,
+      comprehensive ML platform with Pipelines, Notebooks, and Training
+      Operator.
     - [`Metaflow`](https://github.com/Netflix/metaflow) (optional)
   - Agentic Workflow:
     - [`Dify`](https://github.com/langgenius/dify)
@@ -156,12 +162,20 @@ More details about inference can be found in [Inference](./inference/README.md),
 
 - **Projects to Learn:**
   - Training Operators:
-    - [`Training Operator`](https://github.com/kubeflow/training-operator):
+    - [`Kubeflow Training Operator`](https://github.com/kubeflow/training-operator):
       Kubernetes-native operators for distributed training (PyTorch,
-      TensorFlow, XGBoost, etc.). Part of Kubeflow.
+      TensorFlow, XGBoost, etc.). Kubeflow Trainer V2 provides Python-native
+      API for simplified training job management. See
+      [Kubeflow guide](./training/kubeflow.md) for details.
     - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating.
     - [`Kueue`](https://github.com/kubernetes-sigs/kueue):
       Kubernetes SIG Project for job queueing.
+  - GitOps & Continuous Deployment:
+    - [`ArgoCD`](https://github.com/argoproj/argo-cd): CNCF Graduated,
+      GitOps continuous delivery for managing training jobs. See
+      [ArgoCD guide](./training/argocd.md) for GitOps workflows.
+    - [`Argo Workflows`](https://github.com/argoproj/argo-workflows):
+      CNCF Graduated, workflow engine for ML pipelines.
   - Fault Tolerance & Checkpointing:
     - [`PyTorch Distributed`](https://pytorch.org/tutorials/beginner/dist_overview.html):
       Native distributed training support.
@@ -180,10 +194,14 @@ More details about inference can be found in [Inference](./inference/README.md),
   - GPU error detection and recovery
   - Training efficiency metrics (ETTR, MFU)
   - Storage optimization for checkpoints
+  - GitOps workflows for training job management
 
 More details about training can be found in
-[Training](./training/README.md), including fault tolerance strategies,
-ByteDance's training optimization framework, and industry best practices.
+[Training](./training/README.md), including
+[Kubeflow Training Operator and Trainer V2](./training/kubeflow.md),
+[ArgoCD for GitOps workflows](./training/argocd.md), fault tolerance
+strategies, ByteDance's training optimization framework, and industry best
+practices.
 
 ---
 
