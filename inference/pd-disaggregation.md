@@ -19,6 +19,9 @@ status in common AI Infra projects, and the future roadmap for its adoption.
   - [AIBrix](#aibrix)
   - [InftyAI/llmaz](#inftyaillmaz)
   - [KServe](#kserve)
+- [Scaling P/D Workloads](#scaling-pd-workloads)
+  - [Challenges with Traditional Autoscaling](#challenges-with-traditional-autoscaling)
+  - [Configuration Optimization with AIConfigurator](#configuration-optimization-with-aiconfigurator)
 - [References](#references)
 
 ---
@@ -310,6 +313,135 @@ throughput, especially under long-context scenarios.
 - LMCache is supported in the vLLM production stack, llm-d, and KServe.
 - Stable support for non-prefix KV caches.
 
+---
+
+## Scaling P/D Workloads
+
+Scaling disaggregated Prefill/Decode workloads presents unique challenges that
+differ from traditional monolithic inference deployments. This section explores
+the limitations of standard autoscaling approaches and introduces tools for
+optimizing P/D configurations.
+
+### Challenges with Traditional Autoscaling
+
+Traditional Kubernetes autoscaling mechanisms like Horizontal Pod Autoscaler
+(HPA) and Knative Pod Autoscaler (KPA) face significant limitations when
+applied to P/D disaggregated workloads:
+
+**Key Challenges:**
+
+- **Independent Phase Characteristics**: Prefill and decode phases have
+  distinct resource utilization patterns and performance characteristics.
+  Standard autoscalers cannot independently optimize each phase based on their
+  unique metrics (TTFT for prefill, TPOT for decode).
+
+- **Complex Configuration Space**: Disaggregated deployments require decisions
+  about:
+  - Number of prefill workers vs. decode workers
+  - Parallelism strategy for each phase (tensor parallel, pipeline parallel)
+  - Batch sizes optimized for each phase
+  - GPU allocation across phases
+
+- **Interdependent Scaling**: Prefill and decode components must scale
+  coordinately to maintain optimal throughput and latency. Scaling one without
+  considering the other can create bottlenecks or waste resources.
+
+- **SLA Awareness**: Traditional autoscalers don't understand LLM-specific SLA
+  targets like TTFT (Time to First Token) and TPOT (Time per Output Token),
+  which are critical for user experience in disaggregated serving.
+
+- **Resource Heterogeneity**: P/D workloads often benefit from heterogeneous
+  GPU allocations (e.g., more GPUs for decode than prefill), which standard
+  autoscalers don't optimize for.
+
+**Why HPA/KPA Fall Short:**
+
+- **Reactive Rather Than Predictive**: They react to current metrics rather
+  than proactively optimizing for workload characteristics
+- **No Configuration Optimization**: They scale replica counts but don't
+  optimize the underlying configuration (parallelism, batch sizes, etc.)
+- **Single-Metric Focus**: They typically scale based on CPU/GPU utilization or
+  request rate, ignoring the complex interplay of TTFT, TPOT, and throughput
+
+### Configuration Optimization with AIConfigurator
+
+[`AIConfigurator`](https://github.com/ai-dynamo/aiconfigurator) by NVIDIA
+addresses these challenges through offline optimization of disaggregated
+deployment configurations. It helps determine optimal configurations before
+deployment rather than relying on reactive autoscaling.
+
+**How AIConfigurator Works:**
+
+AIConfigurator searches the configuration space for disaggregated serving
+deployments by:
+
+1. **Modeling LLM Inference Performance**: Uses collected data for target
+   hardware to estimate execution time for different configurations
+2. **Configuration Space Search**: Evaluates thousands of combinations of:
+   - Number of prefill and decode workers
+   - Parallelism strategies (TP, PP, DP)
+   - Batch sizes for each phase
+   - GPU allocation patterns
+3. **SLA-Constrained Optimization**: Finds configurations that maximize
+   throughput while meeting TTFT and TPOT targets
+4. **Pareto Frontier Analysis**: Identifies trade-offs between throughput,
+   latency, and resource utilization
+
+**Key Features:**
+
+- **xPyD Configuration Planning**: Determines optimal replica configurations
+  where each replica consists of x prefill workers and y decode workers
+- **Hardware-Specific Optimization**: Supports various GPU types (H100, H200,
+  B200, etc.) with collected performance data
+- **Quantization Support**: Evaluates different quantization strategies (FP16,
+  FP8, INT4, etc.) per component
+- **Deployment File Generation**: Generates ready-to-use configuration files
+  for Dynamo deployments
+
+**Example Usage:**
+
+```bash
+# Find optimal configuration for Qwen3-32B on 32 H200 GPUs
+# with SLA targets: TTFT ≤ 300ms, TPOT ≤ 10ms
+aiconfigurator cli default \
+  --model QWEN3_32B \
+  --total_gpus 32 \
+  --system h200_sxm \
+  --isl 4000 \
+  --osl 500 \
+  --ttft 300 \
+  --tpot 10
+```
+
+**Benefits for P/D Workloads:**
+
+- **Informed Scaling Decisions**: Provides data-driven insights on how to scale
+  prefill vs. decode components
+- **Configuration Templates**: Generates optimal starting configurations that
+  can be used as baselines for autoscaling policies
+- **Performance Prediction**: Estimates throughput and latency before
+  deployment, reducing trial-and-error
+- **Resource Efficiency**: Identifies configurations that maximize GPU
+  utilization while meeting SLA targets
+
+**Integration with Autoscaling:**
+
+While AIConfigurator is an offline tool, its outputs can inform autoscaling
+strategies:
+
+- Use AIConfigurator to establish baseline configurations for different load
+  levels
+- Configure autoscalers to transition between AIConfigurator-optimized
+  configurations based on workload patterns
+- Leverage AIConfigurator's insights to set appropriate scaling thresholds and
+  replica ratios between prefill and decode workers
+
+This approach combines the predictive optimization of AIConfigurator with the
+reactive capabilities of Kubernetes autoscaling for more effective P/D workload
+management.
+
+---
+
 ## References
 
 - <https://github.com/kubernetes-sigs/lws>
@@ -318,6 +450,7 @@ throughput, especially under long-context scenarios.
 - <https://github.com/sgl-project/rbg>
 - <https://github.com/volcano-sh/kthena>
 - <https://github.com/ai-dynamo/dynamo>
+- <https://github.com/ai-dynamo/aiconfigurator>
 - <https://github.com/vllm-project/vllm>
 - <https://github.com/vllm-project/production-stack>
 - <https://github.com/vllm-project/aibrix>
