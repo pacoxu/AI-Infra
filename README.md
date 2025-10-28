@@ -129,7 +129,6 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
     - [`DaoCloud knoway`](https://github.com/knoway-dev/knoway)
     - [`Higress`](https://github.com/alibaba/higress): Alibaba
-    - [`OpenRouter`](https://github.com/OpenRouterTeam/openrouter-runner)
     - [`Kong`](https://github.com/Kong/kong)
     - [`Semantic Router`](https://github.com/vllm-project/semantic-router): vLLM Project
   - CD:
