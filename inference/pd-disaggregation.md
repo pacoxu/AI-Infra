@@ -22,6 +22,7 @@ status in common AI Infra projects, and the future roadmap for its adoption.
 - [Scaling P/D Workloads](#scaling-pd-workloads)
   - [Challenges with Traditional Autoscaling](#challenges-with-traditional-autoscaling)
   - [Configuration Optimization with AIConfigurator](#configuration-optimization-with-aiconfigurator)
+  - [SLA-Based Scheduling in Kubernetes](#sla-based-scheduling-in-kubernetes)
 - [References](#references)
 
 ---
@@ -440,6 +441,107 @@ This approach combines the predictive optimization of AIConfigurator with the
 reactive capabilities of Kubernetes autoscaling for more effective P/D workload
 management.
 
+### SLA-Based Scheduling in Kubernetes
+
+Kubernetes is introducing native SLA-based scheduling capabilities through
+[KEP-5471: Extended Toleration Operators for Threshold-Based
+Placement](https://github.com/kubernetes/enhancements/pull/5473). This
+enhancement enables pods to express SLA requirements using numeric comparisons
+in tolerations, providing a Kubernetes-native mechanism for SLA-aware
+scheduling.
+
+**Key Capabilities:**
+
+- **Numeric Comparison Operators**: Extends tolerations to support `Lt`
+  (less than) and `Gt` (greater than) operators for matching node taints with
+  numeric values
+- **SLA Threshold-Based Placement**: Allows pods to specify minimum SLA
+  requirements (e.g., "only schedule on nodes with SLA > 95%")
+- **Eviction Support**: Combines with `NoExecute` taint effect to automatically
+  evict pods when node SLA drops below threshold
+- **Feature Gate**: `TaintTolerationComparisonOperators` (alpha in Kubernetes
+  v1.35)
+
+**Relevance to P/D Workloads:**
+
+For disaggregated P/D deployments, SLA-based scheduling provides fine-grained
+control over workload placement:
+
+- **Prefill Phase**: Can require high-SLA nodes to minimize TTFT and ensure
+  consistent latency for initial token generation
+- **Decode Phase**: May tolerate lower-SLA nodes for cost optimization while
+  maintaining acceptable TPOT
+- **Heterogeneous Clusters**: Enables mixing on-demand (high-SLA) and spot
+  (low-SLA) nodes with automatic workload steering based on reliability
+  requirements
+
+**Example Usage for P/D Workloads:**
+
+```yaml
+# High-SLA on-demand node with 95% SLA taint
+apiVersion: v1
+kind: Node
+metadata:
+  name: ondemand-gpu-node-1
+spec:
+  taints:
+  - key: node.kubernetes.io/sla
+    value: "950"  # 95.0% SLA
+    effect: NoExecute
+---
+# Prefill pod requires SLA > 95% with eviction support
+apiVersion: v1
+kind: Pod
+metadata:
+  name: prefill-worker
+spec:
+  tolerations:
+  - key: node.kubernetes.io/sla
+    operator: Gt
+    value: "950"
+    effect: NoExecute
+    tolerationSeconds: 30  # Grace period before eviction
+  containers:
+  - name: prefill
+    image: inference-engine:latest
+    args: ["--mode=prefill"]
+---
+# Decode pod tolerates lower SLA for cost savings
+apiVersion: v1
+kind: Pod
+metadata:
+  name: decode-worker
+spec:
+  tolerations:
+  - key: node.kubernetes.io/sla
+    operator: Gt
+    value: "800"  # 80% SLA acceptable
+    effect: NoExecute
+    tolerationSeconds: 60
+  containers:
+  - name: decode
+    image: inference-engine:latest
+    args: ["--mode=decode"]
+```
+
+**Integration with AIConfigurator:**
+
+SLA-based scheduling complements AIConfigurator by providing runtime placement
+control:
+
+1. **Offline Planning**: AIConfigurator determines optimal xPyD configurations
+   and resource allocations for different SLA tiers
+2. **Runtime Enforcement**: SLA-based tolerations ensure workloads are placed
+   on nodes meeting their reliability requirements
+3. **Dynamic Adaptation**: Taints with `NoExecute` effect trigger automatic
+   pod eviction when node SLA degrades, enabling graceful failover
+4. **Cost Optimization**: Combine AIConfigurator's throughput optimization with
+   SLA-based placement to balance performance and infrastructure costs
+
+This combination enables production-grade P/D deployments with predictable
+performance, automatic failure handling, and efficient resource utilization
+across heterogeneous GPU clusters.
+
 ---
 
 ## References
@@ -451,6 +553,9 @@ management.
 - <https://github.com/volcano-sh/kthena>
 - <https://github.com/ai-dynamo/dynamo>
 - <https://github.com/ai-dynamo/aiconfigurator>
+- <https://github.com/kubernetes/enhancements/pull/5473> - KEP-5471:
+  Extended Toleration Operators for Threshold-Based Placement (SLA-based
+  scheduling)
 - <https://github.com/vllm-project/vllm>
 - <https://github.com/vllm-project/production-stack>
 - <https://github.com/vllm-project/aibrix>
