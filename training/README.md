@@ -98,7 +98,9 @@ Key components of their framework:
 
 - [`Training Operator`](https://github.com/kubeflow/training-operator):
   Kubernetes-native operators for distributed training (PyTorch, TensorFlow,
-  XGBoost, etc.). Part of Kubeflow project.
+  XGBoost, etc.). Part of Kubeflow project. See
+  [Kubeflow documentation](./kubeflow.md) for detailed guide on Kubeflow
+  Training Operator and Trainer V2.
 - [`Volcano`](https://github.com/volcano-sh/volcano):
   CNCF Incubating project with gang scheduling and queue management for
   batch workloads.
@@ -133,6 +135,17 @@ Key components of their framework:
   Container Storage Interface driver for Ceph.
 - [`JuiceFS CSI`](https://github.com/juicedata/juicefs-csi-driver):
   High-performance distributed file system for checkpoint storage.
+
+### GitOps and Continuous Deployment
+
+- [`ArgoCD`](https://github.com/argoproj/argo-cd):
+  CNCF Graduated project for declarative GitOps continuous delivery. See
+  [ArgoCD documentation](./argocd.md) for detailed guide on managing
+  training jobs with GitOps workflows.
+- [`Argo Workflows`](https://github.com/argoproj/argo-workflows):
+  Kubernetes-native workflow engine for ML pipelines (CNCF Graduated).
+- [`Flux CD`](https://github.com/fluxcd/flux2):
+  GitOps toolkit for Kubernetes deployments (CNCF Graduated).
 
 ## Learning Topics
 
