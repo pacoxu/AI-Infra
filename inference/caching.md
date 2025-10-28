@@ -284,7 +284,7 @@ involving either operating system, reducing latency and CPU overhead.
 - **InfiniBand**: Purpose-built for high-performance computing
   - Lowest latency and highest bandwidth
   - Common in AI/ML clusters and datacenters
-  - Typical bandwidth: 200Gbps (HDR), 400Gbps (NDR), 800Gbps (XDR)
+  - Typical bandwidth: 200Gbps (HDR), 400Gbps (NDR), 800Gbps (XDR, emerging)
 
 - **RoCE (RDMA over Converged Ethernet)**: RDMA over Ethernet networks
   - More cost-effective than InfiniBand
@@ -358,7 +358,7 @@ Next-generation interconnects provide unprecedented bandwidth for data
 movement:
 
 - **400GbE and beyond**: Next-generation Ethernet at 400Gbps, 800Gbps
-- **800G InfiniBand (XDR)**: Latest InfiniBand standard
+- **800G InfiniBand (XDR)**: Emerging InfiniBand standard
 - **Custom AI interconnects**: Vendor-specific high-bandwidth solutions
 
 **Impact on KV Cache Performance:**
