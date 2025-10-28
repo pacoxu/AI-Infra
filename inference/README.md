@@ -7,6 +7,7 @@ More details about specific platforms and techniques:
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
 - [Caching in LLM Inference](./caching.md)
 - [Large Scale Experts (MoE Models)](./large-scale-experts.md)
+- [Model Lifecycle Management (Cold-Start, Sleep Mode, Offloading)](./model-lifecycle.md)
 
 ## Featured Projects
 
