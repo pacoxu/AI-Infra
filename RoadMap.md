@@ -24,7 +24,7 @@ The following topics are planned for future addition to the repository:
   - Huawei CloudMatrix 384 (UnifiedBus)
   - NVIDIA GB200 NVL72 (36 Grace CPUs + 72 Blackwell GPUs in rack-scale,
     liquid-cooled design)
-  - 沐曦耀龙S8000 G2超节点
+  - 沐曦耀龙S8000 G2超节点 (Moffett YaoLong S8000 G2 SuperNode)
 - **DRA updates**: New Dynamic Resource Allocation implementations like
   [dranet](https://github.com/google/dranet)
 - **Observability**: Advanced monitoring and metrics for AI workloads
