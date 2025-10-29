@@ -32,6 +32,12 @@ LLM resources across their operational states:
 - **Offloading**: Moving models between storage tiers (GPU, CPU, disk)
 - **Shutdown**: Completely unloading models from memory
 
+![LLM Model Lifecycle](https://github.com/user-attachments/assets/f45727ca-526e-4e78-8afc-b1b085a24fc1)
+
+*Figure 1: LLM Model Lifecycle State Diagram - Models transition through
+various states from cold start to shutdown, with sleep mode and offloading
+as intermediate optimization states.*
+
 **Key Challenges:**
 
 - Model loading can take seconds to minutes depending on model size
@@ -85,6 +91,12 @@ The total cold-start time consists of several phases:
 #### Storage Tier Optimization
 
 Choose the appropriate storage tier based on access patterns:
+
+![Model Storage Tiers for LLM Inference](https://github.com/user-attachments/assets/8d2df23c-4dff-4100-952b-f6c95eb2e3b3)
+
+*Figure 2: Model Storage Tiers for LLM Inference - Hierarchical storage
+architecture from GPU VRAM (fastest) to remote object storage (slowest),
+with transfer mechanisms between tiers.*
 
 - **VRAM (GPU Memory)**: Fastest, for hot models
   - Zero cold-start latency for loaded models
