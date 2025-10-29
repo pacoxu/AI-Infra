@@ -144,16 +144,6 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
     - [`Higress`](https://github.com/alibaba/higress): Alibaba
     - [`Kong`](https://github.com/Kong/kong)
     - [`Semantic Router`](https://github.com/vllm-project/semantic-router): vLLM Project
-  - CD:
-    - [`ArgoCD`](https://github.com/argoproj/argo-cd): CNCF Graduated,
-      declarative GitOps continuous delivery for Kubernetes. Essential for
-      managing training jobs and model deployments.
-    - [`Argo Workflows`](https://github.com/argoproj/argo-workflows):
-      CNCF Graduated, workflow engine for ML pipelines.
-    - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating,
-      comprehensive ML platform with Pipelines, Notebooks, and Training
-      Operator.
-    - [`Metaflow`](https://github.com/Netflix/metaflow) (optional)
   - Agentic Workflow:
     - [`Dify`](https://github.com/langgenius/dify)
     - [`KAgent`](https://github.com/kagent-dev/kagent): CNCF Sandbox
@@ -192,12 +182,17 @@ optimization, sleep mode, and offloading).
     - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating.
     - [`Kueue`](https://github.com/kubernetes-sigs/kueue):
       Kubernetes SIG Project for job queueing.
+  - ML Platform & Pipelines:
+    - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating,
+      comprehensive ML platform with Pipelines, Notebooks, and Training
+      Operator.
+    - [`Argo Workflows`](https://github.com/argoproj/argo-workflows):
+      CNCF Graduated, workflow engine for ML pipelines.
+    - [`Metaflow`](https://github.com/Netflix/metaflow) (optional)
   - GitOps & Continuous Deployment:
     - [`ArgoCD`](https://github.com/argoproj/argo-cd): CNCF Graduated,
       GitOps continuous delivery for managing training jobs. See
       [ArgoCD guide](./training/argocd.md) for GitOps workflows.
-    - [`Argo Workflows`](https://github.com/argoproj/argo-workflows):
-      CNCF Graduated, workflow engine for ML pipelines.
   - Fault Tolerance & Checkpointing:
     - [`PyTorch Distributed`](https://pytorch.org/tutorials/beginner/dist_overview.html):
       Native distributed training support.
