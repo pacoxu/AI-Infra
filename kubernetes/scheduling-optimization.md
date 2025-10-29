@@ -798,45 +798,70 @@ spec:
 
 ### Container/Pod In-Place Restart
 
-**Concept**: Restart containers or pods without rescheduling, useful for
-applying configuration changes or recovering from errors without scheduling
-overhead.
+**Concept**: Restart containers within a pod without recreating the pod or
+rescheduling, useful for recovering from failures or applying certain
+configuration changes while preserving pod placement and identity.
+
+**Kubernetes KEPs:**
+
+- **KEP-5307: Container Restart Policy**: Provides fine-grained control over
+  individual container restart behavior within pods
+- **KEP-5532: Restart All Containers on Container Exits**: Enables restarting
+  all containers in a pod when specific containers exit, useful for
+  coordinated restarts
 
 **Use Cases:**
 
-- **Configuration updates**: Reload configs without full pod recreation
-- **Image updates**: Update container image on same node (if node has new
-  image)
-- **Crash recovery**: Restart failed containers faster than pod rescheduling
-- **Debug/troubleshooting**: Quick container restart for testing
+- **Crash recovery**: Automatically restart failed containers without pod
+  rescheduling
+- **Coordinated restarts**: Restart all containers together when dependencies
+  fail
+- **Container-level policies**: Apply different restart behaviors to sidecar
+  vs. main containers
+- **Debug/troubleshooting**: Faster recovery without scheduling overhead
 
-**Kubernetes Features:**
+**Container Restart Rules:**
 
-- **Container restart**: `kubectl rollout restart` or update pod spec
-- **Pod restart policy**: `Always`, `OnFailure`, `Never` control automatic
-  restarts
-- **Ephemeral containers**: Debug running pods without restart
+Kubernetes supports configuring restart behavior at the container level:
 
-**Example - Rolling Restart:**
+- **Container restart policy**: Control whether individual containers restart
+  on failure
+- **Pod restart policy**: `Always`, `OnFailure`, `Never` still apply at pod
+  level
+- **Coordinated restarts**: KEP-5532 enables restarting all containers when
+  specific ones exit
 
-```bash
-# Restart all pods in a deployment without rescheduling
-kubectl rollout restart deployment/inference-deployment
+**Benefits:**
 
-# Restart specific pod (may reschedule)
-kubectl delete pod inference-pod --grace-period=0
+- **No scheduling overhead**: Container restarts on same node, no scheduler
+  involvement
+- **Preserves pod identity**: Pod IP, hostname, and volumes remain unchanged
+- **Faster recovery**: Container restart is faster than full pod recreation
+- **Fine-grained control**: Different restart policies per container within pod
+
+**Example - Pod with Container Restart Policies:**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-container-app
+spec:
+  restartPolicy: Always  # Pod-level policy
+  containers:
+  - name: main-app
+    image: app:latest
+    # Container will restart based on pod-level policy
+  - name: sidecar
+    image: sidecar:latest
+    # KEP-5307: Future support for container-level restart policy
 ```
-
-**In-Place Image Update (Future):**
-
-Kubernetes is exploring in-place image updates (KEP-1287 extension) to allow
-updating container images without pod recreation, further reducing scheduling
-and startup overhead.
 
 **Trade-offs:**
 
 - **Pro**: Eliminates scheduling latency, faster recovery
-- **Con**: Node-local resource constraints may require rescheduling anyway
+- **Con**: Node-local resource constraints may require pod rescheduling if
+  resources exhausted
 - **Pro**: Preserves pod IP and network identity
 - **Con**: Doesn't rebalance load across cluster
 
@@ -844,8 +869,15 @@ and startup overhead.
 
 - Stateful workloads with long startup times (databases, caches)
 - GPU workloads with expensive model loading
-- Debugging and testing scenarios
-- Resource optimization without changing workload placement
+- Multi-container pods with sidecar dependencies
+- Fast failure recovery without disrupting pod placement
+
+**References:**
+
+- [KEP-5307: Container Restart
+  Policy](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5307-container-restart-policy/README.md)
+- [KEP-5532: Restart All Containers on Container
+  Exits](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5532-restart-all-containers-on-container-exits/README.md)
 
 ---
 
