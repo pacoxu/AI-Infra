@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: kubernetes, pod, startup, optimization, performance
+canonical_path: docs/kubernetes/pod-startup-speed.md
+---
+
 # Pod Startup Speed Optimization
 
 This guide provides comprehensive strategies to accelerate Pod startup in

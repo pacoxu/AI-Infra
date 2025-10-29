@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: inference, moe, mixture-of-experts, large-scale, llm
+canonical_path: docs/inference/large-scale-experts.md
+---
+
 # Large Scale Experts in LLM Inference
 
 This document explores large-scale expert architectures in Large Language

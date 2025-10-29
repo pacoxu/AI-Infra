@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: inference, pd-disaggregation, prefill-decode, llm-optimization
+canonical_path: docs/inference/pd-disaggregation.md
+---
+
 # PD Disaggregation in LLM Inference
 
 This document introduces the concept of Prefill–Decode (PD) disaggregation in

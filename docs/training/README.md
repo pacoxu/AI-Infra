@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: training, kubernetes, fault-tolerance, distributed-training
+canonical_path: docs/training/README.md
+---
+
 # Training on Kubernetes
 
 ## Overview

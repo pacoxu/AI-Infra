@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: inference, ome, kubernetes-operator, llm-management
+canonical_path: docs/inference/ome.md
+---
+
 # OME: Kubernetes Operator for LLM Management
 
 OME is a comprehensive Kubernetes operator designed for enterprise-grade

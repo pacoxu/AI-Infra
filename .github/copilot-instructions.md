@@ -41,8 +41,8 @@ organized into learning topics.
 
   - Takes 30-60 seconds per file. Some external links may be temporarily
     unreachable (Status: 0 errors are common for conference websites).
-  - Check key documentation files: `README.md`, `inference/README.md`,
-    `kubernetes/kubernetes.md`
+  - Check key documentation files: `README.md`, `docs/inference/README.md`,
+    `docs/kubernetes/learning-plan.md`
 
 ### Content Validation Requirements
 
@@ -71,24 +71,35 @@ organized into learning topics.
 
 ```text
 /home/runner/work/AI-Infra/AI-Infra/
-├── README.md                    # Main learning path and landscape overview
-├── ai-infra-landscape.png       # Visual landscape diagram
-├── inference/
-│   ├── README.md               # LLM inference engine comparisons
-│   └── pd-disaggregation.md    # Prefill-Decode disaggregation technical doc
-├── kubernetes/
-│   ├── kubernetes.md           # Kubernetes learning plan (3-phase approach)
-│   ├── pod-lifecycle.md        # Pod lifecycle documentation
-│   ├── pod-lifecycle.png       # Pod lifecycle diagram
-│   ├── pod-startup-speed.md    # Pod startup optimization guide
-│   ├── scheduling-optimization.md # Scheduling strategies and optimization
-│   ├── isolation.md            # Workload isolation techniques
-│   ├── dra.md                  # Dynamic Resource Allocation reference
-│   └── nri.md                  # Node Resource Interface reference
-└── training/
-    ├── README.md               # Training on Kubernetes overview
-    ├── kubeflow.md             # Kubeflow training operators
-    └── argocd.md               # GitOps with ArgoCD
+├── README.md                          # Main learning path and landscape overview
+├── diagrams/                          # All images centralized
+│   ├── ai-infra-landscape.png        # Visual landscape diagram
+│   └── pod-lifecycle.png             # Pod lifecycle diagram
+├── docs/
+│   ├── kubernetes/
+│   │   ├── README.md                 # Kubernetes overview (canonical)
+│   │   ├── learning-plan.md          # Kubernetes learning plan (3-phase approach)
+│   │   ├── pod-lifecycle.md          # Pod lifecycle documentation
+│   │   ├── pod-startup-speed.md      # Pod startup optimization guide
+│   │   ├── scheduling-optimization.md # Scheduling strategies and optimization
+│   │   ├── isolation.md              # Workload isolation techniques
+│   │   ├── dra.md                    # Dynamic Resource Allocation reference
+│   │   └── nri.md                    # Node Resource Interface reference
+│   ├── inference/
+│   │   ├── README.md                 # LLM inference engine comparisons
+│   │   ├── aibrix.md                 # AIBrix platform
+│   │   ├── pd-disaggregation.md      # Prefill-Decode disaggregation
+│   │   ├── caching.md                # Caching strategies
+│   │   ├── memory-context-db.md      # Memory/Context DB
+│   │   ├── large-scale-experts.md    # MoE models
+│   │   ├── model-lifecycle.md        # Model lifecycle
+│   │   └── ome.md                    # OME platform
+│   └── training/
+│       ├── README.md                 # Training on Kubernetes overview
+│       ├── kubeflow.md               # Kubeflow training operators
+│       └── argocd.md                 # GitOps with ArgoCD
+└── .github/
+    └── copilot-instructions.md
 ```
 
 ### Common Development Tasks
@@ -96,13 +107,21 @@ organized into learning topics.
 #### Adding New Learning Materials
 
 1. **Create new markdown files in appropriate directories:**
-   - Scheduling/Workloads content → `kubernetes/`
-   - Inference optimization content → `inference/`
-   - Training and ML pipelines → `training/`
+   - Scheduling/Workloads content → `docs/kubernetes/`
+   - Inference optimization content → `docs/inference/`
+   - Training and ML pipelines → `docs/training/`
 
-2. **Always include proper headers and structure:**
+2. **Always include metadata headers and proper structure:**
 
    ```markdown
+   ---
+   status: Active
+   maintainer: pacoxu
+   last_updated: YYYY-MM-DD
+   tags: tag1, tag2, tag3
+   canonical_path: docs/category/filename.md
+   ---
+   
    # Title
    
    Brief introduction paragraph.
@@ -115,11 +134,17 @@ organized into learning topics.
 3. **Reference external projects consistently:**
 
    ```markdown
-   - [`ProjectName`](https://github.com/org/project): Brief description.
+   - <a href="https://github.com/org/project">`ProjectName`</a>: Brief description.
      CNCF Status if applicable.
    ```
 
-4. **Add learning topics and roadmap sections for educational content:**
+4. **Images should be placed in diagrams/ and referenced with relative paths:**
+
+   ```markdown
+   ![Image Description](../../diagrams/image-name.png)
+   ```
+
+5. **Add learning topics and roadmap sections for educational content:**
 
    ```markdown
    ## Learning Topics
@@ -138,7 +163,7 @@ organized into learning topics.
 - **Include CNCF project status (Graduated, Incubating, Sandbox) where
   applicable**
 - **Link to detailed documentation in subdirectories using relative paths:
-  `./inference/README.md`**
+  `./docs/inference/README.md`**
 
 #### Content Quality Standards
 

@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: training, kubeflow, pytorch, tensorflow, ml-operators
+canonical_path: docs/training/kubeflow.md
+---
+
 # Kubeflow for AI Training Management
 
 ## Overview

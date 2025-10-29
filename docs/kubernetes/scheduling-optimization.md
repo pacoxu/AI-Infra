@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: kubernetes, scheduling, optimization, large-scale
+canonical_path: docs/kubernetes/scheduling-optimization.md
+---
+
 # Large Clusters Scheduling Optimization
 
 This guide provides comprehensive strategies for optimizing scheduling

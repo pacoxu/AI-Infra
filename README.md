@@ -1,5 +1,11 @@
-<img width="256" height="256" alt="image" src="https://github.com/user-attachments/assets/fe685204-ea88-4ab6-b252-451aacb1c48a" />
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: ai-infrastructure, kubernetes, learning-path, landscape
+---
 
+<img width="256" height="256" alt="image" src="https://github.com/user-attachments/assets/fe685204-ea88-4ab6-b252-451aacb1c48a" />
 
 # AI-Infra Landscape & Learning Path 🚀
 
@@ -26,7 +32,7 @@ The goal is to demystify the evolving AI Infra stack and guide engineers on wher
 > - Dashed outlines = Early stage or under exploration
 > - Labels on right = Functional categories
 
-![AI-Infra Landscape](./ai-infra-landscape.png)
+![AI-Infra Landscape](./diagrams/ai-infra-landscape.png)
 
 ## 🧭 Learning Path for AI Infra Engineers
 
@@ -45,7 +51,7 @@ section if using managed Kubernetes services.
   - Container lifecycle & runtime internals
   - Kubernetes scheduler architecture
   - Resource allocation & GPU management
-  - For detailed guides, see [Kubernetes Guide](./kubernetes/README.md)
+  - For detailed guides, see [Kubernetes Guide](./docs/kubernetes/README.md)
 
 ---
 
@@ -67,16 +73,16 @@ workloads in Kubernetes clusters.
   - Queue management & SLOs
   - Multi-model & multi-tenant scheduling
 
-**See [Kubernetes Guide](./kubernetes/README.md)** for comprehensive coverage
+**See [Kubernetes Guide](./docs/kubernetes/README.md)** for comprehensive coverage
 of pod lifecycle, scheduling optimization, workload isolation, and resource
 management. Detailed guides:
-[Kubernetes Learning Plan](./kubernetes/kubernetes.md) |
-[Pod Lifecycle](./kubernetes/pod-lifecycle.md) |
-[Pod Startup Speed](./kubernetes/pod-startup-speed.md) |
-[Scheduling Optimization](./kubernetes/scheduling-optimization.md) |
-[Isolation](./kubernetes/isolation.md) |
-[DRA](./kubernetes/dra.md) |
-[NRI](./kubernetes/nri.md)
+[Kubernetes Learning Plan](./docs/kubernetes/learning-plan.md) |
+[Pod Lifecycle](./docs/kubernetes/pod-lifecycle.md) |
+[Pod Startup Speed](./docs/kubernetes/pod-startup-speed.md) |
+[Scheduling Optimization](./docs/kubernetes/scheduling-optimization.md) |
+[Isolation](./docs/kubernetes/isolation.md) |
+[DRA](./docs/kubernetes/dra.md) |
+[NRI](./docs/kubernetes/nri.md)
 
 - **RoadMap:**
   - Gang Scheduling in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
@@ -100,15 +106,15 @@ model serving at scale.
 - **RoadMap:**
   - [Serving WG](https://github.com/kubernetes/community/blob/master/wg-serving/README.md)
 
-**See [Inference Guide](./inference/README.md)** for comprehensive coverage of
+**See [Inference Guide](./docs/inference/README.md)** for comprehensive coverage of
 engines (vLLM, SGLang, Triton, TGI), platforms (Dynamo, AIBrix, OME, llmaz,
 Kthena, KServe), and deep-dive topics:
-[AIBrix](./inference/aibrix.md) |
-[P/D Disaggregation](./inference/pd-disaggregation.md) |
-[Caching](./inference/caching.md) |
-[Memory/Context DB](./inference/memory-context-db.md) |
-[MoE Models](./inference/large-scale-experts.md) |
-[Model Lifecycle](./inference/model-lifecycle.md)
+[AIBrix](./docs/inference/aibrix.md) |
+[P/D Disaggregation](./docs/inference/pd-disaggregation.md) |
+[Caching](./docs/inference/caching.md) |
+[Memory/Context DB](./docs/inference/memory-context-db.md) |
+[MoE Models](./docs/inference/large-scale-experts.md) |
+[Model Lifecycle](./docs/inference/model-lifecycle.md)
 
 ---
 
@@ -152,12 +158,12 @@ gang scheduling, and efficient resource management.
   - GitOps workflows for training management
   - Storage optimization for checkpoints
 
-**See [Training Guide](./training/README.md)** for comprehensive coverage of
+**See [Training Guide](./docs/training/README.md)** for comprehensive coverage of
 training operators (Kubeflow, Volcano, Kueue), ML platforms (Kubeflow
 Pipelines, Argo Workflows), GitOps (ArgoCD), fault tolerance strategies,
 ByteDance's training optimization framework, and industry best practices.
-Detailed guides: [Kubeflow](./training/kubeflow.md) |
-[ArgoCD](./training/argocd.md)
+Detailed guides: [Kubeflow](./docs/training/kubeflow.md) |
+[ArgoCD](./docs/training/argocd.md)
 
 ---
 

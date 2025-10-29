@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: inference, memory, context, ai-agents, database
+canonical_path: docs/inference/memory-context-db.md
+---
+
 # Memory, Context, and Database for AI Agents
 
 This document covers memory management, context handling, and database
