@@ -182,22 +182,18 @@ For some reasons, some topics may not be included in this repo, but I may open s
 Coming Soon:
 
 - 🎓 Weekly learning challenges & case studies
-- AI Gateway details: Gateway API Inference Extension
-- Parallelism & Caching
-- Agentic Workflow development like Dify
-- KAgent or Dagger
-- AutoScaling Metrics and Strategies: TTFT, TPOT, ITL, etc.
-- SuperNode
-- Devices: RDMA, etc.
-- Observability: eBPF for LLM(Deepflow)
+- Agentic Workflow development like Dify, KAgent or Dagger https://github.com/pacoxu/AI-Infra/issues/30
+- SuperNode: Huawei CloudMatrix 384(UnifiedBus), NVIDIA GB200 NVL72(GB200 NVL72 connects 36 Grace CPUs and 72 Blackwell GPUs in a rack-scale, liquid-cooled design), 沐曦耀龙S8000 G2超节点
+- DRA updates: new DRA implementations like [dranet](https://github.com/google/dranet)
+- Observability: eBPF for LLM(Deepflow), More AutoScaling Metrics and Strategies: TTFT, TPOT, ITL, etc. https://github.com/pacoxu/AI-Infra/issues/78
 - Model Quantization
 - LLM Security & Compliance/Policy
 - A general/basic guide about LLM, MoE, Ollama, etc.
+- MCP related and A2A https://github.com/pacoxu/AI-Infra/issues/32
 
 Something that may not be included:
 
 - Wasm
-- MCP related and A2A
 - General Observability Projects: Prometheus, Grafana, OpenTelemetry, etc.
 - RAG
 
