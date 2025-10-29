@@ -80,9 +80,15 @@ organized into learning topics.
 │   ├── kubernetes.md           # Kubernetes learning plan (3-phase approach)
 │   ├── pod-lifecycle.md        # Pod lifecycle documentation
 │   ├── pod-lifecycle.png       # Pod lifecycle diagram
-│   └── dra.md                  # Dynamic Resource Allocation
-└── containerd/
-    └── nri.md                  # Node Resource Interface documentation
+│   ├── pod-startup-speed.md    # Pod startup optimization guide
+│   ├── scheduling-optimization.md # Scheduling strategies and optimization
+│   ├── isolation.md            # Workload isolation techniques
+│   ├── dra.md                  # Dynamic Resource Allocation reference
+│   └── nri.md                  # Node Resource Interface reference
+└── training/
+    ├── README.md               # Training on Kubernetes overview
+    ├── kubeflow.md             # Kubeflow training operators
+    └── argocd.md               # GitOps with ArgoCD
 ```
 
 ### Common Development Tasks
@@ -92,9 +98,10 @@ organized into learning topics.
 1. **Create new markdown files in appropriate directories:**
    - Scheduling/Workloads content → `kubernetes/`
    - Inference optimization content → `inference/`
-   - Container runtime content → `containerd/`
+   - Training and ML pipelines → `training/`
 
 2. **Always include proper headers and structure:**
+
    ```markdown
    # Title
    
@@ -183,7 +190,8 @@ After making changes, ALWAYS complete these validation steps:
 - **Markdown linting:** 10-30 seconds for full repository
 - **Link checking:** 30-60 seconds per file, 3-5 minutes for full repository
 - **Tool installation:** 1-2 minutes for npm packages
-- **Content validation:** Manual review should take 5-10 minutes per significant change
+- **Content validation:** Manual review should take 5-10 minutes per
+  significant change
 
 ### Repository-Specific Knowledge
 
