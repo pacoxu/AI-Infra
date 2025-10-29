@@ -8,6 +8,14 @@ deployment patterns in production environments.
 
 - [What are Large Scale Experts](#what-are-large-scale-experts)
 - [Why Large Scale Experts](#why-large-scale-experts)
+- [Parallelism Strategies for MoE Models](#parallelism-strategies-for-moe-models)
+  - [Expert Parallelism (EP)](#expert-parallelism-ep)
+  - [Tensor Parallelism (TP) with MoE](#tensor-parallelism-tp-with-moe)
+  - [Data Parallelism (DP) with MoE](#data-parallelism-dp-with-moe)
+  - [Pipeline Parallelism (PP) with MoE](#pipeline-parallelism-pp-with-moe)
+  - [Sequence Parallelism (SP) with MoE](#sequence-parallelism-sp-with-moe)
+  - [Zero Redundancy Parallelism (ZP) with MoE](#zero-redundancy-parallelism-zp-with-moe)
+  - [Hybrid Parallelism Strategies](#hybrid-parallelism-strategies)
 - [How to Use Large Scale Experts](#how-to-use-large-scale-experts)
 - [Performance Improvements](#performance-improvements)
 - [When to Use Large Scale Experts](#when-to-use-large-scale-experts)
@@ -101,6 +109,508 @@ scaling LLMs:
   budget
 - **Better Price-Performance**: Superior quality-to-cost ratio for
   many applications
+
+---
+
+## Parallelism Strategies for MoE Models
+
+Mixture of Experts models require specialized parallelism strategies to
+efficiently scale across multiple GPUs while managing their unique
+architectural characteristics. This section explores how different parallelism
+techniques apply to MoE models and their combinations for optimal performance.
+
+### Expert Parallelism (EP)
+
+**Expert Parallelism** is the most natural and critical parallelism strategy
+for MoE models, distributing experts across multiple devices to enable
+scaling beyond single-GPU memory constraints.
+
+**How It Works with MoE:**
+
+- Partition N experts across K GPUs (e.g., 256 experts on 32 GPUs = 8
+  experts per GPU)
+- Router network determines top-K experts for each token
+- Tokens dynamically routed to GPUs hosting selected experts
+- All-to-all communication for cross-GPU expert access
+
+**Architecture:**
+
+```text
+Input Tokens [T1, T2, T3, ...]
+    ↓
+Router Network (replicated on all GPUs)
+    ↓
+Token Routing Decision
+    ↓
+[GPU 1: E1-E8]  [GPU 2: E9-E16]  [GPU 3: E17-E24]  [GPU 4: E25-32]
+    ↓               ↓                ↓                 ↓
+All-to-All Communication (tokens → selected experts)
+    ↓
+Expert Computation (sparse activation)
+    ↓
+All-to-All Communication (expert outputs → original GPUs)
+    ↓
+Output Tokens
+```
+
+**Expert Distribution Strategies:**
+
+1. **Uniform Distribution**: Equal number of experts per GPU
+
+   ```text
+   256 experts / 32 GPUs = 8 experts per GPU
+   ```
+
+2. **Capacity-Based Distribution**: Distribute based on expert sizes
+
+   ```text
+   GPU 1: 6 large experts
+   GPU 2: 10 medium experts
+   GPU 3: 12 small experts
+   ```
+
+3. **Usage-Based Distribution**: Co-locate frequently used experts
+
+   ```text
+   GPU 1: High-frequency experts (E1, E5, E12)
+   GPU 2: Medium-frequency experts (E3, E7, E20)
+   GPU 3: Low-frequency experts (E8, E15, E30)
+   ```
+
+**Communication Optimization:**
+
+- **Hierarchical All-to-All**: Group experts by topology (NVLink domains)
+- **Token Buffering**: Batch tokens before routing to reduce communication
+  frequency
+- **Expert Caching**: Cache popular experts on multiple GPUs
+
+**Benefits:**
+
+- Enables scaling to hundreds or thousands of experts
+- Memory-efficient: only active experts consume compute resources
+- Natural load balancing across GPUs through router
+
+**Challenges:**
+
+- Load imbalance when some experts are heavily used
+- All-to-all communication can become bottleneck at scale
+- Router needs to be load-balancing-aware
+
+**Example Configuration (DeepSeek-V3):**
+
+```bash
+# 256 experts distributed across 32 GPUs
+--expert-parallel-size 32 \
+--num-experts-per-gpu 8 \
+--routing-algorithm top-k \
+--k 6
+```
+
+### Tensor Parallelism (TP) with MoE
+
+**Tensor Parallelism** in MoE models splits individual expert networks and
+shared layers (attention, embeddings) across multiple devices.
+
+**How It Works with MoE:**
+
+- **Shared Layers**: Attention layers use standard TP (split across all GPUs)
+- **Expert Layers**: Each expert can be independently split with TP
+- **Router Network**: Typically replicated (small overhead)
+
+**Two-Level TP Architecture:**
+
+```text
+Level 1: Shared Attention Layers
+[GPU 1-4: Attention TP=4]
+
+Level 2: Expert Layers with EP + TP
+[GPU 1: E1_part1, E2_part1]  [GPU 2: E1_part2, E2_part2]
+[GPU 3: E3_part1, E4_part1]  [GPU 4: E3_part2, E4_part2]
+```
+
+**Expert-Specific TP:**
+
+Each expert network (typically FFN) can be split:
+
+```text
+Expert FFN: Linear1 → Activation → Linear2
+           ↓                      ↓
+    [GPU1: W1_part1]         [GPU1: W2_part1]
+    [GPU2: W1_part2]         [GPU2: W2_part2]
+```
+
+**Configuration Patterns:**
+
+1. **TP for Shared, EP for Experts**:
+
+   ```bash
+   --tensor-parallel-size 4  # Shared layers
+   --expert-parallel-size 8  # Expert distribution
+   # Total: 32 GPUs (4 TP groups × 8 EP groups)
+   ```
+
+2. **TP within Each Expert**:
+
+   ```bash
+   --expert-parallel-size 16  # 16 expert groups
+   --expert-tensor-parallel-size 2  # Each expert uses TP=2
+   # Total: 32 GPUs
+   ```
+
+**Benefits:**
+
+- Enables larger individual experts
+- Reduces memory per GPU for expert weights
+- Combines well with EP for multi-dimensional scaling
+
+**Challenges:**
+
+- Increased communication overhead (all-reduce + all-to-all)
+- Complex configuration space
+- Requires careful tuning of TP and EP ratios
+
+### Data Parallelism (DP) with MoE
+
+**Data Parallelism** replicates the entire MoE model (including all experts)
+across multiple GPU groups to scale throughput.
+
+**How It Works with MoE:**
+
+- Full model replica per data parallel group
+- Each group processes independent request batches
+- No inter-group communication during inference
+- Can combine with EP/TP within each replica
+
+**Architecture:**
+
+```text
+Data Parallel Replica 1:
+  [GPU 1-8: Full MoE with EP=8]
+  Processes Batch A
+
+Data Parallel Replica 2:
+  [GPU 9-16: Full MoE with EP=8]
+  Processes Batch B
+
+Data Parallel Replica 3:
+  [GPU 17-24: Full MoE with EP=8]
+  Processes Batch C
+```
+
+**Configuration Example:**
+
+```bash
+# 3 DP replicas, each with EP=8
+--data-parallel-size 3 \
+--expert-parallel-size 8 \
+# Total: 24 GPUs (3 DP × 8 EP)
+```
+
+**Benefits:**
+
+- Linear throughput scaling
+- Fault tolerance (replica failure doesn't affect others)
+- No additional communication overhead
+- Simple load balancing across replicas
+
+**Challenges:**
+
+- Memory intensive (full model per replica)
+- Requires sufficient GPUs for each replica
+- Only benefits throughput, not latency
+
+**When to Use:**
+
+- High request volume requiring multiple concurrent inference streams
+- Models that fit within single EP/TP group memory
+- When fault tolerance is important
+
+### Pipeline Parallelism (PP) with MoE
+
+**Pipeline Parallelism** divides the model vertically into stages, with MoE
+layers potentially spanning multiple pipeline stages.
+
+**How It Works with MoE:**
+
+- Model split into sequential stages
+- MoE layers can be within a stage or span stages
+- Pipeline scheduling with microbatches
+- Experts distributed within or across stages
+
+**Architecture Patterns:**
+
+#### Pattern 1: MoE Layers within Stages
+
+```text
+Stage 1 (GPU 1-4): Layers 1-10 + Attention
+Stage 2 (GPU 5-8): Layers 11-20 + MoE Layer (EP=4)
+Stage 3 (GPU 9-12): Layers 21-30 + Attention
+Stage 4 (GPU 13-16): Layers 31-40 + MoE Layer (EP=4)
+```
+
+#### Pattern 2: Expert Distribution Across Stages
+
+```text
+Stage 1: Layers 1-10 + Expert Subset 1
+Stage 2: Layers 11-20 + Expert Subset 2
+Stage 3: Layers 21-30 + Expert Subset 3
+```
+
+**Configuration:**
+
+```bash
+--pipeline-parallel-size 4 \
+--expert-parallel-size 8 \
+# Experts distributed across pipeline stages
+```
+
+**Benefits:**
+
+- Enables very large MoE models (billions of parameters)
+- Reduces memory per GPU
+- Compatible with heterogeneous hardware
+
+**Challenges:**
+
+- Pipeline bubbles (idle time)
+- Complex expert routing across stages
+- Load imbalance between stages
+- Increased latency from sequential processing
+
+**When to Use:**
+
+- Extremely large MoE models (>1T parameters)
+- Heterogeneous GPU clusters
+- When memory per GPU is primary constraint
+
+### Sequence Parallelism (SP) with MoE
+
+**Sequence Parallelism** splits the sequence dimension across GPUs, reducing
+activation memory for long-context MoE inference.
+
+**How It Works with MoE:**
+
+- Input sequence split across GPUs
+- Shared layers (LayerNorm, embeddings) use SP
+- MoE router operates on sequence partitions
+- Expert selection can be sequence-position dependent
+
+**Architecture:**
+
+```text
+Input Sequence [32K tokens]
+    ↓ Split
+[GPU 1: Tokens 1-8K]  [GPU 2: Tokens 8K-16K]
+[GPU 3: Tokens 16K-24K]  [GPU 4: Tokens 24K-32K]
+    ↓
+Router (per partition) → Expert Selection
+    ↓
+Expert Computation (EP across GPUs)
+    ↓
+Gather Results
+```
+
+**Interaction with Expert Parallelism:**
+
+```text
+Sequence Split (SP=4) + Expert Distribution (EP=8)
+→ Each sequence partition routed to EP=8 expert groups
+→ Requires careful coordination of SP and EP
+```
+
+**Benefits:**
+
+- Enables longer context windows for MoE
+- Reduces activation memory footprint
+- Particularly effective with sparse expert activation
+
+**Challenges:**
+
+- Increased complexity in router logic
+- Additional gather/scatter operations
+- May affect expert load balancing
+- Requires careful tuning with EP
+
+**When to Use:**
+
+- Long-context MoE inference (>16K tokens)
+- Memory-constrained scenarios with large batch sizes
+- When activation memory exceeds parameter memory
+
+### Zero Redundancy Parallelism (ZP) with MoE
+
+**Zero Redundancy Parallelism** eliminates redundancy in data parallel MoE
+training by partitioning experts and optimizer states.
+
+**How It Works with MoE:**
+
+- **ZeRO Stage 1**: Partition optimizer states (per expert)
+- **ZeRO Stage 2**: Partition gradients + optimizer states
+- **ZeRO Stage 3**: Partition experts + gradients + optimizer states
+- Just-in-time gathering of experts during forward pass
+
+**ZeRO-3 with MoE:**
+
+```text
+Expert Distribution (ZeRO-3):
+[GPU 1: Experts 1-16 sharded]
+[GPU 2: Experts 17-32 sharded]
+[GPU 3: Experts 33-48 sharded]
+...
+    ↓
+During Forward Pass:
+- Gather required expert weights
+- Compute
+- Discard gathered weights
+```
+
+**MoE-Specific Optimizations:**
+
+- **Hierarchical Partitioning**: Partition experts across DP ranks, parameters
+  within experts across ZeRO ranks
+- **Selective Gathering**: Only gather activated experts (leverage sparsity)
+- **Expert Caching**: Keep frequently used experts resident
+
+**Benefits:**
+
+- Dramatic memory reduction for MoE training
+- Enables training larger MoE models
+- Compatible with expert parallelism
+- Leverages sparse activation for efficiency
+
+**Challenges:**
+
+- Communication overhead from all-gather
+- Complexity in managing expert + parameter partitioning
+- Primarily beneficial for training (less for inference)
+
+**ZeRO-Inference for MoE:**
+
+```python
+# ZeRO-Inference with MoE (conceptual)
+class ZeROMoEInference:
+    def forward(self, input):
+        # 1. Router determines active experts
+        active_experts = self.router(input)
+        
+        # 2. Gather only active expert weights
+        expert_weights = self.gather_experts(active_experts)
+        
+        # 3. Compute with gathered weights
+        output = self.compute(input, expert_weights)
+        
+        # 4. Release expert weights
+        self.release_experts(expert_weights)
+        
+        return output
+```
+
+**When to Use:**
+
+- Training large MoE models
+- Fine-tuning MoE with limited GPU memory
+- Exploration of ZeRO-Inference for serving
+
+### Hybrid Parallelism Strategies
+
+Real-world MoE deployments combine multiple parallelism strategies for
+optimal performance and scalability.
+
+**Common Hybrid Configurations:**
+
+#### 1. DP + EP (Most Common)
+
+```bash
+# 4 data parallel replicas, each with 8-way expert parallelism
+--data-parallel-size 4 \
+--expert-parallel-size 8 \
+# Total: 32 GPUs
+# Use case: High-throughput serving of Mixtral 8x7B
+```
+
+**Architecture:**
+
+```text
+Replica 1: [GPU 1-8, E1-E8 distributed]
+Replica 2: [GPU 9-16, E1-E8 distributed]
+Replica 3: [GPU 17-24, E1-E8 distributed]
+Replica 4: [GPU 25-32, E1-E8 distributed]
+```
+
+#### 2. DP + TP + EP
+
+```bash
+# 2 DP replicas, 2-way TP for shared layers, 8-way EP
+--data-parallel-size 2 \
+--tensor-parallel-size 2 \
+--expert-parallel-size 8 \
+# Total: 32 GPUs (2 DP × 2 TP × 8 EP)
+```
+
+**Use Case**: Large shared attention layers + many experts (e.g., DeepSeek-V2)
+
+#### 3. DP + PP + EP
+
+```bash
+# 2 DP replicas, 2-stage pipeline, 8-way EP per stage
+--data-parallel-size 2 \
+--pipeline-parallel-size 2 \
+--expert-parallel-size 8 \
+# Total: 32 GPUs
+```
+
+**Use Case**: Very deep MoE models with memory constraints
+
+#### 4. DP + TP + EP + SP
+
+```bash
+# Long-context MoE serving
+--data-parallel-size 2 \
+--tensor-parallel-size 2 \
+--expert-parallel-size 4 \
+--sequence-parallel-size 2 \
+# Total: 32 GPUs (2 × 2 × 4 × 2)
+```
+
+**Use Case**: Long-context Mixtral serving (32K+ tokens)
+
+**Selection Matrix:**
+
+| Model Characteristic | Recommended Strategy |
+|---------------------|---------------------|
+| Many experts (>32) | EP primary, DP for throughput |
+| Large experts (>10B each) | TP + EP hybrid |
+| Very deep (>100 layers) | PP + EP hybrid |
+| Long context (>16K) | SP + EP + TP |
+| High throughput | DP primary with EP/TP per replica |
+| Memory constrained | EP + PP, or ZeRO for training |
+
+**Configuration Best Practices:**
+
+1. **Start with EP**: Always use EP as the base for MoE models
+2. **Add DP for Throughput**: Scale throughput with DP replicas
+3. **Use TP Selectively**: Only when individual experts or shared layers
+   don't fit in GPU memory
+4. **Avoid PP Unless Necessary**: Pipeline parallelism adds complexity; use
+   only for very large models
+5. **Consider SP for Long Context**: When context length exceeds 16K tokens
+6. **Monitor Communication**: Balance parallelism dimensions to minimize
+   cross-GPU traffic
+
+#### Example: Mixtral 8x22B on 32 GPUs
+
+```bash
+# Optimal configuration for high throughput
+vllm serve mistralai/Mixtral-8x22B-Instruct-v0.1 \
+  --tensor-parallel-size 2 \     # Shared layers across 2 GPUs
+  --pipeline-parallel-size 1 \   # No PP needed
+  --data-parallel-size 4 \       # 4 replicas for throughput
+  --expert-parallel-size 4       # 4-way EP within each DP replica
+
+# Total: 32 GPUs = 4 DP × 2 TP × 4 EP
+# 8 experts / 4 EP = 2 experts per GPU
+# 4 replicas handle 4× throughput
+```
 
 ---
 

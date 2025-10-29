@@ -7,6 +7,13 @@ status in common AI Infra projects, and the future roadmap for its adoption.
 ## Table of Contents
 
 - [What is PD Disaggregation](#what-is-pd-disaggregation)
+- [Parallelism Strategies in LLM Inference](#parallelism-strategies-in-llm-inference)
+  - [Tensor Parallelism (TP)](#tensor-parallelism-tp)
+  - [Data Parallelism (DP)](#data-parallelism-dp)
+  - [Pipeline Parallelism (PP)](#pipeline-parallelism-pp)
+  - [Expert Parallelism (EP)](#expert-parallelism-ep)
+  - [Sequence Parallelism (SP)](#sequence-parallelism-sp)
+  - [Zero Redundancy Parallelism (ZP)](#zero-redundancy-parallelism-zp)
 - [Workload Solutions](#workload-solutions)
   - [LWS (LeaderWorkSet)](#lws-leaderworkset)
   - [SGLang RBG](#sglang-rbg)
@@ -45,6 +52,348 @@ phases into separate GPU workers or nodes.
 - Higher throughput per GPU
 - Independent scaling and tuning of each phase
 - Flexibility for scheduling and load balancing
+
+---
+
+## Parallelism Strategies in LLM Inference
+
+Large Language Model inference and training require distributed computing
+strategies to handle massive model sizes and high computational demands.
+Different parallelism strategies can be combined to optimize performance,
+memory usage, and throughput. These strategies are particularly important
+when implementing PD disaggregation architectures.
+
+### Tensor Parallelism (TP)
+
+**Tensor Parallelism** distributes individual layers of a neural network
+across multiple devices by splitting tensors (weight matrices and
+activations) along specific dimensions.
+
+**How It Works:**
+
+- Split weight matrices and activations across multiple GPUs
+- Each GPU processes a portion of the computation for each layer
+- Results are synchronized through all-reduce operations
+- All GPUs work on the same input data simultaneously
+
+**Example:**
+
+```text
+Input → [GPU 1: W1_part1] → AllReduce → Output
+        [GPU 2: W1_part2] →
+        [GPU 3: W1_part3] →
+```
+
+**Characteristics:**
+
+- **Granularity**: Per-layer parallelism
+- **Communication**: High-frequency all-reduce operations between GPUs
+- **Memory**: Model weights distributed across devices
+- **Use Case**: Large models that don't fit on a single GPU
+
+**Benefits:**
+
+- Enables running models larger than single GPU memory
+- Low latency for small batch sizes
+- Efficient for attention layers and FFN networks
+
+**Challenges:**
+
+- High communication overhead between GPUs
+- Requires fast interconnect (NVLink, InfiniBand)
+- Limited by number of dimensions that can be split
+
+**PD Disaggregation Context:**
+
+In PD disaggregation, TP is commonly used within prefill or decode workers
+when model sizes exceed single GPU capacity. For example, a prefill worker
+might use TP=4 to distribute the model across 4 GPUs, while decode workers
+use TP=2.
+
+### Data Parallelism (DP)
+
+**Data Parallelism** replicates the entire model on each device and
+distributes different batches of input data across devices.
+
+**How It Works:**
+
+- Full model copy on each GPU
+- Each GPU processes different input samples
+- Gradients synchronized during training (less relevant for inference)
+- Independent processing of different requests
+
+**Example:**
+
+```text
+Request 1 → [GPU 1: Full Model] → Response 1
+Request 2 → [GPU 2: Full Model] → Response 2
+Request 3 → [GPU 3: Full Model] → Response 3
+```
+
+**Characteristics:**
+
+- **Granularity**: Sample/batch-level parallelism
+- **Communication**: Minimal for inference (only during training)
+- **Memory**: Full model replicated on each device
+- **Use Case**: High-throughput serving with smaller models
+
+**Benefits:**
+
+- Linear throughput scaling with number of GPUs
+- No inter-GPU communication during inference
+- Simple implementation and debugging
+- Fault tolerance (one replica failure doesn't affect others)
+
+**Challenges:**
+
+- Memory inefficient (full model on each GPU)
+- Limited to models that fit on single GPU
+- No benefit for single large requests
+
+**PD Disaggregation Context:**
+
+DP is used to scale prefill and decode workers independently. For example,
+deploying 4 prefill replicas and 8 decode replicas based on workload
+characteristics. Each replica processes different requests independently.
+
+### Pipeline Parallelism (PP)
+
+**Pipeline Parallelism** divides the model into sequential stages and
+assigns each stage to a different device, forming a pipeline of computation.
+
+**How It Works:**
+
+- Model split into sequential chunks (layers 1-10, 11-20, 21-30, etc.)
+- Each stage assigned to a different GPU
+- Forward pass flows through the pipeline
+- Multiple microbatches processed simultaneously for efficiency
+
+**Example:**
+
+```text
+Input → [GPU 1: Layers 1-10] → [GPU 2: Layers 11-20] →
+        [GPU 3: Layers 21-30] → [GPU 4: Layers 31-40] → Output
+```
+
+**Characteristics:**
+
+- **Granularity**: Layer-group parallelism
+- **Communication**: Point-to-point between adjacent stages
+- **Memory**: Model partitioned sequentially across devices
+- **Use Case**: Very deep models with sequential dependencies
+
+**Benefits:**
+
+- Reduced memory per GPU (only subset of layers)
+- Lower communication than TP (only between stages)
+- Good for very deep models
+- Compatible with heterogeneous GPU clusters
+
+**Challenges:**
+
+- Pipeline bubbles (idle time when filling/draining pipeline)
+- Sequential dependency limits parallelism
+- Complex scheduling required for efficiency
+- Load imbalance if stages have different computation times
+
+**PD Disaggregation Context:**
+
+PP can be used within prefill or decode workers for extremely large models.
+For instance, a prefill worker might use PP=4 to split a 176B parameter
+model across 4 stages, with each stage potentially using TP internally.
+
+### Expert Parallelism (EP)
+
+**Expert Parallelism** is specific to Mixture of Experts (MoE) models,
+distributing different experts across devices.
+
+**How It Works:**
+
+- Each GPU hosts a subset of experts
+- Router network determines which experts to activate
+- Tokens routed to appropriate GPUs based on expert selection
+- Only activated experts perform computation
+
+**Example:**
+
+```text
+Input Token → Router → [GPU 1: Expert 1, 2]
+                    → [GPU 2: Expert 3, 4]
+                    → [GPU 3: Expert 5, 6]
+                    → [GPU 4: Expert 7, 8] → Output
+```
+
+**Characteristics:**
+
+- **Granularity**: Expert-level parallelism
+- **Communication**: Dynamic routing between devices
+- **Memory**: Experts distributed, router replicated
+- **Use Case**: MoE models with many experts
+
+**Benefits:**
+
+- Enables scaling to hundreds of experts
+- Sparse activation reduces computation per token
+- Natural load balancing across GPUs
+- Memory efficient for large expert sets
+
+**Challenges:**
+
+- Load imbalance if some experts more frequently used
+- All-to-all communication overhead for token routing
+- Complex failure handling (expert unavailability)
+- Router network becomes a bottleneck
+
+**PD Disaggregation Context:**
+
+In disaggregated MoE serving, EP can be applied differently to prefill and
+decode workers. Prefill workers might use EP to distribute experts for
+efficient prompt processing, while decode workers can use different expert
+distribution strategies optimized for autoregressive generation.
+
+### Sequence Parallelism (SP)
+
+**Sequence Parallelism** splits the sequence dimension (input length) across
+multiple devices, extending tensor parallelism to non-tensor-parallel regions.
+
+**How It Works:**
+
+- Partition input sequence across GPUs along sequence dimension
+- Applied to LayerNorm, Dropout, and other element-wise operations
+- Combines with tensor parallelism for memory efficiency
+- Reduces memory footprint of activations
+
+**Example:**
+
+```text
+Sequence [Token 1-1024] → [GPU 1: Tokens 1-256]   → Process → Gather
+                        → [GPU 2: Tokens 257-512]  → Process →
+                        → [GPU 3: Tokens 513-768]  → Process →
+                        → [GPU 4: Tokens 769-1024] → Process →
+```
+
+**Characteristics:**
+
+- **Granularity**: Sequence-length parallelism
+- **Communication**: Scatter/gather operations
+- **Memory**: Activations split along sequence dimension
+- **Use Case**: Long-context scenarios (32K+ tokens)
+
+**Benefits:**
+
+- Reduces activation memory for long sequences
+- Enables processing longer contexts
+- Complements tensor parallelism
+- Particularly effective for LayerNorm and Dropout
+
+**Challenges:**
+
+- Requires sequence length divisible by number of GPUs
+- Additional communication for scatter/gather
+- Limited applicability (not all operations support SP)
+- Complex interaction with attention mechanisms
+
+**PD Disaggregation Context:**
+
+SP is particularly relevant for prefill workers handling long context
+windows. When processing 32K-token prompts, SP can distribute the sequence
+across multiple GPUs to reduce per-GPU memory requirements. Less commonly
+used in decode workers due to short sequence lengths (1 token at a time).
+
+### Zero Redundancy Parallelism (ZP)
+
+**Zero Redundancy Parallelism** (ZeRO) eliminates memory redundancy in data
+parallelism by partitioning optimizer states, gradients, and model parameters
+across devices.
+
+**How It Works:**
+
+- ZeRO Stage 1: Partition optimizer states only
+- ZeRO Stage 2: Partition optimizer states + gradients
+- ZeRO Stage 3: Partition optimizer states + gradients + parameters
+- Gather required parameters just-in-time during computation
+
+**Example (ZeRO Stage 3):**
+
+```text
+Model Parameters distributed:
+[GPU 1: Params 1-25%] → Broadcast when needed → Compute
+[GPU 2: Params 26-50%] → Broadcast when needed → Compute
+[GPU 3: Params 51-75%] → Broadcast when needed → Compute
+[GPU 4: Params 76-100%] → Broadcast when needed → Compute
+```
+
+**Characteristics:**
+
+- **Granularity**: Parameter partitioning across data parallel ranks
+- **Communication**: All-gather during forward/backward passes
+- **Memory**: Linear scaling with number of devices
+- **Use Case**: Training large models (less common in inference)
+
+**Benefits:**
+
+- Dramatic memory reduction (up to Nx with N GPUs)
+- Enables training models that wouldn't fit otherwise
+- Maintains data parallelism semantics
+- Compatible with other parallelism strategies
+
+**Challenges:**
+
+- Increased communication overhead
+- More complex implementation
+- Additional latency from all-gather operations
+- Primarily designed for training workloads
+
+**PD Disaggregation Context:**
+
+While ZeRO is primarily a training optimization, ZeRO-Inference techniques
+can be adapted for disaggregated serving. For example, in decode workers
+handling many concurrent sequences, ZeRO-style parameter partitioning can
+reduce memory footprint when combined with efficient parameter gathering.
+
+### Combining Parallelism Strategies
+
+Real-world deployments often combine multiple parallelism strategies:
+
+#### Example 1: Large Model Serving
+
+```text
+- 8 Data Parallel replicas
+  - Each replica uses TP=4 (Tensor Parallel across 4 GPUs)
+  - Total: 32 GPUs
+  - Configuration: DP=8, TP=4
+```
+
+#### Example 2: MoE Model with P/D Disaggregation
+
+```text
+Prefill Workers:
+  - DP=2, TP=2, EP=4
+  - 2 replicas, each with 2-way tensor parallel and 4-way expert parallel
+  
+Decode Workers:
+  - DP=4, TP=2, EP=4
+  - 4 replicas, different expert distribution strategy
+```
+
+#### Example 3: Long-Context Serving
+
+```text
+- DP=4, TP=2, SP=2, PP=2
+- 4 data parallel replicas
+- Each replica: 2-way tensor parallel, 2-way sequence parallel, 2-stage
+  pipeline
+- Total: 32 GPUs
+```
+
+**Selection Guidelines:**
+
+- **TP**: When model doesn't fit on single GPU, use with fast interconnect
+- **DP**: For throughput scaling with smaller models
+- **PP**: For extremely deep models or heterogeneous clusters
+- **EP**: Essential for MoE models with many experts
+- **SP**: For long-context scenarios (>16K tokens)
+- **ZP**: When training or fine-tuning large models
 
 ---
 
