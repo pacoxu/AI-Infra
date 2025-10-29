@@ -50,6 +50,10 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - Scheduler internals
   - Resource allocation & GPU management
   - Emulators & simulators (e.g. KWOK, Mocking Tools)
+  - **Pod Startup Speed**: See
+    [Pod Startup Speed Guide](./kubernetes/pod-startup-speed.md) for
+    comprehensive optimization strategies including image optimization,
+    scheduling, GPU workloads, and observability
   - **Workload Isolation**: See [Isolation Guide](./kubernetes/isolation.md)
     for cgroups, security contexts, user namespaces, rootless containers,
     VM-based isolation (Kata, gVisor), and checkpoint/restore
