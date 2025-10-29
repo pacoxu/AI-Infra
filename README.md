@@ -179,9 +179,10 @@ optimization, sleep mode, and offloading).
       TensorFlow, XGBoost, etc.). Kubeflow Trainer V2 provides Python-native
       API for simplified training job management. See
       [Kubeflow guide](./training/kubeflow.md) for details.
-    - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating.
+    - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating
+      (see Section 1 for scheduling features).
     - [`Kueue`](https://github.com/kubernetes-sigs/kueue):
-      Kubernetes SIG Project for job queueing.
+      Kubernetes SIG Project for job queueing (see Section 1).
   - ML Platform & Pipelines:
     - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating,
       comprehensive ML platform with Pipelines, Notebooks, and Training
