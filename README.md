@@ -32,103 +32,86 @@ The goal is to demystify the evolving AI Infra stack and guide engineers on wher
 
 ### 📦 0. Kernel & Runtime (底层内核)
 
-Core components for container and workload management.
-If your company has a team to maintain a Kubernetes cluster or you are using Kubernetes as a service on cloud providers, you may skip this section.
+Core Kubernetes components and container runtime fundamentals. Skip this
+section if using managed Kubernetes services.
 
-- **Projects to Learn:**
-  - [`Kubernetes`](https://github.com/kubernetes/kubernetes): CNCF First Graduated Project, Core.
-  - [`CRI`](https://github.com/kubernetes/cri-api)
-    - [`containerd`](https://github.com/containerd/containerd): Container Runtime.
-    - [`KubeVirt`](https://github.com/kubevirt/kubevirt): Kubernetes SIG Project for running VMs in Kubernetes.
-  - [`CNI`](https://github.com/containernetworking/cni): focus on RDMA or other network devices.
-  - [`CSI`](https://github.com/container-storage-interface/spec): focus on Checkpoint/Restore, Model Download, Cache Management, etc.
-  - [`KWOK`](https://github.com/kubernetes-sigs/kwok): Kubernetes SIG Project for mock testing(especially for GPU nodes).
-  - [`Helm`](https://github.com/helm/helm): Package Manager for Kubernetes.
+- **Key Components:**
+  - **Core**: Kubernetes, CRI, containerd, KubeVirt
+  - **Networking**: CNI (focus: RDMA, specialized devices)
+  - **Storage**: CSI (focus: checkpointing, model caching, data management)
+  - **Tools**: KWOK (GPU node mocking), Helm (package management)
 
 - **Learning Topics:**
-  - Container lifecycle & runtime
-  - Scheduler internals
+  - Container lifecycle & runtime internals
+  - Kubernetes scheduler architecture
   - Resource allocation & GPU management
-  - Emulators & simulators (e.g. KWOK, Mocking Tools)
-  - **Pod Startup Speed**: See
-    [Pod Startup Speed Guide](./kubernetes/pod-startup-speed.md) for
-    comprehensive optimization strategies including image optimization,
-    scheduling, GPU workloads, and observability
-  - **Workload Isolation**: See [Isolation Guide](./kubernetes/isolation.md)
-    for cgroups, security contexts, user namespaces, rootless containers,
-    VM-based isolation (Kata, gVisor), and checkpoint/restore
+  - **See [Kubernetes Learning Plan](./kubernetes/kubernetes.md)** for
+    structured 3-phase approach covering Docker basics through cloud-native
+    ecosystem
+  - **See [Pod Lifecycle](./kubernetes/pod-lifecycle.md)** for creation,
+    scheduling, startup, and termination flows
+  - **See [Pod Startup Speed](./kubernetes/pod-startup-speed.md)** for image
+    optimization, scheduling, GPU workloads, and observability
+  - **See [Isolation Guide](./kubernetes/isolation.md)** for cgroups, security
+    contexts, user namespaces, VM-based isolation (Kata, gVisor), and
+    checkpoint/restore
 
 ---
 
 ### 📍 1. Scheduling & Workloads (调度与工作负载)
 
-- **Projects to Learn:**
-  - Scheduling(Include [Batch, Kubernetes-WG](https://github.com/kubernetes/community/blob/master/wg-batch/README.md)):
-    - [`Kueue`](https://github.com/kubernetes-sigs/kueue): Kubernetes Subproject for batch scheduling.
-    - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating.
-    - [`koordinator`](https://github.com/koordinator-sh/koordinator): CNCF Sandbox.
-    - [`Godel Scheduler`](https://github.com/kubewharf/godel-scheduler): ByteDance.（with [katalyst](https://github.com/kubewharf/katalyst-core)）
-    - [`HAMI`](https://github.com/Project-HAMi/HAMi): CNCF Sandbox.
-    - [`NVIDIA Kai Scheduler`](https://github.com/NVIDIA/kai-scheduler): NVIDIA.
-    - [`NVIDIA Grove`](https://github.com/NVIDIA/grove): NVIDIA gang scheduling for AI workloads.
-    - [`Apache YuniKorn`](https://github.com/apache/yunikorn-core): Apache.
-  - Workloads(Pod Group):
-    - [`LWS`](https://github.com/kubernetes-sigs/lws) LeaderWorkset: Kubernetes SIG Project.
-    - Volcano Enhanced AI Workloads: https://github.com/volcano-sh/volcano/issues/4554
-    - Pod Group & Gang Scheduling KEPs: See roadmap below.
-  - Device Management([Kubernetes WG](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md)):
-    - [`DRA`](https://github.com/kubernetes/dynamic-resource-allocation/)
-    - [`NRI`](https://github.com/containerd/nri)
-    - DRANET is a good example: https://github.com/google/dranet
+Advanced scheduling, workload orchestration, and device management for AI
+workloads in Kubernetes clusters.
+
+- **Key Areas:**
+  - **Batch Scheduling**: Kueue, Volcano, koordinator, Godel, YuniKorn
+    ([Kubernetes WG Batch](https://github.com/kubernetes/community/blob/master/wg-batch/README.md))
+  - **GPU Scheduling**: HAMI, NVIDIA Kai Scheduler, NVIDIA Grove
+  - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling
+  - **Device Management**: DRA, NRI
+    ([Kubernetes WG Device Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md))
 
 - **Learning Topics:**
-  - Job scheduling vs. pod scheduling
-  - Binpack / Spread strategies
+  - Job vs. pod scheduling strategies (binpack, spread, DRF)
   - Queue management & SLOs
   - Multi-model & multi-tenant scheduling
-  - **Large Clusters Scheduling Optimization**: See [Scheduling Optimization
-    Guide](./kubernetes/scheduling-optimization.md) for performance (high
-    throughput, multi-scheduler, API optimization, batch dispatch) and resource
-    utilization strategies (DRF, load-aware scheduling, bin-packing,
-    preemption, gang scheduling, topology awareness, borrowing limits,
-    descheduler)
+  - **See [Scheduling Optimization Guide](./kubernetes/scheduling-optimization.md)**
+    for high throughput, multi-scheduler patterns, API optimization, load-aware
+    scheduling, gang scheduling, topology awareness, and descheduling strategies
+  - **See [DRA Guide](./kubernetes/dra.md)** for Dynamic Resource Allocation
+  - **See [NRI Guide](./kubernetes/nri.md)** for Node Resource Interface
 
-- **RoadMap(Ongoing Proposals):**
-  - Gang Scheduling Support in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
-    - LWS Gang Scheduling [KEP-407](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
+- **RoadMap:**
+  - Gang Scheduling in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
+  - LWS Gang Scheduling [KEP-407](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
 
 ---
 
 ### 🧠 2. Model Inference & Runtime Optimization (推理优化)
 
-- **Projects to Learn:**
-  - engine:
-    - [`vLLM`](https://github.com/vllm-project/vllm)
-    - [`SGLang`](https://github.com/sgl-project/sglang)
-    - [`Triton`](https://github.com/triton-inference-server/server)
-    - [`Text Generation Inference`](https://github.com/huggingface/text-generation-inference)
-  - inference platform:
-    - [`Dynamo`](https://github.com/dynamo/dynamo)
-    - [`llm-d`](https://github.com/llm-d/llm-d)
-    - [`AIBrix`](https://github.com/vllm-project/aibrix)
-    - [`OME`](https://github.com/sgl-project/ome)
-    - [`llmaz`](https://github.com/InftyAI/llmaz)
-    - [`Kthena`](https://github.com/volcano-sh/kthena)
-  - Others:
-    - [`KServe`](https://github.com/kserve/kserve): CNCF Incubating
+LLM inference engines, platforms, and optimization techniques for efficient
+model serving at scale.
 
-- **Learning Topics:**
-  - Efficient transformer inference
-  - CUDA Graphs, KV Cache, Paged KV, FlashAttention
-  - LLM serving stacks
-  - Multi-accelerator orchestration
-  - Large Scale Experts (MoE architecture)
+- **Key Topics:**
+  - Efficient transformer inference (KV Cache, FlashAttention, CUDA Graphs)
+  - LLM serving and orchestration platforms
+  - Multi-accelerator optimization
+  - MoE (Mixture of Experts) architectures
   - Model lifecycle management (cold-start, sleep mode, offloading)
-  - Agent memory and context management (short-term vs long-term)
-  - Vector databases and state management for AI agents
+  - AI agent memory and context management
 
-- **RoadMap(Ongoing Proposals Or Working Groups):**
+- **RoadMap:**
   - [Serving WG](https://github.com/kubernetes/community/blob/master/wg-serving/README.md)
+
+**See [Inference Guide](./inference/README.md)** for comprehensive coverage of
+engines (vLLM, SGLang, Triton, TGI), platforms (Dynamo, AIBrix, OME, llmaz,
+Kthena, KServe), and deep-dive topics:
+[AIBrix](./inference/aibrix.md) |
+[P/D Disaggregation](./inference/pd-disaggregation.md) |
+[Caching](./inference/caching.md) |
+[Memory/Context DB](./inference/memory-context-db.md) |
+[MoE Models](./inference/large-scale-experts.md) |
+[Model Lifecycle](./inference/model-lifecycle.md)
 
 ---
 
@@ -156,70 +139,28 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - Prompt routing and A/B testing
   - RAG workflows, vector DB integration
 
-More details about inference can be found in
-[Inference](./inference/README.md), including
-[AIBrix introduction](./inference/aibrix.md),
-[prefill-decode disaggregation](./inference/pd-disaggregation.md) (including
-scaling challenges and AIConfigurator optimization),
-[caching mechanisms](./inference/caching.md),
-[memory and context management for AI agents](./inference/memory-context-db.md)
-(short-term vs long-term memory, vector databases, state management),
-[large scale experts (MoE models)](./inference/large-scale-experts.md), and
-[model lifecycle management](./inference/model-lifecycle.md) (cold-start
-optimization, sleep mode, and offloading).
-
 ---
 
 ### 🎯 4. Training on Kubernetes
 
-- **Projects to Learn:**
-  - Training Operators:
-    - [`Kubeflow Training Operator`](https://github.com/kubeflow/training-operator):
-      Kubernetes-native operators for distributed training (PyTorch,
-      TensorFlow, XGBoost, etc.). Kubeflow Trainer V2 provides Python-native
-      API for simplified training job management. See
-      [Kubeflow guide](./training/kubeflow.md) for details.
-    - [`Volcano`](https://github.com/volcano-sh/volcano): CNCF Incubating
-      (see Section 1 for scheduling features).
-    - [`Kueue`](https://github.com/kubernetes-sigs/kueue):
-      Kubernetes SIG Project for job queueing (see Section 1).
-  - ML Platform & Pipelines:
-    - [`Kubeflow`](https://github.com/kubeflow/kubeflow): CNCF Incubating,
-      comprehensive ML platform with Pipelines, Notebooks, and Training
-      Operator.
-    - [`Argo Workflows`](https://github.com/argoproj/argo-workflows):
-      CNCF Graduated, workflow engine for ML pipelines.
-    - [`Metaflow`](https://github.com/Netflix/metaflow) (optional)
-  - GitOps & Continuous Deployment:
-    - [`ArgoCD`](https://github.com/argoproj/argo-cd): CNCF Graduated,
-      GitOps continuous delivery for managing training jobs. See
-      [ArgoCD guide](./training/argocd.md) for GitOps workflows.
-  - Fault Tolerance & Checkpointing:
-    - [`PyTorch Distributed`](https://pytorch.org/tutorials/beginner/dist_overview.html):
-      Native distributed training support.
-    - [`Megatron-LM`](https://github.com/NVIDIA/Megatron-LM): NVIDIA
-    - [`DeepSpeed`](https://github.com/microsoft/DeepSpeed): Microsoft
-  - Monitoring & Observability:
-    - [`DCGM Exporter`](https://github.com/NVIDIA/dcgm-exporter): NVIDIA
-    - [`Kineto`](https://github.com/pytorch/kineto): PyTorch Profiler
-  - Storage & Caching:
-    - [`Fluid`](https://github.com/fluid-cloudnative/fluid): CNCF Project
+Distributed training of large AI models on Kubernetes with fault tolerance,
+gang scheduling, and efficient resource management.
 
-- **Learning Topics:**
+- **Key Topics:**
   - Distributed training strategies (data/model/pipeline parallelism)
-  - Gang scheduling for distributed jobs
+  - Gang scheduling and job queueing
   - Fault tolerance and checkpointing
   - GPU error detection and recovery
   - Training efficiency metrics (ETTR, MFU)
+  - GitOps workflows for training management
   - Storage optimization for checkpoints
-  - GitOps workflows for training job management
 
-More details about training can be found in
-[Training](./training/README.md), including
-[Kubeflow Training Operator and Trainer V2](./training/kubeflow.md),
-[ArgoCD for GitOps workflows](./training/argocd.md), fault tolerance
-strategies, ByteDance's training optimization framework, and industry best
-practices.
+**See [Training Guide](./training/README.md)** for comprehensive coverage of
+training operators (Kubeflow, Volcano, Kueue), ML platforms (Kubeflow
+Pipelines, Argo Workflows), GitOps (ArgoCD), fault tolerance strategies,
+ByteDance's training optimization framework, and industry best practices.
+Detailed guides: [Kubeflow](./training/kubeflow.md) |
+[ArgoCD](./training/argocd.md)
 
 ---
 
