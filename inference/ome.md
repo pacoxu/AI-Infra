@@ -73,7 +73,6 @@ OME supports [`vLLM`](https://github.com/vllm-project/vllm) as a high-performanc
 runtime option with [built-in configurations](https://github.com/sgl-project/ome/tree/main/config/runtimes/vllm)
 for optimized LLM serving.
 
-
 ## Kubernetes Ecosystem Integration
 
 OME integrates deeply with modern Kubernetes components:
