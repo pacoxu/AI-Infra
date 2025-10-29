@@ -241,17 +241,19 @@ Expert FFN: Linear1 → Activation → Linear2
 
 **Configuration Patterns:**
 
-1. **TP for Shared, EP for Experts**:
+1. **TP for Shared, EP for Experts** (conceptual):
 
    ```bash
+   # Conceptual configuration pattern
    --tensor-parallel-size 4  # Shared layers
    --expert-parallel-size 8  # Expert distribution
    # Total: 32 GPUs (4 TP groups × 8 EP groups)
    ```
 
-2. **TP within Each Expert**:
+2. **TP within Each Expert** (conceptual):
 
    ```bash
+   # Conceptual configuration pattern
    --expert-parallel-size 16  # 16 expert groups
    --expert-tensor-parallel-size 2  # Each expert uses TP=2
    # Total: 32 GPUs
@@ -300,9 +302,9 @@ Data Parallel Replica 3:
 **Configuration Example:**
 
 ```bash
-# 3 DP replicas, each with EP=8
---data-parallel-size 3 \
---expert-parallel-size 8 \
+# Conceptual configuration: 3 DP replicas, each with EP=8
+# In practice, deploy 3 separate inference servers
+# each configured with 8 GPUs for expert distribution
 # Total: 24 GPUs (3 DP × 8 EP)
 ```
 
@@ -359,9 +361,9 @@ Stage 3: Layers 21-30 + Expert Subset 3
 **Configuration:**
 
 ```bash
---pipeline-parallel-size 4 \
---expert-parallel-size 8 \
-# Experts distributed across pipeline stages
+# Conceptual configuration for pipeline parallelism with MoE
+# 4-stage pipeline with 8-way expert parallelism
+# Experts distributed across or within pipeline stages
 ```
 
 **Benefits:**
@@ -521,9 +523,10 @@ optimal performance and scalability.
 #### 1. DP + EP (Most Common)
 
 ```bash
-# 4 data parallel replicas, each with 8-way expert parallelism
---data-parallel-size 4 \
---expert-parallel-size 8 \
+# Conceptual configuration: 4 data parallel replicas,
+# each with 8-way expert parallelism
+# In practice, deploy 4 separate inference server instances
+# each using 8 GPUs for expert distribution
 # Total: 32 GPUs
 # Use case: High-throughput serving of Mixtral 8x7B
 ```
@@ -540,39 +543,29 @@ Replica 4: [GPU 25-32, E1-E8 distributed]
 #### 2. DP + TP + EP
 
 ```bash
-# 2 DP replicas, 2-way TP for shared layers, 8-way EP
---data-parallel-size 2 \
---tensor-parallel-size 2 \
---expert-parallel-size 8 \
+# Conceptual configuration: 2 DP replicas, 2-way TP for shared layers,
+# 8-way EP
 # Total: 32 GPUs (2 DP × 2 TP × 8 EP)
+# Use case: Large shared attention layers + many experts (e.g., DeepSeek-V2)
 ```
-
-**Use Case**: Large shared attention layers + many experts (e.g., DeepSeek-V2)
 
 #### 3. DP + PP + EP
 
 ```bash
-# 2 DP replicas, 2-stage pipeline, 8-way EP per stage
---data-parallel-size 2 \
---pipeline-parallel-size 2 \
---expert-parallel-size 8 \
+# Conceptual configuration: 2 DP replicas, 2-stage pipeline,
+# 8-way EP per stage
 # Total: 32 GPUs
+# Use case: Very deep MoE models with memory constraints
 ```
-
-**Use Case**: Very deep MoE models with memory constraints
 
 #### 4. DP + TP + EP + SP
 
 ```bash
-# Long-context MoE serving
---data-parallel-size 2 \
---tensor-parallel-size 2 \
---expert-parallel-size 4 \
---sequence-parallel-size 2 \
+# Conceptual configuration: Long-context MoE serving
+# 2 DP replicas, 2-way TP, 4-way EP, 2-way SP
 # Total: 32 GPUs (2 × 2 × 4 × 2)
+# Use case: Long-context Mixtral serving (32K+ tokens)
 ```
-
-**Use Case**: Long-context Mixtral serving (32K+ tokens)
 
 **Selection Matrix:**
 
@@ -600,16 +593,19 @@ Replica 4: [GPU 25-32, E1-E8 distributed]
 #### Example: Mixtral 8x22B on 32 GPUs
 
 ```bash
-# Optimal configuration for high throughput
+# Actual vLLM configuration for Mixtral 8x22B
+# Note: vLLM handles expert parallelism internally
 vllm serve mistralai/Mixtral-8x22B-Instruct-v0.1 \
   --tensor-parallel-size 2 \     # Shared layers across 2 GPUs
-  --pipeline-parallel-size 1 \   # No PP needed
-  --data-parallel-size 4 \       # 4 replicas for throughput
-  --expert-parallel-size 4       # 4-way EP within each DP replica
+  --pipeline-parallel-size 1     # No PP needed
 
-# Total: 32 GPUs = 4 DP × 2 TP × 4 EP
-# 8 experts / 4 EP = 2 experts per GPU
-# 4 replicas handle 4× throughput
+# For multiple instances (Data Parallelism), deploy multiple vLLM servers
+# or use Ray for distributed serving with vLLM
+
+# Conceptual parallelism breakdown:
+# TP=2 for shared layers
+# EP handled internally by vLLM
+# For DP, deploy multiple replicas using orchestration (K8s, Ray, etc.)
 ```
 
 ---
