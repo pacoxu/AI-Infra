@@ -4,6 +4,9 @@ This document covers caching mechanisms in Large Language Model (LLM) inference,
 focusing on prefix caching approaches that optimize performance by reusing
 computed key-value (KV) cache across requests.
 
+For information about agent memory and long-term context storage beyond KV
+cache, see [Memory, Context, and Database for AI Agents](./memory-context-db.md).
+
 ## Table of Contents
 
 - [What is Prefix Caching](#what-is-prefix-caching)
