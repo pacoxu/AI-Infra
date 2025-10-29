@@ -8,6 +8,11 @@ effective training time ratios (ETTR). As training clusters scale up, the
 frequency and impact of failures increase significantly, making robust
 fault handling mechanisms essential.
 
+More details about specific topics:
+
+- [Kubeflow Training Operator and Trainer V2](./kubeflow.md)
+- [ArgoCD for GitOps Workflows](./argocd.md)
+
 ### Key Challenges at Scale
 
 The expansion of resource scale brings widespread failures that pose

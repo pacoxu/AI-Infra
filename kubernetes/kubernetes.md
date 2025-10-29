@@ -1,5 +1,14 @@
 # 📘 Kubernetes Learning Plan
 
+This document provides a structured learning path for Kubernetes. For specific
+AI Infra-related topics, see:
+
+- [Pod Startup Speed Optimization](./pod-startup-speed.md)
+- [Workload Isolation](./isolation.md)
+- [Pod Lifecycle](./pod-lifecycle.md)
+- [Scheduling Optimization](./scheduling-optimization.md)
+- [Dynamic Resource Allocation (DRA)](./dra.md)
+
 ## 🔰 Phase 0 – Foundations: Docker & Container Basics
 
 Before diving into Kubernetes, it’s essential to understand how containers work.
