@@ -248,9 +248,9 @@ Pinecone is a managed vector database service.
 
 Vector database deployment on Kubernetes is simplified by dedicated operators:
 
-- **Milvus Operator**: Automates Milvus cluster management
-- **Chroma Operator**: Manages Chroma deployments (community-driven)
-- **Weaviate Operator**: Handles Weaviate vector database clusters
+- **Milvus Operator**: [Automates Milvus cluster management](https://github.com/milvus-io/milvus-operator)
+- **Chroma Operator**: [Manages Chroma deployments](https://github.com/chroma-core/chroma-operator) (community-driven, repository is archived)
+- **Weaviate Operator**: [Handles Weaviate vector database clusters](https://github.com/weaviate/weaviate-operator)
 
 ---
 
