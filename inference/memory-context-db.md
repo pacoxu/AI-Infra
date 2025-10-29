@@ -211,7 +211,7 @@ Vector databases are essential for semantic search in agent memory systems.
 
 #### Chroma
 
-<a href="https://github.com/chroma-core/chroma">`Chroma`</a> is an open-source
+[`Chroma`](https://github.com/chroma-core/chroma) is an open-source
 embedding database designed for AI applications.
 
 **Key Features:**
