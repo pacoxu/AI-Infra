@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: kubernetes, ai-infrastructure, scheduling, resource-management
+canonical_path: docs/kubernetes/README.md
+---
+
 # Kubernetes for AI Infrastructure
 
 Comprehensive guides for running AI workloads on Kubernetes, covering
@@ -8,7 +16,7 @@ workload isolation.
 
 ### Getting Started
 
-- **[Kubernetes Learning Plan](./kubernetes.md)**: Structured 3-phase
+- **[Kubernetes Learning Plan](./learning-plan.md)**: Structured 3-phase
   approach covering Docker basics, core Kubernetes concepts, and cloud-native
   ecosystem tools
 

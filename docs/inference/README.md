@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: inference, llm, vllm, serving, optimization
+canonical_path: docs/inference/README.md
+---
+
 # Comparisons of LLM Inference Engines
 
 Mainly compare AIBrix, llm-d, llmaz, OME and Kthena.

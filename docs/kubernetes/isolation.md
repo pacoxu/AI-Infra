@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: kubernetes, isolation, security, multi-tenancy
+canonical_path: docs/kubernetes/isolation.md
+---
+
 # Isolation of AI Workloads
 
 Isolation is a critical concern for AI workloads running on Kubernetes,

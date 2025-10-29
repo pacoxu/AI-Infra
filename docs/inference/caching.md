@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: inference, caching, kv-cache, prefix-caching, llm-optimization
+canonical_path: docs/inference/caching.md
+---
+
 # Caching in LLM Inference
 
 This document covers caching mechanisms in Large Language Model (LLM) inference,

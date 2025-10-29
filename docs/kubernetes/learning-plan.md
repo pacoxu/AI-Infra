@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: kubernetes, learning-path, docker, cloud-native
+canonical_path: docs/kubernetes/learning-plan.md
+---
+
 # 📘 Kubernetes Learning Plan
 
 This document provides a structured learning path for Kubernetes. For specific

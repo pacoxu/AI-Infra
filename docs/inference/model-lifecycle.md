@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: inference, model-lifecycle, cold-start, offloading, optimization
+canonical_path: docs/inference/model-lifecycle.md
+---
+
 # Model Cold-Starting, Sleep Mode, and Lifecycle Management
 
 This document covers model lifecycle management in LLM inference systems,

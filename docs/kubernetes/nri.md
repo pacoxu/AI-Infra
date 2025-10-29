@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: kubernetes, nri, containerd, resource-management
+canonical_path: docs/kubernetes/nri.md
+---
+
 # Node Resource Interface (NRI)
 
 [NRI](https://github.com/containerd/nri) is Node Resource Interface for

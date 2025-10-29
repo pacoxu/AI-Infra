@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: kubernetes, dra, resource-allocation, device-management
+canonical_path: docs/kubernetes/dra.md
+---
+
 # Dynamic Resource Allocation (DRA)
 
 [DRA](https://github.com/kubernetes/dynamic-resource-allocation/) is Dynamic

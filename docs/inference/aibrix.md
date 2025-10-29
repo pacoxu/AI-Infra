@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: inference, aibrix, vllm, llm-serving, lora
+canonical_path: docs/inference/aibrix.md
+---
+
 # AIBrix: Cloud-Native LLM Inference Infrastructure
 
 [`AIBrix`](https://github.com/vllm-project/aibrix) is an open-source

@@ -1,6 +1,14 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2025-10-29
+tags: kubernetes, pod, lifecycle, scheduling
+canonical_path: docs/kubernetes/pod-lifecycle.md
+---
+
 # Pod Lifecycle in Kubernetes
 
-![pod-lifecycle](pod-lifecycle.png)
+![pod-lifecycle](../../diagrams/pod-lifecycle.png)
 
 In Kubernetes, a Pod goes through several standard lifecycle **phases**.
 These phases describe the high-level status of the Pod, not the state of
