@@ -22,7 +22,7 @@ The repository structure follows these principles:
 
 ## Directory Structure
 
-```
+```text
 AI-Infra/
 ├── README.md                          # Main entry point and learning path
 ├── LICENSE                            # Repository license
@@ -76,6 +76,7 @@ AI-Infra/
 **Purpose**: Core Kubernetes concepts and AI workload optimization
 
 **Canonical Files**:
+
 - `README.md` - Navigation hub for Kubernetes topics
 - `learning-plan.md` - 3-phase structured learning path
 - `pod-lifecycle.md` - Detailed pod lifecycle and PLEG
@@ -92,6 +93,7 @@ AI-Infra/
 **Purpose**: LLM inference engines, serving platforms, and optimization
 
 **Canonical Files**:
+
 - `README.md` - Comparison of inference platforms (AIBrix, llmaz, OME, Kthena)
 - `aibrix.md` - AIBrix platform features and architecture
 - `pd-disaggregation.md` - Prefill-Decode disaggregation implementations
@@ -108,6 +110,7 @@ AI-Infra/
 **Purpose**: Distributed training, fault tolerance, and ML pipelines
 
 **Canonical Files**:
+
 - `README.md` - Overview of training challenges and best practices
 - `kubeflow.md` - Kubeflow training operators and Trainer V2
 - `argocd.md` - GitOps workflows for training management
@@ -117,6 +120,7 @@ AI-Infra/
 ### Assets (`diagrams/`)
 
 All images referenced by documentation files are stored here:
+
 - Visual diagrams (landscape, architecture)
 - Flowcharts (pod lifecycle)
 - Reference images
@@ -138,6 +142,7 @@ canonical_path: docs/category/filename.md
 ```
 
 **Fields**:
+
 - `status`: Current state of the document
 - `maintainer`: Primary author/maintainer
 - `last_updated`: Date of last significant update
@@ -187,21 +192,25 @@ Key points:
 ### Link Patterns
 
 **From main README to docs**:
+
 ```markdown
 [Topic](./docs/category/topic.md)
 ```
 
 **Between docs files (same directory)**:
+
 ```markdown
 [Topic](./topic.md)
 ```
 
 **Between docs files (different directory)**:
+
 ```markdown
 [Topic](../other-category/topic.md)
 ```
 
 **To images from docs**:
+
 ```markdown
 ![Description](../../diagrams/image.png)
 ```
@@ -247,6 +256,7 @@ Key points:
 ### Backward Compatibility
 
 Old links are broken after refactoring. Update any external references:
+
 - `./kubernetes/pod-lifecycle.md` → `./docs/kubernetes/pod-lifecycle.md`
 - `./ai-infra-landscape.png` → `./diagrams/ai-infra-landscape.png`
 
@@ -263,6 +273,7 @@ Planned improvements to repository structure:
 ## Questions and Feedback
 
 For questions about repository structure or suggestions for improvements:
+
 - Open an issue in the repository
 - Contact maintainer: pacoxu
 - Refer to `.github/copilot-instructions.md` for detailed guidelines
