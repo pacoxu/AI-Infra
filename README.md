@@ -175,27 +175,10 @@ Detailed guides: [Kubeflow](./docs/training/kubeflow.md) |
 
 ---
 
-## 🔭 Coming Soon & Something that may not be included
+## 🗺️ RoadMap
 
-For some reasons, some topics may not be included in this repo, but I may open some issues to discuss them and add some learning materials there.
-
-Coming Soon:
-
-- 🎓 Weekly learning challenges & case studies
-- Agentic Workflow development like Dify, KAgent or Dagger https://github.com/pacoxu/AI-Infra/issues/30
-- SuperNode: Huawei CloudMatrix 384(UnifiedBus), NVIDIA GB200 NVL72(GB200 NVL72 connects 36 Grace CPUs and 72 Blackwell GPUs in a rack-scale, liquid-cooled design), 沐曦耀龙S8000 G2超节点
-- DRA updates: new DRA implementations like [dranet](https://github.com/google/dranet)
-- Observability: eBPF for LLM(Deepflow), More AutoScaling Metrics and Strategies: TTFT, TPOT, ITL, etc. https://github.com/pacoxu/AI-Infra/issues/78
-- Model Quantization
-- LLM Security & Compliance/Policy
-- A general/basic guide about LLM, MoE, Ollama, etc.
-- MCP related and A2A https://github.com/pacoxu/AI-Infra/issues/32
-
-Something that may not be included:
-
-- Wasm
-- General Observability Projects: Prometheus, Grafana, OpenTelemetry, etc.
-- RAG
+For planned features, upcoming topics, and discussion on what may or may not be
+included in this repository, please see the [RoadMap](./RoadMap.md).
 
 ## 🤝 Contributing
 
