@@ -709,5 +709,145 @@ SLA-based scheduling complements other optimization strategies:
 
 ---
 
+## Avoiding Scheduling Overhead
+
+In some cases, the best optimization is to avoid scheduling entirely by
+updating pods in-place rather than recreating them. This eliminates both
+scheduling latency and pod startup time.
+
+### Vertical Pod Autoscaler (VPA)
+
+**Concept**: Automatically adjust CPU and memory requests/limits for running
+pods without restarting them (when using in-place resize).
+
+**In-Place Pod Resize (KEP-1287):**
+
+Kubernetes v1.27+ supports in-place resizing of pod resource requests and
+limits without pod restart, enabled by the `InPlacePodVerticalScaling` feature
+gate.
+
+**Benefits:**
+
+- **No scheduling overhead**: Pod remains on same node, no scheduler
+  involvement
+- **No startup time**: Container continues running with adjusted resources
+- **Minimal disruption**: Especially for stateful workloads with long startup
+  times
+- **Faster scaling**: Resource adjustments apply in seconds vs. minutes for
+  pod recreation
+
+**Example Usage:**
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: inference-worker
+spec:
+  containers:
+  - name: model-server
+    image: inference-engine:latest
+    resources:
+      requests:
+        memory: "4Gi"
+        cpu: "2"
+      limits:
+        memory: "8Gi"
+        cpu: "4"
+    resizePolicy:
+    - resourceName: cpu
+      restartPolicy: NotRequired  # Resize without restart
+    - resourceName: memory
+      restartPolicy: RestartContainer  # May restart if needed
+```
+
+**VPA Configuration for In-Place Updates:**
+
+```yaml
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: inference-vpa
+spec:
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: inference-deployment
+  updatePolicy:
+    updateMode: "Auto"  # Automatically apply recommendations
+  resourcePolicy:
+    containerPolicies:
+    - containerName: model-server
+      mode: Auto
+      minAllowed:
+        cpu: "1"
+        memory: "2Gi"
+      maxAllowed:
+        cpu: "8"
+        memory: "16Gi"
+```
+
+**Best Practices:**
+
+- Test in-place resize with your workloads (some apps don't handle resource
+  changes gracefully)
+- Set appropriate min/max limits to prevent over-provisioning
+- Monitor resource utilization to validate VPA recommendations
+- Use `NotRequired` restart policy for CPU (usually safe), evaluate for memory
+- Combine with HPA for comprehensive autoscaling (scale pods + resize)
+
+### Container/Pod In-Place Restart
+
+**Concept**: Restart containers or pods without rescheduling, useful for
+applying configuration changes or recovering from errors without scheduling
+overhead.
+
+**Use Cases:**
+
+- **Configuration updates**: Reload configs without full pod recreation
+- **Image updates**: Update container image on same node (if node has new
+  image)
+- **Crash recovery**: Restart failed containers faster than pod rescheduling
+- **Debug/troubleshooting**: Quick container restart for testing
+
+**Kubernetes Features:**
+
+- **Container restart**: `kubectl rollout restart` or update pod spec
+- **Pod restart policy**: `Always`, `OnFailure`, `Never` control automatic
+  restarts
+- **Ephemeral containers**: Debug running pods without restart
+
+**Example - Rolling Restart:**
+
+```bash
+# Restart all pods in a deployment without rescheduling
+kubectl rollout restart deployment/inference-deployment
+
+# Restart specific pod (may reschedule)
+kubectl delete pod inference-pod --grace-period=0
+```
+
+**In-Place Image Update (Future):**
+
+Kubernetes is exploring in-place image updates (KEP-1287 extension) to allow
+updating container images without pod recreation, further reducing scheduling
+and startup overhead.
+
+**Trade-offs:**
+
+- **Pro**: Eliminates scheduling latency, faster recovery
+- **Con**: Node-local resource constraints may require rescheduling anyway
+- **Pro**: Preserves pod IP and network identity
+- **Con**: Doesn't rebalance load across cluster
+
+**When to Use:**
+
+- Stateful workloads with long startup times (databases, caches)
+- GPU workloads with expensive model loading
+- Debugging and testing scenarios
+- Resource optimization without changing workload placement
+
+---
+
 *Some content generated with AI assistance. Please verify for your specific
 use case.*
