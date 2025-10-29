@@ -45,16 +45,7 @@ section if using managed Kubernetes services.
   - Container lifecycle & runtime internals
   - Kubernetes scheduler architecture
   - Resource allocation & GPU management
-  - **See [Kubernetes Learning Plan](./kubernetes/kubernetes.md)** for
-    structured 3-phase approach covering Docker basics through cloud-native
-    ecosystem
-  - **See [Pod Lifecycle](./kubernetes/pod-lifecycle.md)** for creation,
-    scheduling, startup, and termination flows
-  - **See [Pod Startup Speed](./kubernetes/pod-startup-speed.md)** for image
-    optimization, scheduling, GPU workloads, and observability
-  - **See [Isolation Guide](./kubernetes/isolation.md)** for cgroups, security
-    contexts, user namespaces, VM-based isolation (Kata, gVisor), and
-    checkpoint/restore
+  - For detailed guides, see [Kubernetes Guide](./kubernetes/README.md)
 
 ---
 
@@ -75,11 +66,17 @@ workloads in Kubernetes clusters.
   - Job vs. pod scheduling strategies (binpack, spread, DRF)
   - Queue management & SLOs
   - Multi-model & multi-tenant scheduling
-  - **See [Scheduling Optimization Guide](./kubernetes/scheduling-optimization.md)**
-    for high throughput, multi-scheduler patterns, API optimization, load-aware
-    scheduling, gang scheduling, topology awareness, and descheduling strategies
-  - **See [DRA Guide](./kubernetes/dra.md)** for Dynamic Resource Allocation
-  - **See [NRI Guide](./kubernetes/nri.md)** for Node Resource Interface
+
+**See [Kubernetes Guide](./kubernetes/README.md)** for comprehensive coverage
+of pod lifecycle, scheduling optimization, workload isolation, and resource
+management. Detailed guides:
+[Kubernetes Learning Plan](./kubernetes/kubernetes.md) |
+[Pod Lifecycle](./kubernetes/pod-lifecycle.md) |
+[Pod Startup Speed](./kubernetes/pod-startup-speed.md) |
+[Scheduling Optimization](./kubernetes/scheduling-optimization.md) |
+[Isolation](./kubernetes/isolation.md) |
+[DRA](./kubernetes/dra.md) |
+[NRI](./kubernetes/nri.md)
 
 - **RoadMap:**
   - Gang Scheduling in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
