@@ -513,12 +513,122 @@ profiles:
 - Monitor descheduling impact on application SLAs
 - Use dry-run mode to preview evictions before applying
 
+### 2.9 SLA-Based Scheduling
+
+**Concept**: Schedule pods based on Service Level Agreement (SLA) requirements
+using numeric thresholds, enabling workload placement on nodes meeting specific
+reliability and performance criteria.
+
+Kubernetes is introducing native SLA-based scheduling capabilities through
+[KEP-5471: Extended Toleration Operators for Threshold-Based
+Placement](https://github.com/kubernetes/enhancements/pull/5473). This
+enhancement enables pods to express SLA requirements using numeric comparisons
+in tolerations, providing a Kubernetes-native mechanism for SLA-aware
+scheduling.
+
+**Key Capabilities:**
+
+- **Numeric Comparison Operators**: Extends tolerations to support `Lt`
+  (less than) and `Gt` (greater than) operators for matching node taints with
+  numeric values
+- **SLA Threshold-Based Placement**: Allows pods to specify minimum SLA
+  requirements (e.g., "only schedule on nodes with SLA > 95%")
+- **Eviction Support**: Combines with `NoExecute` taint effect to automatically
+  evict pods when node SLA drops below threshold
+- **Feature Gate**: `TaintTolerationComparisonOperators` (alpha in Kubernetes
+  v1.35)
+
+**Use Cases:**
+
+For large-scale deployments, SLA-based scheduling provides fine-grained
+control over workload placement:
+
+- **Critical workloads**: Require high-SLA nodes (>95%) to minimize latency and
+  ensure consistent performance
+- **Best-effort workloads**: Tolerate lower-SLA nodes for cost optimization
+  while maintaining acceptable performance
+- **Heterogeneous clusters**: Enable mixing on-demand (high-SLA) and spot
+  (low-SLA) nodes with automatic workload steering based on reliability
+  requirements
+- **AI/ML workloads**: Prefill phases can require high-SLA nodes for TTFT
+  optimization, while decode phases may tolerate lower-SLA nodes
+
+**Example Configuration:**
+
+```yaml
+# High-SLA on-demand node with 95% SLA taint
+apiVersion: v1
+kind: Node
+metadata:
+  name: ondemand-gpu-node-1
+spec:
+  taints:
+  - key: node.kubernetes.io/sla
+    value: "950"  # 95.0% SLA (scaled by 10)
+    effect: NoExecute
+---
+# Critical pod requires SLA > 95% with eviction support
+apiVersion: v1
+kind: Pod
+metadata:
+  name: critical-worker
+spec:
+  tolerations:
+  - key: node.kubernetes.io/sla
+    operator: Gt
+    value: "950"
+    effect: NoExecute
+    tolerationSeconds: 30  # Grace period before eviction
+  containers:
+  - name: app
+    image: critical-app:latest
+---
+# Best-effort pod tolerates lower SLA for cost savings
+apiVersion: v1
+kind: Pod
+metadata:
+  name: batch-worker
+spec:
+  tolerations:
+  - key: node.kubernetes.io/sla
+    operator: Gt
+    value: "800"  # 80% SLA acceptable
+    effect: NoExecute
+    tolerationSeconds: 60
+  containers:
+  - name: batch
+    image: batch-app:latest
+```
+
+**Integration with Other Strategies:**
+
+SLA-based scheduling complements other optimization strategies:
+
+1. **Runtime Placement Control**: Ensures workloads are placed on nodes meeting
+   their reliability requirements
+2. **Dynamic Adaptation**: Taints with `NoExecute` effect trigger automatic
+   pod eviction when node SLA degrades, enabling graceful failover
+3. **Cost Optimization**: Balance performance requirements with infrastructure
+   costs by placing workloads on appropriate SLA tiers
+4. **Topology Awareness**: Combine with topology-aware scheduling for both
+   physical placement and SLA requirements
+
+**Best Practices:**
+
+- Use consistent SLA value scaling (e.g., multiply by 10 for percentages)
+- Set appropriate `tolerationSeconds` based on workload criticality
+- Monitor node SLA metrics and update taints dynamically
+- Combine with PriorityClasses for comprehensive workload management
+- Use preemption policies to ensure critical workloads get high-SLA nodes
+- Test SLA thresholds under load to validate proper workload distribution
+
 ---
 
 ## Learning Topics
 
 - **Scheduler architecture**: Queue, cache, framework, plugins
-- **Scheduling algorithms**: Binpack, spread, load-aware, topology-aware
+- **Scheduling algorithms**: Binpack, spread, load-aware, topology-aware,
+  SLA-based
 - **Multi-tenancy**: Resource quotas, priorities, fair sharing
 - **Scheduling metrics**: Throughput, latency, utilization, queue depth
 - **Conflict resolution**: Optimistic concurrency, retries, backoff
@@ -578,6 +688,9 @@ profiles:
 - DRA: Structured Parameters
   [#4381](https://github.com/kubernetes/enhancements/issues/4381) (GA in
   v1.34)
+- SLA-Based Scheduling: Extended Toleration Operators
+  [KEP-5471](https://github.com/kubernetes/enhancements/pull/5473) (Alpha in
+  v1.35)
 
 ## Best Practices Summary
 
