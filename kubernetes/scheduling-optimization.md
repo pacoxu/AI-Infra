@@ -1,0 +1,600 @@
+# Large Clusters Scheduling Optimization
+
+This guide provides comprehensive strategies for optimizing scheduling
+performance and resource utilization in large-scale Kubernetes clusters,
+particularly for AI/ML workloads. Large clusters (1000+ nodes, 10000+ pods)
+require specialized scheduling techniques to maintain performance and maximize
+resource utilization.
+
+## Why Scheduling Optimization Matters
+
+Efficient scheduling is critical for:
+
+- **High throughput**: Supporting rapid pod creation (1000+ pods/s)
+- **Resource efficiency**: Maximizing GPU/CPU utilization (>80%)
+- **Cost optimization**: Reducing idle resources and over-provisioning
+- **SLA compliance**: Meeting latency and availability requirements
+- **Fairness**: Ensuring equitable resource distribution across tenants
+
+## Overview
+
+Scheduling optimization focuses on two key dimensions:
+
+1. **Performance**: Throughput, latency, and API responsiveness
+2. **Resource Utilization**: Efficient allocation, load balancing, and
+   bin-packing
+
+---
+
+## 1. Performance Optimization
+
+### 1.1 High Throughput Scheduling
+
+**Challenge**: Default Kubernetes scheduler processes ~100 pods/s, insufficient
+for large-scale batch workloads.
+
+**Solutions:**
+
+#### Optimistic Concurrency
+
+- **Concept**: Schedule multiple pods concurrently assuming resources are
+  available, handle conflicts via retry
+- **Trade-offs**: Higher throughput but potential conflicts when resources are
+  limited
+- **Best for**: Clusters with abundant resources and diverse pod requirements
+
+**Example Projects:**
+
+- <a href="https://github.com/kubewharf/godel-scheduler">`Godel Scheduler`</a>:
+  ByteDance scheduler achieving 5000 pods/s with optimistic concurrency and
+  multi-level scheduling queues
+
+#### Multi-Scheduler Architecture
+
+- **Concept**: Run multiple scheduler instances in parallel, each handling
+  subset of workloads
+- **Strategies**:
+  - **Workload-based**: Separate schedulers for batch, serving, training
+  - **Tenant-based**: Dedicated schedulers per team/namespace
+  - **Priority-based**: Different schedulers for high/low priority workloads
+- **Coordination**: Use leader election or partitioning to avoid conflicts
+
+**Example Projects:**
+
+- <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Kubernetes
+  SIG Project supporting multi-queue and quota management
+- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: CNCF
+  Incubating project with gang scheduling and queue management
+
+**Best Practices:**
+
+- Monitor conflict rates; if >10%, reduce concurrency or scheduler count
+- Use node affinity/anti-affinity to partition workloads across schedulers
+- Configure appropriate cache synchronization intervals (default: 30s)
+
+### 1.2 Multi Node Pool Strategy
+
+**Concept**: Divide cluster nodes into pools, assign schedulers to specific
+pools to reduce scheduling conflicts and improve cache locality.
+
+**Node Pool Types:**
+
+- **Dedicated pools**: GPU nodes, inference nodes, training nodes
+- **Shared pools**: General-purpose workloads with resource spillover
+- **Priority pools**: High-priority workloads with reserved capacity
+
+**Implementation:**
+
+- Use node labels/taints to define pools:
+  `node-pool=gpu-training`, `node-pool=cpu-batch`
+- Configure scheduler affinity via `nodeSelector` or `nodeAffinity`
+- Enable cross-pool scheduling for underutilized resources
+
+**Example Projects:**
+
+- <a href="https://github.com/koordinator-sh/koordinator">`Koordinator`</a>:
+  CNCF Sandbox project with colocation and QoS management
+- <a href="https://github.com/NVIDIA/grove">`NVIDIA Grove`</a>: Gang
+  scheduling for AI workloads with topology awareness
+
+### 1.3 API Performance Optimization
+
+**Common Bottlenecks:**
+
+- **etcd latency**: Slow reads/writes impact pod creation
+- **API Server load**: High request rates from schedulers, controllers
+- **Admission webhooks**: Synchronous validation adds latency
+- **Large objects**: Pods with many volumes, env vars slow API operations
+
+**Solutions:**
+
+- **etcd optimization**:
+  - Use SSDs for etcd storage (99th percentile latency <10ms)
+  - Separate etcd cluster for large deployments (5+ nodes)
+  - Enable etcd defragmentation and compaction
+- **API Server scaling**:
+  - Run multiple API Server replicas (1 per 1000 nodes)
+  - Increase request limits: `--max-requests-inflight=3000`,
+    `--max-mutating-requests-inflight=1000`
+  - Use priority and fairness (APF) to prevent scheduler starvation
+- **Admission webhook optimization**:
+  - Convert synchronous webhooks to asynchronous where possible
+  - Set aggressive timeouts (default: 10s, reduce to 2-3s)
+  - Use webhook failure policies: `Ignore` for non-critical validations
+  - Cache validation results to avoid repeated calls
+- **Object size optimization**:
+  - Use ConfigMaps/Secrets instead of inline pod specs
+  - Limit number of volumes per pod (<20)
+  - Use strategic merge patches for updates
+
+**Monitoring:**
+
+- Track API Server request latency (P95/P99)
+- Monitor etcd backend commit duration
+- Alert on admission webhook timeouts
+
+### 1.4 Batch Dispatch Optimization
+
+**Concept**: Schedule pods in batches rather than individually to amortize
+scheduling overhead and improve throughput.
+
+**Batch Scheduling Strategies:**
+
+- **Fixed batch size**: Schedule N pods at a time (e.g., 100 pods/batch)
+- **Time-based batching**: Collect pods for T seconds then schedule together
+- **Priority-based batching**: Batch pods by priority class
+
+**Implementation:**
+
+- **Kueue**: Provides workload batching and admission control
+- **Volcano**: Supports batch scheduling with job-level queue management
+- **Custom controllers**: Implement batch admission using operator pattern
+
+**Best Practices:**
+
+- Batch size should balance throughput vs. latency (50-200 pods)
+- Use separate queues for interactive vs. batch workloads
+- Monitor queue depth and adjust batch parameters dynamically
+
+---
+
+## 2. Resource Utilization Optimization
+
+### 2.1 Dominant Resource Fairness (DRF)
+
+**Concept**: Fair resource allocation considering multiple resource types
+(CPU, memory, GPU, storage, bandwidth) rather than single dimension.
+
+**How DRF Works:**
+
+- Calculate each user's dominant resource (highest utilization percentage)
+- Allocate resources to maximize minimum dominant resource share
+- Ensures no user is bottlenecked on their dominant resource
+
+**Example**: User A needs 2 CPU + 4 GB, User B needs 1 CPU + 8 GB. In 8 CPU,
+32 GB cluster:
+
+- User A's dominant resource: Memory (4/32 = 12.5%)
+- User B's dominant resource: Memory (8/32 = 25%)
+- DRF allocates to equalize dominant shares
+
+**Implementation:**
+
+- <a href="https://github.com/apache/yunikorn-core">`Apache YuniKorn`</a>:
+  Implements DRF for multi-tenant scheduling
+- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: Supports DRF
+  via proportion plugin
+
+**Best Practices:**
+
+- Include GPU memory as separate resource dimension for AI workloads
+- Consider network bandwidth for distributed training (RDMA/IB)
+- Use weights to prioritize certain resources (e.g., GPU weight = 10x CPU)
+
+### 2.2 Load-Aware Scheduling
+
+**Concept**: Make scheduling decisions based on real-time node load metrics
+(CPU usage, memory pressure, GPU utilization) rather than just capacity.
+
+**Metrics to Consider:**
+
+- **CPU**: System load average, CPU usage percentage
+- **Memory**: Available memory, memory pressure (page cache, swap)
+- **GPU**: GPU utilization, GPU memory usage, temperature
+- **Network**: Bandwidth usage, packet drop rate
+- **Disk**: I/O wait, disk usage
+
+**Implementation:**
+
+- <a href="https://github.com/koordinator-sh/koordinator">`Koordinator`</a>:
+  Real-time load-aware scheduling with node metrics
+- <a href="https://github.com/kubewharf/godel-scheduler">`Godel Scheduler`</a>:
+  Load-aware scoring with katalyst runtime QoS
+- **Trimaran**: Kubernetes scheduler plugin for load-aware scheduling
+
+**Best Practices:**
+
+- Use short metric collection intervals (10-30s) for responsiveness
+- Combine requests/limits with load metrics for hybrid scoring
+- Set load thresholds to prevent scheduling to overloaded nodes (>80% CPU)
+- Consider multi-dimensional load (avoid scheduling to nodes with high CPU
+  AND memory pressure)
+
+### 2.3 Bin-Packing Strategies
+
+**Concept**: Pack pods onto fewer nodes to maximize utilization and enable
+node consolidation/autoscaling.
+
+**Bin-Packing Algorithms:**
+
+- **Best Fit**: Place pod on node with least remaining capacity after
+  allocation
+- **First Fit**: Place pod on first node with sufficient capacity
+- **Worst Fit**: Place pod on node with most remaining capacity (for spreading)
+- **Multi-dimensional bin-packing**: Consider CPU, memory, GPU simultaneously
+
+**Implementation:**
+
+- **Kubernetes Scheduler**: Configure `NodeResourcesBalancedAllocation` and
+  `NodeResourcesMostAllocated` plugins
+- <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Supports
+  workload packing within quotas
+- <a href="https://github.com/koordinator-sh/koordinator">`Koordinator`</a>:
+  Colocation and QoS-based bin-packing
+
+**Configuration Example:**
+
+```yaml
+apiVersion: kubescheduler.config.k8s.io/v1
+kind: KubeSchedulerConfiguration
+profiles:
+- pluginConfig:
+  - name: NodeResourcesMostAllocated
+    args:
+      resources:
+      - name: cpu
+        weight: 1
+      - name: memory
+        weight: 1
+      - name: nvidia.com/gpu
+        weight: 10
+```
+
+**Trade-offs:**
+
+- **Pro**: Higher utilization, lower costs, easier autoscaling
+- **Con**: Reduced blast radius, potential resource contention
+- **Best for**: Batch workloads, non-critical services, dev/test environments
+
+### 2.4 Preemption and Priority
+
+**Concept**: Lower priority pods can be evicted to make room for higher
+priority pods when resources are scarce.
+
+**Priority Classes:**
+
+- **System-critical**: kube-system components (priority: 2000000000)
+- **Business-critical**: Production services (priority: 1000-10000)
+- **Standard**: Regular workloads (priority: 0)
+- **Best-effort**: Batch jobs, dev workloads (priority: -1000)
+
+**Preemption Policies:**
+
+- **PreemptLowerPriority**: Default, preempt lower priority pods
+- **Never**: Disable preemption for specific priority classes
+- **Graceful preemption**: Allow grace period for pod termination
+
+**Implementation:**
+
+```yaml
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: high-priority-ai-training
+value: 10000
+globalDefault: false
+description: "High priority for critical AI training jobs"
+preemptionPolicy: PreemptLowerPriority
+```
+
+**Best Practices:**
+
+- Limit number of priority classes (5-7) to avoid complexity
+- Use priorities sparingly to prevent cascading preemptions
+- Set pod disruption budgets (PDBs) to limit preemption impact
+- Monitor preemption metrics and adjust priorities accordingly
+- Consider cost of preemption (wasted work) vs. SLA requirements
+
+**Example Projects:**
+
+- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: Advanced
+  preemption with queue-level priorities
+- <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Preemption
+  within cohorts and borrowing limits
+
+### 2.5 Gang Scheduling
+
+**Concept**: All-or-nothing scheduling for distributed workloads. Either all
+pods in a group are scheduled or none are, preventing partial scheduling and
+deadlocks.
+
+**Use Cases:**
+
+- **Distributed training**: PyTorch/TensorFlow multi-node training
+- **MPI jobs**: Tightly-coupled HPC workloads
+- **Spark/Ray**: Multi-process compute frameworks
+
+**Gang Scheduling Phases:**
+
+1. **Admission**: Check if resources available for entire gang
+2. **Reservation**: Reserve resources for all gang members
+3. **Binding**: Schedule all pods simultaneously
+4. **Timeout**: Release resources if gang cannot be scheduled within timeout
+
+**Implementation:**
+
+- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: PodGroup CRD
+  with minMember field for gang scheduling
+- <a href="https://github.com/NVIDIA/grove">`NVIDIA Grove`</a>: Gang
+  scheduling optimized for NVIDIA GPUs
+- <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Workload
+  admission control with gang scheduling
+- <a href="https://github.com/kubernetes-sigs/lws">`LeaderWorkerSet (LWS)`</a>:
+  Kubernetes SIG Project with gang scheduling support
+
+**Example (Volcano PodGroup):**
+
+```yaml
+apiVersion: scheduling.volcano.sh/v1beta1
+kind: PodGroup
+metadata:
+  name: distributed-training-job
+spec:
+  minMember: 8  # All 8 pods must be scheduled
+  minResources:
+    cpu: "64"
+    memory: "256Gi"
+    nvidia.com/gpu: "8"
+  queue: ai-training-queue
+```
+
+**Best Practices:**
+
+- Set reasonable gang timeouts (5-15 minutes) to prevent indefinite waiting
+- Use elastic gang scheduling (minMember < maxMember) when possible
+- Combine with coscheduling plugins for topology-aware placement
+- Monitor gang scheduling failures and adjust resource quotas
+
+### 2.6 Topology-Aware Scheduling
+
+**Concept**: Schedule pods considering physical topology (NUMA nodes, PCIe
+lanes, network topology) to optimize for locality and bandwidth.
+
+**Topology Dimensions:**
+
+- **NUMA nodes**: CPU and memory locality
+- **GPU topology**: NVLink connections, PCIe lanes
+- **Network topology**: Rack/zone awareness, RDMA fabric
+- **Storage topology**: Local vs. remote storage
+
+**Implementation:**
+
+- <a href="https://github.com/kubernetes/dynamic-resource-allocation/">`DRA
+  (Dynamic Resource Allocation)`</a>: Structured parameters for device
+  topology (GA in v1.34)
+- <a href="https://github.com/google/dranet">`DRANET`</a>: Google's DRA
+  implementation for network device topology
+- <a href="https://github.com/containerd/nri">`NRI (Node Resource
+  Interface)`</a>: Fine-grained device management at runtime
+- **Kubernetes Topology Manager**: NUMA-aware pod placement
+
+**Topology Aware Scenarios:**
+
+- **Multi-GPU training**: Schedule pods to nodes with NVLink/NVSwitch for
+  fast GPU-to-GPU communication
+- **RDMA workloads**: Place pods on nodes with InfiniBand connectivity
+- **Memory-intensive**: Schedule to NUMA nodes with local memory access
+
+**Best Practices:**
+
+- Use DRA for complex device requirements (GPU + NIC + storage)
+- Configure Topology Manager policy: `single-numa-node` for latency-sensitive
+  workloads
+- Label nodes with topology information: `topology.kubernetes.io/zone`,
+  `gpu-interconnect=nvlink`
+- Consider trade-offs: topology optimization may reduce scheduling flexibility
+
+### 2.7 Borrow & LendingLimit
+
+**Concept**: Allow namespaces/teams to borrow unused resources from other
+teams while enforcing lending limits to ensure fair access.
+
+**Resource Borrowing Models:**
+
+- **Elastic quotas**: Namespace can use more than guaranteed if available
+- **Cohort-based sharing**: Teams in same cohort can borrow from each other
+- **Time-based lending**: Borrow idle resources during off-peak hours
+
+**Parameters:**
+
+- **Guaranteed quota**: Minimum resources always available
+- **Max quota**: Maximum resources including borrowed capacity
+- **Lending limit**: Maximum resources that can be lent to others
+- **Reclaim policy**: How to reclaim borrowed resources (preemption, graceful)
+
+**Implementation:**
+
+- <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Cohorts and
+  borrowing limits with preemption
+- <a href="https://github.com/koordinator-sh/koordinator">`Koordinator`</a>:
+  Elastic quota management
+
+**Example (Kueue ClusterQueue):**
+
+```yaml
+apiVersion: kueue.x-k8s.io/v1beta1
+kind: ClusterQueue
+metadata:
+  name: team-a-queue
+spec:
+  namespaceSelector: {}
+  resourceGroups:
+  - coveredResources: ["cpu", "memory", "nvidia.com/gpu"]
+    flavors:
+    - name: default-flavor
+      resources:
+      - name: "cpu"
+        nominalQuota: 100      # Guaranteed
+        borrowingLimit: 50     # Can borrow up to 50 more
+        lendingLimit: 30       # Can lend up to 30
+      - name: "nvidia.com/gpu"
+        nominalQuota: 10
+        borrowingLimit: 5
+        lendingLimit: 3
+```
+
+**Best Practices:**
+
+- Set lending limits to prevent resource starvation (e.g., lend max 30% of
+  guaranteed)
+- Use preemption to reclaim borrowed resources when owner needs them
+- Monitor borrowing patterns and adjust quotas based on actual usage
+- Combine with priority classes: borrowed workloads at lower priority
+
+### 2.8 Descheduler
+
+**Concept**: Continuously rebalance pods across nodes to optimize utilization,
+correct scheduling mistakes, and adapt to changing conditions.
+
+**Descheduling Strategies:**
+
+- **RemoveDuplicates**: Ensure one pod per ReplicaSet on each node
+- **LowNodeUtilization**: Move pods from underutilized to overutilized nodes
+- **RemovePodsViolatingNodeAffinity**: Fix affinity violations
+- **RemovePodsViolatingInterPodAntiAffinity**: Fix anti-affinity violations
+- **RemovePodsViolatingTopologySpreadConstraint**: Rebalance topology spread
+- **RemoveFailedPods**: Clean up failed pods
+- **RemovePodsHavingTooManyRestarts**: Remove crashlooping pods
+
+**Implementation:**
+
+- <a href="https://github.com/kubernetes-sigs/descheduler">`Descheduler`</a>:
+  Kubernetes SIG Project for pod eviction
+- <a href="https://github.com/koordinator-sh/koordinator">`Koordinator`</a>:
+  Built-in descheduling with load-aware rebalancing
+
+**Example Configuration:**
+
+```yaml
+apiVersion: descheduler/v1alpha2
+kind: DeschedulerPolicy
+profiles:
+- name: default
+  pluginConfig:
+  - name: LowNodeUtilization
+    args:
+      thresholds:
+        cpu: 20
+        memory: 20
+      targetThresholds:
+        cpu: 50
+        memory: 50
+  - name: RemovePodsViolatingTopologySpreadConstraint
+    args:
+      constraints:
+      - topologyKey: topology.kubernetes.io/zone
+```
+
+**Best Practices:**
+
+- Run descheduler periodically (every 10-30 minutes) not continuously
+- Set pod disruption budgets (PDBs) to limit eviction impact
+- Exclude critical pods using namespace/label selectors
+- Monitor descheduling impact on application SLAs
+- Use dry-run mode to preview evictions before applying
+
+---
+
+## Learning Topics
+
+- **Scheduler architecture**: Queue, cache, framework, plugins
+- **Scheduling algorithms**: Binpack, spread, load-aware, topology-aware
+- **Multi-tenancy**: Resource quotas, priorities, fair sharing
+- **Scheduling metrics**: Throughput, latency, utilization, queue depth
+- **Conflict resolution**: Optimistic concurrency, retries, backoff
+
+## Projects and Resources
+
+**Schedulers:**
+
+- <a href="https://github.com/kubernetes/kubernetes">`Kubernetes Default
+  Scheduler`</a>: Extensible via scheduling framework
+- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: CNCF
+  Incubating, batch scheduling
+- <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Kubernetes
+  SIG Project, job queuing
+- <a href="https://github.com/koordinator-sh/koordinator">`Koordinator`</a>:
+  CNCF Sandbox, QoS and colocation
+- <a href="https://github.com/kubewharf/godel-scheduler">`Godel
+  Scheduler`</a>: ByteDance, high-throughput scheduling
+- <a href="https://github.com/apache/yunikorn-core">`Apache YuniKorn`</a>:
+  Apache, DRF and multi-tenancy
+- <a href="https://github.com/NVIDIA/kai-scheduler">`NVIDIA Kai
+  Scheduler`</a>: NVIDIA, GPU-optimized scheduling
+- <a href="https://github.com/NVIDIA/grove">`NVIDIA Grove`</a>: Gang
+  scheduling for AI workloads
+
+**Device Management:**
+
+- <a href="https://github.com/kubernetes/dynamic-resource-allocation/">`DRA`</a>:
+  Dynamic Resource Allocation for Kubernetes
+- <a href="https://github.com/containerd/nri">`NRI`</a>: Node Resource
+  Interface for containerd
+- <a href="https://github.com/Project-HAMi/HAMi">`HAMI`</a>: CNCF Sandbox,
+  GPU sharing
+
+**Monitoring:**
+
+- <a href="https://github.com/kubernetes-sigs/scheduler-plugins">`Scheduler
+  Plugins`</a>: Out-of-tree scheduler plugins
+- <a href="https://github.com/kubernetes-sigs/descheduler">`Descheduler`</a>:
+  Kubernetes SIG Project
+
+**Documentation:**
+
+- [Kubernetes Scheduling
+  Framework](https://kubernetes.io/docs/concepts/scheduling-eviction/scheduling-framework/)
+- [Priority and
+  Preemption](https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/)
+- [Dynamic Resource Allocation
+  (DRA)](./dra.md)
+
+## RoadMap (Ongoing Proposals)
+
+- Gang Scheduling Support in Kubernetes
+  [#4671](https://github.com/kubernetes/enhancements/pull/4671)
+- LWS Gang Scheduling
+  [KEP-407](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
+- DRA: Structured Parameters
+  [#4381](https://github.com/kubernetes/enhancements/issues/4381) (GA in
+  v1.34)
+
+## Best Practices Summary
+
+1. **Start with observability**: Measure current scheduling performance and
+   utilization before optimizing
+2. **Optimize incrementally**: Address biggest bottlenecks first (API, etcd,
+   admission webhooks)
+3. **Balance throughput vs. utilization**: High concurrency improves
+   throughput but may reduce utilization
+4. **Use appropriate tools**: Match scheduler to workload (batch, serving,
+   training)
+5. **Monitor continuously**: Track scheduling latency, queue depth,
+   utilization, conflicts
+6. **Test at scale**: Validate optimizations with realistic workload patterns
+   and cluster sizes
+
+---
+
+*Some content generated with AI assistance. Please verify for your specific
+use case.*
