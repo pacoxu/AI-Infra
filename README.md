@@ -124,6 +124,8 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - Multi-accelerator orchestration
   - Large Scale Experts (MoE architecture)
   - Model lifecycle management (cold-start, sleep mode, offloading)
+  - Agent memory and context management (short-term vs long-term)
+  - Vector databases and state management for AI agents
 
 - **RoadMap(Ongoing Proposals Or Working Groups):**
   - [Serving WG](https://github.com/kubernetes/community/blob/master/wg-serving/README.md)
@@ -170,6 +172,8 @@ More details about inference can be found in
 [prefill-decode disaggregation](./inference/pd-disaggregation.md) (including
 scaling challenges and AIConfigurator optimization),
 [caching mechanisms](./inference/caching.md),
+[memory and context management for AI agents](./inference/memory-context-db.md)
+(short-term vs long-term memory, vector databases, state management),
 [large scale experts (MoE models)](./inference/large-scale-experts.md), and
 [model lifecycle management](./inference/model-lifecycle.md) (cold-start
 optimization, sleep mode, and offloading).
