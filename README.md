@@ -86,6 +86,12 @@ If your company has a team to maintain a Kubernetes cluster or you are using Kub
   - Binpack / Spread strategies
   - Queue management & SLOs
   - Multi-model & multi-tenant scheduling
+  - **Large Clusters Scheduling Optimization**: See [Scheduling Optimization
+    Guide](./kubernetes/scheduling-optimization.md) for performance (high
+    throughput, multi-scheduler, API optimization, batch dispatch) and resource
+    utilization strategies (DRF, load-aware scheduling, bin-packing,
+    preemption, gang scheduling, topology awareness, borrowing limits,
+    descheduler)
 
 - **RoadMap(Ongoing Proposals):**
   - Gang Scheduling Support in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
