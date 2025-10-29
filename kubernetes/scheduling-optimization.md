@@ -839,6 +839,30 @@ Kubernetes supports configuring restart behavior at the container level:
 - **Faster recovery**: Container restart is faster than full pod recreation
 - **Fine-grained control**: Different restart policies per container within pod
 
+#### Real-World Use Case: JobSet In-Place Restart
+
+<a href="https://github.com/kubernetes-sigs/jobset/">JobSet</a> is implementing
+in-place restart functionality that demonstrates the significant performance
+benefits of avoiding pod recreation and rescheduling. According to a [benchmark
+prototype](https://github.com/kubernetes-sigs/jobset/compare/main...GiuseppeTT:jobset:in-place-restart-prototype),
+in-place restart achieved:
+
+- **Restart time reduction**: From 2m10s to 10s (92% faster)
+- **Test scale**: 5000 nodes cluster
+- **Benefit**: Dramatically faster recovery for distributed batch workloads
+
+This demonstrates how in-place restart is particularly valuable for:
+
+- **Large-scale batch jobs**: Where coordinating thousands of pods without
+  rescheduling saves significant time
+- **Distributed training**: Quick recovery from failures without losing cluster
+  placement
+- **Job dependencies**: Restarting related jobs together while maintaining
+  pod identity and network connectivity
+
+More details in the [JobSet in-place restart design
+document](https://docs.google.com/document/d/16zexVooHKPc80F4dVtUjDYK9DOpkVPRNfSv0zRtfFpk/edit?tab=t.0#heading=h.y6xl7juq7465).
+
 **Example - Pod with Container Restart Policies:**
 
 ```yaml
