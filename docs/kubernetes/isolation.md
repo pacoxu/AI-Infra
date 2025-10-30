@@ -362,7 +362,21 @@ The project is in early development (as of 2025). Key areas:
 
 Checkpoint/Restore allows saving and restoring the complete state of running
 containers, enabling workload migration, fault tolerance, and efficient
-resource utilization.
+resource utilization. This is particularly relevant for AI workloads using GPUs,
+where checkpoint/restore can enable efficient resource utilization and fault
+tolerance for long-running training jobs.
+
+### Kubernetes Working Group
+
+The Kubernetes community has active working groups focused on checkpoint/restore
+capabilities:
+
+- <a href="https://github.com/kubernetes/community/blob/master/wg-batch/README.md">
+  Kubernetes WG Batch</a>: Coordinates batch workload features including
+  checkpoint/restore for training jobs
+- <a href="https://kccnceu2025.sched.com/event/1tx7i">KubeCon EU 2025:
+  Checkpoint/Restore in Kubernetes</a>: Community discussion on GPU
+  checkpoint/restore scenarios
 
 ### CRIU (Checkpoint/Restore In Userspace)
 
@@ -374,6 +388,97 @@ technology for checkpointing Linux processes.
 1. **Checkpoint**: Freeze process, dump memory, file descriptors, and state
 2. **Storage**: Serialize state to filesystem or object storage
 3. **Restore**: Recreate process with exact same state on same/different host
+
+#### GPU Plugin Architecture
+
+CRIU supports GPU checkpoint/restore through a plugin architecture:
+
+- <a href="https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins">
+  CRIU Plugins</a>: Extensible plugin system for device-specific checkpointing
+- **CUDA Plugin**: Handles NVIDIA GPU state and CUDA contexts
+- **AMD GPU Plugin**: Handles AMD GPU state via AMDGPU driver
+
+### GPU Checkpoint/Restore Support
+
+GPU checkpoint/restore is critical for AI workloads, enabling efficient
+resource utilization and fault tolerance for long-running training jobs.
+
+#### NVIDIA CUDA Checkpoint
+
+<a href="https://github.com/NVIDIA/cuda-checkpoint">NVIDIA cuda-checkpoint</a>
+is a utility for checkpointing CUDA applications, built on top of CRIU.
+
+**Key Features:**
+
+- **CUDA Context Preservation**: Saves GPU memory, CUDA streams, and contexts
+- **Driver Compatibility**: Requires CUDA driver version 550 or higher
+- **Application Transparency**: Minimal code changes required for checkpointing
+- **Multi-GPU Support**: Handles applications using multiple GPUs
+
+**Requirements:**
+
+- NVIDIA GPU driver 550+
+- CRIU with CUDA plugin support
+- Compatible container runtime (containerd, CRI-O)
+
+**Use Cases for AI:**
+
+- **Training Checkpoints**: Save training state across preemptions
+- **Model Migration**: Move running inference workloads between nodes
+- **Fault Tolerance**: Resume training after hardware failures
+- **Cost Optimization**: Migrate to spot/preemptible GPU instances
+
+#### PyTorch Support
+
+PyTorch applications can benefit from GPU checkpoint/restore:
+
+- <a href="https://developer.nvidia.com/blog/checkpointing-cuda-applications-with-criu/">
+  NVIDIA Blog: Checkpointing CUDA Applications with CRIU</a>: Technical
+  overview of PyTorch checkpoint/restore
+- <a href="https://github.com/NVIDIA/cuda-checkpoint/issues/4">PyTorch
+  Support Discussion</a>: Community discussion and implementation details
+
+**Integration Pattern:**
+
+```python
+# PyTorch training with checkpoint-friendly patterns
+import torch
+
+def train_with_checkpointing():
+    model = MyModel().cuda()
+    optimizer = torch.optim.Adam(model.parameters())
+    
+    # Training loop designed for checkpoint/restore
+    for epoch in range(num_epochs):
+        # Regular PyTorch training
+        loss = train_epoch(model, optimizer)
+        
+        # Application-level checkpoint (model weights)
+        torch.save({
+            'epoch': epoch,
+            'model_state': model.state_dict(),
+            'optimizer_state': optimizer.state_dict(),
+        }, f'checkpoint_{epoch}.pt')
+        
+        # CRIU can checkpoint at this point with full CUDA state
+```
+
+#### AMD GPU Support
+
+AMD GPU checkpoint/restore is supported through CRIU plugins:
+
+- **AMDGPU Plugin**: Part of CRIU plugin ecosystem
+- **ROCm Compatibility**: Works with AMD ROCm stack
+- **Driver Requirements**: Requires compatible AMDGPU driver version
+
+**Combined CUDA + AMDGPU Support:**
+
+The CRIU plugin architecture enables checkpoint/restore for heterogeneous
+GPU environments:
+
+- NVIDIA GPUs via cuda-checkpoint
+- AMD GPUs via AMDGPU plugin
+- Mixed GPU deployments in the same Kubernetes cluster
 
 ### Kubernetes Integration
 
@@ -433,17 +538,40 @@ spec:
 
 ### Challenges for GPU Workloads
 
-- **GPU State**: Capturing CUDA contexts and device memory
+GPU checkpoint/restore presents unique challenges, but recent advances have
+made it more practical:
+
+- **GPU State Complexity**: CUDA contexts, device memory, and driver state
+  - **Solution**: NVIDIA cuda-checkpoint (driver 550+) and CRIU plugins handle
+    this automatically
 - **Driver Compatibility**: Restore requires same GPU driver version
-- **Performance**: Large memory dumps for models with billions of parameters
+  - **Mitigation**: Container images with pinned driver versions, driver
+    version matching in scheduler
+- **Large State Size**: Models with billions of parameters create large
+  checkpoint files
+  - **Optimization**: Incremental checkpointing, compression, and fast storage
+    (NVMe, object storage)
+- **Cross-Vendor Support**: Different checkpoint formats for NVIDIA vs AMD
+  - **Progress**: CRIU plugin architecture enables unified interface for
+    NVIDIA (cuda-checkpoint) and AMD (AMDGPU plugin)
 
 ### Projects and Resources
 
 - <a href="https://criu.org/">CRIU Official Site</a>
 - <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/2008-forensic-container-checkpointing">
   Kubernetes KEP-2008: Forensic Container Checkpointing</a>
-- <a href="https://github.com/NVIDIA/cuda-checkpoint">NVIDIA CUDA
-  Checkpoint</a>: Experimental GPU checkpoint support
+- <a href="https://github.com/NVIDIA/cuda-checkpoint">NVIDIA cuda-checkpoint</a>:
+  GPU checkpoint/restore utility for CUDA applications (driver 550+)
+- <a href="https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins">
+  CRIU Plugins</a>: Plugin architecture for CUDA and AMDGPU support
+- <a href="https://developer.nvidia.com/blog/checkpointing-cuda-applications-with-criu/">
+  NVIDIA Blog: Checkpointing CUDA Applications with CRIU</a>
+- <a href="https://github.com/NVIDIA/cuda-checkpoint/issues/4">PyTorch
+  Checkpoint/Restore Support</a>: Community discussion and implementation
+- <a href="https://kccnceu2025.sched.com/event/1tx7i">KubeCon EU 2025:
+  Checkpoint/Restore in Kubernetes</a>: GPU checkpoint/restore scenarios
+- <a href="https://github.com/kubernetes/community/blob/master/wg-batch/README.md">
+  Kubernetes WG Batch</a>: Batch workload features including checkpoint/restore
 
 ## Best Practices for AI Workload Isolation
 
@@ -503,7 +631,8 @@ Track isolation effectiveness:
 ### Kubernetes Enhancements
 
 - **Mature User Namespaces**: Broader runtime support and stability
-- **GPU Checkpoint/Restore**: Native support for GPU state migration
+- **GPU Checkpoint/Restore**: Production-ready support for GPU state migration
+  with NVIDIA cuda-checkpoint (driver 550+) and AMD AMDGPU plugin integration
 - **Agent Security Policies**: Purpose-built primitives for AI agents
 - **Zero-Trust Networking**: Service mesh integration for AI workloads
 

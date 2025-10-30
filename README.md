@@ -67,6 +67,8 @@ workloads in Kubernetes clusters.
   - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling
   - **Device Management**: DRA, NRI
     ([Kubernetes WG Device Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md))
+  - **Checkpoint/Restore**: GPU checkpoint/restore for fault tolerance and
+    migration (NVIDIA cuda-checkpoint, AMD AMDGPU plugin via CRIU)
 
 - **Learning Topics:**
   - Job vs. pod scheduling strategies (binpack, spread, DRF)
