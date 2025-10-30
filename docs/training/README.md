@@ -18,6 +18,8 @@ fault handling mechanisms essential.
 
 More details about specific topics:
 
+- [Parallelism Strategies (Data, Sharded Data, Context
+  Parallel)](./parallelism.md)
 - [Kubeflow Training Operator and Trainer V2](./kubeflow.md)
 - [ArgoCD for GitOps Workflows](./argocd.md)
 
@@ -169,6 +171,9 @@ Key components of their framework:
   - Pipeline parallelism and tensor parallelism
   - Gradient synchronization strategies (AllReduce, Ring-AllReduce)
   - Communication libraries: NCCL, Gloo, MPI
+  - **See [Parallelism Strategies Guide](./parallelism.md) for comprehensive
+    coverage of Data Parallel (DP), Sharded Data Parallel (FSDP), and
+    Context Parallel (CP) strategies**
 
 - **PyTorch Distributed:**
   - [DistributedDataParallel (DDP)](https://pytorch.org/tutorials/beginner/dist_overview.html)

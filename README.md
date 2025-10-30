@@ -164,8 +164,8 @@ gang scheduling, and efficient resource management.
 training operators (Kubeflow, Volcano, Kueue), ML platforms (Kubeflow
 Pipelines, Argo Workflows), GitOps (ArgoCD), fault tolerance strategies,
 ByteDance's training optimization framework, and industry best practices.
-Detailed guides: [Kubeflow](./docs/training/kubeflow.md) |
-[ArgoCD](./docs/training/argocd.md)
+Detailed guides: [Parallelism Strategies](./docs/training/parallelism.md) |
+[Kubeflow](./docs/training/kubeflow.md) | [ArgoCD](./docs/training/argocd.md)
 
 ---
 
