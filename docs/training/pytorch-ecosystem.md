@@ -467,7 +467,7 @@ Huawei has built a comprehensive ecosystem around Ascend NPUs:
   - Model zoo with pre-trained models
   - Developer tools and profiling
 
-## RoadMap (Ongoing Development)
+## Roadmap (Ongoing Development)
 
 ### PyTorch Ecosystem
 
@@ -523,7 +523,7 @@ Areas of interest:
 ### Academic Papers
 
 - ["PyTorch Distributed: Experiences on Accelerating Data Parallel
-  Training"](https://arxiv.org/abs/1910.02054)
+  Training"](https://arxiv.org/abs/2006.15704)
 - ["ZeRO: Memory Optimizations Toward Training Trillion Parameter
   Models"](https://arxiv.org/abs/1910.02054)
 - ["Efficient Memory Management for Large Language Model Serving with
