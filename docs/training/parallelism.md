@@ -93,6 +93,8 @@ and optimizer states across GPUs, significantly reducing memory usage per GPU.
 #### FSDP Implementation in PyTorch
 
 ```python
+import functools
+import torch
 from torch.distributed.fsdp import FullyShardedDataParallel as FSDP
 from torch.distributed.fsdp import ShardingStrategy
 from torch.distributed.fsdp.wrap import size_based_auto_wrap_policy
@@ -211,6 +213,8 @@ def context_parallel_attention(
     value_full = torch.cat(value_all, dim=1)
     
     # Compute attention over full sequence for local queries
+    # Note: compute_attention is a placeholder for your attention implementation
+    # (e.g., scaled dot-product attention or flash attention)
     attention_output = compute_attention(query, key_full, value_full)
     
     return attention_output
