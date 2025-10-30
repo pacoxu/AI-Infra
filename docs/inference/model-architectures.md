@@ -125,8 +125,10 @@ For comprehensive details on MoE architectures, see
 
 ### Llama 4
 
-**Note:** Llama 4 is anticipated but not yet released. The following
-information is based on expected MoE architecture evolution from Llama 3.
+**Note:** Llama 4 is anticipated but not yet released. All specifications
+presented here are hypothetical and based on expected architectural trends
+in MoE evolution from Llama 3. These details should be verified against
+official documentation when the model is released.
 
 Llama 4 is expected to represent Meta's evolution to Mixture-of-Experts
 architecture, combining the architectural advances of Llama 3 with sparse
@@ -308,7 +310,7 @@ Attention Heads: 128 (16 KV heads with GQA)
 
 | Metric | DeepSeek-V3 | GPT-4 | Notes |
 |--------|------------|-------|-------|
-| Active Params | 37B | ~1.7T (est.) | 45x fewer active params |
+| Active Params | 37B | ~1.7T (est.) | ~46x fewer active params |
 | Inference Speed | 3x faster | Baseline | At similar quality |
 | Memory per Token | 65% lower | Baseline | Due to sparse activation |
 | Training Efficiency | 4x faster | Dense equivalent | Per training FLOP |
@@ -599,11 +601,15 @@ while keeping inference costs manageable.
 
 **Real-World Example:**
 
-| Model | Total Params | Active Params | Memory | Inference Speed |
-|-------|-------------|---------------|---------|----------------|
-| Dense GPT-4 (est.) | ~1.7T | ~1.7T | 3.4TB | Baseline |
-| DeepSeek-V3 | 671B | 37B | 1.3TB | 3x faster |
+| Model | Total Params | Active Params | Memory (FP16) | Inference Speed |
+|-------|-------------|---------------|---------------|----------------|
+| Dense GPT-4 (est.) | ~1.7T | ~1.7T | ~3.4TB | Baseline |
+| DeepSeek-V3 | 671B | 37B | ~1.3TB | 3x faster |
 | Quality | Comparable | Comparable | 62% less | - |
+
+*Note: Memory figures represent model weights only. Actual inference
+memory includes additional overhead for KV cache, activations, and runtime
+buffers.*
 
 **How MoE Achieves This:**
 
