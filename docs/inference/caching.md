@@ -55,6 +55,8 @@ exponentially. To manage this growth, modern inference systems employ a
 hierarchical storage approach, offloading KV cache data across multiple
 storage tiers based on access patterns and performance requirements.
 
+![dynamo](../../diagrams/dynamo-memory.png)
+
 ### Storage Hierarchy
 
 The KV cache storage hierarchy typically follows this pattern, ordered by
@@ -237,6 +239,13 @@ patterns within individual contexts.
 [`LMCache`](https://github.com/LMCache/lmcache) is an LLM serving engine
 extension to reduce TTFT and increase throughput, especially under
 long-context scenarios.
+
+![nixl-design](../../diagrams/nixl-design.png)
+
+ - GPU-GPU transfer
+ - GPU-CPU offloading
+ - CPU-CPU transfer
+ - Storage offloading
 
 **Key Features:**
 
