@@ -154,9 +154,11 @@ Primus-turbo provides a suite of kernel-level optimizations for AMD GPUs:
   - Reduces memory bandwidth requirements
 
 - **Aiter ASM FAv3 (Flash Attention v3):**
-  - Assembly-optimized Flash Attention implementation
+  - Hand-tuned assembly-level Flash Attention v3 implementation for AMD
+    GPUs
   - Reduced memory footprint for attention computation
   - Faster attention for long sequence training
+  - "Aiter" refers to AMD-optimized iterator patterns in assembly code
 
 - **DeepEP (Deep Expert Parallelism):**
   - Advanced expert parallelism with hierarchical routing
@@ -182,8 +184,11 @@ sophisticated scaling strategies.
   - Reduced memory footprint compared to standard attention
 
 - **Auxiliary-loss-free load balancing:**
-  - Novel load balancing without auxiliary losses
+  - Novel load balancing without auxiliary losses (traditional MoE uses
+    auxiliary losses to encourage balanced expert usage, which can hurt
+    model quality)
   - Improves training stability and convergence
+  - Eliminates hyperparameter tuning for auxiliary loss weights
 
 #### Cluster Setup for DeepseekV3
 
@@ -256,7 +261,7 @@ Recommended experimental workflow:
 
 3. **Full-scale pre-training (405B+):**
    - 1024+ GPUs for production training
-   - Monitor ETTR and MFU continuously
+   - Monitor ETTR (Effective Training Time Ratio) and MFU continuously
    - Implement all fault tolerance mechanisms
    - Regular checkpoint validation
 
@@ -415,7 +420,8 @@ Key optimization strategies for Llama4 pre-training:
 ### Technical Blogs
 
 - **DeepSeek:**
-  - [DeepSeek-V3 Technical Report](https://github.com/deepseek-ai/DeepSeek-V3)
+  - [DeepSeek-V3 GitHub Repository](https://github.com/deepseek-ai/DeepSeek-V3)
+    (includes technical report and implementation)
 
 - **Meta:**
   - [Training Llama 3 at Scale](https://ai.meta.com/blog/meta-llama-3/)
