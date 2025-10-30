@@ -12,6 +12,7 @@ Mainly compare AIBrix, llm-d, llmaz, OME and Kthena.
 
 More details about specific platforms and techniques:
 
+- [Model Architectures (Llama, Qwen, DeepSeek, Flux)](./model-architectures.md)
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
 - [Caching in LLM Inference](./caching.md)
 - [Memory, Context, and Database for AI Agents](./memory-context-db.md)
