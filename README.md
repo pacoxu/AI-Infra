@@ -98,6 +98,7 @@ LLM inference engines, platforms, and optimization techniques for efficient
 model serving at scale.
 
 - **Key Topics:**
+  - Model standardization with Hugging Face Transformers
   - Efficient transformer inference (KV Cache, FlashAttention, CUDA Graphs)
   - LLM serving and orchestration platforms
   - Multi-accelerator optimization
@@ -111,6 +112,7 @@ model serving at scale.
 **See [Inference Guide](./docs/inference/README.md)** for comprehensive coverage of
 engines (vLLM, SGLang, Triton, TGI), platforms (Dynamo, AIBrix, OME, llmaz,
 Kthena, KServe), and deep-dive topics:
+[Transformers](./docs/inference/transformers.md) |
 [AIBrix](./docs/inference/aibrix.md) |
 [P/D Disaggregation](./docs/inference/pd-disaggregation.md) |
 [Caching](./docs/inference/caching.md) |

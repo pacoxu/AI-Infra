@@ -12,6 +12,7 @@ Mainly compare AIBrix, llm-d, llmaz, OME and Kthena.
 
 More details about specific platforms and techniques:
 
+- [Transformers: Standardizing Model Definitions](./transformers.md)
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
 - [Caching in LLM Inference](./caching.md)
 - [Memory, Context, and Database for AI Agents](./memory-context-db.md)
@@ -19,6 +20,25 @@ More details about specific platforms and techniques:
 - [Model Lifecycle Management (Cold-Start, Sleep Mode, Offloading)](./model-lifecycle.md)
 
 ## Featured Projects
+
+### Hugging Face Transformers
+
+<a href="https://github.com/huggingface/transformers">`Transformers`</a> is the
+de facto standard for model definitions across the PyTorch ecosystem, serving
+as the foundation that connects training frameworks, inference engines, and
+deployment tools. With 400,000+ dependents on GitHub, Transformers sits at the
+center of the model-release cycle.
+
+**Key highlights:**
+
+- Standard model definitions for 100+ architectures (GPT, BERT, LLaMA, T5, etc.)
+- Seamless integration with inference engines (vLLM, SGLang, TGI, TensorRT)
+- Foundation for training frameworks (Unsloth, Axolotl, TRL, PyTorch Lightning)
+- Production-ready code with focus on performance, modularity, and simplicity
+- Comprehensive ecosystem for tokenizers, trainers, and model utilities
+
+For comprehensive documentation, see
+[Transformers: Standardizing Model Definitions](./transformers.md).
 
 ### AIBrix
 

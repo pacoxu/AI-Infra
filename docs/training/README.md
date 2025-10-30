@@ -18,6 +18,7 @@ fault handling mechanisms essential.
 
 More details about specific topics:
 
+- [Transformers: Model Definitions Standard](../inference/transformers.md)
 - [Parallelism Strategies (Data, Sharded Data, Context
   Parallel)](./parallelism.md)
 - [Kubeflow Training Operator and Trainer V2](./kubeflow.md)
