@@ -162,12 +162,15 @@ gang scheduling, and efficient resource management.
   - Training efficiency metrics (ETTR, MFU)
   - GitOps workflows for training management
   - Storage optimization for checkpoints
+  - **Pre-training large language models (MoE, DeepseekV3, Llama4)**
+  - **Scaling experiments and cluster setup (AMD MI325)**
 
 **See [Training Guide](./docs/training/README.md)** for comprehensive coverage of
 training operators (Kubeflow, Volcano, Kueue), ML platforms (Kubeflow
 Pipelines, Argo Workflows), GitOps (ArgoCD), fault tolerance strategies,
 ByteDance's training optimization framework, and industry best practices.
 Detailed guides: [PyTorch Ecosystem](./docs/training/pytorch-ecosystem.md) |
+[Pre-Training](./docs/training/pre-training.md) |
 [Parallelism Strategies](./docs/training/parallelism.md) |
 [Kubeflow](./docs/training/kubeflow.md) | [ArgoCD](./docs/training/argocd.md)
 
