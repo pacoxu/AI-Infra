@@ -18,6 +18,8 @@ fault handling mechanisms essential.
 
 More details about specific topics:
 
+- [PyTorch Ecosystem and Accelerator Integration (DeepSpeed, vLLM, NPU/HPU/
+  XPU)](./pytorch-ecosystem.md)
 - [Pre-Training Large Language Models (MoE, DeepseekV3,
   Llama4)](./pre-training.md)
 - [Parallelism Strategies (Data, Sharded Data, Context

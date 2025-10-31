@@ -98,6 +98,7 @@ LLM inference engines, platforms, and optimization techniques for efficient
 model serving at scale.
 
 - **Key Topics:**
+  - Model architectures (Llama 3/4, Qwen 3, DeepSeek-V3, Flux)
   - Efficient transformer inference (KV Cache, FlashAttention, CUDA Graphs)
   - LLM serving and orchestration platforms
   - Multi-accelerator optimization
@@ -111,6 +112,7 @@ model serving at scale.
 **See [Inference Guide](./docs/inference/README.md)** for comprehensive coverage of
 engines (vLLM, SGLang, Triton, TGI), platforms (Dynamo, AIBrix, OME, llmaz,
 Kthena, KServe), and deep-dive topics:
+[Model Architectures](./docs/inference/model-architectures.md) |
 [AIBrix](./docs/inference/aibrix.md) |
 [P/D Disaggregation](./docs/inference/pd-disaggregation.md) |
 [Caching](./docs/inference/caching.md) |
@@ -152,6 +154,7 @@ Distributed training of large AI models on Kubernetes with fault tolerance,
 gang scheduling, and efficient resource management.
 
 - **Key Topics:**
+  - PyTorch ecosystem and accelerator integration (DeepSpeed, vLLM, NPU/HPU/XPU)
   - Distributed training strategies (data/model/pipeline parallelism)
   - Gang scheduling and job queueing
   - Fault tolerance and checkpointing
@@ -166,7 +169,8 @@ gang scheduling, and efficient resource management.
 training operators (Kubeflow, Volcano, Kueue), ML platforms (Kubeflow
 Pipelines, Argo Workflows), GitOps (ArgoCD), fault tolerance strategies,
 ByteDance's training optimization framework, and industry best practices.
-Detailed guides: [Pre-Training](./docs/training/pre-training.md) |
+Detailed guides: [PyTorch Ecosystem](./docs/training/pytorch-ecosystem.md) |
+[Pre-Training](./docs/training/pre-training.md) |
 [Parallelism Strategies](./docs/training/parallelism.md) |
 [Kubeflow](./docs/training/kubeflow.md) | [ArgoCD](./docs/training/argocd.md)
 
