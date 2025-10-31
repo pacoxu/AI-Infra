@@ -556,8 +556,9 @@ Inference: Time Step = N (continues until <EOS>)
   (Blog)](https://huggingface.co/blog/Esmail-AGumaan/attention-is-all-you-need):
   Detailed explanation of transformer architecture
 - [PyTorch Conference: Transformers Standardization
-  Talk](https://pytorchconference.sched.com/): Lysandre Debut & Arthur
-  Zucker on standardizing model definitions
+  Talk](https://sched.co/27QDi): Lysandre Debut & Arthur Zucker, Hugging
+  Face - Transformers: Standardizing Model Definitions Across the PyTorch
+  Ecosystem
 
 ## Best Practices
 
@@ -588,7 +589,7 @@ Inference: Time Step = N (continues until <EOS>)
 - **Monitoring:** Track inference latency, throughput, and resource usage
 - **Version Control:** Maintain model versions and track configurations
 
-## RoadMap (Ongoing Development)
+## Roadmap (Ongoing Development)
 
 ### Transformers Core
 
@@ -658,9 +659,9 @@ for detailed instructions.
 ### Conference Talks
 
 - [PyTorch Conference 2024: Transformers
-  Standardization](https://pytorchconference.sched.com/): Talk by Lysandre
-  Debut & Arthur Zucker on standardizing model definitions across the
-  ecosystem
+  Standardization](https://sched.co/27QDi): Talk by Lysandre Debut & Arthur
+  Zucker, Hugging Face - Transformers: Standardizing Model Definitions
+  Across the PyTorch Ecosystem
 
 ### Blog Posts
 
