@@ -482,7 +482,7 @@ torchrun --nproc_per_node=8 train.py \
 
 ### Example: MoE Pre-training Configuration
 
-```python
+```toml
 # TorchTitan configuration for MoE model
 [model]
 model_type = "moe"
