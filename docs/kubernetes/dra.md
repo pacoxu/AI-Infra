@@ -25,6 +25,24 @@ framework, supporting:
 ![dra](./diagrams/dra-user-flow.svg)
 
 
+# NVIDIA GPU DRA
+
+Two DRA kubelet plugins: gpu-kubelet-plugin, compute-domain-kubelet-plugin are required.
+NVIDIA GB200 is supported.
+In the future, this driver will be included in the NVIDIA GPU Operator
+
+Requirements:
+
+- Kubernetes v1.32 or newer.
+- Enable CDI in container runtime(containerd 2.0 enabled by default).
+- NVIDIA GPU Driver 565 or later. The GPU driver installation must include the nvidia-imex and nvidia-imex-ctl binaries.
+- installing GPU Operator v25.3.x or later.
+
+
+![dra-driver](./diagrams/dra-driver-architecture.png)
+
+
+
 **See also:**
 [Scheduling Optimization Guide](./scheduling-optimization.md#26-topology-aware-scheduling)
 for DRA usage in production scenarios.
