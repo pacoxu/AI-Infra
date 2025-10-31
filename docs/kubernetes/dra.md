@@ -47,6 +47,7 @@ for DRA usage in production scenarios.
 
 ### Additional Resources
 
+- [Kubernetes docs](https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/), [GKE docs](https://cloud.google.com/kubernetes-engine/docs/concepts/about-dynamic-resource-allocation), [Kubernetes blog](https://kubernetes.io/blog/2025/05/01/kubernetes-v1-33-dra-updates/)
 - [YouTube search: DRA](https://www.youtube.com/@cncf/search?query=DRA)
 - [Kubernetes WG Device
   Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md)
