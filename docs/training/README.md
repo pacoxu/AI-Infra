@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2025-10-31
 tags: training, kubernetes, fault-tolerance, distributed-training
 canonical_path: docs/training/README.md
 ---
@@ -20,6 +20,8 @@ More details about specific topics:
 
 - [PyTorch Ecosystem and Accelerator Integration (DeepSpeed, vLLM, NPU/HPU/
   XPU)](./pytorch-ecosystem.md)
+- [Pre-Training Large Language Models (MoE, DeepseekV3,
+  Llama4)](./pre-training.md)
 - [Parallelism Strategies (Data, Sharded Data, Context
   Parallel)](./parallelism.md)
 - [Kubeflow Training Operator and Trainer V2](./kubeflow.md)
