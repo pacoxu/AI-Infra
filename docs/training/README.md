@@ -18,6 +18,8 @@ fault handling mechanisms essential.
 
 More details about specific topics:
 
+- [Transformers: Standardizing Model Definitions Across the PyTorch
+  Ecosystem](./transformers.md)
 - [PyTorch Ecosystem and Accelerator Integration (DeepSpeed, vLLM, NPU/HPU/
   XPU)](./pytorch-ecosystem.md)
 - [Pre-Training Large Language Models (MoE, DeepseekV3,
