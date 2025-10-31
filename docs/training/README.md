@@ -18,6 +18,8 @@ fault handling mechanisms essential.
 
 More details about specific topics:
 
+- [PyTorch Ecosystem and Accelerator Integration (DeepSpeed, vLLM, NPU/HPU/
+  XPU)](./pytorch-ecosystem.md)
 - [Parallelism Strategies (Data, Sharded Data, Context
   Parallel)](./parallelism.md)
 - [Kubeflow Training Operator and Trainer V2](./kubeflow.md)

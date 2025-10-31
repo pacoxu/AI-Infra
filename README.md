@@ -154,6 +154,7 @@ Distributed training of large AI models on Kubernetes with fault tolerance,
 gang scheduling, and efficient resource management.
 
 - **Key Topics:**
+  - PyTorch ecosystem and accelerator integration (DeepSpeed, vLLM, NPU/HPU/XPU)
   - Distributed training strategies (data/model/pipeline parallelism)
   - Gang scheduling and job queueing
   - Fault tolerance and checkpointing
@@ -166,7 +167,8 @@ gang scheduling, and efficient resource management.
 training operators (Kubeflow, Volcano, Kueue), ML platforms (Kubeflow
 Pipelines, Argo Workflows), GitOps (ArgoCD), fault tolerance strategies,
 ByteDance's training optimization framework, and industry best practices.
-Detailed guides: [Parallelism Strategies](./docs/training/parallelism.md) |
+Detailed guides: [PyTorch Ecosystem](./docs/training/pytorch-ecosystem.md) |
+[Parallelism Strategies](./docs/training/parallelism.md) |
 [Kubeflow](./docs/training/kubeflow.md) | [ArgoCD](./docs/training/argocd.md)
 
 ---
