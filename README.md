@@ -64,6 +64,7 @@ workloads in Kubernetes clusters.
   - **Batch Scheduling**: Kueue, Volcano, koordinator, Godel, YuniKorn
     ([Kubernetes WG Batch](https://github.com/kubernetes/community/blob/master/wg-batch/README.md))
   - **GPU Scheduling**: HAMI, NVIDIA Kai Scheduler, NVIDIA Grove
+  - **GPU Management**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins
   - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling
   - **Device Management**: DRA, NRI
     ([Kubernetes WG Device Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md))
@@ -84,6 +85,7 @@ management. Detailed guides:
 [Scheduling Optimization](./docs/kubernetes/scheduling-optimization.md) |
 [Isolation](./docs/kubernetes/isolation.md) |
 [DRA](./docs/kubernetes/dra.md) |
+[NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md) |
 [NRI](./docs/kubernetes/nri.md)
 
 - **RoadMap:**

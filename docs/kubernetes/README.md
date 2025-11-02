@@ -38,6 +38,9 @@ workload isolation.
   descheduling strategies
 - **[Dynamic Resource Allocation (DRA)](./dra.md)**: Flexible device
   allocation with structured parameters and topology awareness
+- **[NVIDIA GPU Operator](./nvidia-gpu-operator.md)**: Automated GPU driver
+  installation, device plugin deployment, DRA driver integration, and GPU
+  monitoring with DCGM
 - **[Node Resource Interface (NRI)](./nri.md)**: Fine-grained container
   resource management at the runtime level
 
@@ -54,8 +57,10 @@ workload isolation.
 
 1. Start with [Scheduling Optimization](./scheduling-optimization.md) for
    production patterns
-2. Review [DRA](./dra.md) and [NRI](./nri.md) for device management
-3. Understand [Pod Lifecycle](./pod-lifecycle.md) for debugging
+2. Review [DRA](./dra.md) and [NVIDIA GPU Operator](./nvidia-gpu-operator.md)
+   for GPU resource management
+3. Explore [NRI](./nri.md) for fine-grained container control
+4. Understand [Pod Lifecycle](./pod-lifecycle.md) for debugging
 
 ### For Platform Engineers
 
@@ -70,8 +75,10 @@ workload isolation.
 
 1. Focus on [Scheduling Optimization](./scheduling-optimization.md) for
    GPU workloads
-2. Review [Isolation Guide](./isolation.md) for checkpoint/restore
-3. Understand [DRA](./dra.md) for complex device requirements
+2. Review [NVIDIA GPU Operator](./nvidia-gpu-operator.md) for GPU setup and
+   monitoring
+3. Study [Isolation Guide](./isolation.md) for checkpoint/restore
+4. Understand [DRA](./dra.md) for complex device requirements
 
 ## Related Topics
 
