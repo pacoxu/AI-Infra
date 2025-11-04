@@ -60,7 +60,7 @@ Track hardware-level metrics for GPU health and utilization:
 avg(DCGM_FI_DEV_GPU_UTIL) by (gpu, kubernetes_node)
 
 # GPU memory usage percentage
-(DCGM_FI_DEV_FB_USED / DCGM_FI_DEV_FB_FREE) * 100
+(DCGM_FI_DEV_FB_USED / (DCGM_FI_DEV_FB_USED + DCGM_FI_DEV_FB_FREE)) * 100
 
 # GPUs with high temperature
 DCGM_FI_DEV_GPU_TEMP > 80
