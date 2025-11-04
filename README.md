@@ -181,7 +181,38 @@ Detailed guides: [Transformers](./docs/training/transformers.md) |
 
 ---
 
-### 5. Ecosystem Initiatives
+### 🔍 5. Observability of AI Workloads
+
+Comprehensive monitoring, metrics, and observability across the AI
+infrastructure stack for production operations.
+
+- **Key Topics:**
+  - **Infrastructure monitoring**: GPU utilization, memory, temperature, power
+  - **Inference metrics**: TTFT, TPOT, ITL, throughput, request latency
+  - **Scheduler observability**: Queue depth, scheduling latency, resource
+    allocation
+  - **LLM application tracing**: Request traces, prompt performance, model
+    quality
+  - **Cost optimization**: Resource utilization analysis and right-sizing
+  - **Multi-tenant monitoring**: Per-tenant metrics and fair-share enforcement
+
+**See [Observability Guide](./docs/observability/README.md)** for comprehensive
+coverage of GPU monitoring (DCGM, Prometheus), inference metrics (OpenLLMetry,
+Langfuse, OpenLit), scheduler observability (Kueue, Volcano), distributed
+tracing (DeepFlow), and LLM evaluation platforms (TruLens, Deepchecks).
+
+- **Featured Tools:**
+  - OpenTelemetry-native: <a href="https://github.com/openlit/openlit">`OpenLit`</a>,
+    <a href="https://github.com/traceloop/openllmetry">`OpenLLMetry`</a>
+  - LLM platforms: <a href="https://github.com/langfuse/langfuse">`Langfuse`</a>,
+    <a href="https://github.com/truera/trulens">`TruLens`</a>
+  - Model validation: <a href="https://github.com/deepchecks/deepchecks">`Deepchecks`</a>
+  - Network tracing: <a href="https://github.com/deepflowio/deepflow">`DeepFlow`</a>
+  - Infrastructure: <a href="https://github.com/okahu">`Okahu`</a>
+
+---
+
+### 6. Ecosystem Initiatives
 
 - **Projects to Learn:**
   - [`Model Spec`](https://github.com/modelpack/model-spec): CNCF Sandbox
