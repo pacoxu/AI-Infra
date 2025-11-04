@@ -22,7 +22,7 @@ framework, supporting:
 - Structured parameters for fine-grained device configuration
 - Multiple device types per pod
 
-![dra](./diagrams/dra-user-flow.svg)
+![dra](../../diagrams/dra-user-flow.svg)
 
 **See also:**
 [Scheduling Optimization Guide](./scheduling-optimization.md#26-topology-aware-scheduling)
