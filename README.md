@@ -107,6 +107,7 @@ model serving at scale.
   - MoE (Mixture of Experts) architectures
   - Model lifecycle management (cold-start, sleep mode, offloading)
   - AI agent memory and context management
+  - Performance testing and benchmarking
 
 - **RoadMap:**
   - [Serving WG](https://github.com/kubernetes/community/blob/master/wg-serving/README.md)
@@ -120,7 +121,8 @@ Kthena, KServe), and deep-dive topics:
 [Caching](./docs/inference/caching.md) |
 [Memory/Context DB](./docs/inference/memory-context-db.md) |
 [MoE Models](./docs/inference/large-scale-experts.md) |
-[Model Lifecycle](./docs/inference/model-lifecycle.md)
+[Model Lifecycle](./docs/inference/model-lifecycle.md) |
+[Performance Testing](./docs/inference/performance-testing.md)
 
 ---
 
