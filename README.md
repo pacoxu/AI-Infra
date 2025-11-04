@@ -85,6 +85,7 @@ management. Detailed guides:
 [Scheduling Optimization](./docs/kubernetes/scheduling-optimization.md) |
 [Isolation](./docs/kubernetes/isolation.md) |
 [DRA](./docs/kubernetes/dra.md) |
+[DRA Performance Testing](./docs/kubernetes/dra-performance-testing.md) |
 [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md) |
 [NRI](./docs/kubernetes/nri.md)
 

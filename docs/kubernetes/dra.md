@@ -36,6 +36,11 @@ for DRA usage in production scenarios.
 - All KEPs about DRA:
   [GitHub Issues](https://github.com/kubernetes/enhancements/issues/?q=is%3Aissue%20%20DRA%20in%3Atitle)
 
+**Performance Testing:**
+
+See [DRA Performance Testing](./dra-performance-testing.md) for comprehensive
+scale testing, performance benchmarks, and production best practices.
+
 ## DRA Driver Implementations
 
 ### NVIDIA DRA Driver for GPUs
