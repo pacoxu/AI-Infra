@@ -274,7 +274,7 @@ LLM 评估平台（TruLens, Deepchecks）的全面介绍。
 
 - **学习项目:**
   - [`Model Spec`](https://github.com/modelpack/model-spec): CNCF Sandbox
-  - [`ImageVolume`]( https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
+  - [`ImageVolume`](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
 
 ---
 

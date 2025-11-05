@@ -284,7 +284,7 @@ tracing (DeepFlow), and LLM evaluation platforms (TruLens, Deepchecks).
 
 - **Projects to Learn:**
   - [`Model Spec`](https://github.com/modelpack/model-spec): CNCF Sandbox
-  - [`ImageVolume`]( https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
+  - [`ImageVolume`](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
 
 ---
 
