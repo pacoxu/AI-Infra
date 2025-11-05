@@ -9,7 +9,12 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 
 # AI-Infra Landscape & Learning Path 🚀
 
-Welcome to the **AI-Infra** repository! This project provides a curated landscape and structured learning path for engineers building and operating modern **AI infrastructure**, especially in the Kubernetes and cloud-native ecosystem.
+[中文版](./README.zh-CN.md) | English
+
+Welcome to the **AI-Infra** repository! This project provides a curated
+landscape and structured learning path for engineers building and operating
+modern **AI infrastructure**, especially in the Kubernetes and cloud-native
+ecosystem.
 
 ## 🌐 Overview
 
@@ -23,7 +28,67 @@ This landscape visualizes key components across the AI Infrastructure stack, map
   - Bottom: Infrastructure Layer (Kernel/Runtime)
   - Top: Application Layer (AI/Inference)
 
-The goal is to demystify the evolving AI Infra stack and guide engineers on where to focus their learning.
+The goal is to demystify the evolving AI Infra stack and guide engineers on
+where to focus their learning.
+
+## 📑 Table of Contents
+
+- [AI-Infra Landscape](#-ai-infra-landscape-2025-june-needs-an-update)
+- [Learning Path for AI Infra Engineers](#-learning-path-for-ai-infra-engineers)
+  - [0. Kernel & Runtime (底层内核)](#-0-kernel--runtime-底层内核)
+  - [1. Scheduling & Workloads (调度与工作负载)](#-1-scheduling--workloads-调度与工作负载)
+  - [2. Model Inference & Runtime Optimization (推理优化)](#-2-model-inference--runtime-optimization-推理优化)
+  - [3. AI Gateway & Agentic Workflow](#-3-ai-gateway--agentic-workflow)
+  - [4. Training on Kubernetes](#-4-training-on-kubernetes)
+  - [5. Observability of AI Workloads](#-5-observability-of-ai-workloads)
+  - [6. Ecosystem Initiatives](#6-ecosystem-initiatives)
+- [RoadMap](#️-roadmap)
+- [Contributing](#-contributing)
+- [References](#-references)
+- [Conferences](#conferences)
+- [License](#-license)
+
+### 📂 Documentation Files
+
+#### Kubernetes
+
+- [Kubernetes Overview](./docs/kubernetes/README.md)
+- [Kubernetes Learning Plan](./docs/kubernetes/learning-plan.md)
+- [Pod Lifecycle](./docs/kubernetes/pod-lifecycle.md)
+- [Pod Startup Speed](./docs/kubernetes/pod-startup-speed.md)
+- [Scheduling Optimization](./docs/kubernetes/scheduling-optimization.md)
+- [Workload Isolation](./docs/kubernetes/isolation.md)
+- [Dynamic Resource Allocation (DRA)](./docs/kubernetes/dra.md)
+- [DRA Performance Testing](./docs/kubernetes/dra-performance-testing.md)
+- [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md)
+- [Node Resource Interface (NRI)](./docs/kubernetes/nri.md)
+
+#### Inference
+
+- [Inference Overview](./docs/inference/README.md)
+- [Model Architectures](./docs/inference/model-architectures.md)
+- [AIBrix Platform](./docs/inference/aibrix.md)
+- [OME Platform](./docs/inference/ome.md)
+- [Prefill-Decode Disaggregation](./docs/inference/pd-disaggregation.md)
+- [Caching Strategies](./docs/inference/caching.md)
+- [Memory & Context DB](./docs/inference/memory-context-db.md)
+- [Large-Scale MoE Models](./docs/inference/large-scale-experts.md)
+- [Model Lifecycle Management](./docs/inference/model-lifecycle.md)
+- [Performance Testing](./docs/inference/performance-testing.md)
+
+#### Training
+
+- [Training Overview](./docs/training/README.md)
+- [Transformers](./docs/training/transformers.md)
+- [PyTorch Ecosystem](./docs/training/pytorch-ecosystem.md)
+- [Pre-Training](./docs/training/pre-training.md)
+- [Parallelism Strategies](./docs/training/parallelism.md)
+- [Kubeflow Training](./docs/training/kubeflow.md)
+- [ArgoCD for GitOps](./docs/training/argocd.md)
+
+#### Observability
+
+- [Observability Overview](./docs/observability/README.md)
 
 ## 📊 AI-Infra Landscape (2025 June, needs an update)
 
