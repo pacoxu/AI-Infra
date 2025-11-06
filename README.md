@@ -127,29 +127,38 @@ Kthena, KServe), and deep-dive topics:
 
 ---
 
-### 🧩 3. AI Gateway & Agentic Workflow
+### 🧩 3. AI Gateway & Agentic Systems
 
-- **Projects to Learn:**
-  - AI Gateway:
-    - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
-    - [`Envoy AI Gateway`](https://github.com/envoyproxy/ai-gateway)
-    - [`Istio`](https://github.com/istio/istio)
-    - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
-    - [`DaoCloud knoway`](https://github.com/knoway-dev/knoway)
-    - [`Higress`](https://github.com/alibaba/higress): Alibaba
-    - [`Kong`](https://github.com/Kong/kong)
-    - [`Semantic Router`](https://github.com/vllm-project/semantic-router): vLLM Project
-  - Agentic Workflow:
-    - [`Dify`](https://github.com/langgenius/dify)
-    - [`KAgent`](https://github.com/kagent-dev/kagent): CNCF Sandbox
-    - [`Dagger`](https://github.com/dagger/dagger)
-  - Serverless:
-    - [`Knative`](https://github.com/knative/serving): Serverless solution, like [llama stack use case](https://github.com/knative/docs/blob/071fc774faa343ea996713a8750d78fc9225356c/docs/blog/articles/ai_functions_llama_stack.md).
+Autonomous AI agents, intelligent routing, and orchestration for building
+next-generation AI applications on Kubernetes.
 
-- **Learning Topics:**
-  - API orchestration for LLMs
-  - Prompt routing and A/B testing
-  - RAG workflows, vector DB integration
+- **Key Topics:**
+  - **Agentic Systems**: Autonomous agents that plan, execute, and interact
+    with tools
+  - **Agent Frameworks**: KAgent, Dapr Agents, Agent Sandbox, AgentScope
+  - **Model Context Protocol (MCP)**: Standards for agent-to-agent (A2A) and
+    agent-to-component (ACP) communication
+  - **AI Gateways**: Intelligent routing, load balancing, and orchestration
+  - **Agent Observability**: OpenTelemetry (OTEL) for agent tracing and
+    metrics
+  - **Safety & Security**: Sandboxing, prompt injection defense, policy
+    enforcement
+  - **Serverless Agents**: Event-driven agent deployment with Knative
+
+**See [Agentic Systems Guide](./docs/agentic/README.md)** for comprehensive
+coverage of agent frameworks (KAgent, Dapr Agents, Agent Sandbox, AgentScope,
+Dify, Dagger), AI Gateway projects (Gateway API Inference Extension, Envoy AI
+Gateway, Istio, KGateway, Higress, Kong), Model Context Protocol (MCP),
+OpenTelemetry observability, and security best practices.
+
+- **Community & Standards:**
+  - [CNCF Agentic System Initiative](https://github.com/cncf/toc/issues/1746)
+  - Kubernetes
+    [WG AI Integration](https://github.com/kubernetes/community/blob/master/wg-ai-integration/charter.md)
+
+- **Learning Resources:**
+  - [Building Agentic Systems](https://www.youtube.com/watch?v=WvpDBJVjIbI)
+  - [Kubernetes AI OSS](https://jimmysong.io/blog/kubernetes-ai-oss-solo/)
 
 ---
 
