@@ -28,7 +28,7 @@ standardize and promote best practices for agentic AI systems in cloud-native
 environments.
 
 - <a href="https://github.com/cncf/toc/issues/1746">`CNCF TOC - Agentic
-  System Initiative`</a>: Discussion and proposals for standardizing agent
+  Systems Initiative`</a>: Discussion and proposals for standardizing agent
   architectures, protocols, and deployment patterns
 - **Key Focus Areas:**
   - Agent orchestration and lifecycle management
