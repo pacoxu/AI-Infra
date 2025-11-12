@@ -289,10 +289,27 @@ spec:
     image: tensorflow/tensorflow:latest
 ```
 
+#### gVisor Snapshots for Fast Cold Starts
+
+gVisor supports container snapshots that enable rapid restoration of
+pre-initialized containers:
+
+- **Pre-Warmed State**: Capture initialized runtime, loaded libraries,
+  dependencies
+- **Fast Restore**: Restore from snapshot instead of cold starting from image
+- **Consistent Performance**: Eliminate initialization variance across starts
+- **Production Use**: Proven in GKE Agent Sandbox with 90% cold start
+  improvement
+
+This is particularly valuable for AI agent workloads that need rapid,
+on-demand execution with strong isolation guarantees.
+
 #### Limitations for AI Workloads
 
-- **No GPU Support**: gVisor does not support GPU passthrough
-- **Performance Overhead**: Syscall interception adds latency
+- **No GPU Support**: gVisor does not support GPU passthrough (suitable for
+  CPU-only agent workloads)
+- **Performance Overhead**: Syscall interception adds latency (mitigated by
+  snapshots)
 - **Compatibility**: Some syscalls not implemented
 
 ### Comparison: Kata vs gVisor for AI
@@ -342,6 +359,52 @@ AI agents pose unique security challenges:
 - Dynamic model deployment and testing
 - Safe execution of user-provided inference code
 
+### GKE Agent Sandbox
+
+<a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">
+GKE Agent Sandbox</a> provides production-ready strong guardrails for agentic
+AI on Kubernetes and GKE, combining gVisor sandboxing with advanced snapshot
+capabilities.
+
+#### Key Features
+
+- **gVisor Integration**: User-space kernel for strong isolation of untrusted
+  agent code
+- **Container Snapshots**: Pre-warmed container images with initialized
+  dependencies and runtime state
+- **Fast Cold Starts**: Up to 90% improvement in cold start performance
+  compared to traditional container startup
+- **Security Boundaries**: Hardware-level isolation for multi-tenant AI agent
+  workloads
+
+#### How It Works
+
+1. **Sandbox Creation**: Agent workloads run in gVisor sandboxes with syscall
+   filtering
+2. **Snapshot Capture**: Containers are initialized, dependencies loaded, and
+   state captured
+3. **Fast Restore**: New agent instances restore from pre-warmed snapshots
+   instead of cold starting
+4. **Isolation**: Each agent runs in isolated sandbox with resource limits
+
+#### Performance Benefits
+
+- **Reduced Latency**: 90% faster cold starts enable near-instant agent
+  execution
+- **Resource Efficiency**: Snapshot reuse reduces redundant initialization
+- **Scalability**: Rapid scale-out of agent workloads for high-concurrency
+  scenarios
+- **Cost Optimization**: Faster startup means more efficient resource
+  utilization
+
+#### Use Cases
+
+- **LLM Agent Execution**: Fast, isolated execution of LLM-generated code
+- **Function Calling**: Rapid invocation of agent functions with strong
+  security
+- **Multi-Tenant AI Services**: Secure isolation for customer agent workloads
+- **Serverless AI**: Sub-second cold starts for serverless AI agent platforms
+
 ### Current Status
 
 The project is in early development (as of 2025). Key areas:
@@ -351,10 +414,15 @@ The project is in early development (as of 2025). Key areas:
 - Exploring WebAssembly (Wasm) for sandboxing
 - Collaboration with AI Gateway and Agentic Workflow projects
 
+GKE Agent Sandbox is available in production on Google Kubernetes Engine,
+providing proven performance and security guarantees for AI agent workloads.
+
 ### Projects and Resources
 
 - <a href="https://github.com/kubernetes-sigs/agent-sandbox">Agent Sandbox
   GitHub Repository</a>
+- <a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">
+  GKE Agent Sandbox: Strong Guardrails for Agentic AI</a>
 - Related: <a href="https://github.com/kagent-dev/kagent">KAgent</a>
   (CNCF Sandbox)
 
