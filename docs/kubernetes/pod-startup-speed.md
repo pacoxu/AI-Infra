@@ -295,6 +295,41 @@ For Pods with slow startup due to:
 - Efficient resource utilization
 - Consistent performance across restarts
 
+### gVisor Snapshots for AI Agents
+
+For AI agent workloads requiring both fast startup and strong isolation:
+
+**Solution: gVisor with Container Snapshots** (Production on GKE)
+
+**How it works:**
+
+1. Initialize container with dependencies, libraries, and runtime state
+2. Create gVisor sandbox snapshot of pre-warmed container
+3. Restore new instances from snapshot in milliseconds
+4. Each instance runs in isolated gVisor sandbox
+
+**Performance Impact:**
+
+- **Up to 90% improvement** in cold start time compared to traditional
+  containers
+- Sub-second startup for complex agent workloads
+- Eliminates initialization overhead for repeated agent invocations
+
+**Use Cases:**
+
+- **LLM Agents**: Fast execution of LLM-generated code in secure sandboxes
+- **Function Calling**: Rapid invocation of agent functions with isolation
+- **Serverless AI**: Near-instant cold starts for serverless agent platforms
+- **Multi-Tenant AI**: Secure, fast startup for customer agent workloads
+
+**Availability:**
+
+- Production-ready in <a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">
+  GKE Agent Sandbox</a>
+- Combines gVisor security with snapshot performance
+- See [Workload Isolation Guide](./isolation.md#6-agent-sandbox-kubernetes-sig-project)
+  for detailed security architecture
+
 ### General Factors
 
 **Container Runtime:**
@@ -429,10 +464,13 @@ Pod startup optimization is a multi-faceted challenge requiring attention to:
 4. **Container runtime and CNI performance**
 5. **Resource allocation and CPU management**
 6. **AI/GPU specific considerations**
-7. **Comprehensive observability**
+7. **Snapshots and checkpointing** for pre-warmed containers
+8. **Comprehensive observability**
 
 By applying these strategies systematically, you can significantly reduce Pod
-startup times and improve overall cluster performance.
+startup times and improve overall cluster performance. For AI agent workloads,
+gVisor snapshots in GKE Agent Sandbox can provide up to 90% improvement in
+cold start performance while maintaining strong isolation guarantees.
 
 ---
 
@@ -448,3 +486,5 @@ startup times and improve overall cluster performance.
   Issue #116086: CPU Manager Limitations</a>
 - <a href="https://www.padok.fr/en/blog/kubernetes-probes">Kubernetes Probes
   Guide</a>
+- <a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">
+  GKE Agent Sandbox: Strong Guardrails for Agentic AI on Kubernetes</a>
