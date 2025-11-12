@@ -76,6 +76,41 @@ The driver includes two kubelet plugins:
 **See also:** [NVIDIA GPU Operator](./nvidia-gpu-operator.md) for comprehensive
 coverage of NVIDIA GPU management in Kubernetes.
 
+### DRA Driver for CPU Resources
+
+<a href="https://github.com/kubernetes-sigs/dra-driver-cpu">**DRA Driver for
+CPU Resources**</a> is a reference implementation of DRA for managing CPU
+resources on Kubernetes nodes.
+
+**Architecture:**
+
+The driver is deployed as a DaemonSet with two core components:
+
+- **DRA driver**: Discovers CPU topology and reports available CPUs as
+  allocatable resources via `ResourceSlice` objects. Generates CDI (Container
+  Device Interface) specifications for CPU set assignment.
+- **NRI Plugin**: Integrates with container runtime via Node Resource Interface
+  (NRI) to enforce CPU pinning and manage shared CPU pools.
+
+**Key Features:**
+
+- Exclusive CPU allocation for guaranteed pods requesting CPUs via
+  ResourceClaim
+- Shared CPU pool management for containers without ResourceClaim
+- Dynamic CPU pool updates as guaranteed containers are created or removed
+- System CPU reservation via `--reserved-cpus` flag (aligns with kubelet's
+  static CPU Manager policy)
+- State synchronization on daemonset restart to handle existing pod allocations
+
+**Configuration:**
+
+The driver supports `--reserved-cpus` flag to specify CPUs reserved for system
+and kubelet processes (similar to kubelet's `reservedSystemCPUs` setting).
+
+**Current Limitations:**
+
+- CPU resources only; memory management not supported
+
 ## Learning Resources
 
 ### Conference Talks
