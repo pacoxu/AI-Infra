@@ -208,6 +208,9 @@ Kthena, KServe), and deep-dive topics:
     - [`Dify`](https://github.com/langgenius/dify)
     - [`KAgent`](https://github.com/kagent-dev/kagent): CNCF Sandbox
     - [`Dagger`](https://github.com/dagger/dagger)
+    - [`kube-agentic-networking`](https://github.com/kubernetes-sigs/kube-agentic-networking):
+      Agentic networking policies and governance for agents and tools in
+      Kubernetes
   - Serverless:
     - [`Knative`](https://github.com/knative/serving): Serverless solution, like [llama stack use case](https://github.com/knative/docs/blob/071fc774faa343ea996713a8750d78fc9225356c/docs/blog/articles/ai_functions_llama_stack.md).
 
