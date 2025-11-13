@@ -203,6 +203,8 @@ Kthena, KServe）的全面介绍，以及深入主题：
     - [`Dify`](https://github.com/langgenius/dify)
     - [`KAgent`](https://github.com/kagent-dev/kagent): CNCF Sandbox
     - [`Dagger`](https://github.com/dagger/dagger)
+    - [`kube-agentic-networking`](https://github.com/kubernetes-sigs/kube-agentic-networking):
+      Kubernetes 中智能体和工具的网络策略与治理
   - 无服务器:
     - [`Knative`](https://github.com/knative/serving): 无服务器解决方案，
       如 [llama stack 用例](https://github.com/knative/docs/blob/071fc774faa343ea996713a8750d78fc9225356c/docs/blog/articles/ai_functions_llama_stack.md)
