@@ -10,7 +10,7 @@ canonical_path: docs/kubernetes/gpu-pod-cold-start.md
 
 This guide covers strategies to minimize cold start latency for GPU-accelerated
 Pods in Kubernetes, particularly for AI/ML inference workloads. Based on
-KubeCon NA 2024 presentation and production implementations from cloud
+KubeCon NA 2025 presentation and production implementations from cloud
 providers.
 
 ## Why GPU Pod Cold Start Matters
@@ -1049,7 +1049,7 @@ Cost Metrics:
 
 ### Presentations
 
-- [KubeCon NA 2024: GPU Pod Cold Start Optimization](https://sched.co/27Fa0)
+- [KubeCon NA 2025: GPU Pod Cold Start Optimization](https://sched.co/27Fa0)
 
 ### Cloud Provider Implementations
 
