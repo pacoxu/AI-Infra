@@ -56,6 +56,7 @@ where to focus their learning.
 - [Kubernetes Learning Plan](./docs/kubernetes/learning-plan.md)
 - [Pod Lifecycle](./docs/kubernetes/pod-lifecycle.md)
 - [Pod Startup Speed](./docs/kubernetes/pod-startup-speed.md)
+- [GPU Pod Cold Start](./docs/kubernetes/gpu-pod-cold-start.md)
 - [Scheduling Optimization](./docs/kubernetes/scheduling-optimization.md)
 - [Workload Isolation](./docs/kubernetes/isolation.md)
 - [Dynamic Resource Allocation (DRA)](./docs/kubernetes/dra.md)

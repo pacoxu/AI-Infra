@@ -357,6 +357,14 @@ For AI agent workloads requiring both fast startup and strong isolation:
 
 ## 4. AI/GPU Specific Optimizations
 
+**For comprehensive GPU Pod cold start optimization strategies, see the
+dedicated guide: [GPU Pod Cold Start Optimization](./gpu-pod-cold-start.md)**
+
+This section covers GPU-specific optimizations for Pod startup, focusing on
+resource allocation, scheduling, and data loading. For detailed strategies on
+minimizing GPU Pod cold start latency including pre-warmed pools, faster model
+serialization, and lazy loading patterns, refer to the GPU Cold Start guide.
+
 ### Dynamic Resource Allocation (DRA)
 
 DRA provides flexible GPU resource management:

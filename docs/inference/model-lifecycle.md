@@ -66,9 +66,15 @@ as intermediate optimization states.*
 
 ## Model Cold-Start Optimization
 
+**For comprehensive GPU Pod cold start strategies including pre-warmed pools,
+faster serialization formats, and lazy loading patterns, see
+[GPU Pod Cold Start Optimization](../kubernetes/gpu-pod-cold-start.md).**
+
 Model cold-start refers to the time required to load a model from storage,
 initialize it, and prepare it for inference. This includes loading model
 weights, initializing GPU memory, compiling kernels, and warming up caches.
+This section focuses on model-level optimizations, while the GPU Pod Cold Start
+guide covers container and orchestration-level strategies.
 
 ### Cold-Start Components
 
