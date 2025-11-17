@@ -101,6 +101,31 @@ where to focus their learning.
 
 ![AI-Infra Landscape](./diagrams/ai-infra-landscape.png)
 
+## 🎯 Goal Achievement Chart for Cloud Native AI Infra Architect
+
+Inspired by Shohei Ohtani's goal achievement methodology, this chart outlines
+the key practices and habits for becoming a successful Cloud Native AI
+Infrastructure Architect. The chart is organized into three core pillars:
+**Kubernetes Core Skills**, **AI Workloads & GPU**, and **AI Platform
+Architecture**, supported by foundational practices in **Open Source
+Influence**, **Knowledge Dissemination**, **Architecture Vision**, **Community
+Leadership**, and **Self-Management**.
+
+| Read scheduler source code 2 nights/week | Diagram DRA resource model | Walk through kubelet node flow | Practice vLLM inference deployment | Run TensorRT-LLM on K8s | Document GPU model differences | Design online inference platform architecture | Design training job orchestration workflow | Consider multi-tenant isolation solutions |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Experiment with CRI/CNI combinations | **Kubernetes Core Skills** | Write scheduling timeline diagrams | Organize HBM/NVLink/RDMA notes | **AI Workloads & GPU** | Experiment with KV-cache persistence | Integrate Gateway API / Ingress | **AI Platform Architecture** | Integrate monitoring & logging pipeline |
+| Follow key KEP implementations | Performance Profiling & Optimization | Practice fault injection & troubleshooting | Compare single-node/multi-node inference topology | Build GPU selection comparison table | Track new models & operator trends | Design canary release workflow | Write capacity & cost models | Pre-plan scaling & failure scenarios |
+| Lock down 2 main battleground projects | Weekly triage issues/PRs | Proactively claim unmaintained modules | **Kubernetes Core Skills** | **AI Workloads & GPU** | **AI Platform Architecture** | Read DDIA and take reading notes | Analyze cloud vendor AI platform architectures | Organize typical scheduling/scaling patterns |
+| Write/review design documents | **Open Source Influence** | Drive at least 1 KEP | **Open Source Influence** | **Cloud Native AI Infra on Kubernetes Lead** | **Architecture Vision** | Write ADR to record decisions for projects | **Architecture Vision** | Practice from requirements to system blueprint |
+| Give high-quality suggestions in reviews | Maintain project contribution guide | Help newcomers submit their first PR | **Community Leadership** | **Knowledge Dissemination** | **Self-Management** | Think about 3-year evolution roadmap | Compare trade-offs across tech stacks | Review every failed design |
+| Act as note taker in SIG/WG | Occasionally host community meetings | Organize small topic working groups | Publish one technical long-form article monthly | Maintain AI-Infra repository index | Write FAQ docs for common questions | Set quarterly OKRs & learning plans | 2 hours deep work time daily | Exercise 3 times per week to maintain fitness |
+| Mentor new contributors one-on-one | **Community Leadership** | Proactively summarize conclusions in meetings | Prepare high-quality presentation slide templates | **Knowledge Dissemination** | Actively submit KubeCon/KCD CFPs | Ensure 7-8 hours of sleep | **Self-Management** | Write a personal retrospective weekly |
+| Drive cross-company collaboration tasks | Learn to disagree gently but clearly | Review every communication conflict | Respond deeply on Slack/mailing lists | Record short videos or live stream explanations | Synchronize core content in Chinese & English | Control information input & screen time | Reserve time for family & rest | Take a long vacation once a year to recharge |
+
+**Note:** This goal chart was AI-generated (GPT) and is not yet personalized.
+It serves as a reference framework for professional development in the Cloud
+Native AI Infrastructure domain.
+
 ## 🧭 Learning Path for AI Infra Engineers
 
 ### 📦 0. Kernel & Runtime (底层内核)
