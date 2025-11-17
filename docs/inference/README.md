@@ -14,6 +14,7 @@ More details about specific platforms and techniques:
 
 - [Model Architectures (Llama, Qwen, DeepSeek, Flux)](./model-architectures.md)
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
+- [Serverless AI Inference (Knative, AWS SageMaker, Platform Comparison)](./serverless.md)
 - [Caching in LLM Inference](./caching.md)
 - [Memory, Context, and Database for AI Agents](./memory-context-db.md)
 - [Large Scale Experts (MoE Models)](./large-scale-experts.md)
