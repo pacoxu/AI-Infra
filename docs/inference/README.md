@@ -13,6 +13,7 @@ Mainly compare AIBrix, llm-d, llmaz, OME and Kthena.
 More details about specific platforms and techniques:
 
 - [Model Architectures (Llama, Qwen, DeepSeek, Flux)](./model-architectures.md)
+- [LoRA: Low-Rank Adaptation for Efficient LLM Serving](./lora.md)
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
 - [Serverless AI Inference (Knative, AWS SageMaker, Platform Comparison)](./serverless.md)
 - [Caching in LLM Inference](./caching.md)

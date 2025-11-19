@@ -68,6 +68,7 @@ where to focus their learning.
 
 - [Inference Overview](./docs/inference/README.md)
 - [Model Architectures](./docs/inference/model-architectures.md)
+- [LoRA: Low-Rank Adaptation](./docs/inference/lora.md)
 - [AIBrix Platform](./docs/inference/aibrix.md)
 - [OME Platform](./docs/inference/ome.md)
 - [Serverless AI Inference](./docs/inference/serverless.md)
