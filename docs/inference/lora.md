@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-01-19
+last_updated: 2025-11-19
 tags: inference, lora, peft, multi-lora, routing, optimization, aibrix
 canonical_path: docs/inference/lora.md
 ---
