@@ -16,6 +16,7 @@ More details about specific platforms and techniques:
 - [LoRA: Low-Rank Adaptation for Efficient LLM Serving](./lora.md)
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
 - [Serverless AI Inference (Knative, AWS SageMaker, Platform Comparison)](./serverless.md)
+- [Model Switching and Dynamic Scheduling (Aegaeon, vLLM Sleep Mode)](./model-switching.md)
 - [Caching in LLM Inference](./caching.md)
 - [Memory, Context, and Database for AI Agents](./memory-context-db.md)
 - [Large Scale Experts (MoE Models)](./large-scale-experts.md)
@@ -80,4 +81,3 @@ TODO:
 - Add llmaz detailed introduction
 - Add comprehensive comparison table of inference engines (KServe, AIBrix,
   llmaz, OME, Kthena) to replace the previous reference tables
-

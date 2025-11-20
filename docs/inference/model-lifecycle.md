@@ -156,7 +156,9 @@ freeing GPU resources while maintaining fast reactivation capabilities.
 ### vLLM Sleep Mode
 
 [vLLM](https://github.com/vllm-project/vllm) introduced sleep mode in October
-2025, enabling efficient resource management for multi-model serving.
+2025, enabling efficient resource management for multi-model serving. Sleep
+mode enables **18-200x faster** model switching compared to traditional cold
+starts.
 
 **Key Features:**
 
@@ -177,6 +179,69 @@ Sleep mode operates through a state machine:
 5. **Wake-Up Trigger**: Restore model when new request arrives
 6. **Active State**: Resume inference processing
 
+**Two Operating Levels:**
+
+#### Level 1: CPU Memory Offloading
+
+- Model weights moved to CPU RAM
+- Wake-up time: 0.1-0.8 seconds
+- Suitable for memory-abundant environments
+- Fastest wake-up performance
+
+#### Level 2: Complete Weight Discarding
+
+- Model weights completely discarded
+- Memory footprint: MB-level only
+- Ideal for cost-sensitive deployments
+- Requires full model reload on wake-up
+
+**Why Sleep Mode is Fast:**
+
+Traditional model switching requires:
+
+- ❌ Restarting Python process
+- ❌ Re-initializing CUDA contexts
+- ❌ Re-compiling GPU kernels
+- ❌ Re-capturing CUDA graphs
+
+Sleep mode preserves process state:
+
+- ✅ Memory allocators retained
+- ✅ CUDA graphs preserved
+- ✅ JIT-compiled kernels cached
+- ✅ Complete process state maintained
+
+**Performance Benchmarks:**
+
+*A100 Large Model Tests:*
+
+- **Qwen3-235B (TP=4)**
+  - Cold start: 97.7 seconds
+  - Sleep wake-up: 5.4 seconds
+  - **18x faster**
+
+- **Qwen3-Coder-30B**
+  - Cold start: 47.4 seconds
+  - Sleep wake-up: 2.9 seconds
+  - **17x faster**
+
+*A4000 Small Model Tests:*
+
+- **Qwen3-0.6B + Phi-3-vision**
+  - Wake-up time: 0.1-0.8 seconds
+  - **58-203x faster** than cold start
+
+*Multi-Switch Scenarios:*
+
+- 5 model switches: 357s → 125s
+- **Time saved: 65% (232 seconds)**
+
+**First Inference Acceleration:**
+
+- First token latency: **61-88% faster**
+- Benefits from preserved CUDA graphs
+- No kernel recompilation overhead
+
 **Benefits:**
 
 - Support 5-10x more models on the same GPU hardware
@@ -190,6 +255,7 @@ Sleep mode operates through a state machine:
 # vLLM sleep mode configuration
 engine_config = {
     "sleep_mode_enabled": True,
+    "sleep_mode_level": "level1",  # or "level2"
     "sleep_timeout_seconds": 300,  # 5 minutes
     "preserve_kv_cache": True,
     "max_sleeping_models": 10
@@ -198,13 +264,24 @@ engine_config = {
 
 **Use Cases:**
 
-- Multi-tenant inference platforms with varying usage patterns
-- Development and testing environments
-- Cost-sensitive deployments with bursty traffic
-- Fine-tuned model serving with infrequent access
+- ✅ Multi-model services (customer service + translation + code assistant)
+- ✅ Development and testing (frequent model switching)
+- ✅ Cost optimization (small GPU instances)
+- ✅ Cloud deployment (pay-per-use billing)
+
+**Level Selection Guide:**
+
+- **Choose Level 1** when you have sufficient CPU RAM and need the fastest
+  wake-up times (0.1-0.8s)
+- **Choose Level 2** when memory cost is critical and you can tolerate
+  slightly longer wake-up times
+
+For comprehensive model switching documentation including Alibaba Aegaeon's
+token-level scheduling, see [Model Switching](./model-switching.md).
 
 For more details, see the
-[vLLM Sleep Mode Blog Post](https://blog.vllm.ai/2025/10/26/sleep-mode.html).
+[vLLM Sleep Mode Blog Post](https://blog.vllm.ai/2025/10/26/sleep-mode.html)
+and [Xiaohongshu Article (Chinese)](https://www.xiaohongshu.com/explore/6900caf20000000005001c46).
 
 ### Wake-Up Optimization
 
