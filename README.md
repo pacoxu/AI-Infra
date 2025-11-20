@@ -72,6 +72,7 @@ where to focus their learning.
 - [AIBrix Platform](./docs/inference/aibrix.md)
 - [OME Platform](./docs/inference/ome.md)
 - [Serverless AI Inference](./docs/inference/serverless.md)
+- [Model Switching & Dynamic Scheduling](./docs/inference/model-switching.md)
 - [Prefill-Decode Disaggregation](./docs/inference/pd-disaggregation.md)
 - [Caching Strategies](./docs/inference/caching.md)
 - [Memory & Context DB](./docs/inference/memory-context-db.md)
