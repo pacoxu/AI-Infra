@@ -63,6 +63,7 @@ where to focus their learning.
 - [DRA Performance Testing](./docs/kubernetes/dra-performance-testing.md)
 - [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md)
 - [Node Resource Interface (NRI)](./docs/kubernetes/nri.md)
+- [Large-Scale Clusters (130K+ Nodes)](./docs/kubernetes/large-scale-clusters.md)
 
 #### Inference
 
