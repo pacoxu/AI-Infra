@@ -105,7 +105,54 @@ pools to reduce scheduling conflicts and improve cache locality.
 - <a href="https://github.com/NVIDIA/grove">`NVIDIA Grove`</a>: Gang
   scheduling for AI workloads with topology awareness
 
-### 1.3 API Performance Optimization
+### 1.3 Hierarchical Scheduling
+
+**Concept**: Split scheduling into multiple levels to handle very large
+clusters (50,000+ nodes) more efficiently. Each level makes coarser-grained
+decisions, narrowing down the search space for subsequent levels.
+
+**Scheduling Levels:**
+
+- **Cluster-level**: Decide which subset of nodes or node pools to consider
+  based on workload characteristics and resource availability
+- **Pool-level**: Select specific nodes within the chosen pool based on
+  topology, resource fit, and affinity rules
+- **Node-level**: Final placement decision considering GPU topology, NUMA
+  alignment, and other fine-grained constraints
+
+**Benefits for Large-Scale Clusters:**
+
+- Reduces scheduling latency by limiting search space at each level
+- Enables specialized scheduling logic at different granularities
+- Improves cache locality and reduces API server load
+- Supports different scheduling strategies per workload type
+
+**Implementation Patterns:**
+
+- **Pre-filtering**: Use node pools and labels to partition nodes before
+  scheduling begins
+- **Multi-pass scheduling**: First pass selects regions/zones, second pass
+  selects specific nodes
+- **Staged decisions**: Apply coarse filters (CPU/memory/GPU count) before
+  fine-grained ones (topology, affinity)
+
+**Example Use Case:**
+
+For a 100,000-node cluster with GPU training workloads:
+
+1. **Cluster-level**: Choose GPU node pool based on GPU type requirement
+   (A100 vs H100)
+2. **Pool-level**: Select availability zone with sufficient capacity and low
+   network latency
+3. **Node-level**: Place pods considering NVLink topology for optimal
+   multi-GPU training
+
+**References:**
+
+- See [Large-Scale Clusters](./large-scale-clusters.md) for additional
+  patterns used in massive deployments
+
+### 1.4 API Performance Optimization
 
 **Common Bottlenecks:**
 
@@ -141,7 +188,7 @@ pools to reduce scheduling conflicts and improve cache locality.
 - Monitor etcd backend commit duration
 - Alert on admission webhook timeouts
 
-### 1.4 Batch Dispatch Optimization
+### 1.5 Batch Dispatch Optimization
 
 **Concept**: Schedule pods in batches rather than individually to amortize
 scheduling overhead and improve throughput.
