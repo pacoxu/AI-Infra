@@ -263,9 +263,19 @@ Opportunistic Batching 在 v1.35 中作为 Beta 功能**默认启用**。要禁�
 
 ### 相关项目
 
+目前已有多个项目支持 Gang 调度：
+
 - [Volcano Scheduler](https://github.com/volcano-sh/volcano) - CNCF 孵化中
+  - 支持完整的 Gang 调度功能
+  - 在最近发布的 v1.13 版本中新增了对 LeaderWorkerSet (LWS) 的 Gang 调度支持
+- [Koordinator](https://github.com/koordinator-sh/koordinator/) - 阿里巴巴开源
+  - 支持基本的 Gang 调度能力
+  - 提供工作负载协调和资源调度增强
 - [Kueue](https://github.com/kubernetes-sigs/kueue) - Kubernetes SIG 项目
+  - 支持 CoScheduling，这是 Gang 调度的弱化版本
+  - 侧重于作业排队和配额管理
 - [YuniKorn](https://yunikorn.apache.org/) - Apache 项目
+  - 提供 Gang 调度和资源调度能力
 
 ### 社区
 

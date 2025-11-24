@@ -293,9 +293,20 @@ Before native gang scheduling, users relied on:
 
 ### Related Projects
 
+Several projects currently support gang scheduling:
+
 - [Volcano Scheduler](https://github.com/volcano-sh/volcano) - CNCF Incubating
+  - Full gang scheduling support
+  - Recently added LeaderWorkerSet (LWS) gang scheduling in v1.13 release
+- [Koordinator](https://github.com/koordinator-sh/koordinator/) - Alibaba
+  Open Source
+  - Basic gang scheduling capabilities
+  - Workload orchestration and resource scheduling enhancements
 - [Kueue](https://github.com/kubernetes-sigs/kueue) - Kubernetes SIG Project
+  - CoScheduling support (a lighter version of gang scheduling)
+  - Focus on job queueing and quota management
 - [YuniKorn](https://yunikorn.apache.org/) - Apache Project
+  - Gang scheduling and resource scheduling capabilities
 
 ### Community
 
