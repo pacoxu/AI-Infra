@@ -95,6 +95,12 @@ where to focus their learning.
 
 - [Observability Overview](./docs/observability/README.md)
 
+#### Blog
+
+- [Blog Overview](./docs/blog/README.md)
+- [Gang Scheduling in Kubernetes v1.35](./docs/blog/2025-11-25/gang-scheduling.md)
+  | [中文版](./docs/blog/2025-11-25/gang-scheduling_zh.md)
+
 ## 📊 AI-Infra Landscape (2025 June, needs an update)
 
 **Legend:**

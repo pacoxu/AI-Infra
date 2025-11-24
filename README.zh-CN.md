@@ -88,6 +88,12 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 
 - [可观测性概述](./docs/observability/README.md)
 
+#### 博客
+
+- [博客概述](./docs/blog/README.md)
+- [Kubernetes v1.35 中的 Gang Scheduling](./docs/blog/2025-11-25/gang-scheduling_zh.md)
+  | [English](./docs/blog/2025-11-25/gang-scheduling.md)
+
 ## 📊 AI-Infra 全景图 (2025年6月，需要更新)
 
 **图例:**
