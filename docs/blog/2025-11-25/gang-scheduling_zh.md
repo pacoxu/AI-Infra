@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-date: 2025-11-25
+date: 2025-11-24
 tags: kubernetes, scheduling, gang-scheduling, workload-api, batch-processing
 canonical_path: docs/blog/2025-11-25/gang-scheduling_zh.md
 ---
@@ -289,5 +289,5 @@ Kubernetes 调度的未来是工作负载感知的，这段旅程才刚刚开始
 ---
 
 **作者**：AI 基础设施学习路径  
-**日期**：2025 年 11 月 25 日  
+**日期**：2025 年 11 月 24 日  
 **标签**：#kubernetes #scheduling #gangscheduling #ai-ml #batch-processing
