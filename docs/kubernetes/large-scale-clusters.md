@@ -6,19 +6,28 @@ tags: kubernetes, scalability, large-scale, api-server, etcd
 canonical_path: docs/kubernetes/large-scale-clusters.md
 ---
 
-# Large-Scale Kubernetes Clusters: 130,000 Nodes and Beyond
+# Large-Scale Kubernetes Clusters
 
 This document covers the key technologies and architectural patterns that enable
-massive Kubernetes clusters, based on Google's experience building the largest
-known Kubernetes cluster with 130,000 nodes.
+massive Kubernetes clusters at scale. It discusses proven approaches from
+various implementations, including Google's 130,000-node GKE cluster and other
+large-scale deployments.
 
 ## Overview
 
-In their blog post "[How Google Does It: Building the largest known Kubernetes
-cluster, with 130,000 nodes](https://cloud.google.com/blog/products/containers-kubernetes/how-we-built-a-130000-node-gke-cluster/)",
-Google shared insights on the technologies that made this scale possible. A
-[Chinese translation](https://mp.weixin.qq.com/s/Cp9X574wpMnJsPAasPpkVw)
-is also available.
+Large-scale Kubernetes clusters (10,000+ nodes) present unique challenges in
+areas such as API server performance, storage backend scalability, network
+resource management, and distributed storage. This guide explores the
+technologies and patterns that address these challenges.
+
+**Key Resources:**
+
+- [How Google Does It: Building the largest known Kubernetes cluster, with
+  130,000 nodes](https://cloud.google.com/blog/products/containers-kubernetes/how-we-built-a-130000-node-gke-cluster/)
+  ([Chinese translation](https://mp.weixin.qq.com/s/Cp9X574wpMnJsPAasPpkVw))
+- [A Huge Cluster or Multi-Clusters: Identifying the Bottleneck](https://github.com/user-attachments/files/23701506/A.Huge.Cluster.or.Multi-Clusters_.Identifying.the.Bottleneck.rc.2.pptx)
+  - Presentation discussing bottlenecks and architectural decisions for
+    large-scale deployments
 
 ## Key Technologies
 
@@ -132,7 +141,7 @@ network devices and capabilities.
 - Supports complex multi-tenant networking requirements
 - Improves performance predictability for network-intensive workloads
 
-**Use Cases in 130K-node Cluster**:
+**Use Cases in Large-Scale Clusters**:
 
 - GPU-to-GPU communication for distributed training
 - High-throughput data ingestion pipelines
@@ -145,18 +154,21 @@ network devices and capabilities.
 - [KEP-3063: Dynamic Resource Allocation](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/3063-dynamic-resource-allocation)
 - See also: [DRA Documentation](./dra.md)
 
-### 4. Spanner as etcd Alternative
-
-**Status**: Google Cloud-specific implementation
+### 4. Scalable Storage Backends (Spanner and Alternatives)
 
 **Problem**: etcd, while excellent for most Kubernetes deployments, has
-practical limits on cluster size. At 130,000 nodes, the number of resources
-and watch streams can exceed what a traditional etcd cluster can handle
-efficiently.
+practical limits on cluster size. At very large scales (50,000+ nodes), the
+number of resources and watch streams can exceed what a traditional etcd
+cluster can handle efficiently.
 
-**Solution**: Google Cloud uses Cloud Spanner as an alternative backend for
-the Kubernetes API server, replacing etcd for data storage while maintaining
-API compatibility.
+**Solutions**: Several approaches exist for scaling beyond etcd limitations:
+
+#### Google Cloud Spanner
+
+**Status**: Production-ready, Google Cloud-specific
+
+Google Cloud uses Cloud Spanner as an alternative backend for the Kubernetes
+API server, replacing etcd for data storage while maintaining API compatibility.
 
 **Key Features**:
 
@@ -193,25 +205,45 @@ API compatibility.
 - Optimized for Kubernetes access patterns (many watches, few writes)
 - Integrates with Consistent Reads from Cache for maximum performance
 
-**Note**: While Spanner is Google Cloud-specific, the concepts can be applied
-using other distributed databases that support similar guarantees.
+#### Alternative Approaches
+
+While Spanner is Google Cloud-specific, other organizations use different
+approaches for scaling beyond etcd:
+
+- **TiKV**: Cloud-native distributed key-value store with compatibility layer
+  for Kubernetes
+- **Multi-cluster Federation**: Split workloads across multiple smaller
+  clusters rather than a single massive cluster
+- **Optimized etcd Configuration**: Careful tuning of etcd parameters,
+  dedicated high-performance hardware, and strategic sharding
+
+**Note**: The choice between a single large cluster and multiple smaller
+clusters depends on workload characteristics, operational complexity, and
+cost considerations. See the presentation "[A Huge Cluster or Multi-Clusters:
+Identifying the Bottleneck](https://github.com/user-attachments/files/23701506/A.Huge.Cluster.or.Multi-Clusters_.Identifying.the.Bottleneck.rc.2.pptx)"
+for more details on this trade-off.
 
 **References**:
 
 - [Cloud Spanner](https://cloud.google.com/spanner)
 - [Kubernetes API Server Storage Interface](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
 
-### 5. Lustre Distributed File System
+### 5. High-Performance Distributed Storage (Lustre and Alternatives)
 
-**Status**: Open-source distributed file system
+**Status**: Multiple open-source and commercial solutions available
 
-**Problem**: At 130,000-node scale with AI/ML workloads, the cluster needs to
-handle massive amounts of data for model training, inference, and checkpointing.
+**Problem**: At large scale with AI/ML workloads, clusters need to handle
+massive amounts of data for model training, inference, and checkpointing.
 Traditional storage solutions cannot provide the required throughput and IOPS.
 
-**Solution**: Lustre provides a high-performance distributed file system
-optimized for large-scale parallel I/O workloads, making it ideal for AI/ML
-clusters running on Kubernetes.
+**Solutions**: Several high-performance distributed file systems are used in
+large-scale Kubernetes deployments:
+
+#### Lustre
+
+Lustre provides a high-performance distributed file system optimized for
+large-scale parallel I/O workloads, making it ideal for AI/ML clusters running
+on Kubernetes.
 
 **Key Features**:
 
@@ -307,14 +339,6 @@ Running multiple API server instances with load balancing:
 - **Health checking**: Removes unhealthy API servers from rotation
 - **Cache coherence**: Ensures consistency across API server caches
 - **Graceful scaling**: Add/remove API servers without disruption
-
-### Hierarchical Scheduling
-
-For 130,000-node clusters, scheduling can be split into:
-
-- **Cluster-level**: Decide which subset of nodes to consider
-- **Node-level**: Fine-grained placement within selected nodes
-- **GPU topology**: Consider GPU interconnect topology
 
 ### Resource Partitioning
 
