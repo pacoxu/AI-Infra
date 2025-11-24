@@ -51,6 +51,14 @@ workload isolation.
   VM-based isolation (Kata Containers, gVisor), and checkpoint/restore for
   AI workloads
 
+#### Scalability and Large-Scale Clusters
+
+- **[Large-Scale Clusters](./large-scale-clusters.md)**: Technologies and
+  architectural patterns for running massive Kubernetes clusters (130,000+
+  nodes), including Consistent Reads from Cache (KEP-2340), Snapshottable
+  API Server Cache (KEP-4988), DRANET, Spanner, and Lustre distributed
+  file system
+
 ## Quick Reference
 
 ### For Scheduling Engineers
