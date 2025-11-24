@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-date: 2025-11-25
+date: 2025-11-24
 tags: kubernetes, scheduling, gang-scheduling, workload-api, batch-processing
 canonical_path: docs/blog/2025-11-25/gang-scheduling.md
 ---
@@ -322,5 +322,5 @@ just begun!
 ---
 
 **Author**: AI Infrastructure Learning Path  
-**Date**: November 25, 2025  
+**Date**: November 24, 2025  
 **Tags**: #kubernetes #scheduling #gangscheduling #ai-ml #batch-processing
