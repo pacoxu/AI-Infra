@@ -10,6 +10,19 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2025-11-25: Topology-Aware Scheduling
+
+- [Topology-Aware Scheduling (English)](./2025-11-25/topology-aware-scheduling.md)
+- [Topology-Aware Scheduling (Chinese)](./2025-11-25/topology-aware-scheduling_zh.md)
+
+A comprehensive guide to topology-aware scheduling for AI workloads, covering:
+
+- Background on current topology scheduling (Device Plugin, Kueue, Volcano)
+- DRA topology management with GPU + NIC coordination
+- DRAConsumableCapacity feature in Kubernetes 1.34
+- Migration challenges from Device Plugin to DRA
+- KubeCon NA 2025 insights and resources
+
 ## 2025-11-25: Gang Scheduling
 
 - [Gang Scheduling Blog (English)](./2025-11-25/gang-scheduling.md)
