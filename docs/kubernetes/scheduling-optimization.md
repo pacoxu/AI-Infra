@@ -431,8 +431,27 @@ lanes, network topology) to optimize for locality and bandwidth.
 - **GPU topology**: NVLink connections, PCIe lanes
 - **Network topology**: Rack/zone awareness, RDMA fabric
 - **Storage topology**: Local vs. remote storage
+- **Rack topology**: Physical rack location for failure domains
 
-**Implementation:**
+**Why Topology Matters for AI Workloads:**
+
+Modern AI workloads are extremely topology-sensitive. Misaligned hardware
+topology can degrade performance by 30-50% or more:
+
+- **GPU-to-GPU communication**: NVLink provides 600 GB/s vs 64 GB/s PCIe
+- **RDMA/GPU-Direct**: Requires GPU and NIC on same PCIe root
+- **NUMA locality**: Cross-NUMA memory access adds 30-50% latency
+
+**Implementation Approaches:**
+
+1. **Device Plugin + Topology Manager**: Traditional approach with limited
+   cross-device coordination
+2. **Kueue Topology-Aware Scheduling**: Uses node labels for rack/block/host
+   topology
+3. **Volcano Topology Plugin**: GPU and network topology in gang scheduling
+4. **DRA (Dynamic Resource Allocation)**: Rich topology constraints with CEL
+
+**Project Support:**
 
 - <a href="https://github.com/kubernetes/dynamic-resource-allocation/">`DRA
   (Dynamic Resource Allocation)`</a>: Structured parameters for device
@@ -441,14 +460,57 @@ lanes, network topology) to optimize for locality and bandwidth.
   implementation for network device topology
 - <a href="https://github.com/containerd/nri">`NRI (Node Resource
   Interface)`</a>: Fine-grained device management at runtime
+- <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Topology-aware
+  scheduling with node labels
+- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: Gang scheduling
+  with topology plugin
+- <a href="https://github.com/NVIDIA/KAI-Scheduler">`NVIDIA KAI Scheduler`</a>:
+  GPU-optimized topology-aware scheduling
 - **Kubernetes Topology Manager**: NUMA-aware pod placement
+
+**DRA Topology Coordination (GPU + NIC):**
+
+DRA enables coordinating multiple device types on the same topology domain:
+
+```yaml
+apiVersion: resource.k8s.io/v1beta1
+kind: ResourceClaimTemplate
+metadata:
+  name: gpu-nic-topology
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        deviceClassName: nvidia-gpu
+        count: 1
+      - name: rdma-nic
+        deviceClassName: rdma-nic
+        count: 1
+      constraints:
+      # GPU and NIC must be on the same PCIe root
+      - requests: ["gpu", "rdma-nic"]
+        matchAttribute: pcieRoot
+```
+
+**Kueue Topology Labels:**
+
+```yaml
+# Standard topology labels used by Kueue and DRANET
+cloud.google.com/gce-topology-block: "block-1"
+cloud.google.com/gce-topology-subblock: "subblock-1"
+cloud.google.com/gce-topology-host: "host-1"
+kubernetes.io/hostname: "node-1"
+```
 
 **Topology Aware Scenarios:**
 
 - **Multi-GPU training**: Schedule pods to nodes with NVLink/NVSwitch for
   fast GPU-to-GPU communication
-- **RDMA workloads**: Place pods on nodes with InfiniBand connectivity
+- **RDMA workloads**: Place pods on nodes with InfiniBand connectivity and
+  GPU-Direct support
 - **Memory-intensive**: Schedule to NUMA nodes with local memory access
+- **Distributed training**: Coordinate GPU + NIC on same PCIe fabric
 
 **Best Practices:**
 
@@ -457,7 +519,13 @@ lanes, network topology) to optimize for locality and bandwidth.
   workloads
 - Label nodes with topology information: `topology.kubernetes.io/zone`,
   `gpu-interconnect=nvlink`
+- Use Kueue or Volcano for rack-level topology awareness
+- Test topology impact: benchmark with and without alignment
 - Consider trade-offs: topology optimization may reduce scheduling flexibility
+
+**Related Blog Post:**
+[Topology-Aware Scheduling Blog](../blog/2025-11-25/topology-aware-scheduling.md)
+for detailed coverage of DRA topology management.
 
 ### 2.7 Borrow & LendingLimit
 
