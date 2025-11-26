@@ -10,6 +10,20 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2025-11-26: JobSet In-Place Restart — 92% Faster Recovery
+
+- [JobSet In-Place Restart (English)](./2025-11-26/jobset-in-place-restart.md)
+- [JobSet In-Place Restart (Chinese)](./2025-11-26/jobset-in-place-restart_zh.md)
+
+A blog post about JobSet leveraging Kubernetes In-Place Container Restart
+(Co-Evolving theme), covering:
+
+- Co-Evolving concept: Kubernetes features empowering the ecosystem
+- In-Place Container Restart capability (KEP-5307 in 1.34, KEP-5532 in 1.35)
+- Real-world results: Restart time from 2m10s to 10s (92% faster) on 5000 nodes
+- Benefits for distributed training, job dependencies, and resource efficiency
+- Integration considerations and future roadmap
+
 ## 2025-11-26: cgroup v2 Migration Guide
 
 - [cgroup v2 Migration Guide (English)](./2025-11-26/cgroup-v2.md)

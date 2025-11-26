@@ -91,6 +91,10 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 #### 博客
 
 - [博客概述](./docs/blog/README.md)
+- [JobSet 原地重启：速度提升 92%](./docs/blog/2025-11-26/jobset-in-place-restart_zh.md)
+  | [English](./docs/blog/2025-11-26/jobset-in-place-restart.md)
+- [cgroup v2 迁移指南](./docs/blog/2025-11-26/cgroup-v2_zh.md)
+  | [English](./docs/blog/2025-11-26/cgroup-v2.md)
 - [Kubernetes v1.35 中的 Gang Scheduling](./docs/blog/2025-11-25/gang-scheduling_zh.md)
   | [English](./docs/blog/2025-11-25/gang-scheduling.md)
 

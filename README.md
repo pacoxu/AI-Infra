@@ -98,6 +98,8 @@ where to focus their learning.
 #### Blog
 
 - [Blog Overview](./docs/blog/README.md)
+- [JobSet In-Place Restart: 92% Faster](./docs/blog/2025-11-26/jobset-in-place-restart.md)
+  | [中文版](./docs/blog/2025-11-26/jobset-in-place-restart_zh.md)
 - [cgroup v2 Migration Guide](./docs/blog/2025-11-26/cgroup-v2.md)
   | [中文版](./docs/blog/2025-11-26/cgroup-v2_zh.md)
 - [Gang Scheduling in Kubernetes v1.35](./docs/blog/2025-11-25/gang-scheduling.md)
