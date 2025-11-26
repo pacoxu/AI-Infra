@@ -259,7 +259,7 @@ AI 基础设施的未来是协同演进的 — 而这正在发生。
 
 ### 相关博客文章
 
-- [Kubernetes 中的 Gang 调度](./gang-scheduling_zh.md)
+- [Kubernetes 中的 Gang 调度](../2025-11-25/gang-scheduling_zh.md)
 - [调度优化](../../kubernetes/scheduling-optimization.md)
 
 ---
