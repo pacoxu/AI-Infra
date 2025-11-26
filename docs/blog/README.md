@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-11-25
+last_updated: 2025-11-26
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,20 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-11-26: cgroup v2 Migration Guide
+
+- [cgroup v2 Migration Guide (English)](./2025-11-26/cgroup-v2.md)
+- [cgroup v2 Migration Guide (Chinese)](./2025-11-26/cgroup-v2_zh.md)
+
+A comprehensive guide to cgroup v2 migration for Kubernetes users, covering:
+
+- Kubernetes 1.31 maintenance mode and 1.35 deprecation announcement
+- cgroup v1 vs v2 differences and technical improvements
+- Historical timeline and kernel/controller evolution
+- cgroup v2 hierarchy and controller details (CPU, memory, IO, PSI)
+- Migration guidance with runc (1.3.2+) and crun (1.23+) recommendations
+- kubeadm upgrade warnings for cgroup v1 environments
 
 ## 2025-11-25: Topology-Aware Scheduling
 

@@ -98,6 +98,8 @@ where to focus their learning.
 #### Blog
 
 - [Blog Overview](./docs/blog/README.md)
+- [cgroup v2 Migration Guide](./docs/blog/2025-11-26/cgroup-v2.md)
+  | [中文版](./docs/blog/2025-11-26/cgroup-v2_zh.md)
 - [Gang Scheduling in Kubernetes v1.35](./docs/blog/2025-11-25/gang-scheduling.md)
   | [中文版](./docs/blog/2025-11-25/gang-scheduling_zh.md)
 
