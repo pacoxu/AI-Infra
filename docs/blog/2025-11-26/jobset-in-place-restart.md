@@ -274,7 +274,7 @@ The future of AI infrastructure is Co-Evolving — and it's happening now.
 
 ### Related Blog Posts
 
-- [Gang Scheduling in Kubernetes](./gang-scheduling.md)
+- [Gang Scheduling in Kubernetes](../2025-11-25/gang-scheduling.md)
 - [Scheduling Optimization](../../kubernetes/scheduling-optimization.md)
 
 ---
