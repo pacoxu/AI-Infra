@@ -200,11 +200,11 @@ spec:
 ### 启用功能门控
 
 ```bash
-# 在 kube-apiserver 和 kubelet 上
---feature-gates=InPlacePodVerticalScaling=true
+# 在 kubelet 上启用 KEP-5307（容器重启策略，1.34+）
+--feature-gates=ContainerRestartPolicy=true
 
-# 对于 1.35+ Pod 级别重启功能
---feature-gates=SidecarContainers=true
+# 在 kubelet 上启用 KEP-5532（重启所有容器，1.35+）
+--feature-gates=RestartAllContainersOnContainerExits=true
 ```
 
 ### 测试原地重启
