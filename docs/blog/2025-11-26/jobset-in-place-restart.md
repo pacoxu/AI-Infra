@@ -212,11 +212,11 @@ to adopt them, creating a virtuous cycle of improvement.
 ### Enable Feature Gates
 
 ```bash
-# On kube-apiserver and kubelet
---feature-gates=InPlacePodVerticalScaling=true
+# On kubelet for KEP-5307 (Container Restart Policy, 1.34+)
+--feature-gates=ContainerRestartPolicy=true
 
-# For 1.35+ pod-level restart features
---feature-gates=SidecarContainers=true
+# On kubelet for KEP-5532 (Restart All Containers, 1.35+)
+--feature-gates=RestartAllContainersOnContainerExits=true
 ```
 
 ### Test In-Place Restart
