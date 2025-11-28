@@ -196,7 +196,7 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: <IMAGE>
+        image: your-agent-image:latest
 ```
 
 ## 趋势和未来方向
