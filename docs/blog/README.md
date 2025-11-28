@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-11-26
+last_updated: 2025-11-28
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,21 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-11-28: Agent Sandbox — Secure AI Agents on Kubernetes
+
+- [Agent Sandbox (English)](./2025-11-28/agent-sandbox.md)
+- [Agent Sandbox (Chinese)](./2025-11-28/agent-sandbox_zh.md)
+
+A comprehensive guide to Agent Sandbox, a Kubernetes SIG Apps project for
+secure AI agent execution, covering:
+
+- Project introduction and Sandbox CRD
+- gVisor (GKE) integration status
+- Kata Containers integration status
+- SandboxWarmPool for sub-second startup latency
+- Use cases for AI agents, development environments, and notebooks
+- Industry trends and future directions
 
 ## 2025-11-26: JobSet In-Place Restart — 92% Faster Recovery
 
