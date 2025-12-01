@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-11-28
+last_updated: 2025-12-01
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,20 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-12-01: AWS 10K Node EKS Ultra Scale Clusters
+
+- [AWS 10K Node Clusters (English)](./2025-12-01/aws-10k-node-clusters.md)
+- [AWS 万节点集群 (Chinese)](./2025-12-01/aws-10k-node-clusters_zh.md)
+
+A follow-up to Google's 130K node cluster, covering AWS EKS ultra-scale
+optimizations:
+
+- Community improvements: Kubernetes v1.33 read/list cache, Karpenter
+- AWS-specific: QLDB journal for etcd, BoltDB on tmpfs
+- Image acceleration: SOCI Snapshotter for lazy loading
+- AI workloads: LWS + vLLM, CoreDNS autoscaling
+- Performance SLOs: 1s for gets/writes, 30s for lists, 500 pods/second
 
 ## 2025-11-28: Agent Sandbox — Secure AI Agents on Kubernetes
 
