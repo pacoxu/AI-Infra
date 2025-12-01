@@ -12,7 +12,7 @@ Following our previous coverage of
 [Google's 130K node cluster](../../kubernetes/large-scale-clusters.md), this
 post explores how Amazon EKS achieves ultra-scale with 10,000+ nodes. Based on
 the AWS blog post
-[Under the Hood: Amazon EKS Ultra Scale Clusters](https://aws.amazon.com/cn/blogs/containers/under-the-hood-amazon-eks-ultra-scale-clusters/),
+[Under the Hood: Amazon EKS Ultra Scale Clusters](https://aws.amazon.com/blogs/containers/under-the-hood-amazon-eks-ultra-scale-clusters/),
 we'll examine both community optimizations and AWS-specific innovations.
 
 ## Overview
@@ -328,7 +328,7 @@ needed.
 
 ### AWS Resources
 
-- [Under the Hood: Amazon EKS Ultra Scale Clusters](https://aws.amazon.com/cn/blogs/containers/under-the-hood-amazon-eks-ultra-scale-clusters/)
+- [Under the Hood: Amazon EKS Ultra Scale Clusters](https://aws.amazon.com/blogs/containers/under-the-hood-amazon-eks-ultra-scale-clusters/)
 - [SOCI Snapshotter](https://github.com/awslabs/soci-snapshotter)
 - [Karpenter](https://github.com/kubernetes-sigs/karpenter)
 
