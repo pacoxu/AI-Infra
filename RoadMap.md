@@ -21,6 +21,8 @@ The Cloud Native journey can be divided into two phases:
 - **Second Half (2025–2035)**: Focused on AI Native platform engineering,
   where models, agents, and inference workloads become first-class citizens
 
+idea from https://mp.weixin.qq.com/s/di2HEsjLoCO4NB2Act6Qmg
+
 ### Key Paradigm Shifts
 
 | Dimension | First Half (2015–2025) | Second Half (2025–2035, AI Native) |
