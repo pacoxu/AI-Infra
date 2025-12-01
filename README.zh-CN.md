@@ -314,6 +314,15 @@ LLM 评估平台（TruLens, Deepchecks）的全面介绍。
 有关计划功能、即将推出的主题以及关于此仓库可能包含或不包含内容的讨论，
 请参见 [路线图](./RoadMap.md)。
 
+路线图现已更新，重点关注 **AI Native 时代**（2025-2035）的核心挑战，包括：
+
+- AI Native 平台：Model/Agent 一等公民，统一抽象与治理
+- 资源调度：DRA、异构算力、拓扑感知、功耗与成本优化
+- 运行时：容器 + WASM + Nix + Agent Runtime
+- 平台工程 2.0：IDP + AI SRE + 安全 + 成本 + 合规
+- 安全与供应链：LLM 依赖、模型权重、数据集的全链路治理
+- 开源与生态：AI Infra / Model Runtime / Agent Runtime 上游协作
+
 ## 🤝 贡献
 
 我们欢迎对此全景图和路径的改进贡献！无论是新项目、学习材料还是图表更新，
