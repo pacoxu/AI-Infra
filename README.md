@@ -106,6 +106,8 @@ where to focus their learning.
   | [中文版](./docs/blog/2025-11-25/gang-scheduling_zh.md)
 - [AWS 10K Node EKS Ultra Scale Clusters](./docs/blog/2025-12-01/aws-10k-node-clusters.md)
   | [中文版](./docs/blog/2025-12-01/aws-10k-node-clusters_zh.md)
+- [Inference Orchestration Solutions](./docs/blog/2025-12-01/inference-orchestration.md)
+  | [中文版](./docs/blog/2025-12-01/inference-orchestration_zh.md)
 
 ## 📊 AI-Infra Landscape (2025 June, needs an update)
 

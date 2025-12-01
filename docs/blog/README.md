@@ -10,6 +10,21 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2025-12-01: Inference Orchestration Solutions
+
+- [Inference Orchestration (English)](./2025-12-01/inference-orchestration.md)
+- [推理编排 (Chinese)](./2025-12-01/inference-orchestration_zh.md)
+
+An overview of current open-source inference orchestration solutions and
+convergence trends:
+
+- Workload solutions: dual LWS (llm-d), Serving Group (Kthena), StormService
+  (AIBrix), Dynamo Grove/LWS, RBG
+- Convergence trends in the ecosystem
+- When PD disaggregation truly provides value
+- AIConfigurator for configuration optimization
+- Recommendations for new and existing deployments
+
 ## 2025-12-01: AWS 10K Node EKS Ultra Scale Clusters
 
 - [AWS 10K Node Clusters (English)](./2025-12-01/aws-10k-node-clusters.md)
