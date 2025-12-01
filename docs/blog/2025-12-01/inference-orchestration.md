@@ -8,6 +8,15 @@ canonical_path: docs/blog/2025-12-01/inference-orchestration.md
 
 # Inference Orchestration: Current Solutions and Convergence Trends
 
+Note: The content in this article is based on currently available public information
+and is intended for technical reference only. 
+The effectiveness of each solution depends heavily on your specific workload,
+infrastructure, and ecosystem integration. The architectural affiliations
+and early design choices mentioned here do not determine their future direction. 
+In practice, community activity, openness, and long-term evolution are 
+often more important factors.
+Please evaluate and choose based on your own scenario.
+
 ## Introduction
 
 The landscape of open-source inference orchestration for Large Language Models
