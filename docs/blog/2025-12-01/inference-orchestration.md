@@ -148,7 +148,6 @@ Despite different implementations, several patterns are converging:
 | P/D disaggregation | ✓ | ✓ | ✓ | ✓ | ✓ |
 | Intelligent routing | ✓ | ✓ | ✓ | ✓ | ✓ |
 | KV cache management | LMCache | Native | Distributed | Native | Native |
-| Gang scheduling | Via LWS | Volcano | Via Pods | Optional | Via LWS |
 
 ### Why So Many Implementations?
 
