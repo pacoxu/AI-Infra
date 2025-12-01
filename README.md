@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2025-12-01
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
