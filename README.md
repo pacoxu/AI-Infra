@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2025-12-01
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -334,6 +334,16 @@ tracing (DeepFlow), and LLM evaluation platforms (TruLens, Deepchecks).
 
 For planned features, upcoming topics, and discussion on what may or may not be
 included in this repository, please see the [RoadMap](./RoadMap.md).
+
+The roadmap has been updated to focus on the **AI Native era** (2025-2035),
+addressing key challenges including:
+
+- AI Native Platform: Model/Agent as first-class citizens
+- Resource Scheduling: DRA, heterogeneous computing, topology awareness
+- Runtime Evolution: Container + WASM + Nix + Agent Runtime
+- Platform Engineering 2.0: IDP + AI SRE + Security + Cost + Compliance
+- Security & Supply Chain: Full-chain governance of AI assets
+- Open Source & Ecosystem: Upstream collaboration in AI Infra
 
 ## 🤝 Contributing
 
