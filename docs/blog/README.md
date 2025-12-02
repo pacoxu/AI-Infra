@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-01
+last_updated: 2025-12-02
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,22 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-12-02: KCD Hangzhou — Observability Optimization at Scale
+
+- [KCD Hangzhou Observability (English)](./2025-12-02/kcd-hangzhou-observability.md)
+- [KCD 杭州可观测性优化 (Chinese)](./2025-12-02/kcd-hangzhou-observability_zh.md)
+
+A blog post covering the hottest observability topics from KCD Hangzhou +
+OpenInfra Days China 2025 and KubeCon NA 2025:
+
+- Xiaohongshu (RED) large-scale metrics monitoring optimization
+- 10x query speedup and tens of thousands of CPU cores saved
+- Collection layer restructuring based on vmagent
+- High availability improvements and cross-cloud multi-active deployment
+- Computation push-down and pre-aggregation for query acceleration
+- OpenAI's Fluent Bit optimization: 30,000 CPU cores freed with one line of code
+- Profiling insights using Linux Perf
 
 ## 2025-12-01: Kubernetes Safe Upgrade and Rollback
 
