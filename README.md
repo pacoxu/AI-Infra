@@ -98,6 +98,8 @@ where to focus their learning.
 #### Blog
 
 - [Blog Overview](./docs/blog/README.md)
+- [Kubernetes Safe Upgrade and Rollback](./docs/blog/2025-12-01/safe-upgrade-rollback.md)
+  | [中文版](./docs/blog/2025-12-01/safe-upgrade-rollback_zh.md)
 - [JobSet In-Place Restart: 92% Faster](./docs/blog/2025-11-26/jobset-in-place-restart.md)
   | [中文版](./docs/blog/2025-11-26/jobset-in-place-restart_zh.md)
 - [cgroup v2 Migration Guide](./docs/blog/2025-11-26/cgroup-v2.md)

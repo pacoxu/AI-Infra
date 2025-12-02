@@ -10,6 +10,21 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2025-12-01: Kubernetes Safe Upgrade and Rollback
+
+- [Safe Upgrade and Rollback (English)](./2025-12-01/safe-upgrade-rollback.md)
+- [安全升级与回滚 (Chinese)](./2025-12-01/safe-upgrade-rollback_zh.md)
+
+A comprehensive guide to Kubernetes safe upgrade and rollback capabilities
+based on the Google Cloud blog and KubeCon NA 2025 keynote:
+
+- Emulation Version (`--emulation-version`) available in Kubernetes 1.31+
+- Minimum Compatibility Version (`--min-compatibility-version`) in 1.35+
+- KEP-4330: Compatibility Versions
+- GKE reliability: 99.98% upgrade success rate
+- Three stages of upgrade readiness
+- Best practices for safe upgrades and rollback procedures
+
 ## 2025-12-01: Inference Orchestration Solutions
 
 - [Inference Orchestration (English)](./2025-12-01/inference-orchestration.md)
