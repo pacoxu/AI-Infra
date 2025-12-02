@@ -98,6 +98,8 @@ where to focus their learning.
 #### Blog
 
 - [Blog Overview](./docs/blog/README.md)
+- [KCD Hangzhou: Observability at Scale](./docs/blog/2025-12-02/kcd-hangzhou-observability.md)
+  | [中文版](./docs/blog/2025-12-02/kcd-hangzhou-observability_zh.md)
 - [Kubernetes Safe Upgrade and Rollback](./docs/blog/2025-12-01/safe-upgrade-rollback.md)
   | [中文版](./docs/blog/2025-12-01/safe-upgrade-rollback_zh.md)
 - [JobSet In-Place Restart: 92% Faster](./docs/blog/2025-11-26/jobset-in-place-restart.md)
