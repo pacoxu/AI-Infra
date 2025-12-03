@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-02
+last_updated: 2025-12-03
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,26 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-12-03: Ant Group Large-Scale Cluster Experience - 50% Memory
+Reduction at 20K Nodes
+
+- [Ant Group Large-Scale K8s (English)](./2025-12-03/ant-group-large-scale-k8s.md)
+- [蚂蚁大规模集群经验 (Chinese)](./2025-12-03/ant-group-large-scale-k8s_zh.md)
+
+A comprehensive overview of Ant Group's large-scale Kubernetes cluster
+experiences at 20,000+ nodes:
+
+- Etcd splitting practice (2022): Reducing operational time from 1-2 hours
+  to 10 minutes
+- Large-scale Kubernetes service breakthroughs in the digital intelligence era
+- API Server memory optimization: 50% memory reduction with zero-intrusion
+  architecture
+- KoM (Kubernetes on Mesh) gateway for unified traffic management
+- Resource grouping strategy: Pod, Config, Event, Default groups
+- Performance improvements: CPU -30%, ETCD storage -20%, throughput +40%
+- Container delivery optimizations: 95% faster application startup
+- E2E diagnostics and self-healing with 80%+ L1 interception rate
 
 ## 2025-12-02: KCD Hangzhou — Observability Optimization at Scale
 
