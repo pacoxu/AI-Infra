@@ -95,7 +95,7 @@ AIBrix 控制平面
 
 **Grove 模式：**
 
-- 无需 Kubernetes 编排的高性能推理
+- Kubernetes 编排的高性能推理
 - NVIDIA 原生部署
 - 为纯 NVIDIA 基础设施优化
 
