@@ -113,7 +113,7 @@ deployment modes:
 
 **Grove Mode:**
 
-- High-performance inference without Kubernetes orchestration
+- High-performance inference 
 - NVIDIA-native deployment
 - Optimized for pure NVIDIA infrastructure
 
