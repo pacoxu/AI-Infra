@@ -1,0 +1,14 @@
+MISSING IMAGE: multicluster-use-cases.png
+
+This image should be downloaded from:
+https://github.com/user-attachments/assets/5f42f1bb-2d38-4f22-880a-a9512a502983
+
+The image is from KubeCon North America 2025 SIG Multi-Cluster presentation
+showing "Why organizations run multi clusters / Use case".
+
+See multicluster-use-cases-translation.md for the translation guide to create
+a Chinese version of this diagram.
+
+This image is referenced in:
+- docs/blog/2025-12-05/ai-infrastructure-kubernetes-2025.md
+- docs/blog/2025-12-05/ai-infrastructure-kubernetes-2025_zh.md

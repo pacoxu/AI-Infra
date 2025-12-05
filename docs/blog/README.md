@@ -10,6 +10,22 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2025-12-05: AI Infrastructure on Kubernetes — 2025 Survey Insights
+
+- [AI Infrastructure on Kubernetes (English)](./2025-12-05/ai-infrastructure-kubernetes-2025.md)
+- [Kubernetes 上的 AI 基础设施 (Chinese)](./2025-12-05/ai-infrastructure-kubernetes-2025_zh.md)
+
+Key insights from industry surveys about running AI workloads on Kubernetes at
+scale:
+
+- Only 12% of respondents have seen 10K+ node clusters in production
+- GPU utilization challenges: Most workloads achieve only 20-70% utilization
+- Training vs inference workload separation patterns and benefits
+- Multi-cluster deployment strategies (environment, region, business unit)
+- Best practices for cost optimization and resource efficiency
+- Future trends: DRA, JobSet, topology-aware scheduling
+- Common pitfalls and how to avoid them
+
 ## 2025-12-05: How the Kubernetes Community Operates — Entry Points in the AI Era
 
 - [Kubernetes Community Operations (English)](./2025-12-05/kubernetes-community-operations.md)
