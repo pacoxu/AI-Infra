@@ -252,8 +252,7 @@ separation** as a best practice:
 3. **Manual Job Management**: Not using job queue systems (Kueue, Volcano)
 4. **Single Point of Failure**: Not implementing HA for critical services
 5. **Neglecting Cost Monitoring**: Running expensive GPU nodes 24/7 without usage
-6. **Poor Resource Limits**: Not setting requests/limits leading to node
-   instability
+6. **Poor Resource Limits**: Not setting requests/limits leading to node instability
 7. **Inadequate Checkpointing**: Losing hours of training on spot interruptions
 8. **Monolithic Clusters**: Mixing all workload types without isolation
 

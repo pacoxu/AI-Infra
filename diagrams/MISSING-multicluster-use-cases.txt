@@ -6,6 +6,11 @@ https://github.com/user-attachments/assets/5f42f1bb-2d38-4f22-880a-a9512a502983
 The image is from KubeCon North America 2025 SIG Multi-Cluster presentation
 showing "Why organizations run multi clusters / Use case".
 
+Alternative sources if the above link is unavailable:
+- Contact KubeCon organizers or CNCF for presentation materials
+- Check the official SIG Multi-Cluster repository or presentations archive
+- Look for the presentation slides on the CNCF YouTube channel or sched.com
+
 See multicluster-use-cases-translation.md for the translation guide to create
 a Chinese version of this diagram.
 
