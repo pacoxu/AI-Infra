@@ -1,12 +1,38 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
-tags: kubernetes, pod, lifecycle, scheduling
+last_updated: 2025-12-05
+tags: kubernetes, pod, lifecycle, scheduling, restart-policy, KEP-5307, KEP-5532
 canonical_path: docs/kubernetes/pod-lifecycle.md
 ---
 
-# Pod Lifecycle in Kubernetes
+# Pod Lifecycle in Kubernetes: Recent Changes and Enhancements
+
+## Why Understanding Pod Lifecycle Matters
+
+Understanding the Pod lifecycle is crucial for Kubernetes users and operators
+for several key reasons:
+
+1. **Handling Pod Crashes and Failures**: Deep knowledge of Pod lifecycle
+   helps diagnose and resolve common issues like container crashes, failed
+   health checks, and stuck pods. Understanding when and why containers
+   restart enables better troubleshooting and faster recovery.
+
+2. **Optimizing Pod Startup Performance**: By understanding the sequence of
+   Pod initialization - from scheduling to readiness - you can identify
+   bottlenecks in image pulling, init container execution, and application
+   startup, leading to faster deployment times.
+
+3. **Implementing Advanced Patterns**: Modern applications often require
+   sophisticated lifecycle management, such as graceful shutdowns,
+   coordinated sidecar startup, or selective container restarts. Understanding
+   the lifecycle enables these patterns.
+
+4. **Resource Efficiency**: Proper lifecycle management helps optimize
+   resource utilization, prevent resource leaks, and ensure clean Pod
+   termination.
+
+## Pod Lifecycle Overview
 
 ![pod-lifecycle](../../diagrams/pod-lifecycle.png)
 
@@ -14,18 +40,145 @@ In Kubernetes, a Pod goes through several standard lifecycle **phases**.
 These phases describe the high-level status of the Pod, not the state of
 individual containers.
 
-## Pod Phases
+For detailed Pod lifecycle information, refer to:
 
-- **Pending**
-- **Running**
-- **Succeeded**
-- **Failed**
-- **Unknown**
+- [Official Kubernetes Documentation on Pod
+  Lifecycle](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)
+- [Chinese Blog: Understanding Pod Lifecycle
+  (Part 1)](https://mp.weixin.qq.com/s/3rViD6CLJ8wVadh_MPqovw)
+- [Chinese Blog: Understanding Pod Lifecycle
+  (Part 2)](https://mp.weixin.qq.com/s/MG5V8Pqa-Ua_Je9OXxdt1A)
 
-## Related Concepts (not expanded here)
+### Pod Phases
+
+- **Pending**: Pod has been accepted but containers are not yet running
+- **Running**: Pod has been bound to a node and all containers have been
+  created
+- **Succeeded**: All containers in the Pod have terminated successfully
+- **Failed**: All containers have terminated, and at least one failed
+- **Unknown**: Pod state cannot be determined
+
+### Pod Milestones from Creation to Readiness
+
+<img src="https://github.com/user-attachments/assets/4c3eafd2-73fa-446a-90df-bb4dee2540b9"
+alt="Pod Milestones From Creation to Readiness">
+
+*Source: "My Job Says 'Running' But Nothing's 'Running': Kubernetes Status
+Reality Check" - [KubeCon NA 2025](https://sched.co/28D8Z)*
+
+---
+
+## Recent Enhancements to Pod Lifecycle (Kubernetes 1.35+)
+
+The Kubernetes community continues to enhance Pod lifecycle management. Two
+significant enhancements are targeting Kubernetes 1.35:
+
+<img src="https://github.com/user-attachments/assets/1cc61c54-6cde-4bda-ab88-6c6568aa51b0" alt="restartPolicy may be enough">
+
+*Source: KubeCon NA 2025 SIG-Node Maintainer Track*
+
+### 1. SchedulingGates
+
+SchedulingGates allow you to control when a Pod should be scheduled. By
+adding scheduling gates, you can keep a Pod in the "Pending" phase until
+certain conditions are met, preventing premature scheduling.
+
+**Use Cases**:
+
+- Waiting for external resources to be provisioned
+- Coordinating batch job scheduling
+- Implementing custom admission policies
+
+### 2. Container Restart Rules (KEP-5307)
+
+**Status**: Targeting Beta in Kubernetes 1.35
+
+[KEP-5307](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5307-container-restart-policy/README.md)
+introduces fine-grained container-level restart policy rules with more
+flexibility than the traditional Pod-level `restartPolicy`.
+
+<img src="https://github.com/user-attachments/assets/d2842c7e-3344-4323-8a43-c9e5a88d628f" alt="Container restart policies">
+
+*Source: KubeCon NA 2025 SIG-Node Maintainer Track*
+
+#### Key Features
+
+- **Override Pod-level restart policy**: Provide per-container flexibility
+  instead of a single Pod-wide policy
+- **Finer-grained control on conditions**: Exit-code based rules replace the
+  generalized Never/OnFailure/Always policies
+- **Distinguish failure types**: Enable different handling for hardware vs.
+  retry-able errors
+- **Finer-grained control on actions**:
+  - **Restart**: Traditional container-level restart without Pod termination
+  - **RestartAllContainers**: Restart all containers in the Pod, including
+    init containers (see KEP-5532)
+  - **TerminatePod** (TBD): Terminate the entire Pod
+  - **Complete** (TBD): Treat the container as completed
+
+#### Benefits
+
+This enhancement is particularly useful for scenarios described in
+[this Chinese blog post about container exit
+policies](https://mp.weixin.qq.com/s/X_yhEtvkYh2RSp1F0p1UZA), including:
+
+- **Job completion handling**: Mark jobs as complete based on main container
+  exit codes while sidecars continue running
+- **Selective restart logic**: Restart only specific containers on certain
+  exit codes
+- **Advanced failure handling**: Different actions based on exit code ranges
+
+### 3. RestartAllContainers Action (KEP-5532)
+
+**Status**: Targeting Alpha in Kubernetes 1.35
+
+[KEP-5532](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5532-restart-all-containers-on-container-exits/README.md)
+introduces a new action that can be triggered by container exits: restarting
+all containers in a Pod.
+
+#### Key Features
+
+- **Cleaner restart**: Restart all containers of the Pod, including init
+  containers, providing a clean slate
+- **Container-controlled Pod lifecycle**: Allow containers to have some
+  control over the entire Pod lifecycle
+- **Works with all container types**: Applicable to regular containers, init
+  containers, and sidecar containers
+
+#### Use Cases
+
+1. **Configuration reload**: When a configuration container exits, trigger a
+   full Pod restart to reload all containers with new configuration
+2. **Dependency management**: When a critical sidecar fails, restart all
+   containers to ensure consistent state
+3. **Coordinated updates**: Enable containers to coordinate restarts when
+   certain conditions are met
+
+---
+
+## Detailed Pod Lifecycle Diagrams
+
+### Comprehensive Pod Lifecycle (Chinese)
+
+<img src="https://github.com/user-attachments/assets/1510eca1-f272-4e34-89e4-bf4d7e7dd3d0" alt="Pod Lifecycle Detailed Chinese">
+
+*Detailed Pod lifecycle diagram showing the interaction between user,
+controllers, scheduler, kubelet, and container runtime*
+
+### Pod Lifecycle State Transitions
+
+<img src="https://github.com/user-attachments/assets/fd8346f2-78b9-4c43-81e5-5a3333c78f9c"
+alt="Pod Lifecycle from WG Node Lifecycle">
+
+*Source: "Pod Lifecycle" - WG Node Lifecycle
+[KubeCon NA 2025](https://sched.co/28aCd)*
+
+---
+
+## Related Concepts
 
 - Container states
-- Init containers
+- Init containers  
 - Sidecar containers
 - Liveness probes
 - Readiness probes
@@ -34,8 +187,9 @@ individual containers.
 - Hooks: `preStop`, `postStart`
 - SchedulingGates
 
-More refer to [Issue #1](https://github.com/pacoxu/AI-Infra/issues/1) or
-[official docs](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/).
+More information available in
+[Issue #1](https://github.com/pacoxu/AI-Infra/issues/1) or
+[official Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/).
 
 ---
 
@@ -326,3 +480,169 @@ issue comments:
 基于 kubernetes 1.27-；在 v1.28 之后，init container 可以通过新的重启策略
 always 成为 sidecar container / Based on kubernetes 1.27-; after v1.28, init
 containers can become sidecar containers with the new restart policy "always".
+
+---
+
+# Pod 生命周期：容器重启规则与 RestartAllContainers 动作的最新变化
+
+## 为什么要了解 Pod 生命周期
+
+深入理解 Pod 生命周期对于 Kubernetes 用户和运维人员至关重要，主要有以下几个好处：
+
+1. **处理 Pod 常见 Crash 或故障**：深入了解 Pod
+   生命周期有助于诊断和解决常见问题，如容器崩溃、健康检查失败和
+   Pod 卡住等。理解容器何时以及为何重启，能够实现更好的故障排查和更快的恢复。
+
+2. **优化 Pod 启动性能**：通过理解从调度到就绪的 Pod
+   初始化序列，您可以识别镜像拉取、init
+   容器执行和应用启动中的瓶颈，从而加快部署时间。
+
+3. **实现高级模式**：现代应用通常需要复杂的生命周期管理，如优雅关闭、协调的
+   sidecar 启动或选择性容器重启。理解生命周期可以实现这些模式。
+
+4. **资源效率**：适当的生命周期管理有助于优化资源利用率，防止资源泄漏，并确保
+   Pod 的干净终止。
+
+## Pod 生命周期简介
+
+![pod-lifecycle](../../diagrams/pod-lifecycle.png)
+
+在 Kubernetes 中，Pod 经历几个标准生命周期**阶段**。这些阶段描述的是 Pod
+的高级状态，而不是单个容器的状态。
+
+想要详细了解 Pod 生命周期，可以先参考：
+
+- [Kubernetes 官方文档：Pod
+  生命周期](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)
+- [中文博客：理解 Pod 生命周期（上）](https://mp.weixin.qq.com/s/3rViD6CLJ8wVadh_MPqovw)
+- [中文博客：理解 Pod 生命周期（下）](https://mp.weixin.qq.com/s/MG5V8Pqa-Ua_Je9OXxdt1A)
+
+### Pod 阶段
+
+- **Pending（待定）**：Pod 已被接受，但容器尚未运行
+- **Running（运行中）**：Pod 已绑定到节点，所有容器都已创建
+- **Succeeded（成功）**：Pod 中的所有容器都已成功终止
+- **Failed（失败）**：所有容器都已终止，至少有一个失败
+- **Unknown（未知）**：无法确定 Pod 状态
+
+### Pod 从创建到就绪的里程碑
+
+<img src="https://github.com/user-attachments/assets/4c3eafd2-73fa-446a-90df-bb4dee2540b9" alt="Pod 从创建到就绪的里程碑">
+
+*来源："My Job Says 'Running' But Nothing's 'Running': Kubernetes Status
+Reality Check" - [KubeCon NA 2025](https://sched.co/28D8Z)*
+
+---
+
+## Pod 生命周期的近期增强（Kubernetes 1.35+）
+
+Kubernetes 社区持续增强 Pod 生命周期管理。两个重要的增强特性正在针对
+Kubernetes 1.35 版本开发：
+
+<img src="https://github.com/user-attachments/assets/1cc61c54-6cde-4bda-ab88-6c6568aa51b0" alt="restartPolicy 可能就足够了">
+
+*来源：KubeCon NA 2025 SIG-Node 维护者分会*
+
+### 1. SchedulingGates（调度门控）
+
+SchedulingGates 允许您控制何时应调度 Pod。通过添加调度门控，您可以将 Pod
+保持在"Pending"阶段，直到满足某些条件，防止过早调度。
+
+**使用场景**：
+
+- 等待外部资源被配置
+- 协调批处理作业调度
+- 实现自定义准入策略
+
+### 2. Container Restart Rules（容器重启规则，KEP-5307）
+
+**状态**：目标是在 Kubernetes 1.35 中达到 Beta 阶段
+
+[KEP-5307](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5307-container-restart-policy/README.md)
+引入了细粒度的容器级重启策略规则，比传统的 Pod
+级 `restartPolicy` 更加灵活。
+
+<img src="https://github.com/user-attachments/assets/d2842c7e-3344-4323-8a43-c9e5a88d628f" alt="容器重启策略">
+
+*来源：KubeCon NA 2025 SIG-Node 维护者分会*
+
+#### 主要特性
+
+- **覆盖 Pod 级重启策略**：提供每个容器的灵活性，而不是单一的 Pod 范围策略
+- **条件的细粒度控制**：基于退出码的规则取代了通用的
+  Never/OnFailure/Always 策略
+- **区分故障类型**：能够对硬件错误与可重试错误进行不同处理
+- **动作的细粒度控制**：
+  - **Restart（重启）**：传统的容器级重启，不终止 Pod
+  - **RestartAllContainers（重启所有容器）**：重启 Pod
+    中的所有容器，包括 init 容器（参见 KEP-5532）
+  - **TerminatePod（待定）**：终止整个 Pod
+  - **Complete（待定）**：将容器视为已完成
+
+#### 优势
+
+这一增强对于[这篇关于容器退出策略的中文博客文章](https://mp.weixin.qq.com/s/X_yhEtvkYh2RSp1F0p1UZA)中描述的场景特别有用，包括：
+
+- **任务完成处理**：基于主容器退出码将任务标记为完成，同时 sidecar 继续运行
+- **选择性重启逻辑**：仅在特定退出码时重启特定容器
+- **高级故障处理**：基于退出码范围采取不同动作
+
+### 3. RestartAllContainers Action（重启所有容器动作，KEP-5532）
+
+**状态**：目标是在 Kubernetes 1.35 中达到 Alpha 阶段
+
+[KEP-5532](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5532-restart-all-containers-on-container-exits/README.md)
+引入了一个可以由容器退出触发的新动作：重启 Pod 中的所有容器。
+
+#### 主要特性
+
+- **更干净的重启**：重启 Pod 的所有容器，包括 init
+  容器，提供一个干净的起点
+- **容器控制 Pod 生命周期**：允许容器对整个 Pod 生命周期拥有一定控制权
+- **适用于所有容器类型**：可应用于常规容器、init 容器和 sidecar 容器
+
+#### 使用场景
+
+1. **配置重新加载**：当配置容器退出时，触发完整的 Pod
+   重启以使所有容器重新加载新配置
+2. **依赖管理**：当关键 sidecar 失败时，重启所有容器以确保一致状态
+3. **协调更新**：使容器能够在满足某些条件时协调重启
+
+---
+
+## 详细的 Pod 生命周期图表
+
+### 全面的 Pod 生命周期图（中文）
+
+<img src="https://github.com/user-attachments/assets/1510eca1-f272-4e34-89e4-bf4d7e7dd3d0" alt="Pod 生命周期详细图（中文）">
+
+*详细的 Pod 生命周期图，显示了用户、控制器、调度器、kubelet
+和容器运行时之间的交互*
+
+### Pod 生命周期状态转换
+
+<img src="https://github.com/user-attachments/assets/fd8346f2-78b9-4c43-81e5-5a3333c78f9c"
+alt="来自 WG Node Lifecycle 的 Pod 生命周期">
+
+*来源："Pod Lifecycle" - WG Node Lifecycle
+[KubeCon NA 2025](https://sched.co/28aCd)*
+
+---
+
+## 相关概念
+
+- 容器状态
+- Init 容器
+- Sidecar 容器
+- 存活探针（Liveness probes）
+- 就绪探针（Readiness probes）
+- 启动探针（Startup probes）
+- 重启策略（Restart policy）
+- 生命周期钩子：`preStop`、`postStart`
+- 调度门控（SchedulingGates）
+
+更多信息请参见
+[Issue #1](https://github.com/pacoxu/AI-Infra/issues/1) 或
+[Kubernetes 官方文档](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/)。
+
+---
