@@ -178,7 +178,7 @@ alt="Pod Lifecycle from WG Node Lifecycle">
 ## Related Concepts
 
 - Container states
-- Init containers  
+- Init containers
 - Sidecar containers
 - Liveness probes
 - Readiness probes
