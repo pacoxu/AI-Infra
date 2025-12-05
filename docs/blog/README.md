@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-03
+last_updated: 2025-12-05
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -10,8 +10,24 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
-## 2025-12-03: Ant Group Large-Scale Cluster Experience - 50% Memory
-Reduction at 20K Nodes
+## 2025-12-05: How the Kubernetes Community Operates — Entry Points in the AI Era
+
+- [Kubernetes Community Operations (English)](./2025-12-05/kubernetes-community-operations.md)
+- [Kubernetes 社区运作方式 (Chinese)](./2025-12-05/kubernetes-community-operations_zh.md)
+
+A comprehensive guide to understanding how the Kubernetes community is
+structured and where to find entry points in the AI era:
+
+- Community structure: CNCF, Steering Committee, SIGs/WGs, Subprojects
+- The contributor ladder: From non-member to SIG Chair
+- Current SIGs, WGs, and Committees as of late 2024
+- AI/ML working groups: Batch, Serving, Device Management, AI Gateway, AI
+  Integration
+- New contributor orientation resources
+- AI/ML-specific entry points and opportunities
+- Community statistics: 97.8k contributors, 4.63M contributions, 8.6k reviewers
+
+## 2025-12-03: Ant Group Large-Scale Cluster — 50% Memory Reduction at 20K Nodes
 
 - [Ant Group Large-Scale K8s (English)](./2025-12-03/ant-group-large-scale-k8s.md)
 - [蚂蚁大规模集群经验 (Chinese)](./2025-12-03/ant-group-large-scale-k8s_zh.md)
