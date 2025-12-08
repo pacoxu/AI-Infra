@@ -212,9 +212,7 @@ Kubernetes 如何在保持稳定性的同时继续创新，GKE 的 65K 节点支
 
 **演讲链接：**
 
-Kubernetes in the Second Decade: Balancing Innovation with Stability
-
-- Jago Macleod
+Kubernetes in the Second Decade: Balancing Innovation with Stability - Jago Macleod
 
 GKE 团队将这些大规模优化的经验反馈给 Kubernetes 社区，帮助整个生态
 系统提升可扩展性能力。许多优化已经合并到 Kubernetes 上游项目中，
@@ -259,5 +257,5 @@ GKE 都能提供所需的规模和性能。随着 AI 技术的不断发展，Kub
 
 ---
 
-**注意**：本文基于 Google Cloud 官方博客编译整理，部分技术细节可能随版本更新
-而变化。建议查阅最新的官方文档获取准确信息。
+**注意**：本文基于 Google Cloud 官方博客编译整理，部分技术细节可能随
+版本更新而变化。建议查阅最新的官方文档获取准确信息。
