@@ -10,6 +10,23 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2025-12-08: Agones — Kubernetes-Native Game Server Hosting
+
+- [Agones Project Introduction (English)](./2025-12-08/agones.md)
+- [Agones 项目介绍 (Chinese)](./2025-12-08/agones_zh.md)
+
+A comprehensive introduction to Agones as it applies to join CNCF Sandbox,
+covering the project's positioning and vision:
+
+- What is Agones and why it exists
+- Core features: GameServer CRD, Fleet management, autoscaling, client SDKs
+- Architecture and design: Custom resources and lifecycle management
+- Use cases: Session-based multiplayer, persistent worlds, esports
+- Production adoption by major gaming companies
+- Why CNCF and cloud-native integration
+- Project governance and community
+- Vision and roadmap for gaming infrastructure on Kubernetes
+
 ## 2025-12-08: GKE 65,000 Node Support — Benchmarking AI Workloads at Scale
 
 - [GKE 65K Nodes (Chinese)](./2025-12-08/gke-65k-nodes_zh.md)
