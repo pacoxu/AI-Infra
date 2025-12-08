@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-05
+last_updated: 2025-12-08
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,25 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-12-08: GKE 65,000 Node Support — Benchmarking AI Workloads at Scale
+
+- [GKE 65K Nodes (Chinese)](./2025-12-08/gke-65k-nodes_zh.md)
+
+A comprehensive translation of Google Cloud's blog posts about GKE's
+achievement of supporting 65,000 nodes for AI workloads:
+
+- 65K nodes cluster architecture and design
+- Scheduler optimization for large-scale clusters
+- Mixed workload support: 50K training pods + 15K inference pods
+- Workload isolation with preemption mechanism
+- Fault recovery capabilities and StatefulSet guarantees
+- Performance benchmarks: Pod startup time and API server performance
+- Control plane optimization for ultra-large scale
+- Network optimization with VPC-native networking
+- AI training and inference use cases
+- KubeCon NA keynote reference: "Kubernetes in the Second Decade"
+- Community contributions and upstream improvements
 
 ## 2025-12-05: How the Kubernetes Community Operates — Entry Points in the AI Era
 
