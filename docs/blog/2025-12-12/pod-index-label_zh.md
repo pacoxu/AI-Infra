@@ -103,16 +103,54 @@ Leader-Follower 模式的分布式应用程序设计：
 - **选项 3**：单个 StatefulSet 加上条件逻辑 — 但每个 Pod 如何知道自己是 Leader 还是
   Worker？
 
-### 解决方案：Leader 为 Pod-0
+### 解决方案：Leader 为 Pod-0，Worker 从 Pod-1 开始
 
 有了 Pod 索引标签，LWS 可以定义一个 StatefulSet，其中：
 
 - **索引为 0 的 Pod**（`apps.kubernetes.io/pod-index: "0"`）是 **Leader**
 - **索引 ≥ 1 的 Pod**（`apps.kubernetes.io/pod-index: "1"`、`"2"`...）是 **Worker**
 
+#### 与 KEP-3335 协同演进：StatefulSet 起始序号
+
+但这个故事还有更多内容！LWS 不仅使用 KEP-4017（Pod Index Label）— 它还利用了
+[KEP-3335: StatefulSet Start
+Ordinal](https://github.com/kubernetes/enhancements/tree/master/keps/sig-apps/3335-statefulset-slice)，
+这是另一个基础的 Kubernetes 功能，已在 Kubernetes 1.31（2024 年 8 月）中达到 GA。
+
+**KEP-3335** 允许 StatefulSet 从**自定义序号**开始，而不是总是从 0 开始。这通过
+`spec.ordinals.start` 字段控制：
+
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: workers
+spec:
+  ordinals:
+    start: 1  # Worker Pod 从索引 1 开始
+  replicas: 9   # 创建 Pod 1-9
+```
+
+**为什么这对 LWS 很重要：**
+
+LeaderWorkerSet 可以创建**两个独立的 StatefulSet**：
+
+1. **Leader StatefulSet**：1 个副本，从序号 0 开始（默认）
+2. **Worker StatefulSet**：N 个副本，从序号 1 开始（使用 `spec.ordinals.start: 1`）
+
+这种架构提供：
+
+- **清晰分离**：Leader 和 Worker 有不同的生命周期管理
+- **独立扩展**：扩展 Worker 不影响 Leader
+- **一致的索引**：Worker 编号为 1、2、3...（而不是 0、1、2...）
+- **服务定位**：使用 Pod 索引标签适当地路由流量
+
+#### 示例：LWS 使用独立的 Leader 和 Worker StatefulSet
+
 这现在可以轻松实现：
 
 ```yaml
+# 仅定位 Leader（Pod-0）的 Service
 apiVersion: v1
 kind: Service
 metadata:
@@ -126,20 +164,23 @@ spec:
       port: 8080
       targetPort: 8080
 ---
+# Leader StatefulSet：在序号 0 处有 1 个副本
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: ml-training
+  name: ml-training-leader
 spec:
   serviceName: "ml-training"
-  replicas: 10  # 1 个 Leader + 9 个 Worker
+  replicas: 1  # 仅 Leader
   selector:
     matchLabels:
       app: ml-training
+      role: leader
   template:
     metadata:
       labels:
         app: ml-training
+        role: leader
     spec:
       containers:
       - name: trainer
@@ -150,10 +191,87 @@ spec:
             fieldRef:
               fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
         - name: ROLE
-          value: "$([ \"$POD_INDEX\" -eq 0 ] && echo leader || echo worker)"
+          value: "leader"
+---
+# Worker StatefulSet：从序号 1 开始的 9 个副本
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ml-training-worker
+spec:
+  serviceName: "ml-training"
+  ordinals:
+    start: 1  # Worker 从 Pod-1 开始（KEP-3335）
+  replicas: 9   # 创建 Pod 1-9
+  selector:
+    matchLabels:
+      app: ml-training
+      role: worker
+  template:
+    metadata:
+      labels:
+        app: ml-training
+        role: worker
+    spec:
+      containers:
+      - name: trainer
+        image: ml-training:latest
+        env:
+        - name: POD_INDEX
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+        - name: ROLE
+          value: "worker"
         - name: LEADER_ADDRESS
           value: "ml-training-leader:8080"
 ```
+
+**结果**：您将获得 Pod `ml-training-leader-0`（Leader）、`ml-training-worker-1`、
+`ml-training-worker-2`、...、`ml-training-worker-9`（Worker），所有这些都带有一致的
+`apps.kubernetes.io/pod-index` 标签，便于定位和发现。
+
+#### 协同演进功能的威力
+
+这个示例完美地展示了**协同演进**主题：
+
+1. **KEP-3335**（StatefulSet 起始序号，K8s 1.31 GA）使 Worker 能够从序号 1 开始
+2. **KEP-4017**（Pod Index Label，K8s 1.32 GA）将这些序号作为标签公开，便于选择
+3. **LWS** 结合两个功能来创建优雅的 Leader-Worker 架构
+
+单独任何一个功能都不能如此优雅地实现这种模式：
+
+- 没有 KEP-3335，Worker 将被编号为 0、1、2...（与 Leader 冲突）
+- 没有 KEP-4017，您无法轻松创建仅定位 Pod-0 的 Service 或按 Pod 索引过滤日志/指标
+
+它们一起解锁了一种强大的模式，现在正在被 Kubernetes AI/ML 生态系统采用。
+
+#### 替代方案：带有条件逻辑的单个 StatefulSet
+
+对于更简单的情况，您也可以使用**单个 StatefulSet**，其中 Pod-0 是 Leader，
+Pod 1+ 是 Worker：
+
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ml-training
+spec:
+  replicas: 10  # 1 个 Leader + 9 个 Worker
+  template:
+    spec:
+      containers:
+      - name: trainer
+        env:
+        - name: POD_INDEX
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+        - name: IS_LEADER
+          value: "$([ \"$POD_INDEX\" -eq 0 ] && echo true || echo false)"
+```
+
+这更简单但不如使用 KEP-3335 的双 StatefulSet 方法灵活。
 
 ### 为什么这对 AI 工作负载很重要
 
@@ -355,6 +473,123 @@ KEP-4017 体现了**协同演进**的理念：
 这不是一个引起头条关注的华而不实的功能，但它是那种**深思熟虑的渐进式改进**，使
 Kubernetes 成为 AI 工作负载的事实标准平台。
 
+## KEP-3335：StatefulSet 起始序号 — 更多用例
+
+虽然我们专注于 KEP-3335 如何通过 LWS 实现 Leader-Worker 模式，但此功能还有其他几个强大的
+用例：
+
+### 1. 跨命名空间或集群迁移 StatefulSet
+
+KEP-3335 的主要动机是实现**零停机 StatefulSet 迁移**。考虑将一个 5 副本的 StatefulSet
+从命名空间 `shared` 迁移到命名空间 `app-team`：
+
+**阶段 1：初始状态**
+
+```yaml
+# 在命名空间：shared
+name: my-app
+replicas: 5
+ordinals.start: 0
+# Pod：my-app-0、my-app-1、my-app-2、my-app-3、my-app-4
+```
+
+**阶段 2：迁移 Pod 3-4**
+
+```yaml
+# 在命名空间：shared
+name: my-app
+replicas: 3
+ordinals.start: 0
+# Pod：my-app-0、my-app-1、my-app-2
+---
+# 在命名空间：app-team
+name: my-app
+replicas: 2
+ordinals.start: 3  # 从 Pod-3 开始
+# Pod：my-app-3、my-app-4
+```
+
+**阶段 3：完成迁移**
+
+逐步缩小源 StatefulSet 并扩大目标 StatefulSet，在整个过程中保持 Pod 序号。这保留了
+应用程序身份和数据引用。
+
+### 2. 基于 1 的索引以提高清晰度
+
+某些应用程序更喜欢基于 1 的索引（其中 Pod-1 是第一个 Pod，而不是 Pod-0）：
+
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database
+spec:
+  ordinals:
+    start: 1  # Pod 编号为 1、2、3、4、5
+  replicas: 5
+```
+
+**好处**：
+
+- 与人类计数自然对齐（"5 个副本" = Pod 1-5，而不是 0-4）
+- 非技术利益相关者更容易理解
+- 某些传统应用程序期望基于 1 的编号
+
+### 3. 跨故障域分区 StatefulSet
+
+您可以通过创建具有不重叠序号范围的独立 StatefulSet 来将大型 StatefulSet 拆分到多个
+故障域：
+
+```yaml
+# 可用区 1
+name: my-app-az1
+replicas: 100
+ordinals.start: 0
+# Pod：0-99
+---
+# 可用区 2
+name: my-app-az2
+replicas: 100
+ordinals.start: 100
+# Pod：100-199
+---
+# 可用区 3
+name: my-app-az3
+replicas: 100
+ordinals.start: 200
+# Pod：200-299
+```
+
+有了 KEP-4017 的 Pod 索引标签，您现在可以轻松：
+
+- 使用带标签选择器的 Service 将流量路由到特定的可用区范围
+- 使用 `apps.kubernetes.io/pod-index` 监控和告警每个可用区的指标
+- 基于 Pod 索引范围实现复杂的故障转移逻辑
+
+### 4. 为特殊目的保留序号
+
+您可以为不同目的保留特定的序号范围：
+
+```yaml
+# 控制平面 Pod：序号 0-2
+name: app-control
+replicas: 3
+ordinals.start: 0
+---
+# 数据平面 Pod：序号 10-109
+name: app-data
+replicas: 100
+ordinals.start: 10
+---
+# 监控 Pod：序号 200-204
+name: app-monitor
+replicas: 5
+ordinals.start: 200
+```
+
+这创建了清晰的分离，并且使用 `apps.kubernetes.io/pod-index` 标签可以轻松定位特定的
+Pod 组。
+
 ## 展望未来：未来的可能性
 
 随着 Pod 索引标签在 Kubernetes 1.32 中稳定，我们可以期待：
@@ -496,18 +731,32 @@ KEP-4017 是**基础 Kubernetes 增强如何促进生态系统创新**的完美�
 
 ## 参考资料
 
+### Kubernetes 增强提案（KEP）
+
 - [KEP-4017: Pod Index
   Label](https://github.com/kubernetes/enhancements/tree/master/keps/sig-apps/4017-pod-index-label)
-- [LeaderWorkerSet (LWS)](https://github.com/kubernetes-sigs/lws)
+  — 为 StatefulSet 和 Indexed Job 添加 Pod 索引作为标签（K8s 1.32 GA）
+- [KEP-3335: StatefulSet Start
+  Ordinal](https://github.com/kubernetes/enhancements/tree/master/keps/sig-apps/3335-statefulset-slice)
+  — 为 StatefulSet 启用自定义起始序号（K8s 1.31 GA）
+
+### 官方文档
+
 - [Kubernetes StatefulSet
   文档](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/statefulset/)
 - [Kubernetes Indexed
   Job](https://kubernetes.io/zh-cn/docs/concepts/workloads/controllers/job/)
 - [Pod Index Label GA
   公告](https://kubernetes.io/blog/2024/12/17/statefulset-podindexlabel-ga/)
-- [Prefill-Decode 分离指南](../../inference/pd-disaggregation.md)
+- [StatefulSet 起始序号博客文章（中文）](https://kubernetes.io/zh-cn/blog/2023/04/28/statefulset-start-ordinal/)
+
+### 项目和用例
+
+- [LeaderWorkerSet (LWS)](https://github.com/kubernetes-sigs/lws) — Kubernetes
+  SIG Apps 项目，用于 Leader-Worker 模式
 - [LWS Gang Scheduling
   KEP](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
+- [Prefill-Decode 分离指南](../../inference/pd-disaggregation.md)
 
 ---
 

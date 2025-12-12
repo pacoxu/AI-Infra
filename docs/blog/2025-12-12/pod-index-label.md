@@ -117,7 +117,7 @@ resources:
 - **Option 3**: Single StatefulSet with conditional logic — but how does each
   pod know if it's the leader or a worker?
 
-### The Solution: Leader as Pod-0
+### The Solution: Leader as Pod-0, Workers Starting from Pod-1
 
 With pod index labels, LWS can define a single StatefulSet where:
 
@@ -125,9 +125,47 @@ With pod index labels, LWS can define a single StatefulSet where:
 - **Pods with index ≥ 1** (`apps.kubernetes.io/pod-index: "1"`, `"2"`, ...)
   are **workers**
 
-This is now trivially implementable:
+#### Co-Evolving with KEP-3335: StatefulSet Start Ordinal
+
+But there's more to this story! LWS doesn't just use KEP-4017 (Pod Index Label)
+— it also leverages [KEP-3335: StatefulSet Start
+Ordinal](https://github.com/kubernetes/enhancements/tree/master/keps/sig-apps/3335-statefulset-slice),
+another foundational Kubernetes feature that reached GA in Kubernetes 1.31
+(August 2024).
+
+**KEP-3335** allows StatefulSets to start from a **custom ordinal** instead of
+always starting at 0. This is controlled by the `spec.ordinals.start` field:
 
 ```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: workers
+spec:
+  ordinals:
+    start: 1  # Start worker pods from index 1
+  replicas: 9   # Creates pods 1-9
+```
+
+**Why this matters for LWS:**
+
+LeaderWorkerSet can create **two separate StatefulSets**:
+
+1. **Leader StatefulSet**: 1 replica, starting at ordinal 0 (default)
+2. **Worker StatefulSet**: N replicas, starting at ordinal 1 (using
+   `spec.ordinals.start: 1`)
+
+This architecture provides:
+
+- **Clean separation**: Leader and workers have distinct lifecycle management
+- **Independent scaling**: Scale workers without affecting the leader
+- **Consistent indexing**: Workers are numbered 1, 2, 3... (not 0, 1, 2...)
+- **Service targeting**: Use pod index labels to route traffic appropriately
+
+#### Example: LWS with Separate Leader and Worker StatefulSets
+
+```yaml
+# Service targeting only the leader (pod-0)
 apiVersion: v1
 kind: Service
 metadata:
@@ -141,20 +179,23 @@ spec:
       port: 8080
       targetPort: 8080
 ---
+# Leader StatefulSet: 1 replica at ordinal 0
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: ml-training
+  name: ml-training-leader
 spec:
   serviceName: "ml-training"
-  replicas: 10  # 1 leader + 9 workers
+  replicas: 1  # Just the leader
   selector:
     matchLabels:
       app: ml-training
+      role: leader
   template:
     metadata:
       labels:
         app: ml-training
+        role: leader
     spec:
       containers:
       - name: trainer
@@ -165,10 +206,94 @@ spec:
             fieldRef:
               fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
         - name: ROLE
-          value: "$([ \"$POD_INDEX\" -eq 0 ] && echo leader || echo worker)"
+          value: "leader"
+---
+# Worker StatefulSet: 9 replicas starting from ordinal 1
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ml-training-worker
+spec:
+  serviceName: "ml-training"
+  ordinals:
+    start: 1  # Workers start from pod-1 (KEP-3335)
+  replicas: 9   # Creates pods 1-9
+  selector:
+    matchLabels:
+      app: ml-training
+      role: worker
+  template:
+    metadata:
+      labels:
+        app: ml-training
+        role: worker
+    spec:
+      containers:
+      - name: trainer
+        image: ml-training:latest
+        env:
+        - name: POD_INDEX
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+        - name: ROLE
+          value: "worker"
         - name: LEADER_ADDRESS
           value: "ml-training-leader:8080"
 ```
+
+**Result**: You get pods `ml-training-leader-0` (leader), `ml-training-worker-1`,
+`ml-training-worker-2`, ..., `ml-training-worker-9` (workers), all with
+consistent `apps.kubernetes.io/pod-index` labels for easy targeting and
+discovery.
+
+#### The Power of Co-Evolving Features
+
+This example perfectly illustrates the **co-evolving** theme:
+
+1. **KEP-3335** (StatefulSet Start Ordinal, GA in K8s 1.31) enables workers to
+   start from ordinal 1
+2. **KEP-4017** (Pod Index Label, GA in K8s 1.32) exposes these ordinals as
+   labels for easy selection
+3. **LWS** combines both features to create an elegant leader-worker architecture
+
+Neither feature alone would enable this pattern as cleanly:
+
+- Without KEP-3335, workers would be numbered 0, 1, 2... (conflicting with the
+  leader)
+- Without KEP-4017, you couldn't easily create a Service targeting only pod-0
+  or filter logs/metrics by pod index
+
+Together, they unlock a powerful pattern that's now being adopted across the
+Kubernetes AI/ML ecosystem.
+
+#### Alternative: Single StatefulSet with Conditional Logic
+
+For simpler cases, you can also use a **single StatefulSet** where pod-0 is the
+leader and pods 1+ are workers:
+
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ml-training
+spec:
+  replicas: 10  # 1 leader + 9 workers
+  template:
+    spec:
+      containers:
+      - name: trainer
+        env:
+        - name: POD_INDEX
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.labels['apps.kubernetes.io/pod-index']
+        - name: IS_LEADER
+          value: "$([ \"$POD_INDEX\" -eq 0 ] && echo true || echo false)"
+```
+
+This is simpler but less flexible than the two-StatefulSet approach with
+KEP-3335.
 
 ### Why This Matters for AI Workloads
 
@@ -378,6 +503,126 @@ This is not a flashy feature that gets headline attention, but it's the kind of
 **thoughtful, incremental improvement** that makes Kubernetes the de facto
 platform for AI workloads.
 
+## KEP-3335: StatefulSet Start Ordinal — More Use Cases
+
+While we've focused on how KEP-3335 enables leader-worker patterns with LWS,
+this feature has several other powerful use cases:
+
+### 1. StatefulSet Migration Across Namespaces or Clusters
+
+KEP-3335's primary motivation was enabling **zero-downtime StatefulSet
+migration**. Consider migrating a 5-replica StatefulSet from namespace `shared`
+to namespace `app-team`:
+
+**Phase 1: Initial state**
+
+```yaml
+# In namespace: shared
+name: my-app
+replicas: 5
+ordinals.start: 0
+# Pods: my-app-0, my-app-1, my-app-2, my-app-3, my-app-4
+```
+
+**Phase 2: Migrate pods 3-4**
+
+```yaml
+# In namespace: shared
+name: my-app
+replicas: 3
+ordinals.start: 0
+# Pods: my-app-0, my-app-1, my-app-2
+---
+# In namespace: app-team
+name: my-app
+replicas: 2
+ordinals.start: 3  # Start from pod-3
+# Pods: my-app-3, my-app-4
+```
+
+**Phase 3: Complete migration**
+
+Scale down the source StatefulSet and scale up the destination iteratively,
+maintaining pod ordinals throughout. This preserves application identity and
+data references.
+
+### 2. 1-Based Indexing for Clarity
+
+Some applications prefer 1-based indexing (where pod-1 is the first pod, not
+pod-0):
+
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database
+spec:
+  ordinals:
+    start: 1  # Pods numbered 1, 2, 3, 4, 5
+  replicas: 5
+```
+
+**Benefits**:
+
+- Natural alignment with human counting ("5 replicas" = pods 1-5, not 0-4)
+- Easier for non-technical stakeholders to understand
+- Some legacy applications expect 1-based numbering
+
+### 3. Partitioning StatefulSets Across Failure Domains
+
+You can split a large StatefulSet across multiple failure domains by creating
+separate StatefulSets with non-overlapping ordinal ranges:
+
+```yaml
+# Availability Zone 1
+name: my-app-az1
+replicas: 100
+ordinals.start: 0
+# Pods: 0-99
+---
+# Availability Zone 2
+name: my-app-az2
+replicas: 100
+ordinals.start: 100
+# Pods: 100-199
+---
+# Availability Zone 3
+name: my-app-az3
+replicas: 100
+ordinals.start: 200
+# Pods: 200-299
+```
+
+With KEP-4017's pod index labels, you can now easily:
+
+- Route traffic to specific AZ ranges using Services with label selectors
+- Monitor and alert on per-AZ metrics using `apps.kubernetes.io/pod-index`
+- Implement sophisticated failover logic based on pod index ranges
+
+### 4. Reserved Ordinals for Special Purposes
+
+You can reserve specific ordinal ranges for different purposes:
+
+```yaml
+# Control plane pods: ordinals 0-2
+name: app-control
+replicas: 3
+ordinals.start: 0
+---
+# Data plane pods: ordinals 10-109
+name: app-data
+replicas: 100
+ordinals.start: 10
+---
+# Monitoring pods: ordinals 200-204
+name: app-monitor
+replicas: 5
+ordinals.start: 200
+```
+
+This creates clear separation and makes it easy to target specific pod groups
+using the `apps.kubernetes.io/pod-index` label.
+
 ## Looking Forward: Future Possibilities
 
 With pod index labels now stable in Kubernetes 1.32, we can expect:
@@ -524,18 +769,32 @@ The feature is here, it's stable, and it's ready to unlock your next innovation.
 
 ## References
 
+### Kubernetes Enhancement Proposals (KEPs)
+
 - [KEP-4017: Pod Index
   Label](https://github.com/kubernetes/enhancements/tree/master/keps/sig-apps/4017-pod-index-label)
-- [LeaderWorkerSet (LWS)](https://github.com/kubernetes-sigs/lws)
+  — Adds pod index as a label for StatefulSets and Indexed Jobs (GA in K8s 1.32)
+- [KEP-3335: StatefulSet Start
+  Ordinal](https://github.com/kubernetes/enhancements/tree/master/keps/sig-apps/3335-statefulset-slice)
+  — Enables custom start ordinals for StatefulSets (GA in K8s 1.31)
+
+### Official Documentation
+
 - [Kubernetes StatefulSets
   Documentation](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)
 - [Kubernetes Indexed
   Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
 - [Pod Index Label GA
   Announcement](https://kubernetes.io/blog/2024/12/17/statefulset-podindexlabel-ga/)
-- [Prefill-Decode Disaggregation Guide](../../inference/pd-disaggregation.md)
+- [StatefulSet Start Ordinal Blog Post (Chinese)](https://kubernetes.io/zh-cn/blog/2023/04/28/statefulset-start-ordinal/)
+
+### Projects and Use Cases
+
+- [LeaderWorkerSet (LWS)](https://github.com/kubernetes-sigs/lws) — Kubernetes
+  SIG Apps project for leader-worker patterns
 - [LWS Gang Scheduling
   KEP](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
+- [Prefill-Decode Disaggregation Guide](../../inference/pd-disaggregation.md)
 
 ---
 
