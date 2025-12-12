@@ -180,8 +180,8 @@ spec:
 - **Prefill Worker**：从提示生成初始 KV 缓存
 - **Decode Worker**：自回归地生成 Token
 
-LWS 启发的架构（如 [llm-d](https://github.com/substratusai/lws-examples/tree/main/llm-d)
-中使用的架构）利用 Pod 索引标签来：
+LWS 启发的架构（如 [llm-d](https://github.com/llm-d/llm-d) 中使用的架构）利用
+Pod 索引标签来：
 
 - 将请求路由到 Pod-0（协调器）
 - 根据 Pod 索引动态调度 Prefill 与 Decode 工作
