@@ -98,6 +98,8 @@ where to focus their learning.
 #### Blog
 
 - [Blog Overview](./docs/blog/README.md)
+- [KEP-4017 Pod Index Label: Co-Evolving in Kubernetes](./docs/blog/2025-12-12/pod-index-label.md)
+  | [中文版](./docs/blog/2025-12-12/pod-index-label_zh.md)
 - [KCD Hangzhou: Observability at Scale](./docs/blog/2025-12-02/kcd-hangzhou-observability.md)
   | [中文版](./docs/blog/2025-12-02/kcd-hangzhou-observability_zh.md)
 - [Kubernetes Safe Upgrade and Rollback](./docs/blog/2025-12-01/safe-upgrade-rollback.md)

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-08
+last_updated: 2025-12-12
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,25 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-12-12: KEP-4017 Pod Index Label — Co-Evolving in Kubernetes
+
+- [Pod Index Label (English)](./2025-12-12/pod-index-label.md)
+- [Pod Index Label (Chinese)](./2025-12-12/pod-index-label_zh.md)
+
+A comprehensive guide to KEP-4017: Pod Index Label, exploring how Kubernetes
+foundational features enable ecosystem innovation (co-evolving theme):
+
+- What is KEP-4017 and why it matters
+- Pod index as a label for StatefulSets and Indexed Jobs
+- LeaderWorkerSet (LWS) use case: leader as pod-0, workers starting from pod-1
+- Distributed training with parameter servers
+- Prefill-decode disaggregation for LLM inference
+- Multi-replica model serving and A/B testing
+- Observability improvements: filtering logs and metrics by pod index
+- Ray clusters, chaos engineering, and rolling deployment use cases
+- Technical impact: minimal changes, maximum value
+- GA in Kubernetes 1.32 (December 2024)
 
 ## 2025-12-08: Agones — Kubernetes-Native Game Server Hosting
 
