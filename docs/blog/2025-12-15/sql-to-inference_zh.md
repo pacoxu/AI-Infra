@@ -234,8 +234,8 @@ Ray 作为连接 AI 框架与云原生基础设施的关键编排层。vLLM + Ra
 
 ### PyTorchCon 2025 演讲
 
-- **视频**：[开源后训练技术栈：Kubernetes + Ray + PyTorch + vLLM - Robert
-  Nishihara, Anyscale](https://www.youtube.com/watch?v=JEM-tA3XDjc&list=PL_lsbAsL_o2BUUxo6coMBFwQE31U4Eb2q&index=37)
+- **视频**：《开源后训练技术栈：Kubernetes + Ray + PyTorch + vLLM》
+  — Robert Nishihara, Anyscale (PyTorchCon 2025)
 
 ### 相关博客文章
 

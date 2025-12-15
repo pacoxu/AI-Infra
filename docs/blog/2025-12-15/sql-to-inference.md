@@ -258,8 +258,8 @@ will be essential for building scalable, efficient AI infrastructure.
 
 ### PyTorchCon 2025 Presentation
 
-- **Video**: An Open Source Post-Training Stack: Kubernetes + Ray + PyTorch
-  - vLLM - Robert Nishihara, Anyscale
+- **Video**: "An Open Source Post-Training Stack: Kubernetes + Ray + PyTorch +
+  vLLM" by Robert Nishihara, Anyscale (PyTorchCon 2025)
 
 ### Related Blog Posts
 
