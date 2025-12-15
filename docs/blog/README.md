@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-08
+last_updated: 2025-12-15
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,27 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-12-15: From SQL on CPUs to Inference on GPUs
+
+- [SQL to Inference Evolution (English)](./2025-12-15/sql-to-inference.md)
+- [SQL 到推理演进 (Chinese)](./2025-12-15/sql-to-inference_zh.md)
+
+A comprehensive blog post about the transformation of AI data processing
+based on PyTorchCon 2025 presentation by Robert Nishihara (Anyscale):
+
+- New workloads: AI data processing evolution from SQL on CPUs to inference
+  on GPUs
+- Paradigm shift in data types: From tabular to multimodal data (images,
+  video, audio, text, sensors)
+- The PARK stack: PyTorch + AI + Ray + Kubernetes as the new AI infrastructure
+  standard
+- Co-evolution of vLLM + Ray: Why nearly every RL framework uses Ray as
+  orchestrator
+- Ray + Kubernetes integration: Complementary strengths for AI workloads
+- RL/Post-training architecture and orchestration requirements
+- Real-world adoption across research labs, tech companies, and cloud providers
+- Comparison to LAMP stack defining the web era
 
 ## 2025-12-08: Agones — Kubernetes-Native Game Server Hosting
 
