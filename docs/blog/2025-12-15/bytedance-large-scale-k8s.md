@@ -253,8 +253,8 @@ management solution:
 
 ### Related Documentation
 
-- [Large-Scale Kubernetes Clusters](../kubernetes/large-scale-clusters.md)
-- [Scheduling Optimization](../kubernetes/scheduling-optimization.md)
+- [Large-Scale Kubernetes Clusters](../../kubernetes/large-scale-clusters.md)
+- [Scheduling Optimization](../../kubernetes/scheduling-optimization.md)
 
 ---
 

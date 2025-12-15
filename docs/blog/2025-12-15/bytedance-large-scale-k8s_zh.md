@@ -236,8 +236,8 @@ Katalyst 与 Gödel 调度器配合，形成完整的资源管理解决方案：
 
 ### 相关文档
 
-- [Large-Scale Kubernetes Clusters](../kubernetes/large-scale-clusters.md)
-- [Scheduling Optimization](../kubernetes/scheduling-optimization.md)
+- [Large-Scale Kubernetes Clusters](../../kubernetes/large-scale-clusters.md)
+- [Scheduling Optimization](../../kubernetes/scheduling-optimization.md)
 
 ---
 
