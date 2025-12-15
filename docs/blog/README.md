@@ -10,6 +10,23 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2025-12-15: ByteDance's Solution for Ultra-Large-Scale Kubernetes Clusters
+
+- [ByteDance Large-Scale K8s (English)](./2025-12-15/bytedance-large-scale-k8s.md)
+- [字节跳动超大规模 K8s 方案 (Chinese)](./2025-12-15/bytedance-large-scale-k8s_zh.md)
+
+A comprehensive overview of ByteDance's solutions for ultra-large-scale
+Kubernetes clusters:
+
+- **KubeBrain**: Alternative metadata storage system supporting 20,000+ node
+  clusters
+- **KubeAdmiral**: Next-generation multi-cluster orchestration and scheduling
+  engine
+- **Gödel Scheduler**: Unified scheduling architecture for large-scale clusters
+- **Katalyst**: Resource management system for improved utilization and QoS
+- Multi-cluster vs single-cluster trade-offs
+- KubeCon China 2025 presentations and technical blog references
+- Open-source projects and GitHub repositories
 
 ## 2025-12-15: From SQL on CPUs to Inference on GPUs
 
