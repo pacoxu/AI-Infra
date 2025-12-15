@@ -10,6 +10,7 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+
 ## 2025-12-15: From SQL on CPUs to Inference on GPUs
 
 - [SQL to Inference Evolution (English)](./2025-12-15/sql-to-inference.md)
@@ -30,6 +31,25 @@ based on PyTorchCon 2025 presentation by Robert Nishihara (Anyscale):
 - RL/Post-training architecture and orchestration requirements
 - Real-world adoption across research labs, tech companies, and cloud providers
 - Comparison to LAMP stack defining the web era
+
+## 2025-12-15: Multi-Tenancy Isolation in AI Infra Era
+
+- [Multi-Tenancy Isolation (English)](./2025-12-15/multi-tenancy-isolation.md)
+- [多租户隔离性方案探讨 (Chinese)](./2025-12-15/multi-tenancy-isolation_zh.md)
+
+A comprehensive guide to multi-tenant isolation solutions in Kubernetes for the
+AI infrastructure era:
+
+- Public cloud vs private cloud considerations for training and inference
+- Comparison table across dimensions: use cases, resources, cost, scheduling,
+  data, SLO, security, challenges
+- Container security isolation strategies: cluster isolation, node pools,
+  sandboxed runtimes (gVisor, Kata)
+- Agent Sandbox warm pool patterns and security strategies
+- Confidential Containers for sensitive AI workloads
+- Network and storage isolation best practices
+- Multicluster application management with CNCF MCM Radar 2024Q3
+- Multitenancy spectrum: from namespaces to dedicated clusters
 
 ## 2025-12-08: Agones — Kubernetes-Native Game Server Hosting
 
