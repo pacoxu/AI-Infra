@@ -91,6 +91,8 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 #### 博客
 
 - [博客概述](./docs/blog/README.md)
+- [AI Infra 时代的多租户隔离性方案探讨](./docs/blog/2025-12-15/multi-tenancy-isolation_zh.md)
+  | [English](./docs/blog/2025-12-15/multi-tenancy-isolation.md)
 - [JobSet 原地重启：速度提升 92%](./docs/blog/2025-11-26/jobset-in-place-restart_zh.md)
   | [English](./docs/blog/2025-11-26/jobset-in-place-restart.md)
 - [cgroup v2 迁移指南](./docs/blog/2025-11-26/cgroup-v2_zh.md)
