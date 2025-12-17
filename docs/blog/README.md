@@ -10,6 +10,25 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2025-12-17: GPU Fault Detection and Self-Healing in Kubernetes
+
+- [GPU 故障检测与自愈实践指南 (Chinese)](./2025-12-17/gpu-fault-detection_zh.md)
+
+A practical guide for AI infrastructure engineers and SREs on detecting,
+diagnosing, and automatically recovering from GPU hardware failures in
+Kubernetes clusters:
+
+- Four types of GPU failures: card dropout, link failures, memory errors, driver
+  failures
+- Detection approaches: DCGM Exporter, Node Problem Detector, NVIDIA Debug
+  Guidelines
+- Three-layer fault semantics: NodeCondition, DeviceCondition, WorkloadCondition
+- Progressive remediation strategy: 6-level escalation (L0-L6)
+- Fault-aware scheduling: GPU health scoring and integration with Kueue/Volcano
+- Job-level attribution: DCGM HPC job mapping for fair billing
+- Production deployment phases and best practices
+- References from ByteDance Volcano, Microsoft AKS, and NVIDIA
+
 ## 2025-12-17: DRANET — Community-Driven Kubernetes Network Driver
 
 - [DRANET 介绍 (Chinese)](./2025-12-17/dranet-kubernetes-network-driver_zh.md)
