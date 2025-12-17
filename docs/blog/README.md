@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-15
+last_updated: 2025-12-17
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,26 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-12-17: DRANET — Community-Driven Kubernetes Network Driver
+
+- [DRANET 介绍 (Chinese)](./2025-12-17/dranet-kubernetes-network-driver_zh.md)
+
+A comprehensive blog post about DRANET (Dynamic Resource Allocation Network),
+the community-driven evolution of the Kubernetes network driver, combining
+KubeCon NA 2025 keynote and research paper content:
+
+- DRANET overview: DRA-based network driver with topology-aware resource
+  management
+- New ecosystem emerges: AI/ML, HPC, and Telco driving network innovation
+- DRA as common language: Unified resource allocation framework
+- Convergence of ideas: From CNI Spec (2015) to Network Drivers (2025)
+- Topology lottery problem: Performance bottlenecks in traditional networking
+- Solution: Topology-aware scheduling with DRA + NRI
+- Performance results: Up to 59.6% improvement in NCCL benchmarks
+- Composable architecture for high-performance networking
+- Project donated to kubernetes-sigs organization
+- IEEE LCN 2025 paper and KubeCon NA 2025 keynote references
 
 ## 2025-12-15: ByteDance's Solution for Ultra-Large-Scale Kubernetes Clusters
 
