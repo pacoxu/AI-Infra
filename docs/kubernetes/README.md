@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2025-12-17
 tags: kubernetes, ai-infrastructure, scheduling, resource-management
 canonical_path: docs/kubernetes/README.md
 ---
@@ -41,6 +41,10 @@ workload isolation.
 - **[NVIDIA GPU Operator](./nvidia-gpu-operator.md)**: Automated GPU driver
   installation, device plugin deployment, DRA driver integration, and GPU
   monitoring with DCGM
+- **[GPU Fault Detection and Self-Healing](./gpu-fault-detection.md)**:
+  Comprehensive guide to detecting, diagnosing, and automatically recovering
+  from GPU failures with DCGM, Node Problem Detector, and progressive
+  remediation strategies
 - **[Node Resource Interface (NRI)](./nri.md)**: Fine-grained container
   resource management at the runtime level
 
@@ -85,8 +89,10 @@ workload isolation.
    GPU workloads
 2. Review [NVIDIA GPU Operator](./nvidia-gpu-operator.md) for GPU setup and
    monitoring
-3. Study [Isolation Guide](./isolation.md) for checkpoint/restore
-4. Understand [DRA](./dra.md) for complex device requirements
+3. Study [GPU Fault Detection](./gpu-fault-detection.md) for production
+   reliability and automated recovery
+4. Study [Isolation Guide](./isolation.md) for checkpoint/restore
+5. Understand [DRA](./dra.md) for complex device requirements
 
 ## Related Topics
 

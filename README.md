@@ -62,6 +62,7 @@ where to focus their learning.
 - [Dynamic Resource Allocation (DRA)](./docs/kubernetes/dra.md)
 - [DRA Performance Testing](./docs/kubernetes/dra-performance-testing.md)
 - [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md)
+- [GPU Fault Detection and Self-Healing](./docs/kubernetes/gpu-fault-detection.md)
 - [Node Resource Interface (NRI)](./docs/kubernetes/nri.md)
 - [Large-Scale Clusters (130K+ Nodes)](./docs/kubernetes/large-scale-clusters.md)
 
@@ -98,6 +99,7 @@ where to focus their learning.
 #### Blog
 
 - [Blog Overview](./docs/blog/README.md)
+- [GPU Fault Detection and Self-Healing](./docs/blog/2025-12-17/gpu-fault-detection_zh.md)
 - [Multi-Tenancy Isolation in AI Infra Era](./docs/blog/2025-12-15/multi-tenancy-isolation.md)
   | [中文版](./docs/blog/2025-12-15/multi-tenancy-isolation_zh.md)
 - [KCD Hangzhou: Observability at Scale](./docs/blog/2025-12-02/kcd-hangzhou-observability.md)
@@ -306,6 +308,8 @@ infrastructure stack for production operations.
 
 - **Key Topics:**
   - **Infrastructure monitoring**: GPU utilization, memory, temperature, power
+  - **GPU fault detection**: XID errors, card dropout, link failures, automated
+    recovery
   - **Inference metrics**: TTFT, TPOT, ITL, throughput, request latency
   - **Scheduler observability**: Queue depth, scheduling latency, resource
     allocation
@@ -318,6 +322,9 @@ infrastructure stack for production operations.
 coverage of GPU monitoring (DCGM, Prometheus), inference metrics (OpenLLMetry,
 Langfuse, OpenLit), scheduler observability (Kueue, Volcano), distributed
 tracing (DeepFlow), and LLM evaluation platforms (TruLens, Deepchecks).
+
+For GPU fault detection and self-healing, see the
+[GPU Fault Detection Guide](./docs/kubernetes/gpu-fault-detection.md).
 
 - **Featured Tools:**
   - OpenTelemetry-native: <a href="https://github.com/openlit/openlit">`OpenLit`</a>,
