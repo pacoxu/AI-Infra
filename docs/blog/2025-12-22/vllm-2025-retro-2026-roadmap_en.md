@@ -8,7 +8,7 @@ tags: vllm, llm, inference, roadmap, ai-infrastructure
 # vLLM 2025 Retrospective & 2026 Roadmap
 
 This article summarizes vLLM's achievements in 2025 and outlines the vision
-for 2026. Content is based on vLLM Office Hours #38 (December 18, 2025),
+for 2026. Content is based on vLLM Office Hours #38 (December 18, 2024),
 presented by vLLM Project Maintainer Simon Mo (UC Berkeley) and vLLM Core
 Committee member Michael Goin (Red Hat AI).
 

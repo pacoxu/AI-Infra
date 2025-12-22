@@ -8,7 +8,7 @@ tags: vllm, llm, inference, roadmap, ai-infrastructure
 # vLLM 2025 年度回顾与 2026 年路线图
 
 本文总结 vLLM 在 2025 年取得的成就，并展望 2026 年的发展方向。内容来源于
-vLLM Office Hours #38 (December 18, 2025)，由 vLLM 项目维护者 Simon Mo (UC
+vLLM Office Hours #38 (December 18, 2024)，由 vLLM 项目维护者 Simon Mo (UC
 Berkeley) 和 Michael Goin (Red Hat AI) 主讲。
 
 **注意：** 部分内容由 AI 辅助生成，使用前请仔细验证。
