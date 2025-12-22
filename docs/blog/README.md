@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-17
+last_updated: 2025-12-22
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,24 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2025-12-22: vLLM 2025 Retrospective & 2026 Roadmap
+
+- [vLLM 2025 Retro & 2026 RoadMap (English)](./2025-12-22/vllm-2025-retro-2026-roadmap_en.md)
+- [vLLM 2025 年度回顾与 2026 年路线图 (Chinese)](./2025-12-22/vllm-2025-retro-2026-roadmap_zh.md)
+
+A comprehensive summary of vLLM's achievements in 2025 and vision for 2026,
+based on vLLM Office Hours #38:
+
+- vLLM project overview: 65K+ stars, 800+ PRs/month, 2000+ contributors
+- 2025 growth highlights: 80% Q1/Q2 growth, 30% Q3 growth
+- API evolution: Agentic AI and RL support with native framework integration
+- Model ecosystem: 100+ architectures, Transformers backend, SOTA vision models
+- Engine revamp: V1 core architecture with hybrid allocator and KV connector
+- Hardware ecosystem: TPU, Ascend, Neuron, Gaudi, OpenVINO support
+- Distributed capabilities: DeepSeek 2.2k tok/s case, vLLM Router release
+- 2026 focus: Stability, accuracy, performance, frontier models, hardware
+  stability
 
 ## 2025-12-17: GPU Fault Detection and Self-Healing in Kubernetes
 
