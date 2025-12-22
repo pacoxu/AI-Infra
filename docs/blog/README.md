@@ -10,6 +10,27 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2025-12-22: OCI Is Quietly Taking Over Everything
+
+- [OCI Taking Over Everything (English)](./2025-12-22/oci-taking-over-everything_en.md)
+- [OCI 正在悄悄占领一切 (Chinese)](./2025-12-22/oci-taking-over-everything_zh.md)
+
+A comprehensive analysis of how OCI (Open Container Initiative) is becoming
+the unified distribution backbone for images, Helm charts, AI models, and WASM
+in the AI era, referencing KubeCon Atlanta insights:
+
+- OCI evolution: From container images to universal artifact distribution
+- Why AI workloads amplify the need for OCI (size, governance, unification)
+- Kubernetes v1.35: OCI Image Volumes enabled by default (Beta)
+- ModelPack: Making AI models first-class OCI citizens
+- Harbor v2.14.0: Enhanced CNAI model integration
+- Docker Model Runner: Unifying inference engines (llama.cpp, vLLM) with OCI
+- ORAS: Swiss Army knife for OCI artifacts
+- WASM artifact registries: Next unification puzzle piece
+- Industry signals: Bitnami policy changes, Docker Hardened Images (DHI)
+- Performance evolution: containerd v2.2 Rebase Snapshot
+- Practical adoption roadmap for enterprises
+
 ## 2025-12-22: vLLM 2025 Retrospective & 2026 Roadmap
 
 - [vLLM 2025 Retro & 2026 RoadMap (English)](./2025-12-22/vllm-2025-retro-2026-roadmap_en.md)
