@@ -54,19 +54,25 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 - [Kubernetes 学习计划](./docs/kubernetes/learning-plan.md)
 - [Pod 生命周期](./docs/kubernetes/pod-lifecycle.md)
 - [Pod 启动速度](./docs/kubernetes/pod-startup-speed.md)
+- [GPU Pod 冷启动](./docs/kubernetes/gpu-pod-cold-start.md)
 - [调度优化](./docs/kubernetes/scheduling-optimization.md)
 - [工作负载隔离](./docs/kubernetes/isolation.md)
 - [动态资源分配 (DRA)](./docs/kubernetes/dra.md)
 - [DRA 性能测试](./docs/kubernetes/dra-performance-testing.md)
 - [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md)
+- [GPU 故障检测与自愈](./docs/kubernetes/gpu-fault-detection.md)
 - [节点资源接口 (NRI)](./docs/kubernetes/nri.md)
+- [大规模集群 (130K+ 节点)](./docs/kubernetes/large-scale-clusters.md)
 
 #### 推理
 
 - [推理概述](./docs/inference/README.md)
 - [模型架构](./docs/inference/model-architectures.md)
+- [LoRA: 低秩适应](./docs/inference/lora.md)
 - [AIBrix 平台](./docs/inference/aibrix.md)
 - [OME 平台](./docs/inference/ome.md)
+- [无服务器 AI 推理](./docs/inference/serverless.md)
+- [模型切换与动态调度](./docs/inference/model-switching.md)
 - [预填充-解码分离](./docs/inference/pd-disaggregation.md)
 - [缓存策略](./docs/inference/caching.md)
 - [内存与上下文数据库](./docs/inference/memory-context-db.md)
@@ -91,14 +97,23 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 #### 博客
 
 - [博客概述](./docs/blog/README.md)
+- [GPU 故障检测与自愈](./docs/blog/2025-12-17/gpu-fault-detection_zh.md)
 - [AI Infra 时代的多租户隔离性方案探讨](./docs/blog/2025-12-15/multi-tenancy-isolation_zh.md)
   | [English](./docs/blog/2025-12-15/multi-tenancy-isolation.md)
+- [KCD 杭州：大规模可观测性](./docs/blog/2025-12-02/kcd-hangzhou-observability_zh.md)
+  | [English](./docs/blog/2025-12-02/kcd-hangzhou-observability.md)
+- [Kubernetes 安全升级与回滚](./docs/blog/2025-12-01/safe-upgrade-rollback_zh.md)
+  | [English](./docs/blog/2025-12-01/safe-upgrade-rollback.md)
 - [JobSet 原地重启：速度提升 92%](./docs/blog/2025-11-26/jobset-in-place-restart_zh.md)
   | [English](./docs/blog/2025-11-26/jobset-in-place-restart.md)
 - [cgroup v2 迁移指南](./docs/blog/2025-11-26/cgroup-v2_zh.md)
   | [English](./docs/blog/2025-11-26/cgroup-v2.md)
 - [Kubernetes v1.35 中的 Gang Scheduling](./docs/blog/2025-11-25/gang-scheduling_zh.md)
   | [English](./docs/blog/2025-11-25/gang-scheduling.md)
+- [AWS 10K 节点 EKS 超大规模集群](./docs/blog/2025-12-01/aws-10k-node-clusters_zh.md)
+  | [English](./docs/blog/2025-12-01/aws-10k-node-clusters.md)
+- [推理编排解决方案](./docs/blog/2025-12-01/inference-orchestration_zh.md)
+  | [English](./docs/blog/2025-12-01/inference-orchestration.md)
 
 ## 📊 AI-Infra 全景图 (2025年6月，需要更新)
 
@@ -195,6 +210,7 @@ LLM 推理引擎、平台和优化技术，用于大规模高效模型服务。
   - 模型架构（Llama 3/4, Qwen 3, DeepSeek-V3, Flux）
   - 高效 Transformer 推理（KV Cache, FlashAttention, CUDA Graphs）
   - LLM 服务和编排平台
+  - 无服务器 AI 推理（Knative, AWS SageMaker, 云平台）
   - 多加速器优化
   - MoE（专家混合）架构
   - 模型生命周期管理（冷启动、休眠模式、卸载）
@@ -206,9 +222,10 @@ LLM 推理引擎、平台和优化技术，用于大规模高效模型服务。
 
 **详细内容请参见 [推理指南](./docs/inference/README.md)**，
 包含引擎（vLLM, SGLang, Triton, TGI）、平台（Dynamo, AIBrix, OME, llmaz,
-Kthena, KServe）的全面介绍，以及深入主题：
+Kthena, KServe）、无服务器解决方案（Knative, AWS SageMaker）的全面介绍，以及深入主题：
 [模型架构](./docs/inference/model-architectures.md) |
 [AIBrix](./docs/inference/aibrix.md) |
+[无服务器](./docs/inference/serverless.md) |
 [P/D 分离](./docs/inference/pd-disaggregation.md) |
 [缓存](./docs/inference/caching.md) |
 [内存/上下文数据库](./docs/inference/memory-context-db.md) |
@@ -281,6 +298,7 @@ Argo Workflows）、GitOps（ArgoCD）、容错策略、字节跳动的训练优
 
 - **关键主题:**
   - **基础设施监控**: GPU 利用率、内存、温度、功率
+  - **GPU 故障检测**: XID 错误、显卡掉线、链路故障、自动恢复
   - **推理指标**: TTFT, TPOT, ITL, 吞吐量, 请求延迟
   - **调度器可观测性**: 队列深度、调度延迟、资源分配
   - **LLM 应用追踪**: 请求追踪、提示词性能、模型质量
@@ -291,6 +309,9 @@ Argo Workflows）、GitOps（ArgoCD）、容错策略、字节跳动的训练优
 包含 GPU 监控（DCGM, Prometheus）、推理指标（OpenLLMetry, Langfuse,
 OpenLit）、调度器可观测性（Kueue, Volcano）、分布式追踪（DeepFlow）和
 LLM 评估平台（TruLens, Deepchecks）的全面介绍。
+
+关于 GPU 故障检测与自愈，请参见
+[GPU 故障检测指南](./docs/kubernetes/gpu-fault-detection.md)。
 
 - **特色工具:**
   - OpenTelemetry 原生: <a href="https://github.com/openlit/openlit">`OpenLit`</a>,
