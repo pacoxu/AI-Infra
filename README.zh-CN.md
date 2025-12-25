@@ -54,19 +54,25 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 - [Kubernetes 学习计划](./docs/kubernetes/learning-plan.md)
 - [Pod 生命周期](./docs/kubernetes/pod-lifecycle.md)
 - [Pod 启动速度](./docs/kubernetes/pod-startup-speed.md)
+- [GPU Pod 冷启动](./docs/kubernetes/gpu-pod-cold-start.md)
 - [调度优化](./docs/kubernetes/scheduling-optimization.md)
 - [工作负载隔离](./docs/kubernetes/isolation.md)
 - [动态资源分配 (DRA)](./docs/kubernetes/dra.md)
 - [DRA 性能测试](./docs/kubernetes/dra-performance-testing.md)
 - [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md)
+- [GPU 故障检测与自愈](./docs/kubernetes/gpu-fault-detection.md)
 - [节点资源接口 (NRI)](./docs/kubernetes/nri.md)
+- [大规模集群 (130K+ 节点)](./docs/kubernetes/large-scale-clusters.md)
 
 #### 推理
 
 - [推理概述](./docs/inference/README.md)
 - [模型架构](./docs/inference/model-architectures.md)
+- [LoRA: 低秩适应](./docs/inference/lora.md)
 - [AIBrix 平台](./docs/inference/aibrix.md)
 - [OME 平台](./docs/inference/ome.md)
+- [无服务器 AI 推理](./docs/inference/serverless.md)
+- [模型切换与动态调度](./docs/inference/model-switching.md)
 - [预填充-解码分离](./docs/inference/pd-disaggregation.md)
 - [缓存策略](./docs/inference/caching.md)
 - [内存与上下文数据库](./docs/inference/memory-context-db.md)
@@ -91,14 +97,23 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 #### 博客
 
 - [博客概述](./docs/blog/README.md)
+- [GPU 故障检测与自愈](./docs/blog/2025-12-17/gpu-fault-detection_zh.md)
 - [AI Infra 时代的多租户隔离性方案探讨](./docs/blog/2025-12-15/multi-tenancy-isolation_zh.md)
   | [English](./docs/blog/2025-12-15/multi-tenancy-isolation.md)
+- [KCD 杭州：大规模可观测性](./docs/blog/2025-12-02/kcd-hangzhou-observability_zh.md)
+  | [English](./docs/blog/2025-12-02/kcd-hangzhou-observability.md)
+- [Kubernetes 安全升级与回滚](./docs/blog/2025-12-01/safe-upgrade-rollback_zh.md)
+  | [English](./docs/blog/2025-12-01/safe-upgrade-rollback.md)
 - [JobSet 原地重启：速度提升 92%](./docs/blog/2025-11-26/jobset-in-place-restart_zh.md)
   | [English](./docs/blog/2025-11-26/jobset-in-place-restart.md)
 - [cgroup v2 迁移指南](./docs/blog/2025-11-26/cgroup-v2_zh.md)
   | [English](./docs/blog/2025-11-26/cgroup-v2.md)
 - [Kubernetes v1.35 中的 Gang Scheduling](./docs/blog/2025-11-25/gang-scheduling_zh.md)
   | [English](./docs/blog/2025-11-25/gang-scheduling.md)
+- [AWS 10K 节点 EKS 超大规模集群](./docs/blog/2025-12-01/aws-10k-node-clusters_zh.md)
+  | [English](./docs/blog/2025-12-01/aws-10k-node-clusters.md)
+- [推理编排解决方案](./docs/blog/2025-12-01/inference-orchestration_zh.md)
+  | [English](./docs/blog/2025-12-01/inference-orchestration.md)
 
 ## 📊 AI-Infra 全景图 (2025年6月，需要更新)
 
@@ -117,16 +132,17 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 **行业影响力**、**架构视野**、**技术领导力**、**自我管理**、**家庭陪伴**
 和 **长期主义**。
 
-| 每周两晚读源码 | 新 WG 更新项目了解 | 跟进关键新 KEP 实现 | GPU CUDA | 预留和回填 | 模型切换 | 推理编排 | 训练故障恢复 | 考虑多租户隔离方案 |
+|  |  |  | |  | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| DRA + NRI | **Kubernetes 核心功力** | 安全升级 | KV-cache / Prefill-Decode 归纳 | **AI 工作负载 & GPU** | 冷启动/预热池 | Cluster AutoScaler | **AI 平台架构** | 拓扑管理 |
-| API Server & ETCD 性能 | Agent Sandbox | 自愈能力探索 | 关注新模型与算子趋势 | TPU/NPU 等 | 加速方案 | Co-Evolving | 公有云私有云差异 |  |
-| AI-Infra Repo 路线图维护 | 顶会 Talk 2–3 场/年 | 每月发表一篇技术长文 | Kubernetes 核心功力 | AI 工作负载 & GPU | AI 平台架构 | 成本多维度评估 | 性能量化/优化 | SLA 稳定性 |
+| Agent Sandbox | 新子项目更新了解 | DRA + NRI | GPU CUDA | 预留和回填 | 模型切换 | 推理编排 | 训练故障恢复 | 考虑多租户隔离方案 |
+| API Server & ETCD & DRA 性能 | **Kubernetes 核心功力(KEPs & Coding)** | 安全升级 | KV-cache / Prefill-Decode 归纳 | **AI 工作负载 & GPU** | 冷启动/预热池 | Cluster AutoScaler | **AI 平台架构** | 拓扑管理 |
+| Node/GPU 自愈能力探索 | Steering | kubeadm | 关注新模型与算子趋势 | LPU/TPU/NPU 等 | 加速方案矩阵 | Co-Evolving | 公有云私有云差异 | 可观测性 |
+| AI-Infra Repo 路线图维护 | 顶会 Talk 2–3 场/年 | 每月发表一篇技术长文 | **Kubernetes 核心功力** | **AI 工作负载 & GPU** | **AI 平台架构** | 成本多维度评估 | 性能量化/优化 | SLA 稳定性 |
 | 英文能力（Blog） | **行业影响力** | 一致性认证 | **行业影响力** | **Cloud Native AI Infra on Kubernetes Lead** | **架构视野** | 多集群方案 | **架构视野** | 超大规模 |
-| 社区贡献 | CNCF Ambassador | | **技术领导力** | **自我管理** | **家庭陪伴** | 思考 3 年演进路线图 | Agentic / 模型生态趋势 | |
+| 新贡献者引导 | CNCF Ambassador | | **技术领导力** | **自我管理** | **家庭陪伴** | 思考 3 年演进路线图 | Agentic / 模型生态趋势 | 与外部行业领导者保持沟通 |
 | 推动跨公司协作任务 | 学会温和但清晰地反对 | 跨部门影响力提升 | 保证 7–8 小时睡眠 | 每周 3 次运动保持体能 | 季度 OKR/月度复盘/Top 5 Things | 每天女儿 1h 陪伴 | 每月夫妻一次约会/长谈 | 支持老婆个人时间/兴趣 |
-| Mentor 核心贡献者梯队建设 | **技术领导力** | **长期主义** | 控制信息输入与刷屏时间 | **自我管理** | 长假防 burn-out | 节日/纪念日提前规划 | **家庭陪伴** | 女儿成长记录 / 季度回顾 |
-| 跨项目依赖治理，架构协同 | Governance | | 读书 + 知识库积累 | 减少含糖饮料 | | 季度家庭旅行预算与计划 | 预留家庭与休息时间 | 每年1次全家活动（含父母） |
+| Mentor 核心贡献者梯队建设 | **技术领导力** | 长期主义 | 控制信息输入与刷屏时间 | **自我管理** | 长假防 burn-out | 节日/纪念日提前规划 | **家庭陪伴** | 女儿成长记录 / 季度回顾 |
+| 跨项目依赖治理，架构协同 | Governance | TOC | 读书 + 知识库积累 | 减少含糖饮料 | 像高效 Agent 一样工作 | 季度家庭旅行预算(10%) & 计划 | 预留家庭与休息时间 | 每年1次全家活动（含父母） |
 
 ## 🧭 AI 基础设施工程师学习路径
 
@@ -195,6 +211,7 @@ LLM 推理引擎、平台和优化技术，用于大规模高效模型服务。
   - 模型架构（Llama 3/4, Qwen 3, DeepSeek-V3, Flux）
   - 高效 Transformer 推理（KV Cache, FlashAttention, CUDA Graphs）
   - LLM 服务和编排平台
+  - 无服务器 AI 推理（Knative, AWS SageMaker, 云平台）
   - 多加速器优化
   - MoE（专家混合）架构
   - 模型生命周期管理（冷启动、休眠模式、卸载）
@@ -206,9 +223,10 @@ LLM 推理引擎、平台和优化技术，用于大规模高效模型服务。
 
 **详细内容请参见 [推理指南](./docs/inference/README.md)**，
 包含引擎（vLLM, SGLang, Triton, TGI）、平台（Dynamo, AIBrix, OME, llmaz,
-Kthena, KServe）的全面介绍，以及深入主题：
+Kthena, KServe）、无服务器解决方案（Knative, AWS SageMaker）的全面介绍，以及深入主题：
 [模型架构](./docs/inference/model-architectures.md) |
 [AIBrix](./docs/inference/aibrix.md) |
+[无服务器](./docs/inference/serverless.md) |
 [P/D 分离](./docs/inference/pd-disaggregation.md) |
 [缓存](./docs/inference/caching.md) |
 [内存/上下文数据库](./docs/inference/memory-context-db.md) |
@@ -281,6 +299,7 @@ Argo Workflows）、GitOps（ArgoCD）、容错策略、字节跳动的训练优
 
 - **关键主题:**
   - **基础设施监控**: GPU 利用率、内存、温度、功率
+  - **GPU 故障检测**: XID 错误、显卡掉线、链路故障、自动恢复
   - **推理指标**: TTFT, TPOT, ITL, 吞吐量, 请求延迟
   - **调度器可观测性**: 队列深度、调度延迟、资源分配
   - **LLM 应用追踪**: 请求追踪、提示词性能、模型质量
@@ -291,6 +310,9 @@ Argo Workflows）、GitOps（ArgoCD）、容错策略、字节跳动的训练优
 包含 GPU 监控（DCGM, Prometheus）、推理指标（OpenLLMetry, Langfuse,
 OpenLit）、调度器可观测性（Kueue, Volcano）、分布式追踪（DeepFlow）和
 LLM 评估平台（TruLens, Deepchecks）的全面介绍。
+
+关于 GPU 故障检测与自愈，请参见
+[GPU 故障检测指南](./docs/kubernetes/gpu-fault-detection.md)。
 
 - **特色工具:**
   - OpenTelemetry 原生: <a href="https://github.com/openlit/openlit">`OpenLit`</a>,
