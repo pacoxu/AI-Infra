@@ -135,16 +135,17 @@ Infrastructure Architect. The chart is organized into nine core pillars:
 **Industry Influence**, **Architecture Vision**, **Technical Leadership**,
 **Self-Management**, **Family Time**, and **Long-term Thinking**.
 
-| Read source code 2 nights/week | Understand new WG project updates | Follow key new KEP implementations | GPU CUDA | Reservation and Backfill | Model Switching | Inference Orchestration | Training Fault Recovery | Consider multi-tenant isolation solutions |
+|  |  |  | |  | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| DRA + NRI | **Kubernetes Core Skills** | Security Upgrades | KV-cache / Prefill-Decode Summary | **AI Workloads & GPU** | Cold Start/Warm Pool | Cluster AutoScaler | **AI Platform Architecture** | Topology Management |
-| API Server & ETCD Performance | Agent Sandbox | Self-healing Exploration | Track new models & operator trends | TPU/NPU etc. | Acceleration Solutions | Co-Evolving | Public vs Private Cloud Differences |  |
-| AI-Infra Repo Roadmap Maintenance | 2–3 Conference Talks/Year | Publish one technical long-form article monthly | Kubernetes Core Skills | AI Workloads & GPU | AI Platform Architecture | Multi-dimensional Cost Evaluation | Performance Quantification/Optimization | SLA Stability |
+| Agent Sandbox | New subproject updates | DRA + NRI | GPU CUDA | Reservation and Backfill | Model Switching | Inference Orchestration | Training Fault Recovery | Consider multi-tenant isolation solutions |
+| API Server & ETCD & DRA Performance | **Kubernetes Core(KEPs & Coding)** | Security Upgrades | KV-cache / Prefill-Decode Summary | **AI Workloads & GPU** | Cold Start/Warm Pool | Cluster AutoScaler | **AI Platform Architecture** | Topology Management |
+| Node/GPU Self-healing Exploration | Steering | kubeadm | Track new models & operator trends | LPU/TPU/NPU etc. | Acceleration Solutions Matrix | Co-Evolving | Public vs Private Cloud Differences | Observibility |
+| AI-Infra Repo Roadmap Maintenance | 2–3 Conference Talks/Year | Publish one technical long-form article monthly | **Kubernetes Core Skills** | **AI Workloads & GPU** | **AI Platform Architecture** | Multi-dimensional Cost Evaluation | Performance Quantification/Optimization | SLA Stability |
 | English Proficiency (Blog) | **Industry Influence** | Conformance Certification | **Industry Influence** | **Cloud Native AI Infra on Kubernetes Lead** | **Architecture Vision** | Multi-cluster Solutions | **Architecture Vision** | Ultra-large Scale |
-| Community Contributions | CNCF Ambassador | | **Technical Leadership** | **Self-Management** | **Family Time** | Think about 3-year evolution roadmap | Agentic / Model Ecosystem Trends | |
-| Drive cross-company collaboration tasks | Learn to disagree gently but clearly | Cross-department Influence Enhancement | Ensure 7–8 hours of sleep | Exercise 3 times per week to maintain fitness | Quarterly OKR/Monthly Review/Top 5 Things | 1h daily quality time with daughter | Monthly date/long talk with spouse | Support spouse's personal time/interests |
-| Mentor Core Contributors Team Building | **Technical Leadership** | **Long-term Thinking** | Control information input & screen time | **Self-Management** | Long vacation to prevent burn-out | Plan holidays/anniversaries in advance | **Family Time** | Daughter growth records / Quarterly review |
-| Cross-project Dependency Governance, Architecture Coordination | Governance | | Reading + Knowledge Base Accumulation | Reduce sugary drinks | | Quarterly family travel budget & planning | Reserve time for family & rest | Annual family activity with parents |
+| New Contributor Orientation | CNCF Ambassador | | **Technical Leadership** | **Self-Management** | **Family Time** | Think about 3-year evolution roadmap | Agentic / Model Ecosystem Trends | Communication with external leads |
+| Drive cross-company collaboration tasks | Learn to disagree gently but clearly | Cross-department Influence Enhancement | Ensure 7–8 hours of sleep | Exercise 3 times per week to maintain fitness | Quarterly OKR/Monthly Review/Top 5 Things | 1h daily quality time with daughter | Monthly date/long talk with my Wife | Support my wife's personal time/interests |
+| Mentor Core Contributors Team Building | **Technical Leadership** | Long-term Thinking | Control information input & screen time | **Self-Management** | Long vacation to prevent burn-out | Plan holidays/anniversaries in advance | **Family Time** | Daughter growth records / Quarterly review |
+| Cross-project Dependency Governance, Architecture Coordination | Governance | TOC | Reading + Knowledge Base Accumulation | Reduce sugary drinks | Work like an efficiency Agent | Quarterly family travel budget(10%) & planning | Reserve time for family & rest | Annual family activity with parents |
 
 ## 🧭 Learning Path for AI Infra Engineers
 
