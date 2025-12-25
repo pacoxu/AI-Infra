@@ -132,16 +132,17 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 **行业影响力**、**架构视野**、**技术领导力**、**自我管理**、**家庭陪伴**
 和 **长期主义**。
 
-| 每周两晚读源码 | 新 WG 更新项目了解 | 跟进关键新 KEP 实现 | GPU CUDA | 预留和回填 | 模型切换 | 推理编排 | 训练故障恢复 | 考虑多租户隔离方案 |
+|  |  |  | |  | | | | |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| DRA + NRI | **Kubernetes 核心功力** | 安全升级 | KV-cache / Prefill-Decode 归纳 | **AI 工作负载 & GPU** | 冷启动/预热池 | Cluster AutoScaler | **AI 平台架构** | 拓扑管理 |
-| API Server & ETCD 性能 | Agent Sandbox | 自愈能力探索 | 关注新模型与算子趋势 | TPU/NPU 等 | 加速方案 | Co-Evolving | 公有云私有云差异 |  |
-| AI-Infra Repo 路线图维护 | 顶会 Talk 2–3 场/年 | 每月发表一篇技术长文 | Kubernetes 核心功力 | AI 工作负载 & GPU | AI 平台架构 | 成本多维度评估 | 性能量化/优化 | SLA 稳定性 |
+| Agent Sandbox | 新子项目更新了解 | DRA + NRI | GPU CUDA | 预留和回填 | 模型切换 | 推理编排 | 训练故障恢复 | 考虑多租户隔离方案 |
+| API Server & ETCD & DRA 性能 | **Kubernetes 核心功力(KEPs & Coding)** | 安全升级 | KV-cache / Prefill-Decode 归纳 | **AI 工作负载 & GPU** | 冷启动/预热池 | Cluster AutoScaler | **AI 平台架构** | 拓扑管理 |
+| Node/GPU 自愈能力探索 | Steering | kubeadm | 关注新模型与算子趋势 | LPU/TPU/NPU 等 | 加速方案矩阵 | Co-Evolving | 公有云私有云差异 | 可观测性 |
+| AI-Infra Repo 路线图维护 | 顶会 Talk 2–3 场/年 | 每月发表一篇技术长文 | **Kubernetes 核心功力** | **AI 工作负载 & GPU** | **AI 平台架构** | 成本多维度评估 | 性能量化/优化 | SLA 稳定性 |
 | 英文能力（Blog） | **行业影响力** | 一致性认证 | **行业影响力** | **Cloud Native AI Infra on Kubernetes Lead** | **架构视野** | 多集群方案 | **架构视野** | 超大规模 |
-| 社区贡献 | CNCF Ambassador | | **技术领导力** | **自我管理** | **家庭陪伴** | 思考 3 年演进路线图 | Agentic / 模型生态趋势 | |
+| 新贡献者引导 | CNCF Ambassador | | **技术领导力** | **自我管理** | **家庭陪伴** | 思考 3 年演进路线图 | Agentic / 模型生态趋势 | 与外部领导者沟通 |
 | 推动跨公司协作任务 | 学会温和但清晰地反对 | 跨部门影响力提升 | 保证 7–8 小时睡眠 | 每周 3 次运动保持体能 | 季度 OKR/月度复盘/Top 5 Things | 每天女儿 1h 陪伴 | 每月夫妻一次约会/长谈 | 支持老婆个人时间/兴趣 |
-| Mentor 核心贡献者梯队建设 | **技术领导力** | **长期主义** | 控制信息输入与刷屏时间 | **自我管理** | 长假防 burn-out | 节日/纪念日提前规划 | **家庭陪伴** | 女儿成长记录 / 季度回顾 |
-| 跨项目依赖治理，架构协同 | Governance | | 读书 + 知识库积累 | 减少含糖饮料 | | 季度家庭旅行预算与计划 | 预留家庭与休息时间 | 每年1次全家活动（含父母） |
+| Mentor 核心贡献者梯队建设 | **技术领导力** | 长期主义 | 控制信息输入与刷屏时间 | **自我管理** | 长假防 burn-out | 节日/纪念日提前规划 | **家庭陪伴** | 女儿成长记录 / 季度回顾 |
+| 跨项目依赖治理，架构协同 | Governance | TOC | 读书 + 知识库积累 | 减少含糖饮料 | 像高效 Agent 一样工作 | 季度家庭旅行预算(10%) & 计划 | 预留家庭与休息时间 | 每年1次全家活动（含父母） |
 
 ## 🧭 AI 基础设施工程师学习路径
 
