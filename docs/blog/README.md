@@ -29,7 +29,7 @@ Kubernetes, based on Jago Macleod's KubeCon presentation:
 - Two practical patterns: Global batch computer and elastic platform on fixed
   hardware
 - MultiKueue for global capacity scheduling
-- KubeCon NA 2025 keynote reference
+- KubeCon NA 2025 presentation reference
 
 ## 2025-12-22: OCI Is Quietly Taking Over Everything
 
