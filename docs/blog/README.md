@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-22
+last_updated: 2026-01-07
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,27 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-01-07: Ambient Global Compute — Orchestrating the Non-Elastic Cloud
+
+- [Ambient Global Compute 中文博客](./2026-01-07/ambient-global-compute_zh.md)
+
+A comprehensive blog post about orchestrating the non-elastic cloud with
+Kubernetes, based on Jago Macleod's KubeCon presentation:
+
+- Infrastructure pendulum: From colocation to virtualization to elastic cloud
+  to non-elastic cloud
+- The golden age of cloud computing with infinite capacity
+- Three drivers of change: Hardware fragmentation, regional expansion, GPU
+  scarcity
+- The return of CapEx and operational inversion
+- Four pillars of Ambient Compute: Workload orchestration, Kueue, priority
+  awareness, global dispatch
+- Utilization vs latency conflict resolution
+- Two practical patterns: Global batch computer and elastic platform on fixed
+  hardware
+- MultiKueue for global capacity scheduling
+- KubeCon NA 2025 keynote reference
 
 ## 2025-12-22: OCI Is Quietly Taking Over Everything
 
