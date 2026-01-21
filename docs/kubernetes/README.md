@@ -62,6 +62,12 @@ workload isolation.
   nodes), including Consistent Reads from Cache (KEP-2340), Snapshottable
   API Server Cache (KEP-4988), DRANET, Spanner, and Lustre distributed
   file system
+- **[SuperNode (SuperPod/HyperNode)](./supernode.md)**: Deep dive into
+  SuperNode architecture for AI infrastructure - multi-node systems with
+  ultra-high-speed interconnects that solve model scale, communication
+  bottlenecks, and gang scheduling challenges. Includes analysis of NVIDIA
+  DGX NVL72, Huawei CloudMatrix, Alibaba Panjiu, and domestic solutions like
+  MetaX and Shanghai Cube
 
 ## Quick Reference
 
