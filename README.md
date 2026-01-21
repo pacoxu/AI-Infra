@@ -205,7 +205,8 @@ management. Detailed guides:
 [DRA](./docs/kubernetes/dra.md) |
 [DRA Performance Testing](./docs/kubernetes/dra-performance-testing.md) |
 [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md) |
-[NRI](./docs/kubernetes/nri.md)
+[NRI](./docs/kubernetes/nri.md) |
+[SuperNode (SuperPod/HyperNode)](./docs/kubernetes/supernode.md)
 
 - **RoadMap:**
   - Gang Scheduling in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
