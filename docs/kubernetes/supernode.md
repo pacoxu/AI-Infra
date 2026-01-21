@@ -397,7 +397,7 @@ SuperNode 本质上是：
   Triton](https://aws.amazon.com/cn/blogs/hpc/scaling-your-llm-inference-workloads-multi-node-deployment-with-tensorrt-llm-and-triton-on-amazon-eks/)
 - NVIDIA DGX NVL72 Technical Documentation
 - Huawei CloudMatrix Architecture
-- Alibaba Panjiu AI Infra 2.0
+- Alibaba Pangu AI Infra 2.0
 - MetaX SuperNode Solutions
 
 ---
