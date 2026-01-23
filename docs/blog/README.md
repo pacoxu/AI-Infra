@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-01-15
+last_updated: 2026-01-23
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,26 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-01-23: Part I — Exploring DRANET on GKE with B200 GPUs and NCCL Test
+
+- [DRANET on GKE with B200 GPUs (Chinese)](./2026-01-23/dranet-gke-b200-nccl-test_zh.md)
+
+A comprehensive hands-on guide to deploying DRANET on Google Kubernetes Engine
+with NVIDIA B200 GPUs and running NCCL performance benchmarks:
+
+- Why RDMA is critical for AI workloads
+- DRANET overview: Leverages native Kubernetes Dynamic Resource Allocation (DRA)
+- Step-by-step deployment guide:
+  - Environment setup with GKE cluster configuration
+  - Network plumbing: VPC, subnets, firewall rules
+  - A4 node pool creation with B200 GPUs
+  - DRA ResourceClaimTemplate for mrdma.google.com device class
+- NCCL benchmark testing with StatefulSet deployment
+- Performance verification with MPI and all_gather_perf tests
+- Complete cleanup and resource teardown procedures
+- GKE managed DRANET benefits: Automatic network resource allocation for GPU NICs
+- References to AI Hypercomputer and automated networking documentation
 
 ## 2026-01-15: 推理平台实践与 AI 成本优化
 
