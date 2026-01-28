@@ -5,7 +5,8 @@ last_updated: 2025-12-01
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
-<img width="256" height="256" alt="image" src="https://github.com/user-attachments/assets/fe685204-ea88-4ab6-b252-451aacb1c48a" />
+<img width="256" height="256" alt="image"
+  src="https://github.com/user-attachments/assets/fe685204-ea88-4ab6-b252-451aacb1c48a" />
 
 # AI-Infra Landscape & Learning Path 🚀
 
@@ -432,7 +433,8 @@ addressing key challenges including:
 
 ## 🤝 Contributing
 
-We welcome contributions to improve this landscape and path! Whether it's a new project, learning material, or diagram update — please open a PR or issue.
+We welcome contributions to improve this landscape and path! Whether it's a new
+project, learning material, or diagram update — please open a PR or issue.
 
 ## 📚 References
 
@@ -457,7 +459,10 @@ Here are some key conferences in the AI Infra space:
 
 - AI_dev: for instance, [AI_dev EU 2025](https://aideveu2025.sched.com/)
 - [PyTorch Conference](https://pytorch.org/pytorchcon/) by PyTorch Foundation
-- KubeCon+CloudNativeCon AI+ML Track, for instance, [KubeCon NA 2025](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/program/schedule-at-a-glance/) and co-located events [Cloud Native + Kubernetes AI Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/cloud-native-kubernetes-ai-day/)
+- KubeCon+CloudNativeCon AI+ML Track, for instance,
+  [KubeCon NA 2025](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/program/schedule-at-a-glance/)
+  and co-located events
+  [Cloud Native + Kubernetes AI Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/cloud-native-kubernetes-ai-day/)
 - AICon in China by QCon.
 - GOSIM(Global Open-Source Innovation Meetup): for instance, [GOSIM Hangzhou 2025](https://hangzhou2025.gosim.org/)
 
@@ -467,5 +472,5 @@ Apache License 2.0.
 
 ---
 
-_This repo is inspired by the rapidly evolving AI Infra stack and aims to help engineers navigate and master it._
-
+_This repo is inspired by the rapidly evolving AI Infra stack and aims to help
+engineers navigate and master it._
