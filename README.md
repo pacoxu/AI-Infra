@@ -46,6 +46,7 @@ where to focus their learning.
 - [RoadMap](#️-roadmap)
 - [Contributing](#-contributing)
 - [References](#-references)
+- [Research Papers](#research-papers)
 - [Conferences](#conferences)
 - [License](#-license)
 
@@ -101,6 +102,12 @@ where to focus their learning.
 #### AI Agents
 
 - [AI Agent Platforms and Frameworks](./docs/agents/README.md)
+
+#### Research Papers
+
+- [AI Infrastructure Research Papers](./docs/papers.md) - Collection of
+  important papers on LLM inference, distributed training, networking, and
+  AI infrastructure
 
 #### Blog
 
@@ -449,9 +456,37 @@ project, learning material, or diagram update — please open a PR or issue.
 - [CNCF Agentic System Initiative](https://github.com/cncf/toc/issues/1746)
 - [CNCF Tech Radar 2025](https://radar.cncf.io/) - Agentic AI Platforms
 
-If you have some resources about AI Infra, please share them in [#8](https://github.com/pacoxu/AI-Infra/issues/8).
+If you have some resources about AI Infra, please share them in
+[#8](https://github.com/pacoxu/AI-Infra/issues/8).
 
-For AI Agent projects and developments, see [#30](https://github.com/pacoxu/AI-Infra/issues/30).
+For AI Agent projects and developments, see
+[#30](https://github.com/pacoxu/AI-Infra/issues/30).
+
+## Research Papers
+
+For academic papers and research publications on AI infrastructure topics, see
+the dedicated [Research Papers](./docs/papers.md) collection. This includes
+papers on:
+
+- **LLM Inference**: vLLM, AIBrix, and efficient serving techniques
+- **Distributed Training**: ByteRobust fault tolerance and training
+  optimization
+- **Networking**: DRANet, Dragonfly, and high-performance communication
+- **Caching**: LMCache and KV cache management
+- **Reasoning**: Test-time scaling and reasoning model analysis
+
+Key papers include:
+
+- [vLLM: Efficient Memory Management for LLM Serving](
+  https://arxiv.org/abs/2309.06180)
+- [AIBrix: Cloud-Native LLM Inference Infrastructure](
+  https://arxiv.org/abs/2504.03648)
+- [ByteRobust: Fault Tolerance for Distributed Training](
+  https://arxiv.org/abs/2509.16293)
+- [DRANet: Kubernetes Network Driver with DRA](
+  https://arxiv.org/abs/2506.23628)
+- [LMCache: KV Cache Sharing for LLM Inference](
+  https://arxiv.org/abs/2510.09665)
 
 ### [Conferences](https://github.com/pacoxu/developers-conferences-agenda)
 

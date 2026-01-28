@@ -278,7 +278,9 @@ environments.
 ### Test Time Scaling Papers Collection
 
 This section collects papers related to test-time scaling, reasoning models,
-and "thinking" mechanisms in large language models.
+and "thinking" mechanisms in large language models. Specific arXiv links for
+these papers are not yet available; they are based on a Twitter/X discussion
+and may be preprints or upcoming publications.
 
 #### Core Papers
 
@@ -287,29 +289,38 @@ and "thinking" mechanisms in large language models.
    - Focus: Simple test-time scaling and reasoning
    - Key Topic: What is "Thinking"?
    - Approach: Reinforcement learning for reasoning capability
+   - Status: Paper reference pending specific arXiv link
 
 2. **Controlling How Long A Reasoning Model Thinks With Reinforcement Learning**
    - Focus: Efficient Reasoning
    - Key Topic: Thinking as a budget constraint
    - Approach: RL-based control of reasoning depth
+   - Status: Paper reference pending specific arXiv link
 
 3. **Scalable Chain of Thoughts via Elastic Reasoning**
    - Focus: Efficient and scalable reasoning
    - Key Topic: Elastic reasoning mechanisms
    - Approach: Adaptive chain-of-thought scaling
+   - Status: Paper reference pending specific arXiv link
 
 #### Analysis Papers
 
 4. **(How) Do reasoning models reason?**
    - Focus: Understanding reasoning mechanisms
    - Key Topic: Analysis of reasoning behavior
+   - Status: Paper reference pending specific arXiv link
 
 5. **DeepSeek-R1 Thoughtology: Let's Think About Thinking**
    - Focus: Deep analysis of reasoning processes
    - Key Topic: Thoughtology and reasoning patterns
+   - Status: Paper reference pending specific arXiv link
 
 **Reference**: [Twitter/X Discussion by @dongxi_nlp](
 https://x.com/dongxi_nlp/status/2003574127211479442)
+
+**Note**: This collection is based on a research discussion. Specific paper
+links will be added when the papers are published or preprints become available
+on arXiv.
 
 **Related Topics**:
 
