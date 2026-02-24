@@ -10,6 +10,25 @@ tags: blog, kubernetes, ai-infrastructure
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2026-02-24: Ingress / Gateway API 实现评测：从夯到拉的选型指南
+
+- [Ingress to Gateway API: Evaluating Implementations (English)](./2026-02-24/ingress-gateway-api-implementations_en.md)
+- [Ingress 到 Gateway API：实现方案评测（中文）](./2026-02-24/ingress-gateway-api-implementations_zh.md)
+
+A comprehensive evaluation of Kubernetes ingress/gateway implementations for
+teams planning to migrate from ingress-nginx or adopt Gateway API:
+
+- **Background**: ingress-nginx entering maintenance-only mode, Gateway API
+  reaching GA, and the rise of the Gateway API Inference Extension (GAIE)
+- **Ten implementations evaluated**: Envoy Gateway, NGINX Gateway Fabric,
+  Traefik, kgateway, Cilium, Istio, Contour, Higress, HAProxy Ingress,
+  Kong Ingress Controller
+- **Key dimensions**: Gateway API conformance status, ingress migration cost,
+  GAIE support, platform/kernel requirements, and commercial considerations
+- **Scenario-based selection guide**: five common scenarios with
+  implementation recommendations
+- **Summary comparison table** for quick reference
+
 ## 2026-02-14: 关注 AAIF 进展：Agentic AI Foundation 及其旗下活动预告
 
 - [AAIF Introduction (Chinese)](./2026-02-14/aaif-introduction_zh.md)
