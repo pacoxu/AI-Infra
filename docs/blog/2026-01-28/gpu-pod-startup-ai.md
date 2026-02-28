@@ -2,192 +2,349 @@
 status: Active
 maintainer: pacoxu
 date: 2026-01-28
-tags: kubernetes, pod, startup, optimization, gpu, ai, machine-learning
+tags: kubernetes, pod, startup, optimization, gpu, ai, cold-start, dra
 canonical_path: docs/blog/2026-01-28/gpu-pod-startup-ai.md
 ---
 
-# GPU Pod Cold Start Optimization: Breaking Through Performance Barriers for AI Workloads
+# Kubernetes Pod Startup Speed Optimization Guide: AI Edition
 
-In the world of AI and machine learning workloads, the GPU Pod cold start problem is far more complex
-than typical container startup challenges. It goes beyond container runtime and Kubernetes scheduling,
-involving large-scale model loading, GPU initialization, and compilation optimization across multiple
-layers. A Pod running deep learning inference might require thirty seconds or even minutes to become
-fully operational, which is unacceptable latency for real-time services.
+[中文版本](./gpu-pod-startup-ai_zh.md)
 
-## The Unique Challenges of GPU Pod Cold Start
+## Background: Why AI Pod Cold Start Is Fundamentally Harder
 
-GPU Pod cold start differs fundamentally from ordinary Pod startup. First is the overhead of model
-loading. A modern large language model or computer vision model might measure several gigabytes or
-larger, and loading from disk to memory requires considerable time. If this involves network IO, such as
-pulling models from S3 or other object storage, the duration extends further.
+For general workloads, slow Pod startup is usually attributed to "slow image pulls,"
+"heavy init logic," or "misconfigured probes." But when the workload is AI — especially
+GPU inference or online training services — the situation changes entirely. "Pod started"
+does not mean "business ready." You still face a chain of AI-specific initialization steps:
+GPU driver and runtime initialization, preparation of model weights and tokenizer artifacts,
+first-execution compilation and kernel cache building, and inference service warmup. Stacked
+together, these make AI Pod cold start far more complex than typical applications.
 
-Second is the cost of GPU initialization. GPU drivers require initialization, CUDA runtime needs setup,
-and various GPU computing libraries must load and compile. These operations must occur during Pod startup
-and cannot be skipped. In particular, some deep learning frameworks perform runtime compilation on first
-use, introducing significant latency.
+More critically, the end-to-end critical path of AI cold start is often dominated by
+node-side scaling rather than Pod creation itself. When no idle GPU nodes exist, the node
+autoscaler must provision new nodes first; even after a node becomes ready, the accelerator
+device plugin needs time to report GPU resources to the control plane, during which the Pod
+can only sit in Pending state. In some environments, this waiting phase is measured in
+minutes.
 
-The third challenge is compilation overhead. Certain frameworks, like CUDA kernels in PyTorch, undergo
-just-in-time compilation on first execution. This compilation process may consume several seconds or
-longer, particularly for complex computation graphs or new CUDA architectures. Users' first inference
-requests are typically slowest, problematic for performance-sensitive applications.
+Therefore, the right perspective for an AI startup optimization guide is not "listing tips"
+but "shortening the critical path" — decompose AI Pod startup into measurable stages, then
+find the highest-leverage optimization for each stage.
 
-Finally, there's resource contention. On a node running multiple GPU applications, different Pods might
-compete for GPU memory and compute resources, causing some Pod startups to be delayed or performance to
-degrade.
+## Defining the AI Pod Startup Timeline
 
-## Solution One: Pre-warmed Pod Pools
+The first step of optimization is not "tweaking configs" but defining what you are actually
+measuring.
 
-Pre-warmed Pod pools represent a proven, effective approach to GPU Pod cold start challenges. The core
-principle involves maintaining a pool of already-launched, standby Pods. When a new inference request
-arrives, rather than creating an entirely new Pod, the system selects a ready Pod from the pool and
-routes the request to it. This completely eliminates cold start latency.
+Kubernetes standardizes Pod lifecycle states and conditions. Phase and Conditions provide
+sufficiently granular milestones — the Pending phase explicitly includes "waiting for
+scheduling + image download" time. A suitable end-to-end startup timeline for AI (from
+control plane Pod creation to business-ready) can be defined as follows:
 
-Implementation occurs through Kubernetes deployments. Maintain one or more Pod replicas that sit in a
-ready state but receive no active requests. When actual inference requests arrive, traffic management
-through load balancers or service meshes directs requests to these ready Pods. After a Pod completes a
-request, it returns to the pool waiting for the next one. When new requests arrive, old Pods can be
-reclaimed while newly created Pods join the pool.
+First, capacity becomes available — either a node already exists, or node scaling completes.
+Without a node, the Pod stays unschedulable, waiting for the node autoscaler. Second,
+scheduling completes, corresponding to the Pod condition `PodScheduled=True`. Third, the
+sandbox and network become ready, corresponding to `PodReadyToStartContainers=True` (beta,
+enabled by default), meaning the Pod sandbox is created and networking is configured.
+Fourth, init containers complete, corresponding to `Initialized=True`. Fifth, containers
+and Pod become ready — `ContainersReady=True` and `Ready=True` — at which point the Pod
+enters the Service load balancer pool.
 
-Pool size requires calculation based on expected request volume and each Pod's processing capacity. Too
-small a pool means still frequently creating new Pods, defeating the warming purpose. Too large wastes
-GPU resources and increases costs. The ideal approach involves dynamically adjusting pool size based on
-historical data and business forecasts, combined with autoscaling mechanisms for intelligent resource
-management.
+For AI Pods, however, a traditional readinessProbe declaring Ready is often insufficient —
+the model may not be fully loaded, warmup may not have run, and exposing such an instance
+to traffic would cause first-request latency spikes. Kubernetes provides the
+`readinessGates` mechanism: a Pod is considered Ready only when "all containers are ready"
+AND "all readinessGates-specified custom conditions are True."
 
-### Agent Sandbox: An Innovative Pre-warming Implementation
+```yaml
+spec:
+  readinessGates:
+  - conditionType: ai.example.com/ModelLoaded
+  - conditionType: ai.example.com/WarmupDone
+```
 
-GKE's Agent Sandbox provides an implementation that pushes pre-warmed pool technology to its limits. It
-combines pre-warmed pools with gVisor sandbox snapshot technology, achieving container startup that is
-both fast and secure. This solution is particularly well-suited for AI Agent workload scenarios, such as
-applications that need to rapidly execute LLM-generated code or frequently invoke Agent functions.
+This lets you move warmup off the "live traffic critical path" and use readinessGates to
+guarantee that the first request never hits a cold instance — the single most important
+engineering practice for AI startup optimization.
 
-Agent Sandbox works as follows: First, during initialization, it creates a fully configured container
-including all dependency libraries, runtime state, and pre-loaded models. Then it uses gVisor's snapshot
-capability to create a snapshot of this pre-warmed container. When new requests arrive, the system can
-restore a new instance from the snapshot in hundreds of milliseconds, with each instance running in an
-isolated gVisor sandbox, ensuring strong isolation.
+## Segmented Profiling and Observability: Turning "Slow" into Optimizable Metrics
 
-Compared to traditional container cold starts, Agent Sandbox achieves up to 90% improvement in startup
-time. More importantly, this solution maintains gVisor sandbox-level security isolation while providing
-ultra-fast startup. Each restored instance has an independent sandbox environment without mutual
-interference. This is especially critical for multi-tenant scenarios or AI Agent applications that need
-to execute untrusted code.
+AI Pod cold start easily devolves into vague discussions of "it feels slow," ending with
+"we changed a bunch of parameters but don't know if they helped." A more robust approach:
+first use segmented timing to pin the bottleneck to a specific stage, then discuss
+optimizations. Kubernetes provides rich enough signals through Phase, Conditions, and
+events — you just need to stitch them into a timeline.
 
-In practical use, Agent Sandbox is particularly suitable for several types of scenarios. First is LLM
-Agent workloads that need to quickly execute code generated by large models in secure sandboxes. Second
-is function-calling intensive applications that require frequent, rapid startup of Agent function
-execution. Third is Serverless AI platforms that need to provide users with near-instantaneous cold start
-experiences. Fourth is multi-tenant AI services that need fast startup while ensuring security isolation.
+Here is a recommended set of "AI cold start segmented metrics":
 
-This solution is currently production-ready on GKE and can be used directly. By specifying the gVisor
-runtime class and leveraging GKE's Agent Sandbox feature, you can enjoy the performance improvements
-brought by snapshot acceleration.
+`T_node_wait` is the time waiting for node scaling and accelerator capability readiness. In
+GPU scenarios, the accelerator device plugin may need several minutes to report resources to
+the cluster, meaning even after a node starts, the Pod still cannot schedule there — and may
+even trigger duplicate scaling events.
 
-## Solution Two: Optimizing Serialization and Model Formats
+`T_schedule` is the time from Pod creation to `PodScheduled=True`. When topology-awareness,
+affinity rules, and multi-GPU constraints increase, this segment grows significantly.
 
-A significant portion of model loading time stems from serialization format inefficiency. Different
-serialization formats show dramatically different performance characteristics. Traditional PyTorch
-pickle format, while compatible, requires executing Python code during loading, introducing considerable
-overhead. Additionally, pickle lacks safety and complicates cross-language usage.
+`T_image` is the time for images and dependencies to reach the node (including decompression).
+The larger the image layers, the higher the concurrency, and the more congested the node disk
+and network, the more likely this becomes the primary bottleneck. Kubernetes provides parallel
+image pull switches (serializeImagePulls and maxParallelImagePulls).
 
-TorchScript is PyTorch's more efficient alternative. By compiling models into TorchScript format, you
-avoid Python code execution overhead. TorchScript is an intermediate representation executed efficiently
-by PyTorch's C++ runtime. Compared to pickle, TorchScript loading typically runs two times faster or
-better.
+`T_model_artifact` is the time for model artifacts to reach a locally readable path — whether
+downloaded from object storage, pulled from a model registry, or mounted and unpacked from an
+OCI artifact. KServe documentation explicitly states: traditional S3/URI model pulls work for
+small models but become a bottleneck for large models, significantly slowing startup under
+autoscaling.
 
-Safetensors is a newer, safer serialization format promoted by the Hugging Face community. Optimized
-specifically for deep learning models, it was designed with loading performance and security in mind.
-Using Safetensors achieves faster model loading while avoiding risks of executing arbitrary code during
-the loading process.
+`T_runtime_init` covers GPU driver and runtime initialization, framework library loading, and
+first-time CUDA-related overhead.
 
-For certain workloads, ONNX (Open Neural Network Exchange) format is also an excellent choice. ONNX is
-an open, framework-agnostic model format. Converting models to ONNX lets you run them on specialized
-inference runtimes like ONNX Runtime or TensorRT, typically delivering superior performance. ONNX
-Runtime undergoes optimization across various hardware platforms, providing faster inference speeds and
-smaller memory footprints compared to general-purpose frameworks.
+`T_warmup_compile` covers first inference, first graph compilation, first TensorRT engine
+build, and other one-time costs. Without cache reuse, these costs recur with every Pod
+rebuild.
 
-## Solution Three: Lazy Loading and Hierarchical Model Loading
+Binding these segments to Kubernetes observability signals is key: `PodScheduled`,
+`Initialized`, `Ready`, and other conditions all carry timestamps. For AI-specific
+milestones like `ModelLoaded` and `WarmupDone`, custom conditions written back to PodStatus
+make "AI business readiness" visible, monitorable, and alertable at the orchestration layer.
 
-Not all model weights and computations need immediate loading at startup. Lazy loading strategies allow
-applications to load only necessary components at startup, with other parts loading on demand. This
-approach is particularly effective for extremely large models.
+## Scheduling and Hardware Locality: GPUs Are Not Just a Number
 
-One common implementation method is hierarchical loading. For example, a multi-layer neural network loads
-layer N weights only when executing layer N. While this introduces additional IO during inference, the
-time saved at startup often makes the overall effect positive. To minimize inference latency, you can
-preload upcoming layers in the background.
+Many "GPU Pod cold start" articles reduce scheduling to a single sentence: "just request
+nvidia.com/gpu." This holds for single-GPU inference, but once you enter multi-GPU
+inference/training, MIG partitioning, NUMA alignment, or GPU sharing, two categories of
+issues directly impact startup speed: more complex scheduling paths, and post-scheduling
+failures and retries on the node side.
 
-Another approach involves lazy loading by model components. A multi-task model might have multiple
-branches, each handling different tasks. Load only default-path weights at startup, loading other branch
-weights when corresponding tasks are invoked. This method suits microservice architectures where different
-Pods focus on different tasks.
+First, understand the Kubernetes device plugin framework. Vendors report hardware as extended
+resources to kubelet, which updates NodeStatus accordingly. But "hardware locality" does not
+automatically equal "node-level availability." Take NUMA as an example: the Topology Manager
+aims to align CPU, devices, and other resources to the same NUMA domain. However, the
+scheduler lacks topology awareness, which can lead to "Pod scheduled to a node, but ultimately
+fails at the node side due to Topology Manager" scenarios. Such failures cause retries and
+startup time jitter.
 
-Hierarchical loading also combines well with pre-warmed Pod pools. Launching a Pod might be fast because
-only necessary components load, but complete warming (loading all potentially needed weights) might
-require longer. Through staged warming, Pods enter service faster while continuing to load remaining
-weights in the background.
+At the cluster level, to avoid startup jitter from node-side AdmissionErrors, some platforms
+report NUMA/GPU topology information to the scheduling layer for scoring or constraints.
+Alibaba Cloud ACK's practice shows that relying solely on kubelet CPU policy and NUMA
+topology policy leads to "scheduler unaware whether remaining CPU/GPU within a NUMA domain
+satisfies QoS" problems, causing many Pods to enter AdmissionError after scheduling. After
+enabling NUMA topology-aware scheduling, model loading time in certain scenarios dropped from
+approximately 15.9s to approximately 5.4s (results vary by environment).
 
-## Kubernetes-Level Optimizations
+Next is DRA (Dynamic Resource Allocation). DRA's value extends beyond being "yet another way
+to request GPUs." It introduces "device classes + selectors + claims" into scheduling and
+allocation. Kubernetes documentation defines DRA as a mechanism for requesting and sharing
+device resources (commonly hardware accelerators) between Pods: device drivers and
+administrators define device classes, Kubernetes allocates matching devices to claims, and
+places Pods on nodes that can access those devices. DRA elevates "topology/model/capacity"
+constraints from "node label assembly + manual affinity" to "declarative device selection."
 
-Beyond application-level optimization, Kubernetes itself provides multiple mechanisms accelerating GPU
-Pod startup. First is resource reservation. Using Pod priority and preemption ensures high-priority GPU
-Pods schedule quickly. When cluster GPU resources are tight, configure low-priority Pods for preemption,
-freeing space for high-priority Pods.
+Additionally, GPU sharing strategies affect startup and stability. Taking NVIDIA GPU
+Operator's time-slicing as an example, it achieves oversubscription by turning a single
+physical GPU into multiple "replicas" for Pods to claim, but this sharing lacks MIG's
+hardware memory and fault isolation capabilities. These facts influence how you define "Ready"
+and implement warmup and isolation strategies, indirectly affecting cold start experience.
 
-Second is node affinity configuration. Constraining GPU Pods to specific nodes or node groups reduces
-the scheduler's search space, accelerating scheduling speed. In clusters with multiple GPU types (such as
-A100, V100, T4), explicitly specifying which GPU type a Pod should run on avoids unnecessary scheduling
-delays.
+## Image and Model Distribution: Moving Large Files Off the Critical Path
 
-Third is storage optimization. When models load from persistent storage, ensuring efficient system
-configuration is critical. Using SSDs as storage backends, configuring appropriate PVC sizes and access
-modes, and using local storage or caching when needed all significantly improve model loading speed.
+AI Pod "downloads" typically have two layers: container images and model artifacts. Both are
+often large and both can sit on the critical path. The optimization principle can be
+summarized in one sentence: pre-place what you can, cache what you can, load on-demand what
+you must.
 
-Additionally, consider pre-pulling commonly used model images and weight files to node local storage
-during node startup or scheduled maintenance windows. This allows Pods to read from fast local storage
-rather than network storage at startup.
+At the container image level, Kubernetes provides parallel pull strategies: setting kubelet's
+`serializeImagePulls` to false enables cross-Pod parallel image pulling, with
+`maxParallelImagePulls` limiting concurrency to prevent image pulls from saturating network
+or disk I/O. Note that kubelet does not pull images in parallel for multiple containers
+within the same Pod.
 
-## Balancing Monitoring, Cost, and Complexity
+A more aggressive approach is lazy pulling / remote snapshots. The stargz snapshotter
+directly mounts rootfs layers from the remote registry instead of downloading and unpacking
+everything — allowing containers to start even before image content fully lands on disk,
+fetching actually accessed content on demand. The nydus-snapshotter takes a similar approach:
+containers can run even with only partial image availability, fetching necessary data blocks
+on demand. For multi-GB AI images, this optimization can reduce image pull time from minutes
+to seconds.
 
-Choosing which GPU Pod cold start optimization strategy depends on finding balance among performance,
-cost, and complexity. Pre-warmed Pod pools deliver the most direct and effective solution but carry
-highest costs, requiring continuous maintenance of standby Pods, meaning GPU resources remain perpetually
-idle. This approach suits real-time inference services extremely sensitive to startup latency.
+At the model artifact level, KServe defines "storage initializer as init container to
+download models to local directory" as the standard pattern. In the OCI modelcar approach,
+KServe v0.14 made a key optimization: early modelcar as sidecar could not guarantee model
+container started first; it was later reconfigured as an init container to ensure model images
+are prefetched before the main container starts. It also introduced "Model Cache" using node
+local storage to cache large models, shortening LLM Pod startup time.
 
-Optimizing serialization formats and adopting efficient inference frameworks like ONNX Runtime require
-small investment with steady returns, though typically cannot completely eliminate cold start latency.
-These approaches represent baseline optimizations broadly applicable.
+Without KServe, you can take Kubernetes-native routes. First, package models as OCI artifacts,
+letting models be distributed and cached "like images," benefiting from node-local image
+caching and layer reuse. Second, directly mount OCI artifacts as volumes — Kubernetes image
+volumes (v1.35 beta, enabled by default) allow mounting OCI registry content into the
+container filesystem as a volume. For scenarios needing large read-only weight files, this
+provides an earlier, more controllable loading point than "download after application starts."
 
-Lazy loading and hierarchical loading introduce higher complexity, requiring design and implementation in
-application code. However, once correctly implemented, they significantly boost performance without
-increasing costs. This approach holds particular value for large-scale models.
+For model repositories and caching, if you use the Hugging Face Hub ecosystem, the
+most-overlooked startup cost is often "repeated downloads and decompression."
+huggingface_hub defaults its cache to `~/.cache/huggingface/hub`, configurable via `HF_HOME`
+or `HF_HUB_CACHE` environment variables to faster paths (like node-local NVMe or a shared
+read-only cache volume).
 
-In practice, the optimal approach usually combines multiple strategies. For a given application, first
-achieve baseline performance improvements through serialization format optimization and inference
-framework selection. Then, based on latency requirements, determine whether lazy loading, pre-warmed
-pools, or other techniques are needed. Critical service paths might require simultaneous application of
-multiple optimization technologies.
+Finally, model format itself matters. Safetensors is positioned as "safe (relative to pickle)
+and fast (zero-copy)" tensor storage, supporting partial tensor loading (especially meaningful
+for multi-GPU/sharded loading). In contrast, PyTorch's torch.save uses Python pickle for
+serialization, and torch.load uses pickle deserialization; pickle's executable deserialization
+risk has been repeatedly highlighted by supply chain security research — loading untrusted
+model files can lead to arbitrary code execution. For ultimate "weight-to-GPU speed," vLLM
+documentation mentions fastsafetensors can leverage GPU Direct Storage to load weights
+directly into GPU memory, bypassing the CPU.
 
-Regularly monitoring GPU Pod startup time, resource utilization, and overall system performance through
-Prometheus and other observability tools is critical for guiding optimization decisions. A data-driven
-approach ensures optimization efforts truly address bottleneck problems.
+## Runtime Initialization and Compilation Caching: Reducing First-Time Penalties
+
+Another "hidden heavyweight" of AI Pod cold start is one-time initialization cost. It is not
+a single slow point but multiple "first times" stacking: first GPU initialization trigger,
+first CUDA JIT trigger, first framework compilation trigger, first inference engine graph
+optimization and kernel generation.
+
+For GPU initialization, NVIDIA's Driver Persistence documentation describes a specific and
+actionable fact: in Linux headless/short-job scenarios, GPUs may initialize on each job start
+and de-initialize after; applications triggering GPU initialization may incur approximately
+1-3 seconds of startup cost per GPU (attributed to ECC scrubbing in the documentation), with
+persistence mode / persistence daemon provided to maintain GPU initialization state. In
+nvidia-smi, persistence mode is defined as "keeping the driver loaded even without active
+clients, thereby minimizing driver load latency."
+
+For CUDA JIT, the compute cache mechanism caches binaries generated from JIT-compiled PTX to
+avoid recompilation. Environment variables `CUDA_CACHE_PATH` and `CUDA_CACHE_MAXSIZE`
+control cache location and size. There is a cold-start-specific pitfall: if the default
+cache directory sits on a slow network home directory, it can cause extremely long application
+startup times — in such cases, set `CUDA_CACHE_PATH` to a faster filesystem.
+
+For framework compilation, PyTorch's torch.compile cache writes to
+`TORCHINDUCTOR_CACHE_DIR` (defaulting to something like `/tmp/torchinductor_<user>`). For
+containerized deployments, the default cache easily vanishes with the Pod. If you mount it to
+a persistent volume or node-local persistent path and reuse it across rolling upgrades and
+elastic scaling, you can reduce "compile on every cold start" to "compile once per
+hardware/model version combination."
+
+For inference engines, TensorRT's architecture documentation provides a direct initialization
+acceleration option: CUDA lazy loading (`CUDA_MODULE_LOADING=LAZY`) can significantly reduce
+TensorRT's peak GPU/host memory usage and accelerate initialization, with negligible
+performance impact (approximately <1%). If using ONNX Runtime + TensorRT EP, documentation
+highlights "cache" as a first-class capability: TensorRT EP cache can reduce session creation
+time from minutes to seconds; TensorRT RTX EP further provides runtime cache, caching
+JIT-compiled CUDA kernels per engine for deserialization on subsequent loads to reduce session
+load time.
+
+This section distills into one engineering principle: externalize one-time costs (driver init
+/ JIT / compile / engine build) as reusable cache assets, and ensure they keep hitting across
+Pod rebuilds and scaling events.
+
+## Pre-warming and Elasticity: Pod Pools, Model Warmup, and Cost Tradeoffs
+
+After addressing the "download surface" and "first-time initialization surface," you arrive
+at the final question: how to enable "second-scale expansion" under traffic bursts without
+exploding costs. Think of this as a triangle: latency, cost, complexity — each pre-warming
+approach occupies a different position.
+
+From "moving first-request latency off the critical path," inference service built-in warmup
+is the most straightforward approach. Taking Triton as an example, its ModelWarmup mechanism
+allows the server to execute a series of warmup inference requests before serving external
+traffic. Only after a model instance successfully completes warmup does it begin serving.
+Some backends delay initialization until the first inference (such as TF-TRT optimization);
+ModelWarmup moves these unpredictable latencies away from the client side.
+
+Aligning warmup with Kubernetes Ready semantics is the single most important pattern for AI
+startup optimization: use readinessGates or readinessProbe to keep Pods out of the load
+balancer pool until warmup completes, mechanistically guaranteeing that first requests never
+hit cold instances.
+
+From "moving scaling wait off the critical path," node/capacity reservation is another
+high-leverage tool. Kubernetes documentation defines node overprovisioning as using
+negative-priority placeholder Pods to pre-reserve compute resources, reducing the time new
+Pods spend in Pending during scaling events. AWS EKS best practices documentation notes:
+Cluster Autoscaler conserves costs by making Pods wait for node scaling, but nodes may need
+minutes to become available; overprovisioning trades cost for latency.
+
+GPU scenarios introduce an additional special waiting item: accelerator device plugins during
+scaling may need minutes to report resources, meaning Pods cannot immediately schedule to new
+nodes even after they appear — potentially triggering duplicate scaling events. This means AI
+"pre-warming" should not focus only on in-Pod warmup but also on node-side GPU stack
+readiness — drivers, container runtime, device plugin, and resource reporting across the
+entire chain.
+
+From "moving model distribution off the critical path," KServe's evolution provides a
+systematic case study: modelcars reuse image distribution and caching through OCI model
+artifacts; to solve sidecar startup ordering uncertainty, OCI model containers were
+reconfigured as init containers for prefetching; local model caching was then introduced to
+further shorten LLM Pod startup. This abstracts into a general conclusion: AI pre-warming is
+not just "sending a few empty requests" but "building reusable distribution and caching layers
+around model artifacts."
+
+GKE's Agent Sandbox approaches pre-warming from another dimension. It combines gVisor security
+sandboxes with container snapshot technology, creating gVisor snapshots of fully configured
+containers (including dependency libraries, runtime state, and pre-loaded models) during
+initialization. When new requests arrive, new instances can be restored from snapshots in
+hundreds of milliseconds. Compared to traditional cold starts, Agent Sandbox achieves up to
+90% startup time improvement while maintaining gVisor sandbox-level security isolation. This
+is especially valuable for LLM Agents, Serverless AI, and multi-tenant AI services requiring
+both fast startup and strong isolation.
+
+## Conclusion: Three Often-Overlooked Critical Levers
+
+To summarize, beyond the commonly discussed "scheduling / model loading / warmup" trio, at
+least three categories of levers often have greater impact on end-to-end cold start:
+
+First is capacity provisioning and node-side accelerator stack readiness. Node scaling can
+take minutes, device plugin reporting can take minutes, and stacked together, Pod Pending time
+far exceeds expectations.
+
+Second is critical-path removal for image/model distribution. Parallel pulls, lazy pulling,
+OCI artifactification, node-local caching — the core idea is "don't make the user's first
+request wait for file IO."
+
+Third is one-time initialization and compilation cache reuse. Driver persistence, CUDA/JIT
+cache, torch.compile cache, inference engine cache — transforming "first-time" costs into
+reusable assets.
+
+Combining these three lever categories with conventional scheduling optimization, model format
+optimization, and service warmup constitutes the complete critical path for AI Pod cold start
+optimization.
 
 ---
 
-## Related Resources and Tools
+## Related Resources
 
-<a href="https://pytorch.org/docs/stable/jit.html">PyTorch TorchScript Documentation</a>
+<a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/">
+Kubernetes Pod Lifecycle</a>
 
-<a href="https://huggingface.co/docs/safetensors/index">Safetensors Documentation</a>
+<a href="https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/">
+Dynamic Resource Allocation (DRA)</a>
 
-<a href="https://onnx.ai/">Open Neural Network Exchange (ONNX)</a>
+<a href="https://kubernetes.io/docs/tasks/manage-gpus/scheduling-gpus/">
+Scheduling GPUs</a>
 
-<a href="https://onnxruntime.ai/">ONNX Runtime</a>
+<a href="https://docs.nvidia.com/deploy/driver-persistence/index.html">
+NVIDIA Driver Persistence</a>
 
-<a href="https://developer.nvidia.com/tensorrt">NVIDIA TensorRT</a>
+<a href="https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/">
+CUDA Best Practices Guide</a>
 
-<a href="https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/">
-Pod Priority and Preemption</a>
+<a href="https://pytorch.org/docs/stable/torch.compiler_faq.html">
+PyTorch torch.compile FAQ</a>
 
-<a href="https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/">
-Assigning Pods to Nodes</a>
+<a href="https://huggingface.co/docs/safetensors/index">Safetensors</a>
+
+<a href="https://onnxruntime.ai/docs/execution-providers/TensorRT-ExecutionProvider.html">
+ONNX Runtime TensorRT EP</a>
+
+<a href="https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/user_guide/model_configuration.html">
+Triton Model Configuration (ModelWarmup)</a>
+
+<a href="https://kserve.github.io/website/latest/">KServe Documentation</a>
+
+<a href="https://github.com/containerd/stargz-snapshotter">
+Stargz Snapshotter</a>
+
+<a href="https://github.com/containerd/nydus-snapshotter">
+Nydus Snapshotter</a>
+
+<a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">
+GKE Agent Sandbox</a>
