@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-02-25
+last_updated: 2026-02-27
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,29 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-02-27: 我们如何构建安全、可扩展的 Agent 沙箱基础设施
+
+- [Agent 沙箱基础设施（中文翻译）](./2026-02-27/agent-sandbox-infrastructure_zh.md)
+
+A Chinese translation of Browser Use's blog post about their journey building
+secure, scalable agent sandbox infrastructure for the Browser Use Cloud:
+
+- **Problem**: AI browser agents need strong isolation — they run Chromium,
+  execute LLM-generated code, and access arbitrary websites in a multi-tenant
+  environment
+- **Way 1 — AWS Lambda**: Serverless execution with natural MicroVM isolation
+  via Firecracker, but limited by 15-minute execution caps, cold start latency,
+  limited customization, and vendor lock-in
+- **Way 2 — Unikraft MicroVMs**: Custom control plane managing Unikraft
+  unikernel-based MicroVMs with sub-50ms startup, keyless security model,
+  elastic warm pools, and full network/storage control
+- **Keyless architecture**: MicroVMs hold no credentials; all authorized
+  operations are proxied through the control plane
+- **Warm pool**: Pre-warmed idle MicroVMs enable sub-second task assignment;
+  destroyed (not recycled) after each task to prevent state leakage
+- **Lessons**: Plan security models early, match isolation to threat model,
+  invest in the control plane, leverage open-source tools (Unikraft, Firecracker)
 
 ## 2026-02-25: 贡献开源的 ROI：LF Research 2025 年调查报告解读
 
