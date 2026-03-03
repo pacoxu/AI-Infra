@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-01
+last_updated: 2026-03-03
 tags: roadmap, planning, future-work, ai-native
 ---
 
@@ -70,6 +70,16 @@ organized by AI Native focus areas:
   distributed training and inference
 - **Power & Cost Optimization**: Energy-aware scheduling and cost models for
   AI workloads
+- **Kueue + HAMi Integration**: Cloud-native GPU resource scheduling combining
+  [Kueue](https://github.com/kubernetes-sigs/kueue) batch scheduling with
+  [HAMi](https://github.com/Project-HAMi/HAMi) GPU sharing/isolation —
+  reference: [ForceInjection Kueue+HAMi](https://github.com/ForceInjection/AI-fundermentals/blob/main/04_cloud_native_ai_platform/k8s/Kueue%20+%20HAMi.md)
+- **NVIDIA Container Toolkit internals**: Deep dive into the underlying
+  mechanisms of NVIDIA Container Toolkit for containerized GPU support —
+  reference: [ForceInjection NVIDIA Container Toolkit](https://github.com/ForceInjection/AI-fundermentals/blob/main/04_cloud_native_ai_platform/k8s/Nvidia%20Container%20Toolkit%20%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90.md)
+- **NVIDIA K8s Device Plugin analysis**: Architecture and implementation
+  details of the NVIDIA Kubernetes device plugin —
+  reference: [ForceInjection Device Plugin](https://github.com/ForceInjection/AI-fundermentals/blob/main/04_cloud_native_ai_platform/k8s/nvidia-k8s-device-plugin-analysis.md)
 
 ### Runtime Evolution
 
@@ -104,12 +114,54 @@ organized by AI Native focus areas:
   - AutoScaling Metrics and Strategies: TTFT, TPOT, ITL, etc.
   - [Issue #78](https://github.com/pacoxu/AI-Infra/issues/78)
 
+### Inference Frameworks & Distributed Serving
+
+- **llm-d**: Cloud-native high-performance distributed LLM inference framework
+  based on Kubernetes — reference:
+  [ForceInjection llm-d intro](https://github.com/ForceInjection/AI-fundermentals/blob/main/04_cloud_native_ai_platform/k8s/llm-d-intro.md)
+- **vLLM + LWS multi-node inference**: Using LeaderWorkerSet (LWS) controller
+  for multi-node, multi-GPU inference deployments on Kubernetes — reference:
+  [ForceInjection LWS intro](https://github.com/ForceInjection/AI-fundermentals/blob/main/04_cloud_native_ai_platform/k8s/lws_intro.md)
+
+### KV Cache Deep Dives
+
+- **Mooncake architecture**: Detailed analysis of the KV-cache-centric LLM
+  inference system design — reference:
+  [ForceInjection Mooncake architecture](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/kv_cache/mooncake_architecture.md)
+- **LMCache detailed analysis**: Source-level deep dive into LMCache covering
+  its four-layer storage architecture (L1-L4), connector, engine, storage
+  backends, controller, server, CacheBlend, and CacheGen — references:
+  - [LMCache overview](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/kv_cache/lmcache/lmcache_overview.md)
+  - [LMCacheConnector](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/kv_cache/lmcache/lmcache_connector.md)
+  - [LMCacheEngine](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/kv_cache/lmcache/lmcache_engine.md)
+  - [CacheBlend](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/kv_cache/lmcache/cache_blend.md)
+  - [CacheGen](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/kv_cache/lmcache/cachegen.md)
+- **Alibaba Cloud Tair KVCache**: Enterprise-grade centralized KVCache
+  management system design and comparison with LMCache — reference:
+  [ForceInjection Tair KVCache](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/kv_cache/ali_tair_kvcache/tair-kvcache-architecture-design.md)
+- **vLLM KV Offloading vs LMCache**: Architecture comparison covering storage
+  hierarchy and cross-instance sharing capabilities — reference:
+  [ForceInjection KV Offloading analysis](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/kv_cache/kv_offloading_analysis.md)
+
+### Deployment Best Practices
+
+- **DeepSeek-V3 MoE deployment on H20**: Deployment guide and SLO validation
+  for DeepSeek-V3 MoE model with vLLM on H20 hardware — reference:
+  [ForceInjection DeepSeek-V3 deployment](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/inference_solutions/deepseek_v3_moe_vllm_h20_deployment.md)
+- **Qwen2-VL-7B on Huawei Ascend**: Deployment optimization for multimodal
+  models on domestic Huawei Ascend hardware — reference:
+  [ForceInjection Qwen2-VL Huawei](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/inference_solutions/qwen2_vl_7b_huawei.md)
+
 ### Model Optimization
 
 - **Model Quantization**: Techniques for reducing model size and improving
   inference performance
 - **A general/basic guide about LLM**: Covering LLM fundamentals, MoE
   architectures, Ollama, and related tools
+- **GPU Architecture & CUDA Programming**: Hardware fundamentals, parallel
+  computing principles, and performance optimization strategies for GPU-based
+  AI workloads — reference:
+  [ForceInjection AI Infra Course](https://github.com/ForceInjection/AI-fundermentals/blob/main/10_ai_related_course/ai_infra_course/%E5%85%A5%E9%97%A8%E7%BA%A7/%E8%AE%B2%E7%A8%BF.md)
 
 ### Security & Supply Chain
 
@@ -159,4 +211,4 @@ to propose new topics, please open an issue or submit a pull request.
 
 ---
 
-Last updated: 2025-12-01
+Last updated: 2026-03-03
