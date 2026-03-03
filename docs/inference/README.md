@@ -224,3 +224,72 @@ Model quantization tools reduce memory footprint and improve inference speed:
 | [AMD Quark](https://quark.docs.amd.com/) | AMD | Model optimization and quantization for AMD ecosystem |
 | [LLM Compressor](https://github.com/vllm-project/llm-compressor) | vLLM Project | LLM compression/quantization toolchain |
 | [NVIDIA ModelOpt](https://github.com/NVIDIA/TensorRT-Model-Optimizer) | NVIDIA | Model optimization and quantization for NVIDIA ecosystem |
+
+## Cost Optimization
+
+GPU infrastructure is expensive. Effective cost optimization for inference
+workloads involves several strategies:
+
+### GPU Sharing
+
+Run multiple workloads on a single GPU to increase utilization:
+
+| Method | Mechanism | Best For |
+| --- | --- | --- |
+| **Time-slicing** | CUDA time-multiplexing between pods | Small models, dev/test |
+| **MIG (Multi-Instance GPU)** | Hardware GPU partitioning (A100/H100) | Isolated, predictable workloads |
+| **MPS (Multi-Process Service)** | CUDA context sharing with memory isolation | Batch inference, high throughput |
+| **vGPU** | Virtualized GPU with memory limits | Enterprise multi-tenancy |
+
+**MIG configuration via NVIDIA GPU Operator:**
+
+```yaml
+# Enable MIG on a node with NVIDIA A100
+# 7 equal slices of 1/7 A100 each (10GB per slice)
+kubectl label node <node> nvidia.com/mig.config=all-1g.10gb
+```
+
+See [NVIDIA GPU Operator](../kubernetes/nvidia-gpu-operator.md) for MIG setup.
+
+### Spot / Preemptible Instances
+
+Use spot instances for **fault-tolerant training** workloads with checkpointing
+enabled. Cloud providers offer 60–80% discounts for interruptible compute:
+
+- **AWS**: EC2 Spot Instances with Karpenter for automatic re-provisioning
+- **GCP**: Spot VMs with GKE auto-provisioning
+- **Azure**: Azure Spot VMs with AKS node pools
+
+Key requirements for spot-safe training:
+
+- Regular checkpointing (every 5–15 minutes)
+- Graceful shutdown handling (`SIGTERM` → checkpoint → exit)
+- Kueue or Volcano with preemption-aware job requeue
+
+### Inference Cost Optimization
+
+- **Quantization**: INT8/INT4 reduces GPU memory by 2–4x, enabling more
+  replicas per GPU. See [Quantization](#quantization-量化与低精度) section above.
+- **Speculative decoding**: Use a small draft model to accelerate the main
+  model (reduces TPOT, improves throughput)
+- **Continuous batching**: vLLM/SGLang's default batching maximizes GPU
+  utilization across concurrent requests
+- **Prefix caching**: Cache KV states for repeated prompt prefixes
+  (see [Caching Strategies](./caching.md))
+- **Model colocation**: Schedule inference + batch workloads on the same node
+  using Koordinator's mixed deployment mode
+
+### Rightsizing
+
+Profile actual GPU utilization to identify over-provisioned workloads:
+
+- **DCGM Exporter** metrics: `DCGM_FI_DEV_GPU_UTIL`, `DCGM_FI_DEV_FB_USED`
+- **vLLM metrics**: `vllm:gpu_cache_usage_perc`, `vllm:num_requests_running`
+- Set resource requests equal to actual P95 utilization (not peak)
+
+**References:**
+
+- [Inference Cost Optimization Guide](../blog/2026-01-15/inference-cost-optimization_zh.md)
+  (Chinese) — detailed 5-strategy framework
+- [Serverless Inference](./serverless.md) — scale-to-zero with KEDA for
+  variable traffic patterns

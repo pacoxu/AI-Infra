@@ -527,7 +527,96 @@ kubernetes.io/hostname: "node-1"
 [Topology-Aware Scheduling Blog](../blog/2025-11-25/topology-aware-scheduling.md)
 for detailed coverage of DRA topology management.
 
-### 2.7 Borrow & LendingLimit
+### 2.7 Storage for AI Workloads
+
+AI workloads require specialized storage strategies for large model weights,
+training datasets, and checkpoints. Storage is a first-class scheduling
+concern because model loading time directly impacts pod startup latency and
+GPU idle time.
+
+#### Model Distribution
+
+Large language models (tens to hundreds of GB) must be efficiently distributed
+to inference pods. Options:
+
+| Method | Description | Best For |
+| --- | --- | --- |
+| OCI Image Volume | Package model as OCI artifact (KEP-4639, Beta in v1.33+) | Immutable model weights, registry-based distribution |
+| ReadOnlyMany PVC | Shared volume across multiple pods | Co-located inference replicas |
+| Object Storage | Stream weights from S3/GCS/OSS at startup | Large models, infrequent updates |
+| Node-local cache | Pre-pull to NVMe via DaemonSet | Low-latency cold start |
+
+**OCI Image Volume for Model Weights** (recommended for Kubernetes v1.33+):
+
+Packages model files as OCI artifacts stored in a standard container registry.
+Kubernetes mounts the image content as a read-only volume, enabling registry-level
+deduplication and layer caching.
+
+```yaml
+# Serve Llama model weights via OCI Image Volume
+spec:
+  volumes:
+  - name: model-weights
+    image:
+      reference: registry.example.com/models/llama3:70b
+      pullPolicy: IfNotPresent   # Cache on node after first pull
+  containers:
+  - name: vllm
+    image: vllm/vllm-openai:latest
+    args: ["--model", "/models"]
+    volumeMounts:
+    - name: model-weights
+      mountPath: /models
+    resources:
+      limits:
+        nvidia.com/gpu: "1"
+```
+
+**Why OCI Image Volumes?**
+
+- **Registry deduplication**: Layers shared across model versions
+- **Atomic updates**: Model version tied to image tag
+- **Standard tooling**: Works with existing container registry infrastructure
+- **Pre-pull support**: DaemonSet-based pre-pull for warm nodes
+
+See [OCI Taking Over Everything](../blog/2025-12-22/oci-taking-over-everything_en.md)
+for detailed context.
+
+#### Checkpointing Storage
+
+Distributed training requires high-bandwidth checkpoint writes. Storage
+recommendations:
+
+- **Parallel file systems** (Lustre, GPFS, WekaFS): High-throughput shared
+  storage for large checkpoints across many GPU nodes
+- **ReadWriteMany PVCs**: NFS or parallel FS-backed volumes for distributed
+  checkpoint coordination
+- **Object storage backends**: Async checkpoint uploads to S3/GCS/OSS to
+  reduce GPU blocking time (write checkpoint asynchronously while training
+  continues)
+- **GPUDirect Storage (GDS)**: Direct GPU-to-storage transfers bypassing CPU,
+  supported by NVIDIA GPU Operator
+
+**CSI Drivers for AI Storage:**
+
+- <a href="https://github.com/lustre/lustre-release">`Lustre CSI`</a>:
+  High-performance parallel file system for HPC/AI checkpoints
+- <a href="https://github.com/kubernetes-csi/csi-driver-nfs">`NFS CSI Driver`</a>:
+  Simple ReadWriteMany for moderate checkpointing loads
+- <a href="https://github.com/weka/csi-wekafs">`WekaFS CSI`</a>:
+  High-performance AI-native storage
+
+**Best Practices:**
+
+- Pre-pull model images using a DaemonSet on GPU nodes before deployment to
+  eliminate cold-start model loading delays
+- Use `ReadOnlyMany` PVCs for model weights shared across inference replicas
+- Configure separate storage classes for checkpoints (high throughput) vs.
+  model serving (high IOPS)
+- Monitor storage bandwidth alongside GPU metrics — storage saturation is a
+  common bottleneck for model loading and checkpointing
+
+### 2.9 Borrow & LendingLimit
 
 **Concept**: Allow namespaces/teams to borrow unused resources from other
 teams while enforcing lending limits to ensure fair access.
@@ -584,7 +673,7 @@ spec:
 - Monitor borrowing patterns and adjust quotas based on actual usage
 - Combine with priority classes: borrowed workloads at lower priority
 
-### 2.8 Descheduler
+### 2.10 Descheduler
 
 **Concept**: Continuously rebalance pods across nodes to optimize utilization,
 correct scheduling mistakes, and adapt to changing conditions.
@@ -636,7 +725,7 @@ profiles:
 - Monitor descheduling impact on application SLAs
 - Use dry-run mode to preview evictions before applying
 
-### 2.9 SLA-Based Scheduling
+### 2.11 SLA-Based Scheduling
 
 **Concept**: Schedule pods based on Service Level Agreement (SLA) requirements
 using numeric thresholds, enabling workload placement on nodes meeting specific
