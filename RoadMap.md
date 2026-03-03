@@ -81,6 +81,84 @@ organized by AI Native focus areas:
   details of the NVIDIA Kubernetes device plugin —
   reference: [ForceInjection Device Plugin](https://github.com/ForceInjection/AI-fundermentals/blob/main/04_cloud_native_ai_platform/k8s/nvidia-k8s-device-plugin-analysis.md)
 
+### GPU OS (Virtualization & Profiling)
+
+GPU-level virtualization, resource partitioning, and profiling tools for
+optimizing GPU utilization and debugging performance bottlenecks.
+
+#### GPU Virtualization
+
+- **MIG (Multi-Instance GPU)**: Partitioning a single GPU into multiple
+  isolated instances for multi-tenant workloads
+- **vGPU / SR-IOV**: Sharing GPUs across multiple VMs/containers via
+  virtualization technologies
+- **CUDA MPS (Multi-Process Service)**: Enabling concurrent multi-process
+  execution on a single GPU to improve utilization
+
+#### GPU Profiling / Instrumentation / Monitoring
+
+- **Nsight Systems**: End-to-end timeline profiling (CPU↔GPU, kernel launch,
+  communication/IO overlap)
+- **Nsight Compute**: Per-kernel metrics (occupancy, memory bandwidth, warp
+  efficiency, etc.)
+- **CUPTI**: Low-level interface for collecting GPU events and performance
+  counters
+- **NVTX (NVIDIA Tools Extension)**: Code annotation/range markers to improve
+  Nsight readability and phase alignment
+
+### Kernels & Operator Optimization
+
+GPU kernel development, optimization tools, and high-performance operator
+libraries for AI workloads, fully leveraging hardware capabilities across GPU
+generations.
+
+#### Kernel DSL & Codegen
+
+- **[Triton (triton-lang)](https://github.com/triton-lang/triton)**: Custom GPU
+  kernel DSL and compiler for writing high-performance kernels in Python
+- **[tilelang](https://github.com/tile-ai/tilelang)**: DSL targeting
+  high-performance kernel development
+
+#### Transformer Kernels
+
+- **[FlashInfer](https://github.com/flashinfer-ai/flashinfer)**: High-performance
+  inference-side kernels (attention, MoE, etc.)
+- **[FlashAttention](https://github.com/Dao-AILab/flash-attention)**: Classic
+  memory-efficient attention kernel
+- **[xFormers](https://github.com/facebookresearch/xformers)**: Optimized
+  transformer building blocks and related kernels
+
+#### Math Primitives
+
+- **[CUTLASS](https://github.com/NVIDIA/cutlass)**: GEMM and operator
+  infrastructure from NVIDIA
+- **[DeepGEMM](https://github.com/deepseek-ai/DeepGEMM)**: High-performance
+  GEMM implementations and exploration from DeepSeek
+
+#### Quantization & Low-Precision
+
+- **[bitsandbytes](https://github.com/bitsandbytes-foundation/bitsandbytes)**:
+  Low-bit training and inference toolchain
+- **GPTQ / AWQ**: Post-training quantization approaches for inference
+- **[AMD Quark](https://quark.docs.amd.com/)**: AMD ecosystem model optimization
+  and quantization toolchain
+- **[LLM Compressor](https://github.com/vllm-project/llm-compressor)**:
+  Compression and quantization toolchain for LLMs (vLLM project)
+- **[NVIDIA ModelOpt](https://github.com/NVIDIA/TensorRT-Model-Optimizer)**:
+  NVIDIA ecosystem model optimization and quantization toolchain
+
+### Distributed Communication (NCCL / UCX / Gloo)
+
+Collective communication libraries and high-performance networking frameworks
+for distributed training and inference.
+
+- **[NCCL](https://github.com/NVIDIA/nccl)**: Core GPU collective communication
+  library (AllReduce, AllGather, etc.) — the backbone of distributed training
+- **[UCX](https://github.com/openucx/ucx)**: High-performance communication
+  framework supporting RDMA, shared memory, and network protocols
+- **[Gloo](https://github.com/facebookincubator/gloo)**: Collective
+  communication library commonly used in the PyTorch ecosystem
+
 ### Runtime Evolution
 
 - **Agent Runtime Environments**: Sandboxing and isolation patterns for AI
@@ -123,6 +201,21 @@ organized by AI Native focus areas:
   for multi-node, multi-GPU inference deployments on Kubernetes — reference:
   [ForceInjection LWS intro](https://github.com/ForceInjection/AI-fundermentals/blob/main/04_cloud_native_ai_platform/k8s/lws_intro.md)
 
+### RL & Alignment (Post-Training / RLHF)
+
+Reinforcement Learning from Human Feedback (RLHF) and post-training alignment
+frameworks for large language models.
+
+- **[verl](https://github.com/volcengine/verl)**: RL training system framework
+  for LLMs, featuring flexible rollout backends (vLLM/SGLang) — ByteDance /
+  VolcEngine
+- **[SLIME](https://github.com/THUDM/SLIME)**: RL scaling framework designed
+  for LLM post-training — THUDM
+- **[OpenRLHF](https://github.com/OpenRLHF/OpenRLHF)**: Open-source RLHF
+  training framework with support for PPO, DPO, and GRPO
+- **[TRL](https://github.com/huggingface/trl)**: PPO/DPO and other alignment
+  trainers in the HuggingFace ecosystem
+
 ### KV Cache Deep Dives
 
 - **Mooncake architecture**: Detailed analysis of the KV-cache-centric LLM
@@ -142,6 +235,42 @@ organized by AI Native focus areas:
 - **vLLM KV Offloading vs LMCache**: Architecture comparison covering storage
   hierarchy and cross-instance sharing capabilities — reference:
   [ForceInjection KV Offloading analysis](https://github.com/ForceInjection/AI-fundermentals/blob/main/09_inference_system/kv_cache/kv_offloading_analysis.md)
+
+### Storage & Checkpoint IO
+
+High-performance distributed file systems and tensor serialization formats for
+training checkpoints and model weights.
+
+#### Distributed File Storage
+
+- **[3FS (Fire-Flyer File System)](https://github.com/deepseek-ai/3FS)**:
+  High-performance distributed file storage optimized for AI training workloads,
+  especially for high-concurrency random reads (model loading) and small
+  file / metadata IO — from DeepSeek
+
+#### Checkpoint / Tensor IO
+
+- **[safetensors](https://github.com/huggingface/safetensors)**: Simple, safe
+  tensor serialization format for model weights — zero-copy, no arbitrary code
+  execution (HuggingFace)
+- **[TensorStore](https://github.com/google/tensorstore)**: Library for
+  reading/writing large multi-dimensional arrays and sharded checkpoints — Google
+
+### Vector Databases
+
+Vector database solutions for embedding storage, similarity search, and
+retrieval-augmented generation (RAG) pipelines.
+
+- **[Milvus](https://github.com/milvus-io/milvus)**: CNCF Incubating —
+  open-source vector database built for scalable similarity search
+- **[Qdrant](https://github.com/qdrant/qdrant)**: High-performance vector
+  similarity search engine written in Rust
+- **[Weaviate](https://github.com/weaviate/weaviate)**: Cloud-native vector
+  database with built-in ML model integrations
+- **[pgvector](https://github.com/pgvector/pgvector)**: Open-source vector
+  similarity search extension for PostgreSQL
+- **[FAISS](https://github.com/facebookresearch/faiss)**: Local vector index
+  library optimized for dense similarity search — Meta
 
 ### Deployment Best Practices
 
@@ -163,6 +292,50 @@ organized by AI Native focus areas:
   AI workloads — reference:
   [ForceInjection AI Infra Course](https://github.com/ForceInjection/AI-fundermentals/blob/main/10_ai_related_course/ai_infra_course/%E5%85%A5%E9%97%A8%E7%BA%A7/%E8%AE%B2%E7%A8%BF.md)
 
+### LLM Capability Evaluation
+
+Tools and benchmarks for evaluating LLM quality across dimensions including
+knowledge, reasoning, code, instruction following, factuality, safety,
+multilingual capabilities, and RAG quality.
+
+#### Evaluation Frameworks
+
+- **[lm-evaluation-harness](https://github.com/EleutherAI/lm-evaluation-harness)**:
+  General-purpose evaluation framework with broad task coverage and unified
+  reporting — EleutherAI
+- **[OpenCompass](https://github.com/open-compass/opencompass)**: One-stop
+  evaluation system with rich task sets, suitable for building internal
+  evaluation platforms
+- **[HELM](https://github.com/stanford-crfm/helm)**: Holistic evaluation
+  framework with comprehensive metric dimensions — Stanford CRFM
+- **[AlpacaEval](https://github.com/tatsu-lab/alpaca_eval)**: Automated
+  pairwise evaluation for instruction following and dialogue quality
+- **[FastChat / MT-Bench](https://github.com/lm-sys/FastChat)**: Dialogue
+  evaluation scripts and benchmarks widely used by the community
+- **[lighteval](https://github.com/huggingface/lighteval)**: Lightweight
+  evaluation framework (HuggingFace), flexible for CI integration
+- **[EvalPlus](https://github.com/evalplus/evalplus)**: Enhanced code evaluation
+  extending HumanEval with stricter test cases and judging
+- **[SWE-bench](https://github.com/swe-bench/SWE-bench)**: Real-world software
+  engineering task repair benchmark and toolchain
+- **[Ragas](https://github.com/explodinggradients/ragas) /
+  [TruLens](https://github.com/truera/trulens) /
+  [DeepEval](https://github.com/confident-ai/deepeval)**: RAG and application
+  pipeline quality evaluation tools
+
+#### Key Benchmarks
+
+| Category | Benchmarks |
+| --- | --- |
+| **Knowledge & Language** | MMLU / MMLU-Pro, ARC (Easy/Challenge), HellaSwag, WinoGrande, TruthfulQA, PIQA / OpenBookQA |
+| **Reasoning & Math** | GSM8K, MATH, BBH (Big-Bench Hard) / Big-Bench, AIME |
+| **Code** | HumanEval / MBPP, EvalPlus, SWE-bench, LiveCodeBench |
+| **Instruction & Chat** | MT-Bench (FastChat), AlpacaEval, IFEval |
+| **Factuality / Hallucination** | TruthfulQA, FEVER, FactScore |
+| **Safety & Robustness** | AdvBench, HarmBench, Do-Not-Answer, RealToxicityPrompts / ToxiGen |
+| **Multilingual** | XNLI, XQuAD / TyDiQA, MIRACL / BEIR (retrieval) |
+| **Retrieval / RAG QA** | HotpotQA / 2WikiMultihopQA / MuSiQue, NaturalQuestions / TriviaQA, BEIR |
+
 ### Security & Supply Chain
 
 - **LLM Security & Compliance/Policy**: Security best practices and policy
@@ -176,6 +349,30 @@ organized by AI Native focus areas:
 
 - **MCP and A2A**: Model Context Protocol and Agent-to-Agent communication -
   [Issue #32](https://github.com/pacoxu/AI-Infra/issues/32)
+
+### Typical End-to-End Stack Architectures
+
+Reference architectures combining layers across the AI Native stack for common
+large-scale AI workloads:
+
+#### Large-Scale Pre-Training / Fine-Tuning
+
+GPU OS (MIG / Profiling) → Distributed Communication (NCCL + K8s / Slurm) →
+PyTorch + Megatron-LM / DeepSpeed / FSDP → Storage (3FS) + Checkpoint IO
+(safetensors / TensorStore)
+
+#### Post-Training / RLHF
+
+PyTorch → TRL / verl / OpenRLHF / SLIME → rollout backend (SGLang / vLLM) →
+K8s + Ray (KubeRay)
+
+#### Large-Scale Online Inference (Engine to Cluster)
+
+Weights / Models (3FS) → Engine (vLLM / TensorRT-LLM / SGLang) → Serving
+(KServe / Ray Serve / Triton Inference Server / BentoML) → Gateway / Routing
+(SGLang Router / AIBrix) → Control Plane (llm-d / NVIDIA Dynamo) → KV Cache
+(LMCache) → Kernel Acceleration (Triton / tilelang / FlashInfer / FlashAttention
+/ CUTLASS / DeepGEMM)
 
 ## 🚫 Out of Scope
 
