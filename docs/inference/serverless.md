@@ -138,6 +138,88 @@ spec:
 - <a href="https://github.com/knative/community/blob/main/working-groups/WORKING-GROUPS.md">`Knative
   Working Groups`</a>
 
+### KEDA — Event-Driven Autoscaling for LLM Inference
+
+<a href="https://keda.sh">`KEDA (Kubernetes Event-Driven Autoscaling)`</a> is a
+CNCF Graduated project that extends Kubernetes HPA to scale based on external
+event sources and custom metrics — critical for LLM inference where CPU/memory
+metrics are poor scaling signals.
+
+**Why KEDA for LLM Inference:**
+
+Standard HPA scales on CPU or memory, but inference workloads are bounded by:
+
+- GPU saturation and request queue depth
+- TTFT (Time to First Token) degradation under load
+- vLLM `num_requests_waiting` metric exceeding thresholds
+
+**Key Scalers for Inference:**
+
+| Scaler | Use Case |
+| --- | --- |
+| Prometheus | Scale on vLLM/SGLang queue depth or TTFT metrics |
+| Kafka / RabbitMQ | Scale on batch inference queue depth |
+| Redis | Scale on request backlog in Redis stream |
+| AWS SQS / GCP PubSub | Cloud-native queue-based scaling |
+
+**Example: Scale on vLLM Request Queue Depth**
+
+```yaml
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: vllm-scaledobject
+spec:
+  scaleTargetRef:
+    name: vllm-deployment
+  minReplicaCount: 1
+  maxReplicaCount: 8
+  cooldownPeriod: 120
+  triggers:
+  - type: prometheus
+    metadata:
+      serverAddress: http://prometheus:9090
+      metricName: vllm_requests_waiting
+      query: sum(vllm:num_requests_waiting{namespace="default"})
+      threshold: "5"
+```
+
+**Scale-to-Zero Considerations:**
+
+LLM inference cold starts (model loading) can take 30–300 seconds. Mitigation
+strategies:
+
+- Set `minReplicaCount: 1` to avoid complete scale-to-zero for latency-sensitive
+  paths
+- Use **warm pool patterns** (pre-initialized pods) for latency-critical routes
+- Cache model weights on node-local storage (NVMe) to accelerate cold starts
+- See [GPU Pod Cold Start](../kubernetes/gpu-pod-cold-start.md) for detailed
+  strategies
+
+**Integration with Gateway API Inference Extension:**
+
+The
+<a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension">`Gateway API Inference Extension`</a>
+exposes per-model queue depth and TTFT metrics that KEDA can consume directly,
+enabling inference-aware autoscaling:
+
+```yaml
+# Scale on per-model TTFT degradation
+triggers:
+- type: prometheus
+  metadata:
+    query: |
+      histogram_quantile(0.95,
+        rate(inference_model_request_duration_seconds_bucket[2m]))
+    threshold: "0.5"  # Scale out when P95 TTFT > 500ms
+```
+
+**References:**
+
+- <a href="https://keda.sh/docs/">`KEDA Documentation`</a>
+- <a href="https://github.com/kedacore/keda">`KEDA GitHub`</a> (CNCF Graduated)
+- <a href="https://github.com/kubernetes-sigs/gateway-api-inference-extension">`Gateway API Inference Extension`</a>
+
 ## Cloud Provider Solutions
 
 ### AWS SageMaker Serverless Inference
