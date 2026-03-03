@@ -433,6 +433,31 @@ A comprehensive guide to topology-aware scheduling for AI workloads, covering:
 - Migration challenges from Device Plugin to DRA
 - KubeCon NA 2025 insights and resources
 
+## 2025-09-05: Considerations When Doing AI on Kubernetes
+
+- [Considerations When Doing AI on Kubernetes (English)](./2025-09-05/considerations-ai-on-kubernetes.md)
+
+A comprehensive overview of key considerations for running AI workloads on
+Kubernetes, based on the CNCF blog post:
+
+- **GPU and accelerator management**: DRA vs Device Plugins, NVIDIA GPU Operator,
+  MIG partitioning and vGPU sharing
+- **High-performance networking**: RDMA, InfiniBand, RoCEv2, SR-IOV, NVLink
+  topology awareness
+- **Storage for AI**: OCI Image Volumes for model distribution, ReadOnlyMany
+  PVCs, checkpointing strategies
+- **Scheduling**: Gang scheduling (Kueue, Volcano), topology-aware placement,
+  fair-share queuing
+- **Observability**: GPU metrics (DCGM), inference SLIs (TTFT, TPOT),
+  GPU fault detection
+- **Multi-tenancy and isolation**: Namespace to cluster isolation spectrum,
+  Confidential Containers
+- **Autoscaling**: Custom metrics HPA, KEDA, scale-to-zero challenges and
+  warm pool patterns
+- **Training workloads**: Kubeflow Training Operator, JobSet, fault tolerance
+- **Cost optimization**: GPU sharing (MIG, time-slicing), spot instances,
+  rightsizing
+
 ## 2025-11-25: Gang Scheduling
 
 - [Gang Scheduling Blog (English)](./2025-11-25/gang-scheduling.md)
