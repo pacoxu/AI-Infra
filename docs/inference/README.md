@@ -130,9 +130,15 @@ orchestrating disaggregated inference workloads on Kubernetes.
 **Key highlights:**
 
 - Dual LWS architecture for P/D disaggregation
+- **KServe integration**: Built on KServe's InferenceService abstraction for
+  cloud-native model serving
 - LMCache integration for efficient KV cache management
 - Routing sidecar for intelligent request routing
-- Production-grade implementation for P/D disaggregation
+- Production-grade reference implementation for P/D disaggregation
+
+See
+[Best of Both Worlds: Cloud-Native AI Inference at Scale using KServe and llm-d](https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d)
+for a detailed walkthrough of the joint KServe + llm-d architecture.
 
 For detailed information about P/D disaggregation implementations, see
 [Prefill-Decode Disaggregation](./pd-disaggregation.md).
@@ -161,29 +167,21 @@ growing support for LLM inference workloads.
 **Key highlights:**
 
 - **InferenceService CRD**: Unified API for model serving across frameworks
+- **LLMInferenceService CRD**: Dedicated API for LLM serving and P/D
+  disaggregation with native vLLM/LMCache integration
 - **LMCache integration**: KV cache offloading for LLM serving
 - **Canary deployments**: Safe rollout with traffic splitting
 - **Serverless serving**: Knative-based scale-to-zero support
-- **llm-d integration**: Foundation for disaggregated LLM serving
+- **llm-d integration**: Foundation for disaggregated LLM serving via dual LWS
+  architecture
 
-### vLLM Production Stack
+The combination of KServe + llm-d delivers cloud-native AI inference at scale.
+See
+[Best of Both Worlds: Cloud-Native AI Inference at Scale using KServe and llm-d](https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d)
+for the full architecture overview.
 
-[`vLLM production-stack`](https://github.com/vllm-project/production-stack)
-provides Helm-based deployment infrastructure for running vLLM at scale in
-Kubernetes environments.
-
-**Key highlights:**
-
-- KV-aware request routing for cache efficiency
-- Multi-instance load balancing
-- Prometheus metrics and observability
-- Router supporting prefix caching optimization
-
-TODO:
-
-- Add KServe detailed introduction (basic P/D disaggregation info added to
-  [pd-disaggregation.md](./pd-disaggregation.md))
-- Add comprehensive end-to-end benchmark comparison across platforms
+For P/D disaggregation details, see
+[Prefill-Decode Disaggregation](./pd-disaggregation.md).
 
 ## Kernel Optimization (算子与内核优化)
 
