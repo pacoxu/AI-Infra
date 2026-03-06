@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-02-25
+last_updated: 2026-03-06
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,26 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-03-06: Best of Both Worlds: Cloud-Native AI Inference at Scale using KServe and llm-d
+
+- [KServe + llm-d Cloud-Native Inference (English)](./2026-03-06/kserve-llm-d-cloud-native-inference.md)
+
+Summary of the KServe official blog post on combining KServe and llm-d for
+production-grade LLM inference with Prefill-Decode disaggregation on Kubernetes:
+
+- **KServe as the foundation**: InferenceService and LLMInferenceService CRDs
+  provide Kubernetes-native model serving with LMCache integration
+- **llm-d as the disaggregation engine**: Dual LeaderWorkerSet (LWS)
+  architecture separates prefill and decode onto dedicated GPU workers
+- **Best of both worlds**: KServe's operational maturity combined with llm-d's
+  disaggregation reference implementation
+- **KV cache efficiency**: LMCache transfers KV cache between prefill and
+  decode phases to reduce TTFT and improve throughput
+- **Cloud-native operations**: InferenceService CRD + Gateway API Inference
+  Extension + KEDA autoscaling
+
+Original blog: <https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d>
 
 ## 2026-02-25: 贡献开源的 ROI：LF Research 2025 年调查报告解读
 
