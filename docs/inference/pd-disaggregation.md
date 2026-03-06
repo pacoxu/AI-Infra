@@ -655,8 +655,8 @@ Dynamo's disaggregation implementation enables:
 
 [`KServe`](https://github.com/kserve/kserve) is a CNCF Incubating project that
 provides a Kubernetes-native platform for deploying and serving machine
-learning models at scale. KServe is actively developing support for LLM
-inference and P/D disaggregation through its LLMInferenceService CRD.
+learning models at scale. KServe supports LLM inference and P/D disaggregation
+through its LLMInferenceService CRD and integration with llm-d.
 
 **Current Capabilities:**
 
@@ -665,30 +665,43 @@ inference and P/D disaggregation through its LLMInferenceService CRD.
 - **Chunked Prefill**: Support for chunked prefill to optimize memory usage
   and reduce latency spikes
 - **LLMInferenceService CRD**: Custom Resource Definition for unified LLM
-  inference service management
+  inference service management with native vLLM and LMCache support
 
-**P/D Disaggregation Support:**
+**P/D Disaggregation with llm-d:**
 
-KServe is working on native P/D disaggregation support through:
+KServe achieves production-grade P/D disaggregation through its integration
+with [`llm-d`](https://github.com/llm-d/llm-d):
 
-- [WIP] Unified LLM Inference Service API and disaggregated p/d serving
-  support [#4520](https://github.com/kserve/kserve/issues/4520)
-- Integration with LMCache for efficient KV cache management across
-  disaggregated components
-- Standardized API for managing prefill and decode workloads
+- **Dual LWS architecture**: llm-d builds on KServe's InferenceService to
+  deploy separate LeaderWorkerSets for prefill and decode workers
+- **KV cache transfer**: LMCache handles efficient KV cache movement between
+  prefill and decode phases
+- **Routing sidecar**: Intelligent cache-aware request routing to prefill or
+  decode workers
+- **Native Kubernetes operations**: Canary deployments, scale-to-zero, and
+  traffic splitting via KServe's existing capabilities
 
-**Architecture Goals:**
+See
+[Best of Both Worlds: Cloud-Native AI Inference at Scale using KServe and llm-d](https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d)
+for the complete joint architecture walkthrough.
 
-The LLMInferenceService CRD aims to provide:
+**Architecture:**
+
+```text
+Client → KServe InferenceService / Gateway
+              ↓
+    Routing Sidecar (cache-aware)
+     ↙                   ↘
+Prefill LWS          Decode LWS
+(KV build)  →→→→  (KV reuse via LMCache)
+```
+
+**Unified LLM Inference Service API:**
 
 - Declarative configuration for P/D disaggregation
 - Automatic orchestration of prefill and decode services
 - Built-in KV cache management and transfer
 - Integration with KServe's inference graph for complex serving patterns
-
-KServe's approach focuses on providing a high-level abstraction that
-simplifies P/D disaggregation deployment while maintaining flexibility for
-advanced use cases.
 
 ### LMCache
 
@@ -944,6 +957,9 @@ across heterogeneous GPU clusters.
 - <https://github.com/vllm-project/production-stack>
 - <https://github.com/vllm-project/aibrix>
 - <https://github.com/kserve/kserve>
+- <https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d>
+  \- Best of Both Worlds: Cloud-Native AI Inference at Scale using KServe and
+  llm-d
 - <https://github.com/LMCache/lmcache>
 - DistServe (OSDI'24): <https://www.usenix.org/system/files/osdi24-zhong-yinmin.pdf>
 
