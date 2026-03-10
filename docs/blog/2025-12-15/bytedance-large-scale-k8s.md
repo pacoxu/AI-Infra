@@ -79,7 +79,7 @@ Performance benchmark results show:
 - Speakers: Yingcai Xue & Yixiang Chen, ByteDance
 - Conference: KubeCon + CloudNativeCon China 2025
 - Video: <https://www.youtube.com/watch?v=MGOa8Nn8_S0&t=1473s>
-- Schedule: <https://sched.co/1i7oo>
+- Slides: <https://static.sched.com/hosted_files/kccncchn2025/a3/KubeCon%20China%202025%20-%20An%20Alternative%20Metadata%20System%20for%20%20Large%20Kubernetes%20Clusters.pdf>
 
 ![KubeCon China 2025 KubeBrain Talk](https://github.com/user-attachments/assets/71750e44-1c80-432c-a877-d0c54d49ae8a)
 
