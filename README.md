@@ -62,6 +62,7 @@ where to focus their learning.
 - [Dynamic Resource Allocation (DRA)](./docs/kubernetes/dra.md)
 - [DRA Performance Testing](./docs/kubernetes/dra-performance-testing.md)
 - [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md)
+- [NVIDIA AI Cluster Runtime (AICR)](./docs/kubernetes/nvidia-aicr.md)
 - [GPU Fault Detection and Self-Healing](./docs/kubernetes/gpu-fault-detection.md)
 - [Node Resource Interface (NRI)](./docs/kubernetes/nri.md)
 - [Large-Scale Clusters (130K+ Nodes)](./docs/kubernetes/large-scale-clusters.md)
@@ -187,7 +188,8 @@ workloads in Kubernetes clusters.
   - **Batch Scheduling**: Kueue, Volcano, koordinator, Godel, YuniKorn
     ([Kubernetes WG Batch](https://github.com/kubernetes/community/blob/master/wg-batch/README.md))
   - **GPU Scheduling**: HAMI, NVIDIA Kai Scheduler, NVIDIA Grove
-  - **GPU Management**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins
+  - **GPU Management**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins,
+    NVIDIA AICR
   - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling
   - **Device Management**: DRA, NRI
     ([Kubernetes WG Device Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md))
@@ -210,6 +212,7 @@ management. Detailed guides:
 [DRA](./docs/kubernetes/dra.md) |
 [DRA Performance Testing](./docs/kubernetes/dra-performance-testing.md) |
 [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md) |
+[NVIDIA AICR](./docs/kubernetes/nvidia-aicr.md) |
 [NRI](./docs/kubernetes/nri.md)
 
 - **RoadMap:**

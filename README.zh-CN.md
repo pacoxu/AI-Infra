@@ -60,6 +60,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 - [动态资源分配 (DRA)](./docs/kubernetes/dra.md)
 - [DRA 性能测试](./docs/kubernetes/dra-performance-testing.md)
 - [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md)
+- [NVIDIA AI 集群运行时 (AICR)](./docs/kubernetes/nvidia-aicr.md)
 - [GPU 故障检测与自愈](./docs/kubernetes/gpu-fault-detection.md)
 - [节点资源接口 (NRI)](./docs/kubernetes/nri.md)
 - [大规模集群 (130K+ 节点)](./docs/kubernetes/large-scale-clusters.md)
@@ -179,7 +180,8 @@ Kubernetes 集群中 AI 工作负载的高级调度、工作负载编排和设�
   - **批处理调度**: Kueue, Volcano, koordinator, Godel, YuniKorn
     ([Kubernetes WG Batch](https://github.com/kubernetes/community/blob/master/wg-batch/README.md))
   - **GPU 调度**: HAMI, NVIDIA Kai Scheduler, NVIDIA Grove
-  - **GPU 管理**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins
+  - **GPU 管理**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins,
+    NVIDIA AICR
   - **工作负载管理**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling
   - **设备管理**: DRA, NRI
     ([Kubernetes WG Device Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md))
@@ -201,6 +203,7 @@ Kubernetes 集群中 AI 工作负载的高级调度、工作负载编排和设�
 [DRA](./docs/kubernetes/dra.md) |
 [DRA 性能测试](./docs/kubernetes/dra-performance-testing.md) |
 [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md) |
+[NVIDIA AICR](./docs/kubernetes/nvidia-aicr.md) |
 [NRI](./docs/kubernetes/nri.md)
 
 - **路线图:**
