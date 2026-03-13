@@ -105,7 +105,54 @@ pools to reduce scheduling conflicts and improve cache locality.
 - <a href="https://github.com/NVIDIA/grove">`NVIDIA Grove`</a>: Gang
   scheduling for AI workloads with topology awareness
 
-### 1.3 API Performance Optimization
+### 1.3 Hierarchical Scheduling
+
+**Concept**: Split scheduling into multiple levels to handle very large
+clusters (50,000+ nodes) more efficiently. Each level makes coarser-grained
+decisions, narrowing down the search space for subsequent levels.
+
+**Scheduling Levels:**
+
+- **Cluster-level**: Decide which subset of nodes or node pools to consider
+  based on workload characteristics and resource availability
+- **Pool-level**: Select specific nodes within the chosen pool based on
+  topology, resource fit, and affinity rules
+- **Node-level**: Final placement decision considering GPU topology, NUMA
+  alignment, and other fine-grained constraints
+
+**Benefits for Large-Scale Clusters:**
+
+- Reduces scheduling latency by limiting search space at each level
+- Enables specialized scheduling logic at different granularities
+- Improves cache locality and reduces API server load
+- Supports different scheduling strategies per workload type
+
+**Implementation Patterns:**
+
+- **Pre-filtering**: Use node pools and labels to partition nodes before
+  scheduling begins
+- **Multi-pass scheduling**: First pass selects regions/zones, second pass
+  selects specific nodes
+- **Staged decisions**: Apply coarse filters (CPU/memory/GPU count) before
+  fine-grained ones (topology, affinity)
+
+**Example Use Case:**
+
+For a 100,000-node cluster with GPU training workloads:
+
+1. **Cluster-level**: Choose GPU node pool based on GPU type requirement
+   (A100 vs H100)
+2. **Pool-level**: Select availability zone with sufficient capacity and low
+   network latency
+3. **Node-level**: Place pods considering NVLink topology for optimal
+   multi-GPU training
+
+**References:**
+
+- See [Large-Scale Clusters](./large-scale-clusters.md) for additional
+  patterns used in massive deployments
+
+### 1.4 API Performance Optimization
 
 **Common Bottlenecks:**
 
@@ -141,7 +188,7 @@ pools to reduce scheduling conflicts and improve cache locality.
 - Monitor etcd backend commit duration
 - Alert on admission webhook timeouts
 
-### 1.4 Batch Dispatch Optimization
+### 1.5 Batch Dispatch Optimization
 
 **Concept**: Schedule pods in batches rather than individually to amortize
 scheduling overhead and improve throughput.
@@ -384,8 +431,27 @@ lanes, network topology) to optimize for locality and bandwidth.
 - **GPU topology**: NVLink connections, PCIe lanes
 - **Network topology**: Rack/zone awareness, RDMA fabric
 - **Storage topology**: Local vs. remote storage
+- **Rack topology**: Physical rack location for failure domains
 
-**Implementation:**
+**Why Topology Matters for AI Workloads:**
+
+Modern AI workloads are extremely topology-sensitive. Misaligned hardware
+topology can degrade performance by 30-50% or more:
+
+- **GPU-to-GPU communication**: NVLink provides 600 GB/s vs 64 GB/s PCIe
+- **RDMA/GPU-Direct**: Requires GPU and NIC on same PCIe root
+- **NUMA locality**: Cross-NUMA memory access adds 30-50% latency
+
+**Implementation Approaches:**
+
+1. **Device Plugin + Topology Manager**: Traditional approach with limited
+   cross-device coordination
+2. **Kueue Topology-Aware Scheduling**: Uses node labels for rack/block/host
+   topology
+3. **Volcano Topology Plugin**: GPU and network topology in gang scheduling
+4. **DRA (Dynamic Resource Allocation)**: Rich topology constraints with CEL
+
+**Project Support:**
 
 - <a href="https://github.com/kubernetes/dynamic-resource-allocation/">`DRA
   (Dynamic Resource Allocation)`</a>: Structured parameters for device
@@ -394,14 +460,57 @@ lanes, network topology) to optimize for locality and bandwidth.
   implementation for network device topology
 - <a href="https://github.com/containerd/nri">`NRI (Node Resource
   Interface)`</a>: Fine-grained device management at runtime
+- <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Topology-aware
+  scheduling with node labels
+- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: Gang scheduling
+  with topology plugin
+- <a href="https://github.com/NVIDIA/KAI-Scheduler">`NVIDIA KAI Scheduler`</a>:
+  GPU-optimized topology-aware scheduling
 - **Kubernetes Topology Manager**: NUMA-aware pod placement
+
+**DRA Topology Coordination (GPU + NIC):**
+
+DRA enables coordinating multiple device types on the same topology domain:
+
+```yaml
+apiVersion: resource.k8s.io/v1beta1
+kind: ResourceClaimTemplate
+metadata:
+  name: gpu-nic-topology
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        deviceClassName: nvidia-gpu
+        count: 1
+      - name: rdma-nic
+        deviceClassName: rdma-nic
+        count: 1
+      constraints:
+      # GPU and NIC must be on the same PCIe root
+      - requests: ["gpu", "rdma-nic"]
+        matchAttribute: pcieRoot
+```
+
+**Kueue Topology Labels:**
+
+```yaml
+# Standard topology labels used by Kueue and DRANET
+cloud.google.com/gce-topology-block: "block-1"
+cloud.google.com/gce-topology-subblock: "subblock-1"
+cloud.google.com/gce-topology-host: "host-1"
+kubernetes.io/hostname: "node-1"
+```
 
 **Topology Aware Scenarios:**
 
 - **Multi-GPU training**: Schedule pods to nodes with NVLink/NVSwitch for
   fast GPU-to-GPU communication
-- **RDMA workloads**: Place pods on nodes with InfiniBand connectivity
+- **RDMA workloads**: Place pods on nodes with InfiniBand connectivity and
+  GPU-Direct support
 - **Memory-intensive**: Schedule to NUMA nodes with local memory access
+- **Distributed training**: Coordinate GPU + NIC on same PCIe fabric
 
 **Best Practices:**
 
@@ -410,9 +519,104 @@ lanes, network topology) to optimize for locality and bandwidth.
   workloads
 - Label nodes with topology information: `topology.kubernetes.io/zone`,
   `gpu-interconnect=nvlink`
+- Use Kueue or Volcano for rack-level topology awareness
+- Test topology impact: benchmark with and without alignment
 - Consider trade-offs: topology optimization may reduce scheduling flexibility
 
-### 2.7 Borrow & LendingLimit
+**Related Blog Post:**
+[Topology-Aware Scheduling Blog](../blog/2025-11-25/topology-aware-scheduling.md)
+for detailed coverage of DRA topology management.
+
+### 2.7 Storage for AI Workloads
+
+AI workloads require specialized storage strategies for large model weights,
+training datasets, and checkpoints. Storage is a first-class scheduling
+concern because model loading time directly impacts pod startup latency and
+GPU idle time.
+
+#### Model Distribution
+
+Large language models (tens to hundreds of GB) must be efficiently distributed
+to inference pods. Options:
+
+| Method | Description | Best For |
+| --- | --- | --- |
+| OCI Image Volume | Package model as OCI artifact (KEP-4639, Beta in v1.33+) | Immutable model weights, registry-based distribution |
+| ReadOnlyMany PVC | Shared volume across multiple pods | Co-located inference replicas |
+| Object Storage | Stream weights from S3/GCS/OSS at startup | Large models, infrequent updates |
+| Node-local cache | Pre-pull to NVMe via DaemonSet | Low-latency cold start |
+
+**OCI Image Volume for Model Weights** (recommended for Kubernetes v1.33+):
+
+Packages model files as OCI artifacts stored in a standard container registry.
+Kubernetes mounts the image content as a read-only volume, enabling registry-level
+deduplication and layer caching.
+
+```yaml
+# Serve Llama model weights via OCI Image Volume
+spec:
+  volumes:
+  - name: model-weights
+    image:
+      reference: registry.example.com/models/llama3:70b
+      pullPolicy: IfNotPresent   # Cache on node after first pull
+  containers:
+  - name: vllm
+    image: vllm/vllm-openai:latest
+    args: ["--model", "/models"]
+    volumeMounts:
+    - name: model-weights
+      mountPath: /models
+    resources:
+      limits:
+        nvidia.com/gpu: "1"
+```
+
+**Why OCI Image Volumes?**
+
+- **Registry deduplication**: Layers shared across model versions
+- **Atomic updates**: Model version tied to image tag
+- **Standard tooling**: Works with existing container registry infrastructure
+- **Pre-pull support**: DaemonSet-based pre-pull for warm nodes
+
+See [OCI Taking Over Everything](../blog/2025-12-22/oci-taking-over-everything_en.md)
+for detailed context.
+
+#### Checkpointing Storage
+
+Distributed training requires high-bandwidth checkpoint writes. Storage
+recommendations:
+
+- **Parallel file systems** (Lustre, GPFS, WekaFS): High-throughput shared
+  storage for large checkpoints across many GPU nodes
+- **ReadWriteMany PVCs**: NFS or parallel FS-backed volumes for distributed
+  checkpoint coordination
+- **Object storage backends**: Async checkpoint uploads to S3/GCS/OSS to
+  reduce GPU blocking time (write checkpoint asynchronously while training
+  continues)
+- **GPUDirect Storage (GDS)**: Direct GPU-to-storage transfers bypassing CPU,
+  supported by NVIDIA GPU Operator
+
+**CSI Drivers for AI Storage:**
+
+- <a href="https://github.com/lustre/lustre-release">`Lustre CSI`</a>:
+  High-performance parallel file system for HPC/AI checkpoints
+- <a href="https://github.com/kubernetes-csi/csi-driver-nfs">`NFS CSI Driver`</a>:
+  Simple ReadWriteMany for moderate checkpointing loads
+- <a href="https://github.com/weka/csi-wekafs">`WekaFS CSI`</a>:
+  High-performance AI-native storage
+
+**Best Practices:**
+
+- Pre-pull model images using a DaemonSet on GPU nodes before deployment to
+  eliminate cold-start model loading delays
+- Use `ReadOnlyMany` PVCs for model weights shared across inference replicas
+- Configure separate storage classes for checkpoints (high throughput) vs.
+  model serving (high IOPS)
+- Monitor storage bandwidth alongside GPU metrics — storage saturation is a
+  common bottleneck for model loading and checkpointing
+
+### 2.9 Borrow & LendingLimit
 
 **Concept**: Allow namespaces/teams to borrow unused resources from other
 teams while enforcing lending limits to ensure fair access.
@@ -469,7 +673,7 @@ spec:
 - Monitor borrowing patterns and adjust quotas based on actual usage
 - Combine with priority classes: borrowed workloads at lower priority
 
-### 2.8 Descheduler
+### 2.10 Descheduler
 
 **Concept**: Continuously rebalance pods across nodes to optimize utilization,
 correct scheduling mistakes, and adapt to changing conditions.
@@ -521,7 +725,7 @@ profiles:
 - Monitor descheduling impact on application SLAs
 - Use dry-run mode to preview evictions before applying
 
-### 2.9 SLA-Based Scheduling
+### 2.11 SLA-Based Scheduling
 
 **Concept**: Schedule pods based on Service Level Agreement (SLA) requirements
 using numeric thresholds, enabling workload placement on nodes meeting specific

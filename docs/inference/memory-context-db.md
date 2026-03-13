@@ -241,16 +241,53 @@ vector database built for scalable similarity search.
 - Multi-tenancy support
 - Kubernetes-native deployment
 
-#### Pinecone
+#### Qdrant
 
-Pinecone is a managed vector database service.
+<a href="https://github.com/qdrant/qdrant">`Qdrant`</a> is a vector similarity
+search engine written in Rust, designed for high performance and production use.
 
 **Key Features:**
 
-- Fully managed infrastructure
-- Real-time updates
-- Metadata filtering
-- Global distribution
+- Built in Rust for high performance and reliability
+- Payload filtering and hybrid search
+- Distributed deployment support
+- REST and gRPC APIs
+
+#### Weaviate
+
+<a href="https://github.com/weaviate/weaviate">`Weaviate`</a> is an open-source
+vector database with built-in vectorizers and hybrid search.
+
+**Key Features:**
+
+- Built-in text and multi-modal vectorizers
+- GraphQL and REST APIs
+- Kubernetes-native deployment via operator
+
+#### FAISS
+
+<a href="https://github.com/facebookresearch/faiss">`FAISS`</a> (Facebook AI
+Similarity Search) is a local indexing library for dense vector similarity
+search.
+
+**Key Features:**
+
+- Highly optimized CPU/GPU similarity search
+- Multiple index types (IVF, HNSW, PQ)
+- Python and C++ interfaces
+- Suitable for offline indexing and local embedding search
+
+#### pgvector
+
+<a href="https://github.com/pgvector/pgvector">`pgvector`</a> is a PostgreSQL
+extension adding vector similarity search to Postgres.
+
+**Key Features:**
+
+- Native PostgreSQL integration
+- Exact and approximate nearest-neighbor search (HNSW, IVFFlat)
+- Combines vector search with relational queries
+- Simple deployment for teams already using Postgres
 
 ### Kubernetes Operators
 

@@ -289,10 +289,27 @@ spec:
     image: tensorflow/tensorflow:latest
 ```
 
+#### gVisor Snapshots for Fast Cold Starts
+
+gVisor supports container snapshots that enable rapid restoration of
+pre-initialized containers:
+
+- **Pre-Warmed State**: Capture initialized runtime, loaded libraries,
+  dependencies
+- **Fast Restore**: Restore from snapshot instead of cold starting from image
+- **Consistent Performance**: Eliminate initialization variance across starts
+- **Production Use**: Proven in GKE Agent Sandbox with 90% cold start
+  improvement
+
+This is particularly valuable for AI agent workloads that need rapid,
+on-demand execution with strong isolation guarantees.
+
 #### Limitations for AI Workloads
 
-- **No GPU Support**: gVisor does not support GPU passthrough
-- **Performance Overhead**: Syscall interception adds latency
+- **No GPU Support**: gVisor does not support GPU passthrough (suitable for
+  CPU-only agent workloads)
+- **Performance Overhead**: Syscall interception adds latency (mitigated by
+  snapshots)
 - **Compatibility**: Some syscalls not implemented
 
 ### Comparison: Kata vs gVisor for AI
@@ -313,50 +330,261 @@ spec:
 - <a href="https://github.com/firecracker-microvm/firecracker">Firecracker</a>:
   AWS lightweight VM for secure multi-tenant containers
 
-## 6. Agent Sandbox (Kubernetes SIG Project)
+## 6. Agent Sandbox
+
+Agent sandboxes provide secure execution environments for AI agents that can
+execute arbitrary code, access tools, and interact with external systems.
+Unlike traditional workload isolation, agent sandboxes must handle untrusted
+LLM-generated code while supporting fast startup and high concurrency.
+
+### Core Requirements
+
+A production-grade agent sandbox must satisfy:
+
+1. **Fast cold start**: Ideally under 100ms, enabling responsive agent
+   invocation
+2. **Strong security**: Effective isolation of untrusted code, preventing
+   privilege escalation
+3. **Python support**: Compatibility with common Python libraries used by
+   agents
+4. **Convenient image building**: Simple workflow to build and deploy custom
+   agent images
+
+### Two Architecture Patterns
+
+When agents can execute arbitrary code, two fundamental architecture patterns
+emerge for keeping secrets and infrastructure safe:
+
+**Pattern 1: Isolate the Tool**
+
+The agent loop runs on your infrastructure. Dangerous operations (code
+execution, terminal access) run in a separate sandbox. The agent calls the
+sandbox via HTTP. Code runs in an isolated environment with nothing to leak.
+
+```text
+┌──────────────────────────────┐
+│        Your Backend          │
+│  ┌───────────────────────┐   │
+│  │    Agent Loop         │   │      ┌─────────────┐
+│  │  (on your infra)      │───┼─────▶│   Sandbox   │
+│  └───────────────────────┘   │ HTTP │  (terminal, │
+│                              │      │   code exec) │
+└──────────────────────────────┘      └─────────────┘
+```
+
+This pattern is simpler to adopt but the agent still runs alongside your
+backend — a memory-hungry agent can slow down the API, and a redeployment
+kills all running agents.
+
+**Pattern 2: Isolate the Agent**
+
+The entire agent runs in a sandbox with zero secrets. It communicates with
+the outside world through a control plane that holds all credentials. The
+agent becomes completely disposable: no secrets to steal, no state to
+preserve.
+
+```text
+┌────────────┐   session token   ┌──────────────────┐
+│   Sandbox  │──────────────────▶│  Control Plane   │
+│  (agent,   │◀──────────────────│  (credentials,   │
+│  zero      │   results/data    │   LLM proxy,     │
+│  secrets)  │                   │   file storage)  │
+└────────────┘                   └──────────────────┘
+```
+
+The control plane proxies all sensitive operations:
+
+- **LLM calls**: Sandbox sends only new messages; control plane reconstructs
+  full conversation history from the database
+- **File sync**: Sandbox requests presigned URLs and uploads directly to
+  object storage — never seeing cloud credentials
+- **Billing and cost caps**: Enforced at the control plane level
+
+Key insight from
+<a href="https://browser-use.com/posts/two-ways-to-sandbox-agents">Browser
+Use</a>: *"Your agent should have nothing worth stealing and nothing worth
+preserving."*
+
+Pattern 2 is preferred for production: each layer (sandboxes, control plane)
+scales independently based on its own bottleneck.
+
+### Sandbox Technology Comparison
+
+Different technologies offer distinct tradeoffs for agent sandboxing:
+
+| Technology | Cold Start | Security | Python Support | Image Build |
+| ---------- | --------- | -------- | -------------- | ----------- |
+| Container (Docker) | ~50ms | Shared kernel | Full | Docker |
+| Firecracker microVM | ~125ms (+snapshot <1s) | Strong (separate kernel) | Full | ext4 rootfs |
+| Kata Containers | ~125ms | Strong (separate kernel) | Full | OCI/Docker |
+| WASM (monty) | 0.06ms | Sandboxed | Limited subset | Custom |
+| Unikernel (Unikraft) | <100ms | Very strong | Improving | Custom |
+
+#### Container-based Sandboxing
+
+Containers start in under 50ms (excluding image pull) by running only
+namespace + cgroup setup and process initialization. While fast, they share
+the host kernel, which is the primary security concern for untrusted agent
+code.
+
+#### Firecracker-based Sandboxing (e2b)
+
+<a href="https://github.com/e2b-dev/e2b">`e2b`</a> is a widely adopted
+open-source agent sandbox using Firecracker microVMs. Key design choices:
+
+- **Template = snapshot**: The sandbox image is a serialized running VM
+  (filesystem + all processes). Any new sandbox can resume from this snapshot
+  in under 1 second (Intel: <8ms, AMD: <3ms), dramatically reducing
+  effective cold start time
+- **Image building**: Converts Dockerfile to ext4 rootfs — a multi-step
+  process involving image extraction, provisioning inside a VM, then
+  snapshotting
+- **Scheduling**: Uses a lightweight best-of-k scheduler (not Kubernetes).
+  Picks the k least-loaded nodes based on CPU, memory, and active sandbox
+  count — well-suited for the short lifecycle, high-concurrency nature of
+  agent workloads
+
+```python
+from e2b_code_interpreter import Sandbox
+
+sbx = Sandbox.create()
+sbx.beta_pause()          # Serialize to snapshot
+
+same_sbx = sbx.connect()  # Resume from snapshot in <1s
+```
+
+#### Kata Containers-based Sandboxing (k7)
+
+<a href="https://github.com/Katakate/k7">`k7`</a> and similar Kata-based
+approaches use Kata Containers (with Firecracker VMM) to get strong VM
+isolation while staying compatible with standard OCI container images.
+
+- **Image building**: Just a regular Dockerfile — no ext4 conversion needed
+- **Scheduling**: Integrates with Kubernetes or k3s natively
+- **Tradeoff**: Kata's abstraction layer prevents direct use of Firecracker
+  snapshots, so resume speed is slower than e2b
+
+Kata is a better fit for teams already on Kubernetes who value OCI
+compatibility over snapshot-based fast resume.
+
+#### WASM/Python Subset (monty)
+
+<a href="https://github.com/pydantic/monty">`monty`</a> is a WASM-based
+Python-subset interpreter with 0.06ms cold start. However, it does not
+support Python's `class` keyword, `sys` module, or most standard library
+features, making it unsuitable for general agent workloads. Pyodide (full
+CPython in WASM) is an alternative but has a very slow initial load time.
+
+#### Unikernel (Unikraft)
+
+Unikernels compile the application and a minimal kernel into a single image
+running on hardware virtualization. They offer:
+
+- Minimal attack surface (no unused kernel features, no shell)
+- Millisecond-level startup
+- Very small image sizes
+
+<a href="https://unikraft.org/">`Unikraft`</a> added limited multi-process
+support (via `vfork`+`execve`) in v0.19 (May 2025), which is a prerequisite
+for Python compatibility. Browser Use uses Unikraft microVMs in production
+for their Pattern 2 sandbox deployment.
+
+The main remaining challenge for unikernels is Python ecosystem compatibility
+— multi-process support is still maturing. As the ecosystem evolves,
+unikernels represent a strong future option: near-VM security with a very
+small footprint.
+
+Reference: <a href="https://gaocegege.com/Blog/genai/unikernel-agent">Agent
+sandbox 可能的选型以及 unikernel 的机会</a> (2026) by 高策 (gaocegege)
+
+### Image Build and Distribution Optimization
+
+For large agent images, image pulling is often the dominant latency source
+— far larger than the container/VM startup itself. Traditional Docker pull
+is sequential: download N gzip layers (~2 GiB/s), single-thread decompress
+(~80 MiB/s), unpack to filesystem. An 8 GB image can take over a minute.
+
+<a href="https://modal.com">Modal</a> addresses this with **lazy loading via
+FUSE**: generate a placeholder filesystem tree from the image metadata, then
+fetch file data only when accessed, following a priority chain:
+
+1. In-memory cache
+2. Local SSD
+3. Same-zone cache server
+4. Regional CDN
+5. Object storage
+
+Similar approaches include
+<a href="https://github.com/containerd/stargz-snapshotter">estargz</a> and
+<a href="https://github.com/dragonflydb/dragonfly">Dragonfly</a>, which use
+chunk-level content-addressable storage to enable lazy loading.
+
+### Kubernetes SIG Agent Sandbox
 
 <a href="https://github.com/kubernetes-sigs/agent-sandbox">Agent Sandbox</a>
 is a Kubernetes SIG project exploring secure execution environments for AI
 agents and autonomous workloads.
 
-### Motivation
-
-AI agents pose unique security challenges:
-
-- **Untrusted Code Execution**: LLM-generated code needs sandboxing
-- **Resource Limits**: Prevent runaway agent processes
-- **Network Isolation**: Restrict external communications
-- **Data Access Control**: Limit sensitive data exposure
-
-### Design Principles
+#### Design Principles
 
 1. **Multiple Isolation Layers**: Combine namespace, cgroup, seccomp, AppArmor
 2. **Resource Quotas**: Enforce strict CPU, memory, network limits
 3. **Time Limits**: Automatic termination of long-running agents
 4. **Audit Logging**: Comprehensive tracking of agent actions
 
-### Example Use Cases
+#### Example Use Cases
 
 - Code interpreters for LLM agents (e.g., ChatGPT Code Interpreter)
 - Autonomous workflow execution (e.g., function calling)
 - Dynamic model deployment and testing
 - Safe execution of user-provided inference code
 
-### Current Status
+### GKE Agent Sandbox
 
-The project is in early development (as of 2025). Key areas:
+<a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">
+GKE Agent Sandbox</a> provides production-ready strong guardrails for agentic
+AI on Kubernetes and GKE, combining gVisor sandboxing with advanced snapshot
+capabilities.
 
-- Defining isolation requirements for agent workloads
-- Integrating with Kubernetes security primitives
-- Exploring WebAssembly (Wasm) for sandboxing
-- Collaboration with AI Gateway and Agentic Workflow projects
+#### Key Features
+
+- **gVisor Integration**: User-space kernel for strong isolation of untrusted
+  agent code
+- **Container Snapshots**: Pre-warmed container images with initialized
+  dependencies and runtime state
+- **Fast Cold Starts**: Up to 90% improvement in cold start performance
+  compared to traditional container startup
+- **Security Boundaries**: Hardware-level isolation for multi-tenant AI agent
+  workloads
+
+#### Performance Benefits
+
+- **Reduced Latency**: 90% faster cold starts enable near-instant agent
+  execution
+- **Resource Efficiency**: Snapshot reuse reduces redundant initialization
+- **Scalability**: Rapid scale-out of agent workloads for high-concurrency
+  scenarios
+- **Cost Optimization**: Faster startup means more efficient resource
+  utilization
 
 ### Projects and Resources
 
-- <a href="https://github.com/kubernetes-sigs/agent-sandbox">Agent Sandbox
-  GitHub Repository</a>
-- Related: <a href="https://github.com/kagent-dev/kagent">KAgent</a>
-  (CNCF Sandbox)
+- <a href="https://github.com/kubernetes-sigs/agent-sandbox">Kubernetes SIG
+  Agent Sandbox</a>
+- <a href="https://github.com/e2b-dev/e2b">e2b</a>: Open-source Firecracker
+  agent sandbox with snapshot-based fast resume
+- <a href="https://github.com/Katakate/k7">k7</a>: Kata Containers-based
+  agent sandbox with OCI image support
+- <a href="https://unikraft.org/">Unikraft</a>: Unikernel framework with
+  multi-process support (v0.19+)
+- <a href="https://github.com/pydantic/monty">monty</a>: WASM Python-subset
+  interpreter for ultra-fast cold starts
+- <a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">
+  GKE Agent Sandbox: Strong Guardrails for Agentic AI</a>
+- <a href="https://browser-use.com/posts/two-ways-to-sandbox-agents">
+  Browser Use: Building Secure, Scalable Agent Sandbox Infrastructure</a>
+- <a href="https://gaocegege.com/Blog/genai/unikernel-agent">高策: Agent
+  sandbox 可能的选型以及 unikernel 的机会</a>
 
 ## 7. Checkpoint and Restore
 
@@ -651,6 +879,6 @@ Track isolation effectiveness:
 
 ---
 
-_This document covers isolation mechanisms for AI workloads in cloud-native
+*This document covers isolation mechanisms for AI workloads in cloud-native
 environments. As technologies evolve, best practices and tooling will continue
-to mature._
+to mature.*

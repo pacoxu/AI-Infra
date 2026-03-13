@@ -50,10 +50,12 @@ AI-Infra/
 │   │   ├── large-scale-experts.md    # Mixture of Experts (MoE) architectures
 │   │   ├── model-lifecycle.md        # Cold-start, sleep mode, offloading
 │   │   └── ome.md                    # OME Kubernetes operator
-│   └── training/                     # AI model training topics
+│   ├── training/                     # AI model training topics
 │       ├── README.md                 # Overview of training on Kubernetes
 │       ├── kubeflow.md               # Kubeflow training operators
 │       └── argocd.md                 # GitOps workflows with ArgoCD
+│   └── agents/                       # AI Agent platforms and frameworks
+│       └── README.md                 # Agent platforms, MCP, K8s-native agents
 └── .github/
     └── copilot-instructions.md       # AI assistant guidelines
 
@@ -95,7 +97,7 @@ AI-Infra/
 
 **Canonical Files**:
 
-- `README.md` - Comparison of inference platforms (AIBrix, llmaz, OME, Kthena)
+- `README.md` - Inference platform landscape (AIBrix, OME, Kthena, KServe, llm-d, Dynamo)
 - `aibrix.md` - AIBrix platform features and architecture
 - `pd-disaggregation.md` - Prefill-Decode disaggregation implementations
 - `caching.md` - KV cache and prefix caching techniques
@@ -117,6 +119,18 @@ AI-Infra/
 - `argocd.md` - GitOps workflows for training management
 
 **Cross-references**: Links to `../kubernetes/` for scheduling and resources
+
+#### 4. Agents (`docs/agents/`)
+
+**Purpose**: AI Agent platforms, frameworks, and infrastructure
+
+**Canonical Files**:
+
+- `README.md` - Overview of agent platforms, MCP protocol, Kubernetes-native
+  solutions
+
+**Cross-references**: Links to `../kubernetes/isolation.md` for sandboxing,
+`../inference/memory-context-db.md` for agent memory
 
 ### Assets (`diagrams/`)
 

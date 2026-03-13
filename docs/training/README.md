@@ -28,6 +28,7 @@ More details about specific topics:
   Parallel)](./parallelism.md)
 - [Kubeflow Training Operator and Trainer V2](./kubeflow.md)
 - [ArgoCD for GitOps Workflows](./argocd.md)
+- [MLOps: Machine Learning Operations Lifecycle](./mlops.md)
 
 ### Key Challenges at Scale
 
@@ -127,6 +128,52 @@ Key components of their framework:
   batch workloads.
 - [`Kueue`](https://github.com/kubernetes-sigs/kueue):
   Kubernetes SIG project for job queueing and resource quotas.
+- [`KubeRay`](https://github.com/ray-project/kuberay):
+  Kubernetes operator for Ray clusters; enables Ray-based distributed
+  training and serving (Ray Train, Ray Tune) on Kubernetes.
+
+### Core Training Frameworks
+
+- [`PyTorch`](https://github.com/pytorch/pytorch): Primary framework for
+  distributed training and the center of the AI/ML ecosystem.
+- [`JAX`](https://github.com/google/jax): Google's high-performance numerical
+  computing library; commonly used in TPU scenarios and research.
+
+### Distributed Training Libraries
+
+- [`Megatron-LM`](https://github.com/NVIDIA/Megatron-LM):
+  NVIDIA's framework for training large language models (TP/PP parallelism).
+- [`DeepSpeed`](https://github.com/microsoft/DeepSpeed):
+  Microsoft's deep learning optimization library (ZeRO, offload,
+  checkpoint).
+- [`PyTorch FSDP`](https://pytorch.org/docs/stable/fsdp.html): Fully Sharded
+  Data Parallel, native PyTorch parameter-sharding distributed training.
+
+### Finetuning (微调)
+
+- [`Transformers`](https://github.com/huggingface/transformers): Hugging Face
+  library; the core of the finetuning ecosystem.
+- [`Accelerate`](https://github.com/huggingface/accelerate): Lightweight
+  Hugging Face library for distributed/mixed-precision training with minimal
+  code changes.
+- [`PEFT`](https://github.com/huggingface/peft): Parameter-Efficient
+  Fine-Tuning — LoRA, Adapter, and related techniques.
+- [`Axolotl`](https://github.com/axolotl-ai-cloud/axolotl): Opinionated
+  engineering pipeline for SFT/LoRA finetuning workflows.
+- [`LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory): Toolbox
+  supporting SFT, LoRA, DPO and other finetuning recipes for LLaMA and
+  other models.
+
+### Post-training / RLHF (强化学习对齐)
+
+- [`verl`](https://github.com/volcengine/verl): RL training system framework
+  designed for LLMs (ByteDance/VolcEngine).
+- [`SLIME`](https://github.com/TIGER-AI-Lab/SLIME): RL scaling framework for
+  LLM post-training.
+- [`OpenRLHF`](https://github.com/OpenRLHF/OpenRLHF): Open-source RLHF
+  training framework for large language models.
+- [`TRL`](https://github.com/huggingface/trl): Hugging Face library for
+  PPO, DPO, and other RL-based training recipes.
 
 ### Fault Tolerance and Checkpointing
 
@@ -150,6 +197,13 @@ Key components of their framework:
 
 ### Storage and Caching
 
+- [`3FS`](https://github.com/deepseek-ai/3FS): DeepSeek's high-performance
+  distributed file system optimized for AI training (checkpoint IO and
+  small-file/metadata-intensive workloads).
+- [`safetensors`](https://github.com/huggingface/safetensors): Hugging Face's
+  safe and fast tensor serialization format for model weights.
+- [`TensorStore`](https://github.com/google/tensorstore): Google's library for
+  efficient reading/writing of large sharded arrays and checkpoints.
 - [`Fluid`](https://github.com/fluid-cloudnative/fluid):
   CNCF project for dataset orchestration and caching in Kubernetes.
 - [`Ceph CSI`](https://github.com/ceph/ceph-csi):

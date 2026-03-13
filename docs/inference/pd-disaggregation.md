@@ -32,7 +32,6 @@ status in common AI Infra projects, and the future roadmap for its adoption.
   - [NVIDIA Dynamo](#nvidia-dynamo)
   - [vLLM production stack](#vllm-production-stack)
   - [AIBrix](#aibrix)
-  - [InftyAI/llmaz](#inftyaillmaz)
   - [KServe](#kserve)
 - [Scaling P/D Workloads](#scaling-pd-workloads)
   - [Challenges with Traditional Autoscaling](#challenges-with-traditional-autoscaling)
@@ -501,7 +500,9 @@ management and multi-tenancy support.
 Kubernetes-native LLM inference platform that provides comprehensive
 infrastructure for deploying and managing Large Language Models in production
 environments. As part of the Volcano ecosystem, Kthena brings enterprise-grade
-capabilities to LLM inference workloads.
+capabilities to LLM inference workloads. **Latest release: v0.3.0** establishes
+Kthena as a robust and scalable platform for AI inference with significant
+enhancements for P/D disaggregation.
 
 **Key Capabilities:**
 
@@ -514,17 +515,48 @@ capabilities to LLM inference workloads.
 - **Workload Orchestration**: Comprehensive lifecycle management for inference
   workloads including scaling and failure handling
 
+**v0.3.0 New Features for P/D Disaggregation:**
+
+- **LeaderWorkerSet Support**: Native integration with LeaderWorkerSet (LWS)
+  API enables sophisticated management of distributed inference workloads with
+  leader-worker topologies, simplifying P/D disaggregation deployments
+- **Network Topology-Aware Scheduling**: Fine-grained, role-level control over
+  gang scheduling and network topology awareness using Volcano's
+  `subGroupPolicy` feature. This minimizes inter-role communication latency
+  (critical for P/D separation) by co-locating prefill and decode instances on
+  network-proximal nodes (same switch/rack). Requires Volcano v1.14+
+- **Role-Level Gang Scheduling**: Ensures all pods belonging to a specific
+  role (e.g., prefill-0) are scheduled together as an atomic unit, preventing
+  partial deployments that could break distributed inference workloads
+- **ModelServing Revision Control**: Native version control system with
+  partition-based updates for canary deployments and rollback capabilities
+- **Router Observability**: Comprehensive observability framework with debug
+  port (default 15000), detailed metrics for monitoring latency/throughput,
+  and E2E test suite for production reliability
+
 **Integration with P/D Disaggregation:**
 
 Kthena provides infrastructure support for P/D disaggregation through:
 
 - Native Kubernetes workload management for disaggregated architectures
-- Coordinated scheduling of prefill and decode components
+- Coordinated scheduling of prefill and decode components with topology
+  awareness
 - Resource optimization across disaggregated inference phases
-- Integration with Volcano's batch scheduling for efficient workload placement
+- Integration with Volcano's batch scheduling and `subGroupPolicy` for
+  efficient, topology-aware workload placement
+- LeaderWorkerSet integration for managing complex leader-worker relationships
+  in distributed inference
 
-This makes Kthena well-suited for organizations building production LLM
-inference platforms with P/D disaggregation requirements.
+**Production Advantages:**
+
+With v0.3.0, Kthena is particularly well-suited for organizations building
+production LLM inference platforms with P/D disaggregation requirements:
+
+- Network topology awareness significantly reduces communication overhead
+  between prefill and decode instances
+- Role-level gang scheduling ensures atomic deployment of distributed workloads
+- Comprehensive observability enables production monitoring and debugging
+- Native revision control supports safe canary deployments and rollbacks
 
 ### llm-d
 
@@ -619,17 +651,12 @@ Dynamo's disaggregation implementation enables:
   [Add Prefill/Decode Disaggregation Support in Inference Gateway](https://github.com/vllm-project/aibrix/issues/1223)
   and [#958](https://github.com/vllm-project/aibrix/issues/958).
 
-### InftyAI/llmaz
-
-- Not supported yet.
-- Milestone [v0.3.0](https://github.com/InftyAI/llmaz/issues/433) includes PD disaggregation.
-
 ### KServe
 
 [`KServe`](https://github.com/kserve/kserve) is a CNCF Incubating project that
 provides a Kubernetes-native platform for deploying and serving machine
-learning models at scale. KServe is actively developing support for LLM
-inference and P/D disaggregation through its LLMInferenceService CRD.
+learning models at scale. KServe supports LLM inference and P/D disaggregation
+through its LLMInferenceService CRD and integration with llm-d.
 
 **Current Capabilities:**
 
@@ -638,30 +665,43 @@ inference and P/D disaggregation through its LLMInferenceService CRD.
 - **Chunked Prefill**: Support for chunked prefill to optimize memory usage
   and reduce latency spikes
 - **LLMInferenceService CRD**: Custom Resource Definition for unified LLM
-  inference service management
+  inference service management with native vLLM and LMCache support
 
-**P/D Disaggregation Support:**
+**P/D Disaggregation with llm-d:**
 
-KServe is working on native P/D disaggregation support through:
+KServe achieves production-grade P/D disaggregation through its integration
+with [`llm-d`](https://github.com/llm-d/llm-d):
 
-- [WIP] Unified LLM Inference Service API and disaggregated p/d serving
-  support [#4520](https://github.com/kserve/kserve/issues/4520)
-- Integration with LMCache for efficient KV cache management across
-  disaggregated components
-- Standardized API for managing prefill and decode workloads
+- **Dual LWS architecture**: llm-d builds on KServe's InferenceService to
+  deploy separate LeaderWorkerSets for prefill and decode workers
+- **KV cache transfer**: LMCache handles efficient KV cache movement between
+  prefill and decode phases
+- **Routing sidecar**: Intelligent cache-aware request routing to prefill or
+  decode workers
+- **Native Kubernetes operations**: Canary deployments, scale-to-zero, and
+  traffic splitting via KServe's existing capabilities
 
-**Architecture Goals:**
+See
+[Best of Both Worlds: Cloud-Native AI Inference at Scale using KServe and llm-d](https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d)
+for the complete joint architecture walkthrough.
 
-The LLMInferenceService CRD aims to provide:
+**Architecture:**
+
+```text
+Client → KServe InferenceService / Gateway
+              ↓
+    Routing Sidecar (cache-aware)
+     ↙                   ↘
+Prefill LWS          Decode LWS
+(KV build)  →→→→  (KV reuse via LMCache)
+```
+
+**Unified LLM Inference Service API:**
 
 - Declarative configuration for P/D disaggregation
 - Automatic orchestration of prefill and decode services
 - Built-in KV cache management and transfer
 - Integration with KServe's inference graph for complex serving patterns
-
-KServe's approach focuses on providing a high-level abstraction that
-simplifies P/D disaggregation deployment while maintaining flexibility for
-advanced use cases.
 
 ### LMCache
 
@@ -917,7 +957,9 @@ across heterogeneous GPU clusters.
 - <https://github.com/vllm-project/production-stack>
 - <https://github.com/vllm-project/aibrix>
 - <https://github.com/kserve/kserve>
-- <https://github.com/InftyAI/llmaz>
+- <https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d>
+  \- Best of Both Worlds: Cloud-Native AI Inference at Scale using KServe and
+  llm-d
 - <https://github.com/LMCache/lmcache>
 - DistServe (OSDI'24): <https://www.usenix.org/system/files/osdi24-zhong-yinmin.pdf>
 

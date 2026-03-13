@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2025-12-17
 tags: kubernetes, ai-infrastructure, scheduling, resource-management
 canonical_path: docs/kubernetes/README.md
 ---
@@ -38,6 +38,13 @@ workload isolation.
   descheduling strategies
 - **[Dynamic Resource Allocation (DRA)](./dra.md)**: Flexible device
   allocation with structured parameters and topology awareness
+- **[NVIDIA GPU Operator](./nvidia-gpu-operator.md)**: Automated GPU driver
+  installation, device plugin deployment, DRA driver integration, and GPU
+  monitoring with DCGM
+- **[GPU Fault Detection and Self-Healing](./gpu-fault-detection.md)**:
+  Comprehensive guide to detecting, diagnosing, and automatically recovering
+  from GPU failures with DCGM, Node Problem Detector, and progressive
+  remediation strategies
 - **[Node Resource Interface (NRI)](./nri.md)**: Fine-grained container
   resource management at the runtime level
 
@@ -48,14 +55,24 @@ workload isolation.
   VM-based isolation (Kata Containers, gVisor), and checkpoint/restore for
   AI workloads
 
+#### Scalability and Large-Scale Clusters
+
+- **[Large-Scale Clusters](./large-scale-clusters.md)**: Technologies and
+  architectural patterns for running massive Kubernetes clusters (130,000+
+  nodes), including Consistent Reads from Cache (KEP-2340), Snapshottable
+  API Server Cache (KEP-4988), DRANET, Spanner, and Lustre distributed
+  file system
+
 ## Quick Reference
 
 ### For Scheduling Engineers
 
 1. Start with [Scheduling Optimization](./scheduling-optimization.md) for
    production patterns
-2. Review [DRA](./dra.md) and [NRI](./nri.md) for device management
-3. Understand [Pod Lifecycle](./pod-lifecycle.md) for debugging
+2. Review [DRA](./dra.md) and [NVIDIA GPU Operator](./nvidia-gpu-operator.md)
+   for GPU resource management
+3. Explore [NRI](./nri.md) for fine-grained container control
+4. Understand [Pod Lifecycle](./pod-lifecycle.md) for debugging
 
 ### For Platform Engineers
 
@@ -70,8 +87,12 @@ workload isolation.
 
 1. Focus on [Scheduling Optimization](./scheduling-optimization.md) for
    GPU workloads
-2. Review [Isolation Guide](./isolation.md) for checkpoint/restore
-3. Understand [DRA](./dra.md) for complex device requirements
+2. Review [NVIDIA GPU Operator](./nvidia-gpu-operator.md) for GPU setup and
+   monitoring
+3. Study [GPU Fault Detection](./gpu-fault-detection.md) for production
+   reliability and automated recovery
+4. Study [Isolation Guide](./isolation.md) for checkpoint/restore
+5. Understand [DRA](./dra.md) for complex device requirements
 
 ## Related Topics
 
