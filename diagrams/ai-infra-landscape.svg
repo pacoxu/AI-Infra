@@ -397,6 +397,13 @@
       <text x="1161.6" y="926.2" text-anchor="middle" class="logo">KV</text>
       <text x="1179.6" y="927.0" class="project-label">KubeVirt</text>
     </g>
+  
+    <g class="project project-early" data-name="NVIDIA AICR">
+      <rect x="263.2" y="725.0" width="148" height="34" rx="8" fill="#EBF8EE" stroke="#65A97B" />
+      <circle cx="281.2" cy="742.0" r="11.5" fill="white" stroke="#65A97B" />
+      <text x="281.2" y="746.2" text-anchor="middle" class="logo">AC</text>
+      <text x="299.2" y="747.0" class="project-label">NVIDIA AICR</text>
+    </g>
 
   
     <g class="note" transform="translate(1560, 198)">
