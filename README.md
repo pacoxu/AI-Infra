@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2026-03-13
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -25,14 +25,18 @@ This landscape visualizes key components across the AI Infrastructure stack, map
 
 The goal is to demystify the evolving AI Infra stack and guide engineers on where to focus their learning.
 
-## 📊 AI-Infra Landscape (2025 June, needs an update)
+## 📊 AI-Infra Landscape (2026 March)
 
 **Legend:**
 
 > - Dashed outlines = Early stage or under exploration
 > - Labels on right = Functional categories
 
-![AI-Infra Landscape](./diagrams/ai-infra-landscape.png)
+![AI-Infra Landscape](./diagrams/ai-infra-landscape.svg)
+
+Maintenance:
+- Source data: `./diagrams/ai-infra-landscape.data.json`
+- Generate SVG: `node ./scripts/generate-landscape-svg.js`
 
 ## 🧭 Learning Path for AI Infra Engineers
 
@@ -226,4 +230,3 @@ Apache License 2.0.
 ---
 
 _This repo is inspired by the rapidly evolving AI Infra stack and aims to help engineers navigate and master it._
-
