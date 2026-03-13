@@ -7,6 +7,9 @@ tags: blog, kubernetes, ai-infrastructure
 
 # AI-Infra Blog Posts
 
+This directory contains blog posts and articles about AI infrastructure,
+Kubernetes scheduling, and related topics.
+
 ## 2026-03-13: NVIDIA AICR：把 GPU 集群安装经验固化成可复现 Recipe
 
 - [NVIDIA AICR 中文介绍](./2026-03-13/nvidia-aicr-introduction_zh.md)
@@ -42,8 +45,6 @@ case study about Bayer Crop Science scaling GKE to 15,000 worker nodes:
   **50,000 Pods**
 - **Still relevant in 2026**: A useful reminder that network and IP planning
   often become the first true scale bottleneck
-This directory contains blog posts and articles about AI infrastructure,
-Kubernetes scheduling, and related topics.
 
 ## 2026-02-25: 贡献开源的 ROI：LF Research 2025 年调查报告解读
 
