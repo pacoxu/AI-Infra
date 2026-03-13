@@ -18,13 +18,13 @@
     { "id": "q4", "label": "Infra + Mature", "x": 74, "y": 8 }
   ],
   "ecosystem": [
-    { "name": "PyTorch", "x": 56, "group": "training" },
-    { "name": "JAX", "x": 63, "group": "training" },
-    { "name": "TensorFlow", "x": 70, "group": "training" },
-    { "name": "MLX", "x": 77, "group": "training" },
-    { "name": "Hugging Face", "x": 85, "group": "inference" },
-    { "name": "DeepSpeed", "x": 91, "group": "training" },
-    { "name": "XGBoost", "x": 97, "group": "training" }
+    { "name": "PyTorch", "x": 56, "group": "training", "logo": "PT" },
+    { "name": "JAX", "x": 63, "group": "training", "logo": "JX" },
+    { "name": "TensorFlow", "x": 70, "group": "training", "logo": "TF" },
+    { "name": "MLX", "x": 77, "group": "training", "logo": "MX" },
+    { "name": "Hugging Face", "x": 85, "group": "inference", "logo": "HF" },
+    { "name": "DeepSpeed", "x": 91, "group": "training", "logo": "DS" },
+    { "name": "XGBoost", "x": 97, "group": "training", "logo": "XG" }
   ],
   "right_notes": [
     { "label": "AI Gateway", "y": 90, "group": "gateway" },
