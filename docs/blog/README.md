@@ -1,11 +1,29 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-02-25
+last_updated: 2026-03-13
 tags: blog, kubernetes, ai-infrastructure
 ---
 
 # AI-Infra Blog Posts
+
+## 2026-03-13: 【2020】拜耳作物科学以 15,000 节点的 GKE 集群为未来播种
+
+- [Bayer Crop Science and a 15K-Node GKE Cluster (Chinese)](./2026-03-13/bayer-gke-15000-nodes_zh.md)
+
+A Chinese translation and retrospective on Google Cloud's November 17, 2020
+case study about Bayer Crop Science scaling GKE to 15,000 worker nodes:
+
+- **Why 1K nodes was not enough**: Route-based networking and VPC route scale
+  became the practical ceiling for older cluster designs
+- **Key product change**: VPC-native GKE with Alias IP removed per-node route
+  dependence and unlocked larger clusters
+- **Regional cluster improvement**: Custom subnet mode enabled more precise
+  per-zone IP planning for large regional deployments
+- **Outcome**: Single-cluster scale up to **15,000 worker nodes** and
+  **50,000 Pods**
+- **Still relevant in 2026**: A useful reminder that network and IP planning
+  often become the first true scale bottleneck
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
