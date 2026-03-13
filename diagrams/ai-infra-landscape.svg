@@ -247,7 +247,7 @@
     <g class="project" data-name="Kubeflow Trainer">
       <rect x="1328.4" y="383.0" width="176" height="34" rx="8" fill="#FFF3E8" stroke="#D59B5A" />
       <circle cx="1346.4" cy="400.0" r="11.5" fill="white" stroke="#D59B5A" />
-      <text x="1346.4" y="404.2" text-anchor="middle" class="logo">KT</text>
+      <text x="1346.4" y="404.2" text-anchor="middle" class="logo">KFT</text>
       <text x="1364.4" y="405.0" class="project-label">Kubeflow Trainer</text>
     </g>
   
