@@ -52,6 +52,7 @@
     { "name": "Dify", "x": 52, "y": 97, "group": "workflow", "stage": "mature", "logo": "DI" },
     { "name": "AIBrix", "x": 26, "y": 72, "group": "inference", "stage": "early", "logo": "AB" },
     { "name": "Dynamo", "x": 33, "y": 68, "group": "inference", "stage": "early", "logo": "DY" },
+    { "name": "OME", "x": 40, "y": 66, "group": "inference", "stage": "early", "logo": "OM" },
     { "name": "llmaz", "x": 21, "y": 66, "group": "inference", "stage": "early", "logo": "LM" },
     { "name": "rbg", "x": 24, "y": 60, "group": "inference", "stage": "mature", "logo": "RB" },
     { "name": "kthena", "x": 25, "y": 55, "group": "inference", "stage": "mature", "logo": "KT" },
