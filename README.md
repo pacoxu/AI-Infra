@@ -105,6 +105,7 @@ where to focus their learning.
 #### Blog
 
 - [Blog Overview](./docs/blog/README.md)
+- [NVIDIA AICR: Recipe-Driven GPU Cluster Baselines (Chinese)](./docs/blog/2026-03-13/nvidia-aicr-introduction_zh.md)
 - [Bayer Crop Science and a 15K-Node GKE Cluster (Chinese)](./docs/blog/2026-03-13/bayer-gke-15000-nodes_zh.md)
 - [GPU Fault Detection and Self-Healing](./docs/blog/2025-12-17/gpu-fault-detection_zh.md)
 - [Multi-Tenancy Isolation in AI Infra Era](./docs/blog/2025-12-15/multi-tenancy-isolation.md)
