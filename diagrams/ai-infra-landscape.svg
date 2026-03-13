@@ -139,6 +139,13 @@
       <text x="540.6" y="423.0" class="project-label">Dynamo</text>
     </g>
   
+    <g class="project project-early" data-name="OME">
+      <rect x="604.0" y="419.0" width="148" height="34" rx="8" fill="#EAF2FF" stroke="#5A88D8" />
+      <circle cx="622.0" cy="436.0" r="11.5" fill="white" stroke="#5A88D8" />
+      <text x="622.0" y="440.2" text-anchor="middle" class="logo">OM</text>
+      <text x="640.0" y="441.0" class="project-label">OME</text>
+    </g>
+  
     <g class="project project-early" data-name="llmaz">
       <rect x="334.2" y="419.0" width="148" height="34" rx="8" fill="#EAF2FF" stroke="#5A88D8" />
       <circle cx="352.2" cy="436.0" r="11.5" fill="white" stroke="#5A88D8" />

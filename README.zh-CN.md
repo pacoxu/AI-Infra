@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-02
+last_updated: 2026-03-13
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -101,6 +101,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 #### 博客
 
 - [博客概述](./docs/blog/README.md)
+- [【2020】拜耳作物科学以 15,000 节点的 GKE 集群为未来播种](./docs/blog/2026-03-13/bayer-gke-15000-nodes_zh.md)
 - [贡献开源的 ROI：LF Research 2025 年调查报告解读](./docs/blog/2026-02-25/opensource-contribution-roi_zh.md)
 - [GPU 故障检测与自愈](./docs/blog/2025-12-17/gpu-fault-detection_zh.md)
 - [AI Infra 时代的多租户隔离性方案探讨](./docs/blog/2025-12-15/multi-tenancy-isolation_zh.md)
