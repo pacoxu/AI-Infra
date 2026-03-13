@@ -1,0 +1,92 @@
+{
+  "meta": {
+    "title": "AI Infra Landscape",
+    "version": "2026-03",
+    "last_updated": "2026-03-13",
+    "note": "Regenerate diagrams/ai-infra-landscape.svg with node scripts/generate-landscape-svg.js"
+  },
+  "axes": {
+    "x_left": "Prototype / Early-stage",
+    "x_right": "Mature / Standardized",
+    "y_bottom": "Kernel / Runtime Layer",
+    "y_top": "AI / Application Layer"
+  },
+  "quadrants": [
+    { "id": "q1", "label": "App + Emerging", "x": 22, "y": 92 },
+    { "id": "q2", "label": "App + Mature", "x": 74, "y": 92 },
+    { "id": "q3", "label": "Infra + Emerging", "x": 22, "y": 8 },
+    { "id": "q4", "label": "Infra + Mature", "x": 74, "y": 8 }
+  ],
+  "ecosystem": [
+    { "name": "PyTorch", "x": 56, "group": "training", "logo": "PT" },
+    { "name": "JAX", "x": 63, "group": "training", "logo": "JX" },
+    { "name": "TensorFlow", "x": 70, "group": "training", "logo": "TF" },
+    { "name": "MLX", "x": 77, "group": "training", "logo": "MX" },
+    { "name": "Hugging Face", "x": 85, "group": "inference", "logo": "HF" },
+    { "name": "DeepSpeed", "x": 91, "group": "training", "logo": "DS" },
+    { "name": "XGBoost", "x": 97, "group": "training", "logo": "XG" }
+  ],
+  "right_notes": [
+    { "label": "AI Gateway", "y": 90, "group": "gateway" },
+    { "label": "Workflow", "y": 80, "group": "workflow" },
+    { "label": "Training", "y": 74, "group": "training" },
+    { "label": "Serverless", "y": 68, "group": "workflow" },
+    { "label": "Cloud-native Inference", "y": 65, "group": "inference" },
+    { "label": "Inference", "y": 56, "group": "inference" },
+    { "label": "Scheduling", "y": 46, "group": "scheduling" },
+    { "label": "Orchestration", "y": 20, "group": "kernel" },
+    { "label": "Kernel", "y": 10, "group": "kernel" }
+  ],
+  "groups": {
+    "gateway": { "fill": "#FDF1D2", "stroke": "#D5B062" },
+    "workflow": { "fill": "#FCEFF7", "stroke": "#C87AA0" },
+    "inference": { "fill": "#EAF2FF", "stroke": "#5A88D8" },
+    "scheduling": { "fill": "#EBF8EE", "stroke": "#65A97B" },
+    "kernel": { "fill": "#EEF2FF", "stroke": "#667EEA" },
+    "training": { "fill": "#FFF3E8", "stroke": "#D59B5A" }
+  },
+  "projects": [
+    { "name": "Agent Sandbox", "x": 8, "y": 92, "group": "workflow", "stage": "early", "logo": "AS" },
+    { "name": "kagent", "x": 18, "y": 93, "group": "workflow", "stage": "mature", "logo": "KA" },
+    { "name": "Dagger", "x": 42, "y": 98, "group": "workflow", "stage": "mature", "logo": "DG" },
+    { "name": "Dify", "x": 52, "y": 97, "group": "workflow", "stage": "mature", "logo": "DI" },
+    { "name": "AIBrix", "x": 26, "y": 72, "group": "inference", "stage": "early", "logo": "AB" },
+    { "name": "Dynamo", "x": 33, "y": 68, "group": "inference", "stage": "early", "logo": "DY" },
+    { "name": "llmaz", "x": 21, "y": 66, "group": "inference", "stage": "early", "logo": "LM" },
+    { "name": "rbg", "x": 24, "y": 60, "group": "inference", "stage": "mature", "logo": "RB" },
+    { "name": "kthena", "x": 25, "y": 55, "group": "inference", "stage": "mature", "logo": "KT" },
+    { "name": "kubeRay", "x": 36, "y": 58, "group": "inference", "stage": "early", "logo": "KR" },
+    { "name": "Semantic Router", "x": 44, "y": 82, "group": "gateway", "stage": "early", "logo": "SR" },
+    { "name": "Gateway API Inference Extension", "x": 52, "y": 87, "group": "gateway", "stage": "early", "logo": "GA" },
+    { "name": "Envoy AI Gateway", "x": 60, "y": 83, "group": "gateway", "stage": "mature", "logo": "EA" },
+    { "name": "kgateway", "x": 68, "y": 80, "group": "gateway", "stage": "mature", "logo": "KG" },
+    { "name": "knoway", "x": 73, "y": 80, "group": "gateway", "stage": "early", "logo": "KW" },
+    { "name": "Higress", "x": 62, "y": 78, "group": "gateway", "stage": "mature", "logo": "HG" },
+    { "name": "Kong", "x": 66, "y": 76, "group": "gateway", "stage": "mature", "logo": "KO" },
+    { "name": "Istio", "x": 70, "y": 90, "group": "gateway", "stage": "mature", "logo": "IS" },
+    { "name": "KServe", "x": 74, "y": 72, "group": "inference", "stage": "mature", "logo": "KS" },
+    { "name": "Knative", "x": 80, "y": 71, "group": "workflow", "stage": "mature", "logo": "KN" },
+    { "name": "Kubeflow", "x": 90, "y": 75, "group": "training", "stage": "mature", "logo": "KF" },
+    { "name": "Kubeflow Trainer", "x": 92, "y": 70, "group": "training", "stage": "mature", "logo": "KFT" },
+    { "name": "SGLang", "x": 45, "y": 55, "group": "inference", "stage": "mature", "logo": "SG" },
+    { "name": "vLLM", "x": 54, "y": 49, "group": "inference", "stage": "mature", "logo": "VL" },
+    { "name": "Triton Inference Server", "x": 56, "y": 42, "group": "inference", "stage": "mature", "logo": "TR" },
+    { "name": "LWS", "x": 34, "y": 50, "group": "scheduling", "stage": "early", "logo": "LW" },
+    { "name": "JobSet", "x": 52, "y": 56, "group": "scheduling", "stage": "early", "logo": "JS" },
+    { "name": "Godel", "x": 22, "y": 40, "group": "scheduling", "stage": "mature", "logo": "GD" },
+    { "name": "Kai Scheduler", "x": 29, "y": 38, "group": "scheduling", "stage": "early", "logo": "KI" },
+    { "name": "Volcano", "x": 39, "y": 36, "group": "scheduling", "stage": "mature", "logo": "VO" },
+    { "name": "Kueue", "x": 66, "y": 42, "group": "scheduling", "stage": "mature", "logo": "KQ" },
+    { "name": "YuniKorn", "x": 79, "y": 43, "group": "scheduling", "stage": "mature", "logo": "YK" },
+    { "name": "Koordinator", "x": 75, "y": 36, "group": "scheduling", "stage": "mature", "logo": "KD" },
+    { "name": "PodRestart", "x": 42, "y": 28, "group": "kernel", "stage": "early", "logo": "PR" },
+    { "name": "ImageVolume", "x": 45, "y": 23, "group": "kernel", "stage": "early", "logo": "IV" },
+    { "name": "DRA", "x": 52, "y": 27, "group": "kernel", "stage": "early", "logo": "DR" },
+    { "name": "NRI", "x": 30, "y": 18, "group": "kernel", "stage": "early", "logo": "NR" },
+    { "name": "Model Spec", "x": 10, "y": 20, "group": "kernel", "stage": "early", "logo": "MS" },
+    { "name": "KWOK", "x": 70, "y": 20, "group": "kernel", "stage": "mature", "logo": "KW" },
+    { "name": "Kubernetes", "x": 90, "y": 18, "group": "kernel", "stage": "mature", "logo": "K8" },
+    { "name": "containerd", "x": 88, "y": 10, "group": "kernel", "stage": "mature", "logo": "CD" },
+    { "name": "KubeVirt", "x": 78, "y": 12, "group": "kernel", "stage": "mature", "logo": "KV" }
+  ]
+}

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-01-12
+last_updated: 2026-03-13
 tags: repository, structure, documentation, organization
 ---
 
@@ -28,7 +28,8 @@ AI-Infra/
 ├── LICENSE                            # Repository license
 ├── STRUCTURE.md                       # This file - repository organization guide
 ├── diagrams/                          # Centralized image storage
-│   ├── ai-infra-landscape.png        # AI infrastructure landscape visualization
+│   ├── ai-infra-landscape.svg        # AI infrastructure landscape visualization
+│   ├── ai-infra-landscape.data.json  # Source data for generating landscape SVG
 │   └── pod-lifecycle.png             # Kubernetes pod lifecycle diagram
 ├── docs/                              # All documentation content
 │   ├── kubernetes/                   # Kubernetes and scheduling topics
@@ -139,7 +140,7 @@ All images referenced by documentation files are stored here:
 - Flowcharts (pod lifecycle)
 - Reference images
 
-**Reference Pattern**: `../../diagrams/image-name.png` from doc files
+**Reference Pattern**: `../../diagrams/image-name.svg` (or `.png`) from doc files
 
 ## Metadata Format
 
@@ -272,7 +273,7 @@ Key points:
 Old links are broken after refactoring. Update any external references:
 
 - `./kubernetes/pod-lifecycle.md` → `./docs/kubernetes/pod-lifecycle.md`
-- `./ai-infra-landscape.png` → `./diagrams/ai-infra-landscape.png`
+- `./ai-infra-landscape.svg` → `./diagrams/ai-infra-landscape.svg`
 
 ## Future Enhancements
 

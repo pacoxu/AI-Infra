@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-02
+last_updated: 2026-03-13
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -33,7 +33,7 @@ where to focus their learning.
 
 ## 📑 Table of Contents
 
-- [AI-Infra Landscape](#-ai-infra-landscape-2025-june-needs-an-update)
+- [AI-Infra Landscape](#-ai-infra-landscape-2026-march)
 - [Learning Path for AI Infra Engineers](#-learning-path-for-ai-infra-engineers)
   - [0. Kernel & Runtime (底层内核)](#-0-kernel--runtime-底层内核)
   - [1. Scheduling & Workloads (调度与工作负载)](#-1-scheduling--workloads-调度与工作负载)
@@ -122,14 +122,18 @@ where to focus their learning.
 - [Inference Orchestration Solutions](./docs/blog/2025-12-01/inference-orchestration.md)
   | [中文版](./docs/blog/2025-12-01/inference-orchestration_zh.md)
 
-## 📊 AI-Infra Landscape (2025 June, needs an update)
+## 📊 AI-Infra Landscape (2026 March)
 
 **Legend:**
 
 > - Dashed outlines = Early stage or under exploration
 > - Labels on right = Functional categories
 
-![AI-Infra Landscape](./diagrams/ai-infra-landscape.png)
+![AI-Infra Landscape](./diagrams/ai-infra-landscape.svg)
+
+Maintenance:
+- Source data: `./diagrams/ai-infra-landscape.data.json`
+- Generate SVG: `node ./scripts/generate-landscape-svg.js`
 
 ## 🎯 Goal Achievement Chart for Cloud Native AI Infra Architect
 
@@ -468,4 +472,3 @@ Apache License 2.0.
 ---
 
 _This repo is inspired by the rapidly evolving AI Infra stack and aims to help engineers navigate and master it._
-
