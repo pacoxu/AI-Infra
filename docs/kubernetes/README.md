@@ -41,6 +41,10 @@ workload isolation.
 - **[NVIDIA GPU Operator](./nvidia-gpu-operator.md)**: Automated GPU driver
   installation, device plugin deployment, DRA driver integration, and GPU
   monitoring with DCGM
+- **[GPU Partitioning Strategies](./gpu-partitioning.md)**: Comparison of
+  dedicated, time-slicing, and MIG consumption models; MIG profile geometry,
+  stranded capacity, and how to choose the right model for multi-tenant
+  AI platforms
 - **[NVIDIA AI Cluster Runtime (AICR)](./nvidia-aicr.md)**: CLI tooling for
   generating optimized, validated, and reproducible GPU-accelerated Kubernetes
   cluster recipes across EKS, GKE, and self-managed clusters
@@ -92,12 +96,14 @@ workload isolation.
    GPU workloads
 2. Review [NVIDIA GPU Operator](./nvidia-gpu-operator.md) for GPU setup and
    monitoring
-3. Use [NVIDIA AICR](./nvidia-aicr.md) for validated, reproducible cluster
+3. Choose a [GPU Partitioning Strategy](./gpu-partitioning.md) (dedicated,
+   time-slicing, or MIG) based on your workload and tenancy requirements
+4. Use [NVIDIA AICR](./nvidia-aicr.md) for validated, reproducible cluster
    recipes on EKS, GKE, or self-managed clusters
-4. Study [GPU Fault Detection](./gpu-fault-detection.md) for production
+5. Study [GPU Fault Detection](./gpu-fault-detection.md) for production
    reliability and automated recovery
-5. Study [Isolation Guide](./isolation.md) for checkpoint/restore
-6. Understand [DRA](./dra.md) for complex device requirements
+6. Study [Isolation Guide](./isolation.md) for checkpoint/restore
+7. Understand [DRA](./dra.md) for complex device requirements
 
 ## Related Topics
 

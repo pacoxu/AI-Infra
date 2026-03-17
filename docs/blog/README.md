@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-13
+last_updated: 2026-03-17
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -9,6 +9,28 @@ tags: blog, kubernetes, ai-infrastructure
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-03-17: Architecting AI Infrastructure Series (Frank Denneman)
+
+- [Series Overview and Kubernetes Mapping](./2026-03-17/architecting-ai-infrastructure-series.md)
+
+A nine-part blog series by Frank Denneman mapping GPU placement, consumption
+models, MIG partitioning, and multi-GPU topology to cloud-native AI
+infrastructure concepts:
+
+- **GPU Placement as the defining problem**: Why placement decisions
+  dominate production AI infrastructure costs and performance
+- **GPU Consumption Models**: Architectural comparison of dedicated
+  (passthrough), time-slicing, and MIG as first-class choices for
+  multi-tenant platforms
+- **MIG Partitioning Geometry**: Profile types, slice layout on H100/A100,
+  and stranded capacity caused by mixed-profile fragmentation
+- **Multi-GPU Topology Awareness**: NVLink vs PCIe bandwidth hierarchy and
+  why distributed training is placement-sensitive
+- **Kubernetes mapping**: How each concept maps to Device Plugin, DRA, GPU
+  Operator, and NVIDIA DRA driver configurations
+- Parts 3–7 cover vSphere-specific DRS and vGPU mode details; Parts 1, 2,
+  8, and 9 apply broadly to any AI infrastructure platform
 
 ## 2026-03-13: NVIDIA AICR：把 GPU 集群安装经验固化成可复现 Recipe
 
