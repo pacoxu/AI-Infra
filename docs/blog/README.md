@@ -1,11 +1,22 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-13
+last_updated: 2026-03-18
 tags: blog, kubernetes, ai-infrastructure
 ---
 
 # AI-Infra Blog Posts
+
+## 2026-03-18: NVIDIA AICR 项目介绍与 Reddit 版本草稿
+
+- [把 GPU 集群运维工程化：NVIDIA AICR 给 Cloud Native AI Infra 团队的实践路径 (Chinese)](./2026-03-18/nvidia-aicr-intro_zh.md)
+- [Reddit 草稿：给 Cloud Native AI Infra 团队安利 NVIDIA AICR (Chinese)](./2026-03-18/nvidia-aicr-intro-reddit_zh.md)
+
+Two Chinese write-ups introducing NVIDIA AI Cluster Runtime (AICR) for Cloud Native AI Infra developers and operators:
+
+- **Full blog version**: Project positioning, architecture model (Snapshot/Recipe/Validate/Bundle), relation to GPU Operator and DRA, and a practical team adoption path
+- **Reddit version**: Short and discussion-oriented post suitable for community sharing
+- **Verified with current upstream state**: Includes references to official README, CLI docs, component catalog, roadmap, and latest release (`v0.10.16`, 2026-03-16)
 
 ## 2026-03-13: 【2020】拜耳作物科学以 15,000 节点的 GKE 集群为未来播种
 
