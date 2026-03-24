@@ -482,37 +482,24 @@ spec:
 
 随着 AI 基础设施的扩展,跨多个 Kubernetes 集群管理工作负载对于灾难恢复、地理分布和工作负载隔离至关重要。
 
-### CNCF 多集群管理 (MCM) 雷达图 2024Q3
+### 多集群管理雷达图 (GitHub 可维护版, CNCF + 生态项目)
 
-CNCF 技术雷达图提供了多集群管理解决方案成熟度的指导:
+为了方便在 GitHub 里通过 PR 持续维护,这里改为仓库内的数据驱动 SVG,不再依赖外链附件图片。
 
-**采用** (生产就绪):
+这个版本在 CNCF 基础上补充了 issue #267 提到的非 CNCF 项目:
 
-- **<a href="https://github.com/argoproj/argo-cd">Argo CD</a>** (已毕业):Kubernetes 的 GitOps 持续交付
-- **<a href="https://github.com/cilium/cilium">Cilium</a>** (已毕业):使用 Cluster Mesh 的多集群网络
+- 多集群控制面: Karmada、Clusternet、Fleet、Open Cluster Management、KubeAdmiral
+- 交付与生命周期: Argo CD、Flux CD、Cluster API、Terraform、PipeCD
+- 多租户与 API 虚拟化: Virtual Kubelet、vCluster、KCP、Kamaji、KubeZoo
+- 门户与运维压力点: Lens、Headlamp、Kubernetes Dashboard、KubeSphere Console、KWOK
+- Kubewharf 体系: kubeBrain、KubeAdmiral、KubeZoo、Godel Scheduler、Katalyst
 
-**试用** (评估用于生产):
+![多集群管理雷达图 (CNCF + 生态项目)](../../../diagrams/mcm-multicluster-radar.zh-CN.svg)
 
-- **<a href="https://github.com/karmada-io/karmada">Karmada</a>** (孵化中):多云多集群应用管理
-- **<a href="https://github.com/istio/istio">Istio</a>** (已毕业):多集群服务网格
-- **<a href="https://github.com/linkerd/linkerd2">Linkerd</a>** (已毕业):轻量级多集群服务网格
-- **<a href="https://github.com/kubestellar/kubestellar">KubeStellar</a>** (沙箱):多集群工作负载部署
-- **<a href="https://github.com/kubestash/kubestash">Armada</a>** (沙箱):跨集群批处理调度
-- **<a href="https://github.com/backstage/backstage">Backstage</a>** (孵化中):多集群可见性的开发者门户
+维护方式:
 
-**评估** (新兴):
-
-- **<a href="https://github.com/kubevela/kubevela">KubeVela</a>** (孵化中):应用交付平台
-- **<a href="https://github.com/kubeedge/sedna">PipeCD</a>** (沙箱):多云渐进式交付
-- **<a href="https://github.com/kuma-io/kuma">Kuma</a>** (沙箱):通用服务网格
-- **<a href="https://github.com/open-cluster-management-io/ocm">Meshery</a>** (沙箱):服务网格管理平面
-- **<a href="https://github.com/clusterpedia-io/clusterpedia">Clusterpedia</a>** (沙箱):多集群资源搜索
-
-**持有** (不推荐):
-
-- 不符合当前生产要求的解决方案
-
-![CNCF MCM 雷达图 2024Q3](https://github.com/user-attachments/assets/9a9a4222-efa6-4f4c-9878-e40ed6bb5889)
+- 数据源: `diagrams/mcm-multicluster-radar.data.json`
+- 生成命令（同时产出英文/中文图）: `node scripts/generate-mcm-radar-svg.js`
 
 ### 多租户范围
 

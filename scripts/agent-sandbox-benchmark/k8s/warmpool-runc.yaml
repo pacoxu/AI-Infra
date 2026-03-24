@@ -1,0 +1,21 @@
+---
+# warmpool-runc.yaml — SandboxWarmPool for the runc runtime (no RuntimeClass).
+apiVersion: agents.x-k8s.io/v1alpha1
+kind: SandboxWarmPool
+metadata:
+  name: warm-runc
+spec:
+  size: 5
+  template:
+    podTemplate:
+      spec:
+        containers:
+          - name: agent
+            image: ghcr.io/kubernetes-sigs/agent-sandbox/agent-runtime:v0.1.0
+            resources:
+              requests:
+                cpu: "100m"
+                memory: "128Mi"
+              limits:
+                cpu: "1000m"
+                memory: "512Mi"

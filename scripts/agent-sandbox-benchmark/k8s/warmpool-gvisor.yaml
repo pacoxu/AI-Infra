@@ -1,0 +1,22 @@
+---
+# warmpool-gvisor.yaml — SandboxWarmPool for gVisor (runsc).
+apiVersion: agents.x-k8s.io/v1alpha1
+kind: SandboxWarmPool
+metadata:
+  name: warm-gvisor
+spec:
+  size: 5
+  template:
+    podTemplate:
+      spec:
+        runtimeClassName: gvisor
+        containers:
+          - name: agent
+            image: ghcr.io/kubernetes-sigs/agent-sandbox/agent-runtime:v0.1.0
+            resources:
+              requests:
+                cpu: "150m"
+                memory: "192Mi"
+              limits:
+                cpu: "1000m"
+                memory: "512Mi"

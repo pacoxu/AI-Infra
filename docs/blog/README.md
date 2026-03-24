@@ -23,6 +23,26 @@ operations perspective:
 - **Operational risk gating**: Known Qwen3.5 + FP8 KV cache accuracy issue on
   B200, plus dependency/default behavior changes
 - **Rollout checklist**: Concrete canary and upgrade checks for platform teams
+This directory contains blog posts and articles about AI infrastructure,
+Kubernetes scheduling, and related topics.
+
+## 2026-03-13: NVIDIA AICR：把 GPU 集群安装经验固化成可复现 Recipe
+
+- [NVIDIA AICR 中文介绍](./2026-03-13/nvidia-aicr-introduction_zh.md)
+
+A Chinese introduction to NVIDIA AI Cluster Runtime (AICR), based on the
+project's official repository and the recently merged AI-Infra PR:
+
+- **What AICR is**: A recipe-driven tool for optimized, validated, and
+  reproducible GPU-accelerated Kubernetes cluster setups
+- **Why it matters**: Turns fragile platform runbooks into version-locked,
+  auditable deployment artifacts for Helm and GitOps workflows
+- **Core workflow**: `snapshot` captures live state, `recipe` defines the
+  target, `validate` checks drift, and `bundle` renders deployable outputs
+- **How to position it**: AICR sits above GPU Operator and complements DRA,
+  focusing on cluster baseline management rather than device allocation
+- **Current scope**: Early-stage but promising support for EKS, GKE, Kind,
+  H100/GB200, Ubuntu, Kubeflow, and Dynamo
 
 ## 2026-03-13: 【2020】拜耳作物科学以 15,000 节点的 GKE 集群为未来播种
 
@@ -41,9 +61,6 @@ case study about Bayer Crop Science scaling GKE to 15,000 worker nodes:
   **50,000 Pods**
 - **Still relevant in 2026**: A useful reminder that network and IP planning
   often become the first true scale bottleneck
-
-This directory contains blog posts and articles about AI infrastructure,
-Kubernetes scheduling, and related topics.
 
 ## 2026-02-25: 贡献开源的 ROI：LF Research 2025 年调查报告解读
 

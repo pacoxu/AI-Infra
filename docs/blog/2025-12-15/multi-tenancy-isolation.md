@@ -493,42 +493,25 @@ pool of pre-initialized sandboxed environments.
 As AI infrastructure scales, managing workloads across multiple Kubernetes clusters becomes essential for disaster
 recovery, geographic distribution, and workload isolation.
 
-### CNCF Multicluster Management (MCM) Radar 2024Q3
+### Multi-Cluster Management Radar (GitHub-Maintained, CNCF + Ecosystem)
 
-The CNCF Technology Radar provides guidance on the maturity of multicluster management solutions:
+To keep the radar maintainable in GitHub PRs, this section now uses a local data-driven SVG instead of an external
+image attachment.
 
-**Adopt** (Production-Ready):
+This updated version extends beyond CNCF items and includes non-CNCF ecosystem projects raised in issue #267:
 
-- **<a href="https://github.com/argoproj/argo-cd">Argo CD</a>** (Graduated): GitOps continuous delivery for
-  Kubernetes
-- **<a href="https://github.com/cilium/cilium">Cilium</a>** (Graduated): Multi-cluster networking with Cluster Mesh
+- Multi-cluster control planes: Karmada, Clusternet, Fleet, Open Cluster Management, KubeAdmiral
+- Delivery and lifecycle: Argo CD, Flux CD, Cluster API, Terraform, PipeCD
+- Tenancy and API virtualization: Virtual Kubelet, vCluster, KCP, Kamaji, KubeZoo
+- Portal and operational pressure points: Lens, Headlamp, Kubernetes Dashboard, KubeSphere Console, KWOK
+- Kubewharf ecosystem: kubeBrain, KubeAdmiral, KubeZoo, Godel Scheduler, Katalyst
 
-**Trial** (Evaluate for Production):
+![MCM Radar (CNCF + Ecosystem)](../../../diagrams/mcm-multicluster-radar.svg)
 
-- **<a href="https://github.com/karmada-io/karmada">Karmada</a>** (Incubating): Multi-cloud multi-cluster application
-  management
-- **<a href="https://github.com/istio/istio">Istio</a>** (Graduated): Multi-cluster service mesh
-- **<a href="https://github.com/linkerd/linkerd2">Linkerd</a>** (Graduated): Lightweight multi-cluster service mesh
-- **<a href="https://github.com/kubestellar/kubestellar">KubeStellar</a>** (Sandbox): Multi-cluster workload
-  deployment
-- **<a href="https://github.com/kubestash/kubestash">Armada</a>** (Sandbox): Batch scheduling across clusters
-- **<a href="https://github.com/backstage/backstage">Backstage</a>** (Incubating): Developer portal for multi-cluster
-  visibility
+Maintenance:
 
-**Assess** (Emerging):
-
-- **<a href="https://github.com/kubevela/kubevela">KubeVela</a>** (Incubating): Application delivery platform
-- **<a href="https://github.com/kubeedge/sedna">PipeCD</a>** (Sandbox): Progressive delivery for multi-cloud
-- **<a href="https://github.com/kuma-io/kuma">Kuma</a>** (Sandbox): Universal service mesh
-- **<a href="https://github.com/open-cluster-management-io/ocm">Meshery</a>** (Sandbox): Service mesh management plane
-- **<a href="https://github.com/clusterpedia-io/clusterpedia">Clusterpedia</a>** (Sandbox): Multi-cluster resource
-  search
-
-**Hold** (Not Recommended):
-
-- Solutions not meeting current production requirements
-
-![CNCF MCM Radar 2024Q3](https://github.com/user-attachments/assets/9a9a4222-efa6-4f4c-9878-e40ed6bb5889)
+- Source data: `diagrams/mcm-multicluster-radar.data.json`
+- Regenerate SVG (EN + ZH): `node scripts/generate-mcm-radar-svg.js`
 
 ### Multitenancy Spectrum
 

@@ -1,0 +1,305 @@
+{
+  "meta": {
+    "title": "Multi-Cluster Management Radar",
+    "version": "2026-Q1",
+    "last_updated": "2026-03-23",
+    "note": "Edit this file and run node scripts/generate-mcm-radar-svg.js to regenerate EN and ZH radar SVG files"
+  },
+  "rings": [
+    {
+      "id": "adopt",
+      "label": "ADOPT",
+      "description": "Production default choices for most teams",
+      "fill": "#E8F6EC",
+      "stroke": "#53A66A"
+    },
+    {
+      "id": "trial",
+      "label": "TRIAL",
+      "description": "Strong candidates to evaluate in production pilots",
+      "fill": "#EAF2FF",
+      "stroke": "#4E7FD1"
+    },
+    {
+      "id": "assess",
+      "label": "ASSESS",
+      "description": "Promising options that need focused validation",
+      "fill": "#FFF5E8",
+      "stroke": "#D58A39"
+    },
+    {
+      "id": "hold",
+      "label": "HOLD",
+      "description": "Legacy patterns to avoid for new designs",
+      "fill": "#FDECEC",
+      "stroke": "#CC5F5F"
+    }
+  ],
+  "sectors": [
+    {
+      "id": "control",
+      "label": "Control Plane & Orchestration",
+      "start": -90,
+      "end": -30
+    },
+    {
+      "id": "delivery",
+      "label": "GitOps & App Delivery",
+      "start": -30,
+      "end": 30
+    },
+    {
+      "id": "lifecycle",
+      "label": "Cluster Lifecycle & IaC",
+      "start": 30,
+      "end": 90
+    },
+    {
+      "id": "tenancy",
+      "label": "Tenancy & API Virtualization",
+      "start": 90,
+      "end": 150
+    },
+    {
+      "id": "ui",
+      "label": "Portal & Visibility",
+      "start": 150,
+      "end": 210
+    },
+    {
+      "id": "testing",
+      "label": "Scale Testing & Scheduling",
+      "start": 210,
+      "end": 270
+    }
+  ],
+  "sources": {
+    "cncf": {
+      "label": "CNCF",
+      "fill": "#E8F1FF",
+      "stroke": "#3B82F6"
+    },
+    "ecosystem": {
+      "label": "Ecosystem (Non-CNCF)",
+      "fill": "#FFF4E8",
+      "stroke": "#D97706"
+    },
+    "kubewharf": {
+      "label": "Kubewharf Ecosystem",
+      "fill": "#F3E8FF",
+      "stroke": "#9333EA"
+    }
+  },
+  "projects": [
+    {
+      "name": "Argo CD",
+      "ring": "adopt",
+      "sector": "delivery",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/argocd.png"
+    },
+    {
+      "name": "Flux CD",
+      "ring": "adopt",
+      "sector": "delivery",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/fluxcd.png"
+    },
+    {
+      "name": "Cluster API",
+      "ring": "adopt",
+      "sector": "lifecycle",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/clusterapi.png"
+    },
+    {
+      "name": "Terraform",
+      "ring": "adopt",
+      "sector": "lifecycle",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/terraform.png"
+    },
+    {
+      "name": "Cilium Cluster Mesh",
+      "ring": "adopt",
+      "sector": "control",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/cilium.png"
+    },
+    {
+      "name": "Lens",
+      "ring": "adopt",
+      "sector": "ui",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/lens.png"
+    },
+    {
+      "name": "Kubernetes Dashboard",
+      "ring": "adopt",
+      "sector": "ui",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/k8s.png"
+    },
+    {
+      "name": "KubeSphere Console",
+      "ring": "adopt",
+      "sector": "ui",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/kubesphere.png"
+    },
+    {
+      "name": "Karmada",
+      "ring": "trial",
+      "sector": "control",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/karmada.png"
+    },
+    {
+      "name": "Open Cluster Management",
+      "ring": "trial",
+      "sector": "control",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/ocm.png"
+    },
+    {
+      "name": "KubeStellar",
+      "ring": "trial",
+      "sector": "control",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/kubestellar.png"
+    },
+    {
+      "name": "Clusternet",
+      "ring": "trial",
+      "sector": "control",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/clusternet.png"
+    },
+    {
+      "name": "Fleet",
+      "ring": "trial",
+      "sector": "delivery",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/fleet.png"
+    },
+    {
+      "name": "Virtual Kubelet",
+      "ring": "trial",
+      "sector": "tenancy",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/virtualkubelet.png"
+    },
+    {
+      "name": "vCluster",
+      "ring": "trial",
+      "sector": "tenancy",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/vcluster.png"
+    },
+    {
+      "name": "Headlamp",
+      "ring": "trial",
+      "sector": "ui",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/headlamp.png"
+    },
+    {
+      "name": "KWOK",
+      "ring": "trial",
+      "sector": "testing",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/kwok.png"
+    },
+    {
+      "name": "Volcano",
+      "ring": "trial",
+      "sector": "testing",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/volcano.png"
+    },
+    {
+      "name": "KubeAdmiral",
+      "ring": "assess",
+      "sector": "control",
+      "source": "kubewharf",
+      "logo": "diagrams/logos/mcm/kubewharf.png"
+    },
+    {
+      "name": "kubeBrain",
+      "ring": "assess",
+      "sector": "control",
+      "source": "kubewharf",
+      "logo": "diagrams/logos/mcm/kubewharf.png"
+    },
+    {
+      "name": "KubeZoo",
+      "ring": "assess",
+      "sector": "tenancy",
+      "source": "kubewharf",
+      "logo": "diagrams/logos/mcm/kubewharf.png"
+    },
+    {
+      "name": "KCP",
+      "ring": "assess",
+      "sector": "tenancy",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/kcp.png"
+    },
+    {
+      "name": "Kamaji",
+      "ring": "assess",
+      "sector": "tenancy",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/kamaji.png"
+    },
+    {
+      "name": "PipeCD",
+      "ring": "assess",
+      "sector": "delivery",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/pipecd.png"
+    },
+    {
+      "name": "Godel Scheduler",
+      "ring": "assess",
+      "sector": "testing",
+      "source": "kubewharf",
+      "logo": "diagrams/logos/mcm/kubewharf.png"
+    },
+    {
+      "name": "Katalyst",
+      "ring": "assess",
+      "sector": "testing",
+      "source": "kubewharf",
+      "logo": "diagrams/logos/mcm/kubewharf.png"
+    },
+    {
+      "name": "Koordinator",
+      "ring": "assess",
+      "sector": "testing",
+      "source": "cncf",
+      "logo": "diagrams/logos/mcm/koordinator.png"
+    },
+    {
+      "name": "KubeFed v1",
+      "ring": "hold",
+      "sector": "control",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/kubefed.png"
+    },
+    {
+      "name": "Custom kubeconfig fan-out scripts",
+      "ring": "hold",
+      "sector": "delivery",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/k8s.png"
+    },
+    {
+      "name": "Untested multi-cluster operators",
+      "ring": "hold",
+      "sector": "testing",
+      "source": "ecosystem",
+      "logo": "diagrams/logos/mcm/k8s.png"
+    }
+  ]
+}

@@ -422,6 +422,76 @@ Pattern 2 makes the agent fully disposable and scales each layer
 independently. Key insight: *"Your agent should have nothing worth stealing
 and nothing worth preserving."*
 
+### OpenClaw-Centric Cloud-Native Deployment
+
+[OpenClaw](https://openclawai.github.io/) is an open-source agent framework
+that already includes sandbox abstractions and backend plugins. In practice,
+it maps well to Kubernetes-style control-plane/data-plane separation:
+
+- **Agent control plane** (API, session state, policy, auth) runs as regular
+  Deployments/Services in Kubernetes.
+- **Execution sandbox plane** (tool calls, shell/code execution, browser/file
+  access) runs in isolated workers selected by a sandbox backend.
+
+OpenClaw's current sandbox backend options include
+`DockerSandboxBackend`, `SSHSandboxBackend`, and `OpenShellSandboxBackend`,
+with `mirror` and `remote` execution modes in its backend configuration.
+This model is compatible with `agent-sandbox` CRDs or any internal sandbox
+operator that allocates one isolated runtime per agent session.
+
+#### Minimal Cloud-Native Shape
+
+1. **Ingress/API Layer**: Agent gateway (`Deployment` + `Service` +
+   `HorizontalPodAutoscaler`)
+2. **Scheduler/Queue Layer**: Route tasks to a sandbox pool (Kubernetes Queue,
+   internal queue, or workflow engine)
+3. **Sandbox Runtime Layer**: One sandbox per session/task with strict quotas,
+   network policy, and filesystem boundaries
+4. **Observability Layer**: Trace `agent_step`, `tool_call`, and `sandbox_id`
+   together for debugging and cost attribution
+
+### Pod or VM for Agent Runtime?
+
+Short answer: run the **control plane in Pods**, and choose Pod-runtime vs
+VM-runtime for **sandbox workers** by risk level.
+
+| Runtime choice | Best fit | Isolation strength | Startup/cost profile | GPU path |
+| -------------- | -------- | ------------------ | -------------------- | -------- |
+| Pod (`runc`) | Trusted internal tools, low risk | Low | Fastest, cheapest | Native |
+| Pod + `gVisor` RuntimeClass | Untrusted code with moderate compatibility needs | Medium | Fast, low overhead | Limited/depends on stack |
+| Pod + Kata RuntimeClass (microVM isolation) | Multi-tenant untrusted workloads | High | Slower, higher overhead | Good with passthrough setups |
+| Dedicated VM per agent/tenant | Strongest boundary, compliance-heavy scenarios | Very high | Slowest, most expensive | Full VM control |
+
+#### Practical Recommendation
+
+1. Start with **Kubernetes Pods for control plane** and **sandbox workers on
+   RuntimeClass** (`gVisor` for CPU-heavy untrusted tasks, `Kata` for stricter
+   isolation).
+2. Use **VM pools** only for high-risk tenants, regulated data, or when kernel
+   isolation/compliance requires hard VM boundaries.
+3. Keep the agent runtime **ephemeral** (warm pool + TTL cleanup) and persist
+   only explicit artifacts (logs, outputs, checkpoints).
+
+Example `Sandbox` runtime selection:
+
+```yaml
+apiVersion: agents.x-k8s.io/v1alpha1
+kind: Sandbox
+metadata:
+  name: openclaw-session-123
+spec:
+  podTemplate:
+    spec:
+      runtimeClassName: kata-qemu
+      containers:
+      - name: openclaw-worker
+        image: ghcr.io/example/openclaw-worker:latest
+        resources:
+          limits:
+            cpu: "2"
+            memory: "4Gi"
+```
+
 ### Sandbox Technology Landscape
 
 | Technology | Cold Start | Isolation | Python | Image Build |
@@ -656,6 +726,7 @@ Major AI model providers are making agents central to their platforms:
    - Audit logging
    - See [Agent Sandbox Infrastructure](#agent-sandbox-infrastructure) and
      [Isolation Guide](../kubernetes/isolation.md#6-agent-sandbox)
+   - Runtime benchmark: [runc vs gVisor vs Kata vs VM](./runtime-benchmark.md)
 
 ### Infrastructure Patterns
 
@@ -721,12 +792,15 @@ Major AI model providers are making agents central to their platforms:
 - [KAgent Documentation](https://github.com/kagent-dev/kagent)
 - [Volcano AgentCube](https://github.com/volcano-sh/agentcube)
 - [Volcano Kthena](https://github.com/volcano-sh/kthena)
+- [OpenClaw](https://openclawai.github.io/)
+- [OpenClaw Sandboxing](https://openclawai.github.io/docs/deploying/sandboxing/)
 - [Kubernetes SIG Agent Sandbox](https://github.com/kubernetes-sigs/agent-sandbox)
 - [Agent Infra Sandbox](https://github.com/agent-infra/sandbox)
 - [Kube-Agentic-Networking](https://github.com/kubernetes-sigs/kube-agentic-networking)
 - [LangChain DeepAgents](https://github.com/langchain-ai/deepagents)
 - [ArgoCD Agent](https://github.com/argoproj-labs/argocd-agent)
 - [KubeEdge Sedna](https://github.com/kubeedge/sedna)
+- [NVIDIA NeMo Agent Toolkit (Code Sandbox)](https://docs.nvidia.com/nemo/agent-toolkit/latest/reference/sandbox.html)
 
 ### Community Resources
 
@@ -741,6 +815,7 @@ Major AI model providers are making agents central to their platforms:
 
 - [AI Gateway & Agentic Workflow](../../README.md#-3-ai-gateway--agentic-workflow)
 - [Agent Sandbox and Isolation](../kubernetes/isolation.md#6-agent-sandbox)
+- [Runtime Benchmark: runc vs gVisor vs Kata vs VM](./runtime-benchmark.md)
 - [Memory and Context Management](../inference/memory-context-db.md)
 - [LLM Inference Platforms](../inference/README.md) - For model deployment
   platforms like Kaito, AIBrix, and OME that provide the inference backend

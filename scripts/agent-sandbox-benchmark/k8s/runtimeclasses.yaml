@@ -1,0 +1,66 @@
+---
+# runtimeclasses.yaml — RuntimeClass definitions for the benchmark.
+#
+# Apply with:
+#   kubectl apply -f k8s/runtimeclasses.yaml
+#
+# Note: The node labels and scheduling constraints assume GKE node pools
+# provisioned with the corresponding runtime handlers. Adjust
+# `nodeSelector` / `tolerations` for your cluster.
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: gvisor
+handler: runsc
+scheduling:
+  nodeClassifier:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: sandbox.gke.io/runtime
+            operator: In
+            values:
+              - gvisor
+---
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: kata-qemu
+handler: kata-qemu
+scheduling:
+  nodeClassifier:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: kata-runtime
+            operator: In
+            values:
+              - "true"
+---
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: kata-qemu-nvidia-gpu
+handler: kata-qemu-nvidia-gpu
+scheduling:
+  nodeClassifier:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: kata-runtime
+            operator: In
+            values:
+              - "true"
+          - key: cloud.google.com/gke-accelerator
+            operator: Exists
+---
+apiVersion: node.k8s.io/v1
+kind: RuntimeClass
+metadata:
+  name: vm-isolated
+handler: vm-isolated
+scheduling:
+  nodeClassifier:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: vm-isolated
+            operator: In
+            values:
+              - "true"
