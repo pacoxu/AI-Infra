@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2026-03-24
 tags: kubernetes, scheduling, optimization, large-scale
 canonical_path: docs/kubernetes/scheduling-optimization.md
 ---
@@ -615,6 +615,41 @@ recommendations:
   model serving (high IOPS)
 - Monitor storage bandwidth alongside GPU metrics — storage saturation is a
   common bottleneck for model loading and checkpointing
+
+### 2.8 GPU Sharing as a Resource Layer (Neutral View)
+
+Recent community discussions show a clear trend: GPU management and LLM serving
+are becoming tightly coupled platform concerns. For platform teams, this means
+GPU should be treated as a schedulable resource layer, not only a node-level
+device flag.
+
+| Option | Best For | Main Trade-offs |
+| --- | --- | --- |
+| MIG (hardware partitioning) | Strong isolation and predictable slices | Static partitioning, lower elasticity for mixed workloads |
+| Time-slicing / MPS | Higher utilization for bursty inference | Weaker isolation and noisy-neighbor risk |
+| HAMI | Multi-tenant sharing with scheduler-visible GPU fractions | Extra control-plane complexity and compatibility validation |
+
+**When HAMI is worth evaluating:**
+
+- You need multi-tenant GPU sharing beyond basic MIG partitioning
+- You need scheduler-visible sharing ratios/quotas for mixed workloads
+- You run heterogeneous GPU pools and need unified sharing control
+
+**Guardrails (keep adoption pragmatic):**
+
+- Treat HAMI as an optional implementation, not a mandatory architecture layer
+- Validate compatibility matrix in staging first: Kubernetes version, driver,
+  container runtime, CUDA stack, and observability pipeline
+- Benchmark against your baseline (`MIG + native scheduler` or
+  `time-slicing + native scheduler`) before production rollout
+- Define rollback path to native device-plugin/DRA model before enabling in
+  critical clusters
+
+**Related references:**
+
+- [KubeCon EU 2026 Day 1 notes (signal, not benchmark):
+  Kubernetes 正在重新理解 AI](https://jimmysong.io/zh/blog/kubecon-eu-2026-day1-ai-infra)
+- <a href="https://github.com/Project-HAMi/HAMi">`Project-HAMi`</a>
 
 ### 2.9 Borrow & LendingLimit
 
