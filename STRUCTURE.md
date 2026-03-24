@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-13
+last_updated: 2026-03-24
 tags: repository, structure, documentation, organization
 ---
 
@@ -24,42 +24,22 @@ The repository structure follows these principles:
 
 ```text
 AI-Infra/
-├── README.md                          # Main entry point and learning path
-├── LICENSE                            # Repository license
+├── README.md                          # Main entry point and learning path (EN)
+├── README.zh-CN.md                    # Main entry point and learning path (ZH)
+├── RoadMap.md                         # Future topics and planning
 ├── STRUCTURE.md                       # This file - repository organization guide
 ├── diagrams/                          # Centralized image storage
-│   ├── ai-infra-landscape.svg        # AI infrastructure landscape visualization
-│   ├── ai-infra-landscape.data.json  # Source data for generating landscape SVG
-│   └── pod-lifecycle.png             # Kubernetes pod lifecycle diagram
 ├── docs/                              # All documentation content
-│   ├── kubernetes/                   # Kubernetes and scheduling topics
-│   │   ├── README.md                 # Overview and navigation for K8s topics
-│   │   ├── learning-plan.md          # Structured 3-phase learning path
-│   │   ├── pod-lifecycle.md          # Pod creation, scheduling, and termination
-│   │   ├── pod-startup-speed.md      # Optimization strategies for pod startup
-│   │   ├── scheduling-optimization.md # Large-scale scheduling patterns
-│   │   ├── isolation.md              # Workload isolation techniques
-│   │   ├── dra.md                    # Dynamic Resource Allocation reference
-│   │   └── nri.md                    # Node Resource Interface reference
-│   ├── inference/                    # LLM inference and serving topics
-│   │   ├── README.md                 # Overview and comparison of inference engines
-│   │   ├── aibrix.md                 # AIBrix platform and features
-│   │   ├── pd-disaggregation.md      # Prefill-Decode disaggregation patterns
-│   │   ├── caching.md                # KV cache and prefix caching strategies
-│   │   ├── memory-context-db.md      # Memory management for AI agents
-│   │   ├── large-scale-experts.md    # Mixture of Experts (MoE) architectures
-│   │   ├── model-lifecycle.md        # Cold-start, sleep mode, offloading
-│   │   └── ome.md                    # OME Kubernetes operator
-│   ├── training/                     # AI model training topics
-│       ├── README.md                 # Overview of training on Kubernetes
-│       ├── kubeflow.md               # Kubeflow training operators
-│       └── argocd.md                 # GitOps workflows with ArgoCD
-│   └── agents/                       # AI Agent platforms and frameworks
-│       └── README.md                 # Agent platforms, MCP, K8s-native agents
-└── .github/
-    └── copilot-instructions.md       # AI assistant guidelines
+│   ├── kubernetes/                    # Kubernetes and scheduling topics
+│   ├── inference/                     # LLM inference and serving topics
+│   ├── training/                      # AI model training topics
+│   ├── observability/                 # Observability content
+│   ├── agents/                        # AI agent platforms and frameworks
+│   └── blog/                          # Blog archive and index
+├── scripts/                           # Utility and generation scripts
+└── .github/                           # GitHub automation and instructions
 
-6 directories, 23 markdown files
+Directory/file counts evolve frequently; avoid hard-coded totals.
 ```
 
 ## Content Organization
@@ -132,6 +112,23 @@ AI-Infra/
 **Cross-references**: Links to `../kubernetes/isolation.md` for sandboxing,
 `../inference/memory-context-db.md` for agent memory
 
+#### 5. Observability (`docs/observability/`)
+
+**Purpose**: Monitoring, telemetry, and diagnostics for AI workloads
+
+**Canonical Files**:
+
+- `README.md` - Overview of observability approaches and references
+
+#### 6. Blog (`docs/blog/`)
+
+**Purpose**: Time-ordered technical blogs and case-study posts
+
+**Canonical Files**:
+
+- `README.md` - Full blog index and maintenance notes
+- `YYYY-MM-DD-topic-name*.md` - Blog posts (flattened, date-prefixed naming)
+
 ### Assets (`diagrams/`)
 
 All images referenced by documentation files are stored here:
@@ -196,7 +193,7 @@ Key points:
 
 ### Adding New Content
 
-1. **Determine category**: kubernetes, inference, or training
+1. **Determine category**: kubernetes, inference, training, observability, agents, or blog
 2. **Create file** in appropriate `docs/` subdirectory
 3. **Add metadata header** with status, maintainer, date, tags
 4. **Update parent README.md** to link to new content
