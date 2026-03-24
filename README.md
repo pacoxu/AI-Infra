@@ -101,6 +101,8 @@ where to focus their learning.
 #### AI Agents
 
 - [AI Agent Platforms and Frameworks](./docs/agents/README.md)
+- [Model Context Protocol (MCP)](./docs/agents/mcp.md)
+- [Agent-to-Agent (A2A) Protocol](./docs/agents/a2a.md)
 
 #### Blog
 

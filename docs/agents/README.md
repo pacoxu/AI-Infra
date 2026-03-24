@@ -22,6 +22,9 @@ Language Models (LLMs) as their core reasoning engine.
 - [Agent Development Frameworks](#agent-development-frameworks)
 - [Agent Sandbox Infrastructure](#agent-sandbox-infrastructure)
 - [Agent Infrastructure Components](#agent-infrastructure-components)
+  - [Model Context Protocol (MCP)](#model-context-protocol-mcp)
+  - [Agent-to-Agent (A2A)](#agent-to-agent-a2a--agent-communication-protocol-acp)
+  - [Kube-Agentic-Networking](#kube-agentic-networking)
 - [CNCF and Ecosystem Initiatives](#cncf-and-ecosystem-initiatives)
 - [Learning Topics](#learning-topics)
 - [RoadMap](#roadmap)
@@ -550,32 +553,72 @@ estargz</a>, <a href="https://github.com/dragonflydb/dragonfly">Dragonfly</a>.
 
 ### Model Context Protocol (MCP)
 
-**Status**: Adopted (CNCF Tech Radar 2025)
+**Status**: Adopted — CNCF Tech Radar 2025
 
-Model Context Protocol (MCP) is an emerging standard for agent-to-agent
-communication and context sharing. According to CNCF Tech Radar 2025, MCP and
-Llama Stack are in the "Adopt" position.
+Model Context Protocol (MCP) is an open standard for connecting AI agents and
+LLMs to external tools, data sources, and services. It defines a
+**host/client/server** architecture that separates the agent runtime from tool
+providers, enabling a rich ecosystem of reusable, composable integrations.
 
 **Key Concepts:**
 
-- Standardized protocol for sharing context between agents
-- Server-client architecture for context management
-- Integration with existing data sources and tools
-- Support for agent ecosystems
+- **Tools**: Functions the LLM can invoke (e.g., web search, code execution)
+- **Resources**: Data the LLM can read (e.g., files, database records)
+- **Prompts**: Reusable prompt templates managed server-side
+- **Transports**: `stdio` (local) or Streamable HTTP (remote)
 
-**Projects using MCP:**
+**Key projects in the MCP ecosystem:**
 
-- VolcEngine Native AI Agent Kit (MCP Hub, MCP Server)
-- Various agent frameworks adopting MCP for interoperability
+- <a href="https://github.com/stacklok/toolhive">`ToolHive`</a>: Runs and
+  manages MCP servers as isolated containers, with a built-in registry,
+  transparent proxy, and Kubernetes deployment support.
+- <a href="https://github.com/kagent-dev/kmcp">`KMCP`</a>: Kubernetes-native
+  MCP implementation exposing cluster resources (pods, deployments, CRDs) as
+  MCP tools and resources for AI agents.
+- <a href="https://github.com/agentgateway/agentgateway">`AgentGateway`</a>:
+  Proxy and routing layer for MCP and A2A traffic with policy enforcement and
+  OpenTelemetry observability.
+- <a href="https://github.com/microsoft/mcp-for-beginners">`MCP for Beginners`</a>:
+  Microsoft's official hands-on curriculum for learning MCP from first
+  principles to production deployment.
+- [MCP Authorization Spec (#1442)](https://github.com/modelcontextprotocol/modelcontextprotocol/issues/1442):
+  Active specification work for OAuth 2.1-based auth for remote MCP servers.
+
+**See [MCP Guide](./mcp.md)** for detailed coverage of each project, the
+authorization specification, Kubernetes deployment patterns, and a full
+learning path.
 
 ### Agent-to-Agent (A2A) / Agent Communication Protocol (ACP)
 
+**Status**: Trial — CNCF Tech Radar 2025
+
 Next-generation protocols for agent collaboration:
 
-- **A2A**: Direct agent-to-agent communication patterns
-- **ACP**: Standardized communication protocol for multi-agent systems
+- **A2A**: Standardizes how agents communicate with each other — discovering
+  capabilities via Agent Cards, delegating tasks, and exchanging results.
+  Originally developed by Google and open-sourced for broad industry
+  collaboration.
+- **ACP**: Standardized communication protocol for multi-agent systems.
 
-**Status**: Emerging standards, being evaluated in various projects
+**A2A vs. MCP:**
+
+| Dimension | MCP | A2A |
+| --- | --- | --- |
+| **Primary purpose** | Agent ↔ Tool/Data Source | Agent ↔ Agent |
+| **Discovery** | Manual configuration | Agent Card (`/.well-known/agent.json`) |
+| **CNCF TR 2025** | Adopt | Trial |
+
+**Key project:**
+
+- <a href="https://github.com/a2aproject/A2A">`a2aproject/A2A`</a>: Reference
+  specification and SDK repository with protocol definition, Agent Card schema,
+  Python/TypeScript SDKs, sample agents, and conformance tests.
+- <a href="https://github.com/agentgateway/agentgateway">`AgentGateway`</a>:
+  Supports A2A task routing, agent discovery, and MCP+A2A bridging.
+
+**See [A2A Guide](./a2a.md)** for detailed coverage of the protocol
+specification, Agent Card schema, multi-agent topology patterns, AgentGateway
+integration, and Kubernetes deployment strategies.
 
 ### Kube-Agentic-Networking
 
@@ -768,7 +811,7 @@ Major AI model providers are making agents central to their platforms:
 
 - [ ] Expand documentation for each major agent platform
 - [ ] Create practical guides for deploying agents on Kubernetes
-- [ ] Document MCP implementation patterns
+- [x] Document MCP implementation patterns (see [MCP Guide](./mcp.md))
 - [x] Add agent security best practices and sandbox infrastructure guide
 
 ### Medium-term (2026 Q3-Q4)
@@ -801,6 +844,12 @@ Major AI model providers are making agents central to their platforms:
 - [ArgoCD Agent](https://github.com/argoproj-labs/argocd-agent)
 - [KubeEdge Sedna](https://github.com/kubeedge/sedna)
 - [NVIDIA NeMo Agent Toolkit (Code Sandbox)](https://docs.nvidia.com/nemo/agent-toolkit/latest/reference/sandbox.html)
+- [MCP Official Site](https://modelcontextprotocol.io/)
+- [ToolHive](https://github.com/stacklok/toolhive)
+- [KMCP](https://github.com/kagent-dev/kmcp)
+- [AgentGateway](https://github.com/agentgateway/agentgateway)
+- [MCP for Beginners (Microsoft)](https://github.com/microsoft/mcp-for-beginners)
+- [A2A Protocol](https://github.com/a2aproject/A2A)
 
 ### Community Resources
 
