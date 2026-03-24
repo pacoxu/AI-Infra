@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2026-03-24
 tags: vllm, llm, inference, ai-infrastructure, serving, release-notes
-canonical_path: docs/blog/2026-03-24/vllm-v0.18.0-ai-infra-highlights_zh.md
+canonical_path: /docs/blog/2026-03-24/vllm-v0.18.0-ai-infra-highlights_zh.md
 source_urls:
   - https://github.com/vllm-project/vllm/releases/tag/v0.18.0
 ---
