@@ -463,7 +463,7 @@ cd scripts/agent-sandbox-benchmark
   GKE's managed gVisor integration
 - [Kata Containers + NVIDIA GPU](https://katacontainers.io/blog/Kata-Containers-Agent-Sandbox-Integration/) —
   GPU passthrough setup guide
-- [Agent Sandbox Blog](../blog/2025-11-28/2025-11-28-agent-sandbox.md) — Project overview
+- [Agent Sandbox Blog](../archive-blog/2025-11-28/2025-11-28-agent-sandbox.md) — Project overview
   and architecture
 - [Kubernetes Isolation Guide](../kubernetes/isolation.md) — Broader workload
   isolation strategies
