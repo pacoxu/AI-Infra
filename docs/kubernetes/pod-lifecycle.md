@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-05
+last_updated: 2026-03-24
 tags: kubernetes, pod, lifecycle, scheduling, restart-policy, KEP-5307, KEP-5532
 canonical_path: docs/kubernetes/pod-lifecycle.md
 ---
@@ -153,6 +153,53 @@ all containers in a Pod.
    containers to ensure consistent state
 3. **Coordinated updates**: Enable containers to coordinate restarts when
    certain conditions are met
+
+## Restart Decision Runbook (Kubernetes 1.35+)
+
+In production incidents, "Pod restarted" often mixes different events. Use this
+matrix first, then decide remediation:
+
+| Scenario | Pod UID | Pod IP | `restartCount` | What Happened |
+| --- | --- | --- | --- | --- |
+| Container crash / process restart | No change | No change | Increases | Same Pod object, container restarted in-place |
+| Rolling update / pod recreation | Changes | Usually changes | Resets to `0` | New Pod object created |
+| In-place resize (`cpu`, `NotRequired`) | No change | No change | No change | cgroup updated, no container restart |
+| In-place resize (`memory`, `RestartContainer`) | No change | No change | Increases | Policy-triggered container restart in same Pod |
+
+### Practical Rules
+
+- **kubelet reacts to PodSpec changes**: Direct ConfigMap/Secret object updates
+  do not trigger restart by themselves.
+- **ConfigMap/Secret via env vars are frozen**: Process env is fixed at
+  `execve()` time; use rollout restart or app-level reload strategy.
+- **ConfigMap/Secret via volume mount are symlink swaps**: Watch directory
+  create/rename events, not file `IN_MODIFY` on an already-open descriptor.
+- **Set memory resize policy explicitly**: Default memory resize behavior may
+  not restart the container; set `RestartContainer` when the process must
+  reinitialize memory-related settings.
+- **Service mesh route updates are usually restart-free**: Istio xDS routing
+  updates do not require Pod recreation.
+
+### Minimal Commands for On-Call
+
+```bash
+# 1) Distinguish container restart vs pod recreation
+kubectl get pod <pod> -o custom-columns=\
+"NAME:.metadata.name,UID:.metadata.uid,IP:.status.podIP,RESTARTS:.status.containerStatuses[0].restartCount"
+
+# 2) Check events
+kubectl describe pod <pod> | grep -A 20 "Events:"
+
+# 3) Check in-place resize status
+kubectl get pod <pod> -o jsonpath='{.status.resize}'
+```
+
+**References:**
+
+- [When Kubernetes restarts your pod — And when it
+  doesn't](https://www.cncf.io/blog/2026/03/17/when-kubernetes-restarts-your-pod-and-when-it-doesnt/)
+- [Companion lab repository:
+  opscart/k8s-pod-restart-mechanics](https://github.com/opscart/k8s-pod-restart-mechanics)
 
 ---
 
@@ -607,6 +654,46 @@ SchedulingGates 允许您控制何时应调度 Pod。通过添加调度门控，
    重启以使所有容器重新加载新配置
 2. **依赖管理**：当关键 sidecar 失败时，重启所有容器以确保一致状态
 3. **协调更新**：使容器能够在满足某些条件时协调重启
+
+## 重启判定 Runbook（Kubernetes 1.35+）
+
+在生产故障里，“Pod 重启了”常常混淆了多种事件。建议先用下表判定，再决定处理动作：
+
+| 场景 | Pod UID | Pod IP | `restartCount` | 实际语义 |
+| --- | --- | --- | --- | --- |
+| 容器崩溃/进程重启 | 不变 | 不变 | 增长 | 同一个 Pod 对象内重启容器 |
+| 滚动更新/Pod 重建 | 改变 | 通常改变 | 重置为 `0` | 创建了新的 Pod 对象 |
+| 原地 resize（`cpu` + `NotRequired`） | 不变 | 不变 | 不变 | 仅更新 cgroup，不重启容器 |
+| 原地 resize（`memory` + `RestartContainer`） | 不变 | 不变 | 增长 | 策略触发同 Pod 内容器重启 |
+
+### 运维规则
+
+- **kubelet 看的是 PodSpec**：直接改 ConfigMap/Secret 对象本身，不会自动触发重启。
+- **env var 模式会冻结配置**：进程启动后环境变量固定；要么 rollout restart，要么应用自带 reload 机制。
+- **volume 模式是符号链接切换**：应监听目录 create/rename 事件，而不是监听已打开文件的 `IN_MODIFY`。
+- **memory resize 建议显式策略**：默认行为可能不重启容器；若应用需要重新初始化内存相关参数，明确使用 `RestartContainer`。
+- **服务网格路由更新通常不重启**：例如 Istio 的 xDS 路由更新一般不需要 Pod 重建。
+
+### 值班最小命令集
+
+```bash
+# 1) 区分“容器重启”还是“Pod 重建”
+kubectl get pod <pod> -o custom-columns=\
+"NAME:.metadata.name,UID:.metadata.uid,IP:.status.podIP,RESTARTS:.status.containerStatuses[0].restartCount"
+
+# 2) 看 Pod 事件
+kubectl describe pod <pod> | grep -A 20 "Events:"
+
+# 3) 查看原地 resize 状态
+kubectl get pod <pod> -o jsonpath='{.status.resize}'
+```
+
+**参考资料：**
+
+- [When Kubernetes restarts your pod — And when it
+  doesn't](https://www.cncf.io/blog/2026/03/17/when-kubernetes-restarts-your-pod-and-when-it-doesnt/)
+- [配套实验仓库：
+  opscart/k8s-pod-restart-mechanics](https://github.com/opscart/k8s-pod-restart-mechanics)
 
 ---
 
