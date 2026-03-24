@@ -1,0 +1,122 @@
+---
+status: Active
+maintainer: pacoxu
+date: 2026-03-24
+tags: vllm, llm, inference, ai-infrastructure, serving, release-notes
+canonical_path: docs/blog/2026-03-24/vllm-v0.18.0-ai-infra-highlights_zh.md
+source_urls:
+  - https://github.com/vllm-project/vllm/releases/tag/v0.18.0
+---
+
+# vLLM v0.18.0 发布解读：AI-Infra 团队值得重点关注什么？
+
+vLLM `v0.18.0` 于 **2026-03-20** 发布。站在 AI 基础设施团队视角，这个版本值得
+重点介绍，因为它同时影响了服务接口形态、GPU 与 CPU 的资源分层方式、大规模
+MoE 的伸缩效率，以及升级过程中的稳定性风险。
+
+## 先说结论
+
+如果你在做推理平台（尤其是多模型、多租户、混合硬件集群），`v0.18.0` 至少有
+五类变化要重点关注：
+
+- **服务接口变化**：新增 `--grpc`，并支持 `vllm launch render` 的
+  GPU-less 预处理服务；
+- **KV 缓存分层能力增强**：更智能的 CPU offloading、FlexKV 后端、多 KV 组；
+- **大规模 MoE 调度能力提升**：Elastic EP Milestone 2（NIXL-EP）与更快权重加载；
+- **性能优化落到工程细节**：NGram GPU speculative decoding、FlashInfer 0.6.6；
+- **存在明确升级风险点**：B200 + Qwen3.5 FP8 KV 缓存精度退化、默认依赖/默认参数变化。
+
+## 1) 服务接口升级：gRPC 与 GPU-less Render
+
+### 变化点
+
+- 新增 gRPC 服务模式（`--grpc`）；
+- 新增 `vllm launch render`，把多模态预处理与 GPU 推理解耦，支持无 GPU 预处理节点。
+
+### 为什么对 AI-Infra 重要
+
+- **控制平面与数据平面更容易解耦**：预处理（CPU/内存密集）和解码（GPU 密集）
+  可以独立扩缩容；
+- **更容易接入高性能 RPC 链路**：在网关、服务网格、跨语言客户端场景中，gRPC
+  通常比纯 HTTP/REST 更稳；
+- **为“多模态前处理池 + GPU 推理池”架构铺路**：可以降低 GPU 节点承担的非推理开销。
+
+## 2) KV 缓存分层能力进入“可运营”阶段
+
+### 变化点
+
+- CPU offloading 变为“按复用频率存储”；
+- 新增 FlexKV offloading backend；
+- offloading spec 支持多个 KV groups；
+- 在大规模服务侧，继续强化 KV connector 与 NIXL 相关能力。
+
+### 为什么对 AI-Infra 重要
+
+- **显存压力管理更精细**：不是一刀切 offload，而是优先保留“值得保留”的热点块；
+- **跨层存储策略更可控**：HBM/DDR/本地存储/远端缓存的分层策略更容易工程化；
+- **对长上下文与 PD 解耦更友好**：KV 迁移与复用策略更成熟，利于提高集群整体吞吐。
+
+## 3) 大规模 MoE 服务能力继续前进
+
+### 变化点
+
+- Elastic Expert Parallelism Milestone 2（NIXL-EP）；
+- 新增 `--enable-ep-weight-filter`，加速 EP 模型加载；
+- PD Disaggregation 调度开销进一步下降（发布说明提到约 5% 改善）。
+
+### 为什么对 AI-Infra 重要
+
+- **MoE 场景下的动态扩缩容更实用**：专家并行不再只停留在静态配置；
+- **冷启动和滚动升级成本下降**：权重加载链路更快，集群重建与弹性回补更顺畅；
+- **更适合与队列/批处理系统联动**：为 Kueue/Volcano 类策略提供更好的执行基础。
+
+## 4) 性能优化从“算法点子”走向“系统工程”
+
+### 变化点
+
+- NGram speculative decoding 迁移到 GPU，并与 async scheduler 兼容；
+- FlashInfer 升级到 0.6.6；
+- 多项 engine/kernel 路径继续优化（例如 pooling、packed recurrent decode）。
+
+### 为什么对 AI-Infra 重要
+
+- **收益更可复用**：不是单一模型特化，而是平台级公共路径提速；
+- **更贴近线上瓶颈**：调度开销、内存路径、异步并发行为都在持续修补；
+- **便于做标准化基准对比**：同一平台上可通过“升级前后 A/B”量化收益。
+
+## 5) 升级风险与破坏性变更（必须提前卡点）
+
+### 已知问题
+
+- 官方明确指出：在 **B200** 上以 **FP8 KV cache** 服务 **Qwen3.5** 时存在精度退化；
+- 官方还提到：如果你在 `v0.17.0` 因 `CUBLAS_STATUS_INVALID_VALUE` 使用过临时绕过，
+  现在可重新安装更新后的 `torch 2.10.0` wheel。
+
+### Breaking Changes
+
+- Ray 不再是默认依赖（需要显式安装）；
+- v0.18 已弃用项被移除；
+- Cascade attention 默认关闭；
+- `swap_space` 参数移除；
+- TRTLLM MoE 的一项路由相关行为做了 late fix（需回归验证）。
+
+## AI-Infra 升级清单（建议）
+
+1. 在升级计划里新增 **Qwen3.5 + B200 + FP8 KV** 的精度门禁与回滚开关。
+2. 把依赖管理改成显式：如果平台使用 Ray，确保镜像与 Helm 值里明确安装。
+3. 对 `cascade attention` 默认值变化做基准复测，避免“静默性能变化”。
+4. 试点“Render 服务（CPU）/ Inference 服务（GPU）”分离部署，观察 GPU 利用率变化。
+5. 对 gRPC 通路补充 SLO 监控（P95/P99、错误码、超时分布），与 HTTP 方案做对照。
+6. 针对 KV offloading 新策略，增加冷热流量混合压测（短上下文 + 长上下文）。
+7. 在大模型灰度发布中验证 EP 权重过滤与 PD 调度优化的实际收益。
+
+## 总结
+
+从 AI-Infra 角度看，vLLM `v0.18.0` 的价值不在单点“更快”，而在于它让
+**服务边界解耦、内存分层、弹性并行和可运维性** 更接近可规模化落地。对于平台团队，
+这是一版“值得重点讲、也值得谨慎灰度”的版本。
+
+## 参考
+
+- vLLM Official Release:
+  [v0.18.0](https://github.com/vllm-project/vllm/releases/tag/v0.18.0)
