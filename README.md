@@ -105,9 +105,9 @@ where to focus their learning.
 #### Blog
 
 - [Blog Overview](./docs/blog/README.md)
-- [Latest: vLLM v0.18.0 Release (Chinese)](./docs/blog/2026-03-24/2026-03-24-vllm-v0.18.0-ai-infra-highlights_zh.md)
-- [Latest: NVIDIA AICR Intro (Chinese)](./docs/blog/2026-03-13/2026-03-13-nvidia-aicr-introduction_zh.md)
-- [Latest: Bayer 15K-Node GKE Retrospective (Chinese)](./docs/blog/2026-03-13/2026-03-13-bayer-gke-15000-nodes_zh.md)
+- [Latest: vLLM v0.18.0 Release (Chinese)](./docs/blog/2026-03-24-vllm-v0.18.0-ai-infra-highlights_zh.md)
+- [Latest: NVIDIA AICR Intro (Chinese)](./docs/blog/2026-03-13-nvidia-aicr-introduction_zh.md)
+- [Latest: Bayer 15K-Node GKE Retrospective (Chinese)](./docs/blog/2026-03-13-bayer-gke-15000-nodes_zh.md)
 
 ## 📊 AI-Infra Landscape (2026 March)
 
