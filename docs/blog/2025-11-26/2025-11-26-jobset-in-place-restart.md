@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-11-26
 tags: kubernetes, jobset, in-place-restart, co-evolving, batch-processing
-canonical_path: docs/blog/2025-11-26/jobset-in-place-restart.md
+canonical_path: docs/blog/2025-11-26/2025-11-26-jobset-in-place-restart.md
 ---
 
 # JobSet In-Place Restart: From 2m10s to 10s — A 92% Speed Boost
@@ -274,7 +274,7 @@ The future of AI infrastructure is Co-Evolving — and it's happening now.
 
 ### Related Blog Posts
 
-- [Gang Scheduling in Kubernetes](../2025-11-25/gang-scheduling.md)
+- [Gang Scheduling in Kubernetes](../2025-11-25/2025-11-25-gang-scheduling.md)
 - [Scheduling Optimization](../../kubernetes/scheduling-optimization.md)
 
 ---

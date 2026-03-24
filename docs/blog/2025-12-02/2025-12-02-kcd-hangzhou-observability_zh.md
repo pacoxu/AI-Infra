@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-02
 tags: observability, prometheus, victoriametrics, fluent-bit, kcd, monitoring
-canonical_path: docs/blog/2025-12-02/kcd-hangzhou-observability_zh.md
+canonical_path: docs/blog/2025-12-02/2025-12-02-kcd-hangzhou-observability_zh.md
 ---
 
 # KCD 杭州最热主题：可观测性能优化

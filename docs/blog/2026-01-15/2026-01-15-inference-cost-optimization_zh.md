@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 last_updated: 2026-01-15
 tags: inference, cost-optimization, maas, ai-platform, gpu-utilization
-canonical_path: docs/blog/2026-01-15/inference-cost-optimization_zh.md
+canonical_path: docs/blog/2026-01-15/2026-01-15-inference-cost-optimization_zh.md
 ---
 
 # 推理平台实践与 AI 成本优化

@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2026-03-13
 tags: kubernetes, nvidia, gpu, aicr, gitops, cluster-runtime
-canonical_path: docs/blog/2026-03-13/nvidia-aicr-introduction_zh.md
+canonical_path: docs/blog/2026-03-13/2026-03-13-nvidia-aicr-introduction_zh.md
 source_urls:
   - https://github.com/NVIDIA/aicr
   - https://github.com/pacoxu/AI-Infra/pull/252

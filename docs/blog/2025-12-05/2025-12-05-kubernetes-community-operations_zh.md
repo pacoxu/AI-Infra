@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-05
 tags: kubernetes, 社区, 开源, ai, ml, 贡献
-canonical_path: docs/blog/2025-12-05/kubernetes-community-operations_zh.md
+canonical_path: docs/blog/2025-12-05/2025-12-05-kubernetes-community-operations_zh.md
 ---
 
 # Kubernetes 社区是如何运作的?AI 时代有哪些切入点?

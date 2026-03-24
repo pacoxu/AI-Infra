@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-13
+last_updated: 2026-03-24
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -105,26 +105,9 @@ where to focus their learning.
 #### Blog
 
 - [Blog Overview](./docs/blog/README.md)
-- [vLLM v0.18.0 Release: AI-Infra Highlights (Chinese)](./docs/blog/2026-03-24/vllm-v0.18.0-ai-infra-highlights_zh.md)
-- [NVIDIA AICR: Recipe-Driven GPU Cluster Baselines (Chinese)](./docs/blog/2026-03-13/nvidia-aicr-introduction_zh.md)
-- [Bayer Crop Science and a 15K-Node GKE Cluster (Chinese)](./docs/blog/2026-03-13/bayer-gke-15000-nodes_zh.md)
-- [GPU Fault Detection and Self-Healing](./docs/blog/2025-12-17/gpu-fault-detection_zh.md)
-- [Multi-Tenancy Isolation in AI Infra Era](./docs/blog/2025-12-15/multi-tenancy-isolation.md)
-  | [中文版](./docs/blog/2025-12-15/multi-tenancy-isolation_zh.md)
-- [KCD Hangzhou: Observability at Scale](./docs/blog/2025-12-02/kcd-hangzhou-observability.md)
-  | [中文版](./docs/blog/2025-12-02/kcd-hangzhou-observability_zh.md)
-- [Kubernetes Safe Upgrade and Rollback](./docs/blog/2025-12-01/safe-upgrade-rollback.md)
-  | [中文版](./docs/blog/2025-12-01/safe-upgrade-rollback_zh.md)
-- [JobSet In-Place Restart: 92% Faster](./docs/blog/2025-11-26/jobset-in-place-restart.md)
-  | [中文版](./docs/blog/2025-11-26/jobset-in-place-restart_zh.md)
-- [cgroup v2 Migration Guide](./docs/blog/2025-11-26/cgroup-v2.md)
-  | [中文版](./docs/blog/2025-11-26/cgroup-v2_zh.md)
-- [Gang Scheduling in Kubernetes v1.35](./docs/blog/2025-11-25/gang-scheduling.md)
-  | [中文版](./docs/blog/2025-11-25/gang-scheduling_zh.md)
-- [AWS 10K Node EKS Ultra Scale Clusters](./docs/blog/2025-12-01/aws-10k-node-clusters.md)
-  | [中文版](./docs/blog/2025-12-01/aws-10k-node-clusters_zh.md)
-- [Inference Orchestration Solutions](./docs/blog/2025-12-01/inference-orchestration.md)
-  | [中文版](./docs/blog/2025-12-01/inference-orchestration_zh.md)
+- [Latest: vLLM v0.18.0 Release (Chinese)](./docs/blog/2026-03-24/2026-03-24-vllm-v0.18.0-ai-infra-highlights_zh.md)
+- [Latest: NVIDIA AICR Intro (Chinese)](./docs/blog/2026-03-13/2026-03-13-nvidia-aicr-introduction_zh.md)
+- [Latest: Bayer 15K-Node GKE Retrospective (Chinese)](./docs/blog/2026-03-13/2026-03-13-bayer-gke-15000-nodes_zh.md)
 
 ## 📊 AI-Infra Landscape (2026 March)
 

@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-11-25
 tags: kubernetes, scheduling, topology, dra, device-plugin, gpu, nic
-canonical_path: docs/blog/2025-11-25/topology-aware-scheduling.md
+canonical_path: docs/blog/2025-11-25/2025-11-25-topology-aware-scheduling.md
 ---
 
 # Smarter Scheduling for AI Workloads: Topology-Aware Scheduling

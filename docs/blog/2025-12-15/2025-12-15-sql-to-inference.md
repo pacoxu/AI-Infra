@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-15
 tags: ai-infrastructure, ray, vllm, pytorch, kubernetes, data-processing
-canonical_path: docs/blog/2025-12-15/sql-to-inference.md
+canonical_path: docs/blog/2025-12-15/2025-12-15-sql-to-inference.md
 ---
 
 # From SQL on CPUs to Inference on GPUs: The Evolution of AI Data Processing
@@ -263,7 +263,7 @@ will be essential for building scalable, efficient AI infrastructure.
 
 ### Related Blog Posts
 
-- [Inference Orchestration Solutions](../2025-12-01/inference-orchestration.md)
+- [Inference Orchestration Solutions](../2025-12-01/2025-12-01-inference-orchestration.md)
 - [Training on Kubernetes Guide](../../training/README.md)
 - [PyTorch Ecosystem Overview](../../training/pytorch-ecosystem.md)
 

@@ -524,7 +524,7 @@ kubernetes.io/hostname: "node-1"
 - Consider trade-offs: topology optimization may reduce scheduling flexibility
 
 **Related Blog Post:**
-[Topology-Aware Scheduling Blog](../blog/2025-11-25/topology-aware-scheduling.md)
+[Topology-Aware Scheduling Blog](../blog/2025-11-25/2025-11-25-topology-aware-scheduling.md)
 for detailed coverage of DRA topology management.
 
 ### 2.7 Storage for AI Workloads
@@ -579,7 +579,7 @@ spec:
 - **Standard tooling**: Works with existing container registry infrastructure
 - **Pre-pull support**: DaemonSet-based pre-pull for warm nodes
 
-See [OCI Taking Over Everything](../blog/2025-12-22/oci-taking-over-everything_en.md)
+See [OCI Taking Over Everything](../blog/2025-12-22/2025-12-22-oci-taking-over-everything_en.md)
 for detailed context.
 
 #### Checkpointing Storage
