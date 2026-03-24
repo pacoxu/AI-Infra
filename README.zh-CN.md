@@ -102,6 +102,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 #### 博客
 
 - [博客概述](./docs/blog/README.md)
+- [vLLM v0.18.0 发布解读：AI-Infra 团队值得重点关注什么？](./docs/blog/2026-03-24/vllm-v0.18.0-ai-infra-highlights_zh.md)
 - [NVIDIA AICR：把 GPU 集群安装经验固化成可复现 Recipe](./docs/blog/2026-03-13/nvidia-aicr-introduction_zh.md)
 - [【2020】拜耳作物科学以 15,000 节点的 GKE 集群为未来播种](./docs/blog/2026-03-13/bayer-gke-15000-nodes_zh.md)
 - [贡献开源的 ROI：LF Research 2025 年调查报告解读](./docs/blog/2026-02-25/opensource-contribution-roi_zh.md)

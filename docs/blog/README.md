@@ -1,12 +1,28 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-13
+last_updated: 2026-03-24
 tags: blog, kubernetes, ai-infrastructure
 ---
 
 # AI-Infra Blog Posts
 
+## 2026-03-24: vLLM v0.18.0 发布解读：AI-Infra 视角的重点变化
+
+- [vLLM v0.18.0 发布解读：AI-Infra 团队值得重点关注什么？ (Chinese)](./2026-03-24/vllm-v0.18.0-ai-infra-highlights_zh.md)
+
+A Chinese analysis of vLLM v0.18.0 release notes from an AI infrastructure
+operations perspective:
+
+- **Serving interface expansion**: New `--grpc` serving mode and
+  `vllm launch render` for GPU-less preprocessing
+- **Memory hierarchy upgrades**: Smarter KV offloading, FlexKV backend, and
+  multi-KV-group offloading support
+- **Large-scale MoE serving**: Elastic EP Milestone 2 with NIXL-EP and faster
+  expert loading path
+- **Operational risk gating**: Known Qwen3.5 + FP8 KV cache accuracy issue on
+  B200, plus dependency/default behavior changes
+- **Rollout checklist**: Concrete canary and upgrade checks for platform teams
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
