@@ -7,6 +7,8 @@ tags: blog, kubernetes, ai-infrastructure
 
 # AI-Infra Blog Posts
 
+Older posts have been archived to [docs/archive-blog](../archive-blog/README.md).
+
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
@@ -81,7 +83,7 @@ case study about Bayer Crop Science scaling GKE to 15,000 worker nodes:
 
 ## 2026-02-25: 贡献开源的 ROI：LF Research 2025 年调查报告解读
 
-- [贡献开源的 ROI (Chinese)](./2026-02-25/2026-02-25-opensource-contribution-roi_zh.md)
+- [贡献开源的 ROI (Chinese)](../archive-blog/2026-02-25/2026-02-25-opensource-contribution-roi_zh.md)
 
 A Chinese blog post analyzing the Linux Foundation Research 2025 Open Source ROI
 Survey, covering the business case for upstream open source contribution:
@@ -100,7 +102,7 @@ Survey, covering the business case for upstream open source contribution:
 
 ## 2026-02-14: 关注 AAIF 进展：Agentic AI Foundation 及其旗下活动预告
 
-- [AAIF Introduction (Chinese)](./2026-02-14/2026-02-14-aaif-introduction_zh.md)
+- [AAIF Introduction (Chinese)](../archive-blog/2026-02-14/2026-02-14-aaif-introduction_zh.md)
 
 A comprehensive introduction to the Agentic AI Foundation (AAIF) and its
 upcoming flagship events:
@@ -116,7 +118,7 @@ upcoming flagship events:
 
 ## 2026-01-15: 推理平台实践与 AI 成本优化
 
-- [Inference Cost Optimization (Chinese)](./2026-01-15/2026-01-15-inference-cost-optimization_zh.md)
+- [Inference Cost Optimization (Chinese)](../archive-blog/2026-01-15/2026-01-15-inference-cost-optimization_zh.md)
 
 A comprehensive guide to cost optimization strategies for AI inference
 platforms (MaaS - Model as a Service):
@@ -143,7 +145,7 @@ platforms (MaaS - Model as a Service):
 
 ## 2026-01-12: KubeCon + CloudNativeCon Europe 2026 主题推荐
 
-- [KubeCon EU 2026 Recommendations (Chinese)](./2026-01-12/2026-01-12-kubecon-eu-2026-recommendations_zh.md)
+- [KubeCon EU 2026 Recommendations (Chinese)](../archive-blog/2026-01-12/2026-01-12-kubecon-eu-2026-recommendations_zh.md)
 
 A comprehensive guide to KubeCon + CloudNativeCon Europe 2026 with curated AI infrastructure session recommendations:
 
@@ -159,7 +161,7 @@ A comprehensive guide to KubeCon + CloudNativeCon Europe 2026 with curated AI in
 
 ## 2026-01-07: Ambient Global Compute — Orchestrating the Non-Elastic Cloud
 
-- [Ambient Global Compute 中文博客](./2026-01-07/2026-01-07-ambient-global-compute_zh.md)
+- [Ambient Global Compute 中文博客](../archive-blog/2026-01-07/2026-01-07-ambient-global-compute_zh.md)
 
 A comprehensive blog post about orchestrating the non-elastic cloud with
 Kubernetes, based on Jago Macleod's KubeCon presentation:
@@ -180,8 +182,8 @@ Kubernetes, based on Jago Macleod's KubeCon presentation:
 
 ## 2025-12-22: OCI Is Quietly Taking Over Everything
 
-- [OCI Taking Over Everything (English)](./2025-12-22/2025-12-22-oci-taking-over-everything_en.md)
-- [OCI 正在悄悄占领一切 (Chinese)](./2025-12-22/2025-12-22-oci-taking-over-everything_zh.md)
+- [OCI Taking Over Everything (English)](../archive-blog/2025-12-22/2025-12-22-oci-taking-over-everything_en.md)
+- [OCI 正在悄悄占领一切 (Chinese)](../archive-blog/2025-12-22/2025-12-22-oci-taking-over-everything_zh.md)
 
 A comprehensive analysis of how OCI (Open Container Initiative) is becoming
 the unified distribution backbone for images, Helm charts, AI models, and WASM
@@ -201,8 +203,8 @@ in the AI era, referencing KubeCon Atlanta insights:
 
 ## 2025-12-22: vLLM 2025 Retrospective & 2026 Roadmap
 
-- [vLLM 2025 Retro & 2026 RoadMap (English)](./2025-12-22/2025-12-22-vllm-2025-retro-2026-roadmap_en.md)
-- [vLLM 2025 年度回顾与 2026 年路线图 (Chinese)](./2025-12-22/2025-12-22-vllm-2025-retro-2026-roadmap_zh.md)
+- [vLLM 2025 Retro & 2026 RoadMap (English)](../archive-blog/2025-12-22/2025-12-22-vllm-2025-retro-2026-roadmap_en.md)
+- [vLLM 2025 年度回顾与 2026 年路线图 (Chinese)](../archive-blog/2025-12-22/2025-12-22-vllm-2025-retro-2026-roadmap_zh.md)
 
 A comprehensive summary of vLLM's achievements in 2025 and vision for 2026,
 based on vLLM Office Hours #38:
@@ -219,7 +221,7 @@ based on vLLM Office Hours #38:
 
 ## 2025-12-17: GPU Fault Detection and Self-Healing in Kubernetes
 
-- [GPU 故障检测与自愈实践指南 (Chinese)](./2025-12-17/2025-12-17-gpu-fault-detection_zh.md)
+- [GPU 故障检测与自愈实践指南 (Chinese)](../archive-blog/2025-12-17/2025-12-17-gpu-fault-detection_zh.md)
 
 A practical guide for AI infrastructure engineers and SREs on detecting,
 diagnosing, and automatically recovering from GPU hardware failures in
@@ -238,7 +240,7 @@ Kubernetes clusters:
 
 ## 2025-12-17: DRANET — Community-Driven Kubernetes Network Driver
 
-- [DRANET 介绍 (Chinese)](./2025-12-17/2025-12-17-dranet-kubernetes-network-driver_zh.md)
+- [DRANET 介绍 (Chinese)](../archive-blog/2025-12-17/2025-12-17-dranet-kubernetes-network-driver_zh.md)
 
 A comprehensive blog post about DRANET (Dynamic Resource Allocation Network),
 the community-driven evolution of the Kubernetes network driver, combining
@@ -258,8 +260,8 @@ KubeCon NA 2025 keynote and research paper content:
 
 ## 2025-12-15: ByteDance's Solution for Ultra-Large-Scale Kubernetes Clusters
 
-- [ByteDance Large-Scale K8s (English)](./2025-12-15/2025-12-15-bytedance-large-scale-k8s.md)
-- [字节跳动超大规模 K8s 方案 (Chinese)](./2025-12-15/2025-12-15-bytedance-large-scale-k8s_zh.md)
+- [ByteDance Large-Scale K8s (English)](../archive-blog/2025-12-15/2025-12-15-bytedance-large-scale-k8s.md)
+- [字节跳动超大规模 K8s 方案 (Chinese)](../archive-blog/2025-12-15/2025-12-15-bytedance-large-scale-k8s_zh.md)
 
 A comprehensive overview of ByteDance's solutions for ultra-large-scale
 Kubernetes clusters:
@@ -276,8 +278,8 @@ Kubernetes clusters:
 
 ## 2025-12-15: From SQL on CPUs to Inference on GPUs
 
-- [SQL to Inference Evolution (English)](./2025-12-15/2025-12-15-sql-to-inference.md)
-- [SQL 到推理演进 (Chinese)](./2025-12-15/2025-12-15-sql-to-inference_zh.md)
+- [SQL to Inference Evolution (English)](../archive-blog/2025-12-15/2025-12-15-sql-to-inference.md)
+- [SQL 到推理演进 (Chinese)](../archive-blog/2025-12-15/2025-12-15-sql-to-inference_zh.md)
 
 A comprehensive blog post about the transformation of AI data processing
 based on PyTorchCon 2025 presentation by Robert Nishihara (Anyscale):
@@ -297,8 +299,8 @@ based on PyTorchCon 2025 presentation by Robert Nishihara (Anyscale):
 
 ## 2025-12-15: Multi-Tenancy Isolation in AI Infra Era
 
-- [Multi-Tenancy Isolation (English)](./2025-12-15/2025-12-15-multi-tenancy-isolation.md)
-- [多租户隔离性方案探讨 (Chinese)](./2025-12-15/2025-12-15-multi-tenancy-isolation_zh.md)
+- [Multi-Tenancy Isolation (English)](../archive-blog/2025-12-15/2025-12-15-multi-tenancy-isolation.md)
+- [多租户隔离性方案探讨 (Chinese)](../archive-blog/2025-12-15/2025-12-15-multi-tenancy-isolation_zh.md)
 
 A comprehensive guide to multi-tenant isolation solutions in Kubernetes for the
 AI infrastructure era:
@@ -316,7 +318,7 @@ AI infrastructure era:
 
 ## 2025-12-08: GKE 65,000 Node Support — Benchmarking AI Workloads at Scale
 
-- [GKE 65K Nodes (Chinese)](./2025-12-08/2025-12-08-gke-65k-nodes_zh.md)
+- [GKE 65K Nodes (Chinese)](../archive-blog/2025-12-08/2025-12-08-gke-65k-nodes_zh.md)
 
 A comprehensive translation of Google Cloud's blog posts about GKE's
 achievement of supporting 65,000 nodes for AI workloads:
@@ -335,8 +337,8 @@ achievement of supporting 65,000 nodes for AI workloads:
 
 ## 2025-12-05: How the Kubernetes Community Operates — Entry Points in the AI Era
 
-- [Kubernetes Community Operations (English)](./2025-12-05/2025-12-05-kubernetes-community-operations.md)
-- [Kubernetes 社区运作方式 (Chinese)](./2025-12-05/2025-12-05-kubernetes-community-operations_zh.md)
+- [Kubernetes Community Operations (English)](../archive-blog/2025-12-05/2025-12-05-kubernetes-community-operations.md)
+- [Kubernetes 社区运作方式 (Chinese)](../archive-blog/2025-12-05/2025-12-05-kubernetes-community-operations_zh.md)
 
 A comprehensive guide to understanding how the Kubernetes community is
 structured and where to find entry points in the AI era:
@@ -352,8 +354,8 @@ structured and where to find entry points in the AI era:
 
 ## 2025-12-03: Ant Group Large-Scale Cluster — 50% Memory Reduction at 20K Nodes
 
-- [Ant Group Large-Scale K8s (English)](./2025-12-03/2025-12-03-ant-group-large-scale-k8s.md)
-- [蚂蚁大规模集群经验 (Chinese)](./2025-12-03/2025-12-03-ant-group-large-scale-k8s_zh.md)
+- [Ant Group Large-Scale K8s (English)](../archive-blog/2025-12-03/2025-12-03-ant-group-large-scale-k8s.md)
+- [蚂蚁大规模集群经验 (Chinese)](../archive-blog/2025-12-03/2025-12-03-ant-group-large-scale-k8s_zh.md)
 
 A comprehensive overview of Ant Group's large-scale Kubernetes cluster
 experiences at 20,000+ nodes:
@@ -371,8 +373,8 @@ experiences at 20,000+ nodes:
 
 ## 2025-12-02: KCD Hangzhou — Observability Optimization at Scale
 
-- [KCD Hangzhou Observability (English)](./2025-12-02/2025-12-02-kcd-hangzhou-observability.md)
-- [KCD 杭州可观测性优化 (Chinese)](./2025-12-02/2025-12-02-kcd-hangzhou-observability_zh.md)
+- [KCD Hangzhou Observability (English)](../archive-blog/2025-12-02/2025-12-02-kcd-hangzhou-observability.md)
+- [KCD 杭州可观测性优化 (Chinese)](../archive-blog/2025-12-02/2025-12-02-kcd-hangzhou-observability_zh.md)
 
 A blog post covering the hottest observability topics from KCD Hangzhou +
 OpenInfra Days China 2025 and KubeCon NA 2025:
@@ -387,8 +389,8 @@ OpenInfra Days China 2025 and KubeCon NA 2025:
 
 ## 2025-12-01: Kubernetes Safe Upgrade and Rollback
 
-- [Safe Upgrade and Rollback (English)](./2025-12-01/2025-12-01-safe-upgrade-rollback.md)
-- [安全升级与回滚 (Chinese)](./2025-12-01/2025-12-01-safe-upgrade-rollback_zh.md)
+- [Safe Upgrade and Rollback (English)](../archive-blog/2025-12-01/2025-12-01-safe-upgrade-rollback.md)
+- [安全升级与回滚 (Chinese)](../archive-blog/2025-12-01/2025-12-01-safe-upgrade-rollback_zh.md)
 
 A comprehensive guide to Kubernetes safe upgrade and rollback capabilities
 based on the Google Cloud blog and KubeCon NA 2025 keynote:
@@ -402,8 +404,8 @@ based on the Google Cloud blog and KubeCon NA 2025 keynote:
 
 ## 2025-12-01: Inference Orchestration Solutions
 
-- [Inference Orchestration (English)](./2025-12-01/2025-12-01-inference-orchestration.md)
-- [推理编排 (Chinese)](./2025-12-01/2025-12-01-inference-orchestration_zh.md)
+- [Inference Orchestration (English)](../archive-blog/2025-12-01/2025-12-01-inference-orchestration.md)
+- [推理编排 (Chinese)](../archive-blog/2025-12-01/2025-12-01-inference-orchestration_zh.md)
 
 An overview of current open-source inference orchestration solutions and
 convergence trends:
@@ -417,8 +419,8 @@ convergence trends:
 
 ## 2025-12-01: AWS 10K Node EKS Ultra Scale Clusters
 
-- [AWS 10K Node Clusters (English)](./2025-12-01/2025-12-01-aws-10k-node-clusters.md)
-- [AWS 万节点集群 (Chinese)](./2025-12-01/2025-12-01-aws-10k-node-clusters_zh.md)
+- [AWS 10K Node Clusters (English)](../archive-blog/2025-12-01/2025-12-01-aws-10k-node-clusters.md)
+- [AWS 万节点集群 (Chinese)](../archive-blog/2025-12-01/2025-12-01-aws-10k-node-clusters_zh.md)
 
 A follow-up to Google's 130K node cluster, covering AWS EKS ultra-scale
 optimizations:
@@ -431,8 +433,8 @@ optimizations:
 
 ## 2025-11-28: Agent Sandbox — Secure AI Agents on Kubernetes
 
-- [Agent Sandbox (English)](./2025-11-28/2025-11-28-agent-sandbox.md)
-- [Agent Sandbox (Chinese)](./2025-11-28/2025-11-28-agent-sandbox_zh.md)
+- [Agent Sandbox (English)](../archive-blog/2025-11-28/2025-11-28-agent-sandbox.md)
+- [Agent Sandbox (Chinese)](../archive-blog/2025-11-28/2025-11-28-agent-sandbox_zh.md)
 
 A comprehensive guide to Agent Sandbox, a Kubernetes SIG Apps project for
 secure AI agent execution, covering:
@@ -446,8 +448,8 @@ secure AI agent execution, covering:
 
 ## 2025-11-26: JobSet In-Place Restart — 92% Faster Recovery
 
-- [JobSet In-Place Restart (English)](./2025-11-26/2025-11-26-jobset-in-place-restart.md)
-- [JobSet In-Place Restart (Chinese)](./2025-11-26/2025-11-26-jobset-in-place-restart_zh.md)
+- [JobSet In-Place Restart (English)](../archive-blog/2025-11-26/2025-11-26-jobset-in-place-restart.md)
+- [JobSet In-Place Restart (Chinese)](../archive-blog/2025-11-26/2025-11-26-jobset-in-place-restart_zh.md)
 
 A blog post about JobSet leveraging Kubernetes In-Place Container Restart
 (Co-Evolving theme), covering:
@@ -460,8 +462,8 @@ A blog post about JobSet leveraging Kubernetes In-Place Container Restart
 
 ## 2025-11-26: cgroup v2 Migration Guide
 
-- [cgroup v2 Migration Guide (English)](./2025-11-26/2025-11-26-cgroup-v2.md)
-- [cgroup v2 Migration Guide (Chinese)](./2025-11-26/2025-11-26-cgroup-v2_zh.md)
+- [cgroup v2 Migration Guide (English)](../archive-blog/2025-11-26/2025-11-26-cgroup-v2.md)
+- [cgroup v2 Migration Guide (Chinese)](../archive-blog/2025-11-26/2025-11-26-cgroup-v2_zh.md)
 
 A comprehensive guide to cgroup v2 migration for Kubernetes users, covering:
 
@@ -474,8 +476,8 @@ A comprehensive guide to cgroup v2 migration for Kubernetes users, covering:
 
 ## 2025-11-25: Topology-Aware Scheduling
 
-- [Topology-Aware Scheduling (English)](./2025-11-25/2025-11-25-topology-aware-scheduling.md)
-- [Topology-Aware Scheduling (Chinese)](./2025-11-25/2025-11-25-topology-aware-scheduling_zh.md)
+- [Topology-Aware Scheduling (English)](../archive-blog/2025-11-25/2025-11-25-topology-aware-scheduling.md)
+- [Topology-Aware Scheduling (Chinese)](../archive-blog/2025-11-25/2025-11-25-topology-aware-scheduling_zh.md)
 
 A comprehensive guide to topology-aware scheduling for AI workloads, covering:
 
@@ -487,8 +489,8 @@ A comprehensive guide to topology-aware scheduling for AI workloads, covering:
 
 ## 2025-11-25: Gang Scheduling
 
-- [Gang Scheduling Blog (English)](./2025-11-25/2025-11-25-gang-scheduling.md)
-- [Gang Scheduling Blog (Chinese)](./2025-11-25/2025-11-25-gang-scheduling_zh.md)
+- [Gang Scheduling Blog (English)](../archive-blog/2025-11-25/2025-11-25-gang-scheduling.md)
+- [Gang Scheduling Blog (Chinese)](../archive-blog/2025-11-25/2025-11-25-gang-scheduling_zh.md)
 
 A comprehensive overview of gang scheduling and workload-aware scheduling
 coming to Kubernetes v1.35, covering:
