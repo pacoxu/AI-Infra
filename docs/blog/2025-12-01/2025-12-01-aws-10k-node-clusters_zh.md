@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-01
 tags: kubernetes, large-scale, aws, eks, scalability, etcd, image-pull
-canonical_path: docs/blog/2025-12-01/aws-10k-node-clusters_zh.md
+canonical_path: docs/blog/2025-12-01/2025-12-01-aws-10k-node-clusters_zh.md
 ---
 
 # AWS 万节点 EKS 超大规模集群：深度解析

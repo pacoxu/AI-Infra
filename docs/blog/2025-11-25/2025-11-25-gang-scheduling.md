@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-11-24
 tags: kubernetes, scheduling, gang-scheduling, workload-api, batch-processing
-canonical_path: docs/blog/2025-11-25/gang-scheduling.md
+canonical_path: docs/blog/2025-11-25/2025-11-25-gang-scheduling.md
 ---
 
 # Gang Scheduling Comes to Kubernetes: A Game Changer for AI/ML Workloads

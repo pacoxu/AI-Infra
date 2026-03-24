@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-01
 tags: inference, orchestration, kubernetes, lws, pd-disaggregation, vllm
-canonical_path: docs/blog/2025-12-01/inference-orchestration.md
+canonical_path: docs/blog/2025-12-01/2025-12-01-inference-orchestration.md
 ---
 
 # Inference Orchestration: Current Solutions and Convergence Trends

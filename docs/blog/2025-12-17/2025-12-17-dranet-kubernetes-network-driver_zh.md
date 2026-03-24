@@ -300,9 +300,9 @@ width="600" alt="论文图表 4">
 
 ### Kubernetes DRA 相关
 
-- [Dynamic Resource Allocation 文档](../kubernetes/dra.md)
-- [DRA 性能测试](../kubernetes/dra-performance-testing.md)
-- [拓扑感知调度](../kubernetes/scheduling-optimization.md)
+- [Dynamic Resource Allocation 文档](../../kubernetes/dra.md)
+- [DRA 性能测试](../../kubernetes/dra-performance-testing.md)
+- [拓扑感知调度](../../kubernetes/scheduling-optimization.md)
 
 ### CNCF 和 Kubernetes 社区
 
@@ -316,7 +316,7 @@ width="600" alt="论文图表 4">
 ### NRI (Node Resource Interface)
 
 - <a href="https://github.com/containerd/nri">containerd/nri</a>
-- [Node Resource Interface 文档](../kubernetes/nri.md)
+- [Node Resource Interface 文档](../../kubernetes/nri.md)
 
 ### NCCL 和高性能网络
 
@@ -327,9 +327,9 @@ width="600" alt="论文图表 4">
 
 ### 相关博客
 
-- [Gang Scheduling](../blog/2025-11-25/gang-scheduling_zh.md)
-- [Topology-Aware Scheduling](../blog/2025-11-25/topology-aware-scheduling_zh.md)
-- [GKE 65K Nodes](../blog/2025-12-08/gke-65k-nodes_zh.md)
+- [Gang Scheduling](../2025-11-25/2025-11-25-gang-scheduling_zh.md)
+- [Topology-Aware Scheduling](../2025-11-25/2025-11-25-topology-aware-scheduling_zh.md)
+- [GKE 65K Nodes](../2025-12-08/2025-12-08-gke-65k-nodes_zh.md)
 
 ## 总结
 

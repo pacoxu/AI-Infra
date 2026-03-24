@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2026-03-13
 tags: kubernetes, gke, google-cloud, scalability, bayer, case-study
-canonical_path: docs/blog/2026-03-13/bayer-gke-15000-nodes_zh.md
+canonical_path: docs/blog/2026-03-13/2026-03-13-bayer-gke-15000-nodes_zh.md
 source_urls:
   - https://cloud.google.com/blog/products/containers-kubernetes/google-kubernetes-engine-clusters-can-have-up-to-15000-nodes
 ---

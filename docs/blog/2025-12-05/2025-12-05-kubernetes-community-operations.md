@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-05
 tags: kubernetes, community, open-source, ai, ml, contribution
-canonical_path: docs/blog/2025-12-05/kubernetes-community-operations.md
+canonical_path: docs/blog/2025-12-05/2025-12-05-kubernetes-community-operations.md
 ---
 
 # How the Kubernetes Community Operates: Entry Points in the AI Era

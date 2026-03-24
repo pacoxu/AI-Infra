@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-08
 tags: kubernetes, gke, scalability, ai-workloads, google-cloud
-canonical_path: docs/blog/2025-12-08/gke-65k-nodes_zh.md
+canonical_path: docs/blog/2025-12-08/2025-12-08-gke-65k-nodes_zh.md
 source_urls:
   - https://cloud.google.com/blog/products/containers-kubernetes/benchmarking-a-65000-node-gke-cluster-with-ai-workloads
   - https://cloud.google.com/blog/products/containers-kubernetes/gke-65k-nodes-and-counting

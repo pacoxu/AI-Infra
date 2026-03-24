@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-15
 tags: ai-infrastructure, ray, vllm, pytorch, kubernetes, data-processing
-canonical_path: docs/blog/2025-12-15/sql-to-inference_zh.md
+canonical_path: docs/blog/2025-12-15/2025-12-15-sql-to-inference_zh.md
 ---
 
 # 从 SQL on CPUs 到 Inference on GPUs：AI 数据处理的演进
@@ -239,7 +239,7 @@ Ray 作为连接 AI 框架与云原生基础设施的关键编排层。vLLM + Ra
 
 ### 相关博客文章
 
-- [推理编排解决方案](../2025-12-01/inference-orchestration_zh.md)
+- [推理编排解决方案](../2025-12-01/2025-12-01-inference-orchestration_zh.md)
 - [Kubernetes 上的训练指南](../../training/README.md)
 - [PyTorch 生态系统概览](../../training/pytorch-ecosystem.md)
 

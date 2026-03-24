@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-11-26
 tags: kubernetes, jobset, in-place-restart, co-evolving, batch-processing
-canonical_path: docs/blog/2025-11-26/jobset-in-place-restart_zh.md
+canonical_path: docs/blog/2025-11-26/2025-11-26-jobset-in-place-restart_zh.md
 ---
 
 # JobSet 原地重启：从 2 分 10 秒到 10 秒 — 速度提升 92%
@@ -259,7 +259,7 @@ AI 基础设施的未来是协同演进的 — 而这正在发生。
 
 ### 相关博客文章
 
-- [Kubernetes 中的 Gang 调度](../2025-11-25/gang-scheduling_zh.md)
+- [Kubernetes 中的 Gang 调度](../2025-11-25/2025-11-25-gang-scheduling_zh.md)
 - [调度优化](../../kubernetes/scheduling-optimization.md)
 
 ---

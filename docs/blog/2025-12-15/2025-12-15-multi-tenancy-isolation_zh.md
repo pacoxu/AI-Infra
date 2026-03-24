@@ -3,12 +3,12 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-15
 tags: kubernetes, multi-tenancy, isolation, security, ai-infra, public-cloud, private-cloud
-canonical_path: docs/blog/2025-12-15/multi-tenancy-isolation_zh.md
+canonical_path: docs/blog/2025-12-15/2025-12-15-multi-tenancy-isolation_zh.md
 ---
 
 # AI Infra 时代的多租户隔离性方案探讨
 
-[English Version](./multi-tenancy-isolation.md)
+[English Version](./2025-12-15-multi-tenancy-isolation.md)
 
 ## 引言
 

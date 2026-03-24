@@ -3,7 +3,7 @@ status: Active
 maintainer: pacoxu
 date: 2025-12-01
 tags: kubernetes, upgrade, rollback, emulation-version, compatibility
-canonical_path: docs/blog/2025-12-01/safe-upgrade-rollback.md
+canonical_path: docs/blog/2025-12-01/2025-12-01-safe-upgrade-rollback.md
 ---
 
 # Kubernetes Safe Upgrade and Rollback: Emulation Version and Compatibility

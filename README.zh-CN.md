@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-13
+last_updated: 2026-03-24
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -31,7 +31,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 
 ## 📑 目录
 
-- [AI-Infra 全景图](#-ai-infra-全景图-2025年6月需要更新)
+- [AI-Infra 全景图](#-ai-infra-全景图-2026年3月)
 - [AI 基础设施工程师学习路径](#-ai-基础设施工程师学习路径)
   - [0. 内核与运行时](#-0-内核与运行时底层内核)
   - [1. 调度与工作负载](#-1-调度与工作负载调度与工作负载)
@@ -102,36 +102,18 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 #### 博客
 
 - [博客概述](./docs/blog/README.md)
-- [vLLM v0.18.0 发布解读：AI-Infra 团队值得重点关注什么？](./docs/blog/2026-03-24/vllm-v0.18.0-ai-infra-highlights_zh.md)
-- [NVIDIA AICR：把 GPU 集群安装经验固化成可复现 Recipe](./docs/blog/2026-03-13/nvidia-aicr-introduction_zh.md)
-- [【2020】拜耳作物科学以 15,000 节点的 GKE 集群为未来播种](./docs/blog/2026-03-13/bayer-gke-15000-nodes_zh.md)
-- [贡献开源的 ROI：LF Research 2025 年调查报告解读](./docs/blog/2026-02-25/opensource-contribution-roi_zh.md)
-- [GPU 故障检测与自愈](./docs/blog/2025-12-17/gpu-fault-detection_zh.md)
-- [AI Infra 时代的多租户隔离性方案探讨](./docs/blog/2025-12-15/multi-tenancy-isolation_zh.md)
-  | [English](./docs/blog/2025-12-15/multi-tenancy-isolation.md)
-- [KCD 杭州：大规模可观测性](./docs/blog/2025-12-02/kcd-hangzhou-observability_zh.md)
-  | [English](./docs/blog/2025-12-02/kcd-hangzhou-observability.md)
-- [Kubernetes 安全升级与回滚](./docs/blog/2025-12-01/safe-upgrade-rollback_zh.md)
-  | [English](./docs/blog/2025-12-01/safe-upgrade-rollback.md)
-- [JobSet 原地重启：速度提升 92%](./docs/blog/2025-11-26/jobset-in-place-restart_zh.md)
-  | [English](./docs/blog/2025-11-26/jobset-in-place-restart.md)
-- [cgroup v2 迁移指南](./docs/blog/2025-11-26/cgroup-v2_zh.md)
-  | [English](./docs/blog/2025-11-26/cgroup-v2.md)
-- [Kubernetes v1.35 中的 Gang Scheduling](./docs/blog/2025-11-25/gang-scheduling_zh.md)
-  | [English](./docs/blog/2025-11-25/gang-scheduling.md)
-- [AWS 10K 节点 EKS 超大规模集群](./docs/blog/2025-12-01/aws-10k-node-clusters_zh.md)
-  | [English](./docs/blog/2025-12-01/aws-10k-node-clusters.md)
-- [推理编排解决方案](./docs/blog/2025-12-01/inference-orchestration_zh.md)
-  | [English](./docs/blog/2025-12-01/inference-orchestration.md)
+- [最新：vLLM v0.18.0 发布解读（中文）](./docs/blog/2026-03-24/2026-03-24-vllm-v0.18.0-ai-infra-highlights_zh.md)
+- [最新：NVIDIA AICR 中文介绍](./docs/blog/2026-03-13/2026-03-13-nvidia-aicr-introduction_zh.md)
+- [最新：拜耳 15,000 节点 GKE 回顾](./docs/blog/2026-03-13/2026-03-13-bayer-gke-15000-nodes_zh.md)
 
-## 📊 AI-Infra 全景图 (2025年6月，需要更新)
+## 📊 AI-Infra 全景图 (2026年3月)
 
 **图例:**
 
 > - 虚线轮廓 = 早期阶段或正在探索中
 > - 右侧标签 = 功能类别
 
-![AI-Infra 全景图](./diagrams/ai-infra-landscape.png)
+![AI-Infra 全景图](./diagrams/ai-infra-landscape.svg)
 
 ## 🎯 云原生 AI 架构师目标达成图
 
