@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-13
+last_updated: 2026-03-25
 tags: repository, structure, documentation, organization
 ---
 
@@ -16,7 +16,8 @@ The repository structure follows these principles:
 
 1. **Single Source of Truth**: Each topic appears in only ONE canonical file
 2. **Centralized Assets**: All images and diagrams stored in `diagrams/`
-3. **Clear Hierarchy**: Content organized by domain (kubernetes, inference, training)
+3. **Clear Hierarchy**: Content organized by domain (kubernetes, inference,
+   training) and dedicated `agent-infra/` track
 4. **Metadata**: Every markdown file includes status, maintainer, and tags
 5. **Relative Links**: All internal references use relative paths
 
@@ -54,12 +55,15 @@ AI-Infra/
 │       ├── README.md                 # Overview of training on Kubernetes
 │       ├── kubeflow.md               # Kubeflow training operators
 │       └── argocd.md                 # GitOps workflows with ArgoCD
-│   └── agents/                       # AI Agent platforms and frameworks
-│       └── README.md                 # Agent platforms, MCP, K8s-native agents
+├── agent-infra/                      # Agent Infra docs and benchmark assets
+│   ├── README.md                     # Agent platforms, sandboxes, and ecosystem
+│   ├── runtime-benchmark.md          # runc/gVisor/Kata/VM benchmark
+│   └── scripts/
+│       └── agent-sandbox-benchmark/  # Reproducible benchmark scripts
 └── .github/
     └── copilot-instructions.md       # AI assistant guidelines
 
-6 directories, 23 markdown files
+7 directories, 23 markdown files
 ```
 
 ## Content Organization
@@ -120,17 +124,18 @@ AI-Infra/
 
 **Cross-references**: Links to `../kubernetes/` for scheduling and resources
 
-#### 4. Agents (`docs/agents/`)
+#### 4. Agent Infra (`agent-infra/`)
 
 **Purpose**: AI Agent platforms, frameworks, and infrastructure
 
 **Canonical Files**:
 
 - `README.md` - Overview of agent platforms, MCP protocol, Kubernetes-native
-  solutions
+  solutions, and ecosystem snapshots
+- `runtime-benchmark.md` - Runtime benchmark and reproducibility guide
 
-**Cross-references**: Links to `../kubernetes/isolation.md` for sandboxing,
-`../inference/memory-context-db.md` for agent memory
+**Cross-references**: Links to `../docs/kubernetes/isolation.md` for
+sandboxing, `../docs/inference/memory-context-db.md` for agent memory
 
 ### Assets (`diagrams/`)
 
@@ -152,7 +157,7 @@ status: Active | Draft | Deprecated
 maintainer: pacoxu
 last_updated: YYYY-MM-DD
 tags: comma, separated, tags
-canonical_path: docs/category/filename.md
+canonical_path: path/from/repo/root.md
 ---
 ```
 
@@ -196,8 +201,8 @@ Key points:
 
 ### Adding New Content
 
-1. **Determine category**: kubernetes, inference, or training
-2. **Create file** in appropriate `docs/` subdirectory
+1. **Determine category**: kubernetes, inference, training, or agent-infra
+2. **Create file** in appropriate `docs/` subdirectory or `agent-infra/`
 3. **Add metadata header** with status, maintainer, date, tags
 4. **Update parent README.md** to link to new content
 5. **Update main README.md** if adding major new topic

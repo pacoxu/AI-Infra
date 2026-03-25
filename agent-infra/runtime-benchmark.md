@@ -1,9 +1,9 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-17
+last_updated: 2026-03-25
 tags: agent-sandbox, benchmark, runtime, gvisor, kata-containers, runc, vm, performance
-canonical_path: docs/agents/runtime-benchmark.md
+canonical_path: agent-infra/runtime-benchmark.md
 ---
 
 # OpenClaw / Agent Sandbox Runtime Benchmark: runc vs gVisor vs Kata vs VM
@@ -20,7 +20,7 @@ selection for production deployments.
 > Absolute values will vary with hardware and configuration; the relative
 > ordering and the directional conclusions are the primary takeaways.
 > Reproducible test scripts are provided in
-> [`scripts/agent-sandbox-benchmark/`](../../scripts/agent-sandbox-benchmark/).
+> [`agent-infra/scripts/agent-sandbox-benchmark/`](./scripts/agent-sandbox-benchmark/).
 
 ## Table of Contents
 
@@ -420,11 +420,11 @@ Task request received
 
 ### Running the Benchmark
 
-All scripts are in [`scripts/agent-sandbox-benchmark/`](../../scripts/agent-sandbox-benchmark/).
+All scripts are in [`agent-infra/scripts/agent-sandbox-benchmark/`](./scripts/agent-sandbox-benchmark/).
 
 ```bash
 # 1. Install dependencies (requires kubectl + helm + go 1.21+)
-cd scripts/agent-sandbox-benchmark
+cd agent-infra/scripts/agent-sandbox-benchmark
 ./setup.sh
 
 # 2. Deploy agent-sandbox with all four RuntimeClasses
@@ -463,9 +463,9 @@ cd scripts/agent-sandbox-benchmark
   GKE's managed gVisor integration
 - [Kata Containers + NVIDIA GPU](https://katacontainers.io/blog/Kata-Containers-Agent-Sandbox-Integration/) —
   GPU passthrough setup guide
-- [Agent Sandbox Blog](../blog/2025-11-28/2025-11-28-agent-sandbox.md) — Project overview
+- [Agent Sandbox Blog](../docs/archive-blog/2025-11-28/2025-11-28-agent-sandbox.md) — Project overview
   and architecture
-- [Kubernetes Isolation Guide](../kubernetes/isolation.md) — Broader workload
+- [Kubernetes Isolation Guide](../docs/kubernetes/isolation.md) — Broader workload
   isolation strategies
 
 ---

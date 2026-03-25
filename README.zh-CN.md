@@ -97,7 +97,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 
 #### AI 智能体
 
-- [AI 智能体平台与框架](./docs/agents/README.md)
+- [AI 智能体平台与框架](./agent-infra/README.md)
 
 #### 博客
 
@@ -298,7 +298,7 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
   - [WG AI Integration](https://github.com/kubernetes/community/blob/master/wg-ai-integration/charter.md)
   - [CNCF Tech Radar 2025](https://radar.cncf.io/) - 智能体 AI 平台部分
 
-**参见 [AI 智能体平台指南](./docs/agents/README.md)**，全面了解智能体平台、
+**参见 [AI 智能体平台指南](./agent-infra/README.md)**，全面了解智能体平台、
 框架、MCP 协议、智能体基础设施组件，以及在 Kubernetes 上构建和部署
 AI 智能体的详细学习路径。
 

@@ -100,7 +100,7 @@ where to focus their learning.
 
 #### AI Agents
 
-- [AI Agent Platforms and Frameworks](./docs/agents/README.md)
+- [AI Agent Platforms and Frameworks](./agent-infra/README.md)
 
 #### Blog
 
@@ -324,7 +324,7 @@ can perceive, reason, and act.
   - [WG AI Integration](https://github.com/kubernetes/community/blob/master/wg-ai-integration/charter.md)
   - [CNCF Tech Radar 2025](https://radar.cncf.io/) - Agentic AI Platforms section
 
-**See [AI Agent Platforms Guide](./docs/agents/README.md)** for comprehensive
+**See [AI Agent Platforms Guide](./agent-infra/README.md)** for comprehensive
 coverage of agent platforms, frameworks, MCP protocol, agent infrastructure
 components, and detailed learning paths for building and deploying AI agents
 on Kubernetes.
