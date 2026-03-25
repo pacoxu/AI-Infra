@@ -79,7 +79,7 @@ workload isolation.
 
 ### For Platform Engineers
 
-1. Begin with [Kubernetes Learning Plan](./kubernetes.md) for foundational
+1. Begin with [Kubernetes Learning Plan](./learning-plan.md) for foundational
    knowledge
 2. Study [Pod Startup Speed](./pod-startup-speed.md) for performance
    optimization

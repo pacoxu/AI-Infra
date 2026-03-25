@@ -287,7 +287,7 @@ Profile actual GPU utilization to identify over-provisioned workloads:
 
 **References:**
 
-- [Inference Cost Optimization Guide](../blog/2026-01-15/2026-01-15-inference-cost-optimization_zh.md)
+- [Inference Cost Optimization Guide](../archive-blog/2026-01-15/2026-01-15-inference-cost-optimization_zh.md)
   (Chinese) — detailed 5-strategy framework
 - [Serverless Inference](./serverless.md) — scale-to-zero with KEDA for
   variable traffic patterns

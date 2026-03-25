@@ -168,7 +168,7 @@ solutions. Migrating to DRA presents challenges:
 - NRI integration can bridge runtime-level gaps
 
 **Related Blog Post:**
-[Topology-Aware Scheduling Blog](../blog/2025-11-25/2025-11-25-topology-aware-scheduling.md)
+[Topology-Aware Scheduling Blog](../archive-blog/2025-11-25/2025-11-25-topology-aware-scheduling.md)
 for comprehensive coverage of DRA topology management and migration.
 
 ## DRA Driver Implementations
