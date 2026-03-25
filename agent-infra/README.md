@@ -1,9 +1,9 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-01-12
+last_updated: 2026-03-25
 tags: ai-agents, agentic-workflow, kubernetes, mcp, agent-platforms
-canonical_path: docs/agents/README.md
+canonical_path: agent-infra/README.md
 ---
 
 # AI Agent Platforms and Frameworks
@@ -19,6 +19,7 @@ Language Models (LLMs) as their core reasoning engine.
 - [Overview](#overview)
 - [Native AI Agent Kits](#native-ai-agent-kits)
 - [Kubernetes-Native Agent Platforms](#kubernetes-native-agent-platforms)
+- [Agent Infra Ecosystem Snapshot (2026)](#agent-infra-ecosystem-snapshot-2026)
 - [Agent Development Frameworks](#agent-development-frameworks)
 - [Agent Sandbox Infrastructure](#agent-sandbox-infrastructure)
 - [Agent Infrastructure Components](#agent-infrastructure-components)
@@ -226,7 +227,7 @@ running AI agents with strong isolation guarantees.
 
 **Status**: Kubernetes SIG project (official)
 
-See also: [Agent Sandbox Documentation](../kubernetes/isolation.md#6-agent-sandbox-kubernetes-sig-project)
+See also: [Agent Sandbox Documentation](../docs/kubernetes/isolation.md#6-agent-sandbox-kubernetes-sig-project)
 
 ### Agent Infra Sandbox
 
@@ -279,6 +280,25 @@ enabling secure and scalable application delivery across multiple clusters.
 - Edge cluster management
 - Secure deployments in restricted environments
 - Large-scale cluster fleet management
+
+### Agent Infra Ecosystem Snapshot (2026)
+
+Based on the "Agent Infra 生态图谱" conference summary (KCD Beijing / vLLM
+community), the current sandbox/runtime ecosystem can be summarized as:
+
+- **K8s standard layer — `kubernetes-sigs/agent-sandbox`**: SIG Apps official
+  project with `Sandbox` CRD, `SandboxWarmPool`, and deep GKE integration.
+- **Alibaba `OpenSandbox`**: Four sandbox types (`Coding`, `GUI`, `Exec`,
+  `RL`) plus a three-tier isolation design for heterogeneous agent workloads.
+- **OpenKruise AIO Sandbox**: Lifecycle management, E2B protocol compatibility,
+  and an all-in-one container design to simplify framework integration.
+- **ByteDance `DeerFlow 2.0`**: Sub-agent orchestration with independent
+  sandbox mode for fine-grained isolation and parallel scheduling.
+- **Tencent Cloud Agent Runtime**: Optimized for production throughput with
+  ~100 ms cold start and 100K-level concurrency claims.
+
+These projects indicate a convergence path: **standardized CRD control plane +
+pluggable sandbox runtime backends + warm pool for latency control**.
 
 ## Agent Development Frameworks
 
@@ -541,7 +561,7 @@ estargz</a>, <a href="https://github.com/dragonflydb/dragonfly">Dragonfly</a>.
 - <a href="https://github.com/e2b-dev/e2b">e2b (Firecracker sandbox)</a>
 - <a href="https://github.com/Katakate/k7">k7 (Kata sandbox)</a>
 - <a href="https://unikraft.org/">Unikraft</a>
-- <a href="../kubernetes/isolation.md#6-agent-sandbox">Detailed implementation
+- <a href="../docs/kubernetes/isolation.md#6-agent-sandbox">Detailed implementation
   guide: Agent Sandbox in Kubernetes Isolation doc</a>
 
 ---
@@ -725,7 +745,7 @@ Major AI model providers are making agents central to their platforms:
    - Tool access control
    - Audit logging
    - See [Agent Sandbox Infrastructure](#agent-sandbox-infrastructure) and
-     [Isolation Guide](../kubernetes/isolation.md#6-agent-sandbox)
+     [Isolation Guide](../docs/kubernetes/isolation.md#6-agent-sandbox)
    - Runtime benchmark: [runc vs gVisor vs Kata vs VM](./runtime-benchmark.md)
 
 ### Infrastructure Patterns
@@ -813,11 +833,11 @@ Major AI model providers are making agents central to their platforms:
 
 ### Related Documentation
 
-- [AI Gateway & Agentic Workflow](../../README.md#-3-ai-gateway--agentic-workflow)
-- [Agent Sandbox and Isolation](../kubernetes/isolation.md#6-agent-sandbox)
+- [AI Gateway & Agentic Workflow](../README.md#-3-ai-gateway--agentic-workflow)
+- [Agent Sandbox and Isolation](../docs/kubernetes/isolation.md#6-agent-sandbox)
 - [Runtime Benchmark: runc vs gVisor vs Kata vs VM](./runtime-benchmark.md)
-- [Memory and Context Management](../inference/memory-context-db.md)
-- [LLM Inference Platforms](../inference/README.md) - For model deployment
+- [Memory and Context Management](../docs/inference/memory-context-db.md)
+- [LLM Inference Platforms](../docs/inference/README.md) - For model deployment
   platforms like Kaito, AIBrix, and OME that provide the inference backend
   for agent systems
 

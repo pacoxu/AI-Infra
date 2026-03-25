@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-24
+last_updated: 2026-03-25
 tags: repository, structure, documentation, organization
 ---
 
@@ -16,7 +16,8 @@ The repository structure follows these principles:
 
 1. **Single Source of Truth**: Each topic appears in only ONE canonical file
 2. **Centralized Assets**: All images and diagrams stored in `diagrams/`
-3. **Clear Hierarchy**: Content organized by domain (kubernetes, inference, training)
+3. **Clear Hierarchy**: Content organized by domain (kubernetes, inference,
+   training) and dedicated `agent-infra/` track
 4. **Metadata**: Every markdown file includes status, maintainer, and tags
 5. **Relative Links**: All internal references use relative paths
 
@@ -34,8 +35,13 @@ AI-Infra/
 │   ├── inference/                     # LLM inference and serving topics
 │   ├── training/                      # AI model training topics
 │   ├── observability/                 # Observability content
-│   ├── agents/                        # AI agent platforms and frameworks
-│   └── blog/                          # Blog archive and index
+│   ├── blog/                          # Blog archive and index
+│   └── archive-blog/                  # Historical blog posts archive
+├── agent-infra/                       # Agent Infra docs and benchmark assets
+│   ├── README.md                      # Agent platforms, sandboxes, and ecosystem
+│   ├── runtime-benchmark.md           # runc/gVisor/Kata/VM benchmark
+│   └── scripts/
+│       └── agent-sandbox-benchmark/   # Reproducible benchmark scripts
 ├── scripts/                           # Utility and generation scripts
 └── .github/                           # GitHub automation and instructions
 
@@ -100,17 +106,18 @@ Directory/file counts evolve frequently; avoid hard-coded totals.
 
 **Cross-references**: Links to `../kubernetes/` for scheduling and resources
 
-#### 4. Agents (`docs/agents/`)
+#### 4. Agent Infra (`agent-infra/`)
 
 **Purpose**: AI Agent platforms, frameworks, and infrastructure
 
 **Canonical Files**:
 
 - `README.md` - Overview of agent platforms, MCP protocol, Kubernetes-native
-  solutions
+  solutions, and ecosystem snapshots
+- `runtime-benchmark.md` - Runtime benchmark and reproducibility guide
 
-**Cross-references**: Links to `../kubernetes/isolation.md` for sandboxing,
-`../inference/memory-context-db.md` for agent memory
+**Cross-references**: Links to `../docs/kubernetes/isolation.md` for
+sandboxing, `../docs/inference/memory-context-db.md` for agent memory
 
 #### 5. Observability (`docs/observability/`)
 
@@ -149,7 +156,7 @@ status: Active | Draft | Deprecated
 maintainer: pacoxu
 last_updated: YYYY-MM-DD
 tags: comma, separated, tags
-canonical_path: docs/category/filename.md
+canonical_path: path/from/repo/root.md
 ---
 ```
 
@@ -193,8 +200,9 @@ Key points:
 
 ### Adding New Content
 
-1. **Determine category**: kubernetes, inference, training, observability, agents, or blog
-2. **Create file** in appropriate `docs/` subdirectory
+1. **Determine category**: kubernetes, inference, training, observability,
+   blog, archive-blog, or agent-infra
+2. **Create file** in appropriate `docs/` subdirectory or `agent-infra/`
 3. **Add metadata header** with status, maintainer, date, tags
 4. **Update parent README.md** to link to new content
 5. **Update main README.md** if adding major new topic
