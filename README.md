@@ -432,6 +432,7 @@ We welcome contributions to improve this landscape and path! Whether it's a new 
 - [CNCF Landscape](https://landscape.cncf.io/)
 - [Awesome LLMOps](https://awesome-llmops.inftyai.com/)
 - [AI Infra Learning](https://github.com/cr7258/ai-infra-learning)
+- [AI Infra Learning Docs](https://github.com/ai-infra-learning/docs)
 - [CNCF TAG Workloads Foundation](https://github.com/cncf/toc/blob/main/tags/tag-workloads-foundation/README.md)
 - [CNCF TAG Infrastructure](https://github.com/cncf/toc/blob/main/tags/tag-infrastructure/README.md)
 - [CNCF AI Initiative](https://github.com/cncf/toc/issues?q=is%3Aissue%20state%3Aopen%20label%3Akind%2Finitiative)
