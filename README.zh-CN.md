@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-24
+last_updated: 2026-03-26
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -90,6 +90,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 - [并行策略](./docs/training/parallelism.md)
 - [Kubeflow 训练](./docs/training/kubeflow.md)
 - [ArgoCD GitOps](./docs/training/argocd.md)
+- [MLOps](./docs/training/mlops.md)
 
 #### 可观测性
 
@@ -252,13 +253,18 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
       智能体编排
     - [`Volcano AgentCube`](https://github.com/volcano-sh/agentcube): Volcano
       生态系统中的智能体编排
+    - [`Volcano Kthena`](https://github.com/volcano-sh/kthena): Volcano 中的高级智能体调度
+    - [`KubeEdge Sedna`](https://github.com/kubeedge/sedna): 边云协同 AI 与联邦学习
     - [`Kubernetes SIG Agent Sandbox`](https://github.com/kubernetes-sigs/agent-sandbox):
       AI 智能体的安全沙箱
     - [`Agent Infra Sandbox`](https://github.com/agent-infra/sandbox): 社区
       沙箱基础设施
     - [`OpenKruise Agents`](https://github.com/openkruise/agents): 应用
       生命周期智能体操作
+    - [`ArgoCD Agent`](https://github.com/argoproj-labs/argocd-agent): 基于智能体
+      的 GitOps 部署
   - 智能体开发框架:
+    - [`LangChain DeepAgents`](https://github.com/langchain-ai/deepagents): 深度推理与多智能体系统
     - [`Dify`](https://github.com/langgenius/dify): 智能体应用的 LLMOps 平台
     - [`AgentScope`](https://github.com/agentscope-ai/agentscope): 多智能体
       开发框架
@@ -288,10 +294,13 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
   - 提示词路由和 A/B 测试
   - RAG 工作流、向量数据库集成
   - 智能体架构模式（感知、推理、行动、记忆）
+  - **智能体四阶段演进**（人类目标/规划 → AI 辅助规划 →
+    AI 学习规划 → 完全自治）
   - 多智能体协作与通信
   - 智能体安全与沙箱
   - MCP 和智能体协议标准
   - 智能体可观测性与监控
+  - 边云协同 AI 与联邦学习
 
 - **社区倡议:**
   - [CNCF 智能体系统倡议](https://github.com/cncf/toc/issues/1746)
@@ -320,6 +329,7 @@ AI 智能体的详细学习路径。
   - 检查点的存储优化
   - **预训练大型语言模型（MoE, DeepseekV3, Llama4）**
   - **扩展实验和集群设置（AMD MI325）**
+  - **MLOps: 可重复、可审计、可回滚的机器学习生命周期**
 
 **详细内容请参见 [训练指南](./docs/training/README.md)**，
 包含训练算子（Kubeflow, Volcano, Kueue）、ML 平台（Kubeflow Pipelines,
@@ -328,7 +338,8 @@ Argo Workflows）、GitOps（ArgoCD）、容错策略、字节跳动的训练优
 [PyTorch 生态系统](./docs/training/pytorch-ecosystem.md) |
 [预训练](./docs/training/pre-training.md) |
 [并行策略](./docs/training/parallelism.md) |
-[Kubeflow](./docs/training/kubeflow.md) | [ArgoCD](./docs/training/argocd.md)
+[Kubeflow](./docs/training/kubeflow.md) | [ArgoCD](./docs/training/argocd.md) |
+[MLOps](./docs/training/mlops.md)
 
 ---
 
@@ -395,6 +406,7 @@ LLM 评估平台（TruLens, Deepchecks）的全面介绍。
 
 - [CNCF 全景图](https://landscape.cncf.io/)
 - [Awesome LLMOps](https://awesome-llmops.inftyai.com/)
+- [AI Infra Learning](https://github.com/cr7258/ai-infra-learning)
 - [CNCF TAG Workloads Foundation](https://github.com/cncf/toc/blob/main/tags/tag-workloads-foundation/README.md)
 - [CNCF TAG Infrastructure](https://github.com/cncf/toc/blob/main/tags/tag-infrastructure/README.md)
 - [CNCF AI Initiative](https://github.com/cncf/toc/issues?q=is%3Aissue%20state%3Aopen%20label%3Akind%2Finitiative)
