@@ -253,8 +253,7 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
       智能体编排
     - [`Volcano AgentCube`](https://github.com/volcano-sh/agentcube): Volcano
       生态系统中的智能体编排
-    - [`Volcano Kthena`](https://github.com/volcano-sh/kthena): Volcano 中的高级
-      智能体调度
+    - [`Volcano Kthena`](https://github.com/volcano-sh/kthena): Volcano 中的高级智能体调度
     - [`KubeEdge Sedna`](https://github.com/kubeedge/sedna): 边云协同 AI 与联邦学习
     - [`Kubernetes SIG Agent Sandbox`](https://github.com/kubernetes-sigs/agent-sandbox):
       AI 智能体的安全沙箱
