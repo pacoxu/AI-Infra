@@ -264,8 +264,7 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
     - [`ArgoCD Agent`](https://github.com/argoproj-labs/argocd-agent): 基于智能体
       的 GitOps 部署
   - 智能体开发框架:
-    - [`LangChain DeepAgents`](https://github.com/langchain-ai/deepagents):
-      深度推理与多智能体系统
+    - [`LangChain DeepAgents`](https://github.com/langchain-ai/deepagents): 深度推理与多智能体系统
     - [`Dify`](https://github.com/langgenius/dify): 智能体应用的 LLMOps 平台
     - [`AgentScope`](https://github.com/agentscope-ai/agentscope): 多智能体
       开发框架
