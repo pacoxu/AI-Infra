@@ -81,6 +81,252 @@ Minimum baseline:
 
 If you only track “create -> Ready,” you cannot do reliable root-cause analysis.
 
+## Implementation Blueprint (MVP)
+
+The following skeleton turns high-level guidance into concrete implementation.
+
+### 1) Enforce business readiness with `readinessGates` + `pods/status` patch
+
+Declaring `readinessGates` is only half of the implementation. Your workload
+or sidecar also needs to patch Pod status conditions.
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pod-status-patcher
+  namespace: ai
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-status-patcher
+  namespace: ai
+rules:
+  - apiGroups: [""]
+    resources: ["pods/status"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-status-patcher
+  namespace: ai
+subjects:
+  - kind: ServiceAccount
+    name: pod-status-patcher
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pod-status-patcher
+```
+
+Inject Pod identity with Downward API:
+
+```yaml
+env:
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+  - name: POD_NAMESPACE
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.namespace
+```
+
+Patch `ModelLoaded` and `WarmupDone` when initialization is complete:
+
+```bash
+#!/usr/bin/env sh
+set -euo pipefail
+
+NOW="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+CA_CERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+API="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}"
+
+cat >/tmp/pod-status-patch.json <<EOF
+{
+  "status": {
+    "conditions": [
+      {
+        "type": "ai.example.com/ModelLoaded",
+        "status": "True",
+        "reason": "WeightsReady",
+        "lastTransitionTime": "${NOW}"
+      },
+      {
+        "type": "ai.example.com/WarmupDone",
+        "status": "True",
+        "reason": "WarmupPassed",
+        "lastTransitionTime": "${NOW}"
+      }
+    ]
+  }
+}
+EOF
+
+curl --fail --silent --show-error \
+  --cacert "${CA_CERT}" \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -H "Content-Type: application/merge-patch+json" \
+  -X PATCH \
+  "${API}/api/v1/namespaces/${POD_NAMESPACE}/pods/${POD_NAME}/status" \
+  --data-binary @/tmp/pod-status-patch.json
+```
+
+### 2) Move model download out of app startup with `initContainer` + node cache
+
+Use OCI model artifacts and prefetch them in `initContainers`.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-serving
+  namespace: ai
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: llm-serving
+  template:
+    metadata:
+      labels:
+        app: llm-serving
+    spec:
+      serviceAccountName: pod-status-patcher
+      initContainers:
+        - name: model-prefetch
+          image: ghcr.io/oras-project/oras:v1.2.2
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -euo pipefail
+              if [ ! -f /model-cache/${MODEL_ID}/READY ]; then
+                mkdir -p /model-cache/${MODEL_ID}
+                oras pull "${MODEL_OCI_REF}" -o /model-cache/${MODEL_ID}
+                touch /model-cache/${MODEL_ID}/READY
+              fi
+          env:
+            - name: MODEL_ID
+              value: llama-3-8b-fp16
+            - name: MODEL_OCI_REF
+              value: registry.example.com/models/llama-3-8b:fp16
+          volumeMounts:
+            - name: model-cache
+              mountPath: /model-cache
+      containers:
+        - name: server
+          image: registry.example.com/inference/vllm-openai:stable
+          args: ["--model", "/models/llama-3-8b-fp16"]
+          volumeMounts:
+            - name: model-cache
+              mountPath: /models
+              readOnly: true
+      volumes:
+        - name: model-cache
+          hostPath:
+            path: /var/lib/ai-model-cache
+            type: DirectoryOrCreate
+```
+
+For stricter multi-tenant environments, replace `hostPath` with Local PV or a
+dedicated cache service plus quotas.
+
+### 3) Reserve baseline capacity with placeholder Pods
+
+```yaml
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: overprovisioning
+value: -10
+globalDefault: false
+description: "Low-priority placeholder pods for faster scale-out"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overprovisioning
+  namespace: kube-system
+spec:
+  replicas: 20
+  selector:
+    matchLabels:
+      app: overprovisioning
+  template:
+    metadata:
+      labels:
+        app: overprovisioning
+    spec:
+      priorityClassName: overprovisioning
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: pause
+          image: registry.k8s.io/pause:3.9
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+```
+
+When real workloads arrive, these low-priority Pods are preempted and capacity
+is reclaimed quickly.
+
+### 4) Instrument stage timestamps for postmortem-ready diagnostics
+
+Start with a direct timestamp extractor:
+
+```bash
+kubectl get pod -n ai llm-serving-0 -o json | jq -r '
+{
+  pod: .metadata.name,
+  created: .metadata.creationTimestamp,
+  scheduled: (.status.conditions[]? | select(.type=="PodScheduled") | .lastTransitionTime),
+  initialized: (.status.conditions[]? | select(.type=="Initialized") | .lastTransitionTime),
+  ready: (.status.conditions[]? | select(.type=="Ready") | .lastTransitionTime),
+  model_loaded: (.status.conditions[]? | select(.type=="ai.example.com/ModelLoaded") | .lastTransitionTime),
+  warmup_done: (.status.conditions[]? | select(.type=="ai.example.com/WarmupDone") | .lastTransitionTime)
+}'
+```
+
+Publish stage durations as custom histograms, for example
+`ai_pod_startup_seconds_bucket{stage=...}`.
+
+Prometheus recording rule example:
+
+```yaml
+groups:
+  - name: ai-startup
+    rules:
+      - record: ai:pod_startup_seconds:p95
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum(rate(ai_pod_startup_seconds_bucket[5m])) by (le, stage, model)
+          )
+```
+
+### 5) Tie SLO directly to rollout gate and rollback
+
+Example rollout guard: rollback when warmup P95 breaches threshold.
+
+```bash
+QUERY='ai:pod_startup_seconds:p95{stage="warmup",model="llama-3-8b"}'
+P95=$(curl -sG "http://prometheus.monitoring:9090/api/v1/query" \
+  --data-urlencode "query=${QUERY}" | jq -r '.data.result[0].value[1]')
+
+awk "BEGIN {exit !(${P95} < 45)}" || {
+  echo "warmup p95=${P95}s > 45s, rollback"
+  kubectl rollout undo deploy/llm-serving -n ai
+  exit 1
+}
+```
+
+This converts “observe after release” into “enforce during release.”
+
 ## Optimization Order (Highest ROI First)
 
 ### 1) Fix capacity readiness first (`T_capacity`)

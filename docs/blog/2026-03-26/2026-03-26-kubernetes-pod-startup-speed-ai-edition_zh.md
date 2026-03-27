@@ -84,6 +84,250 @@ spec:
 
 如果你的监控只统计“Pod 到 Ready 总时长”，那在排障时基本不可用。
 
+## 技术落地：最小可执行实现（MVP）
+
+下面是一套可直接落地的实现骨架，目标是把“概念建议”变成工程动作。
+
+### 1) 用 `readinessGates` + `pods/status` 回写实现业务就绪门禁
+
+仅声明 `readinessGates` 不够，你还需要应用侧（或 sidecar）把条件写回
+Pod Status。先给工作负载一个最小权限：
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pod-status-patcher
+  namespace: ai
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pod-status-patcher
+  namespace: ai
+rules:
+  - apiGroups: [""]
+    resources: ["pods/status"]
+    verbs: ["get", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pod-status-patcher
+  namespace: ai
+subjects:
+  - kind: ServiceAccount
+    name: pod-status-patcher
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pod-status-patcher
+```
+
+在 Pod 内通过 Downward API 注入 Pod 名称与命名空间：
+
+```yaml
+env:
+  - name: POD_NAME
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.name
+  - name: POD_NAMESPACE
+    valueFrom:
+      fieldRef:
+        fieldPath: metadata.namespace
+```
+
+当模型加载与 warmup 完成后，执行一次 `PATCH /pods/<name>/status`：
+
+```bash
+#!/usr/bin/env sh
+set -euo pipefail
+
+NOW="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+CA_CERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+API="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT_HTTPS}"
+
+cat >/tmp/pod-status-patch.json <<EOF
+{
+  "status": {
+    "conditions": [
+      {
+        "type": "ai.example.com/ModelLoaded",
+        "status": "True",
+        "reason": "WeightsReady",
+        "lastTransitionTime": "${NOW}"
+      },
+      {
+        "type": "ai.example.com/WarmupDone",
+        "status": "True",
+        "reason": "WarmupPassed",
+        "lastTransitionTime": "${NOW}"
+      }
+    ]
+  }
+}
+EOF
+
+curl --fail --silent --show-error \
+  --cacert "${CA_CERT}" \
+  -H "Authorization: Bearer ${TOKEN}" \
+  -H "Content-Type: application/merge-patch+json" \
+  -X PATCH \
+  "${API}/api/v1/namespaces/${POD_NAMESPACE}/pods/${POD_NAME}/status" \
+  --data-binary @/tmp/pod-status-patch.json
+```
+
+### 2) 用 `initContainer` + 节点缓存把模型下载移出主容器启动路径
+
+示例做法：把模型作为 OCI artifact 存储，initContainer 先检查本地缓存命中，
+未命中再拉取。
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llm-serving
+  namespace: ai
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: llm-serving
+  template:
+    metadata:
+      labels:
+        app: llm-serving
+    spec:
+      serviceAccountName: pod-status-patcher
+      initContainers:
+        - name: model-prefetch
+          image: ghcr.io/oras-project/oras:v1.2.2
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              set -euo pipefail
+              if [ ! -f /model-cache/${MODEL_ID}/READY ]; then
+                mkdir -p /model-cache/${MODEL_ID}
+                oras pull "${MODEL_OCI_REF}" -o /model-cache/${MODEL_ID}
+                touch /model-cache/${MODEL_ID}/READY
+              fi
+          env:
+            - name: MODEL_ID
+              value: llama-3-8b-fp16
+            - name: MODEL_OCI_REF
+              value: registry.example.com/models/llama-3-8b:fp16
+          volumeMounts:
+            - name: model-cache
+              mountPath: /model-cache
+      containers:
+        - name: server
+          image: registry.example.com/inference/vllm-openai:stable
+          args: ["--model", "/models/llama-3-8b-fp16"]
+          volumeMounts:
+            - name: model-cache
+              mountPath: /models
+              readOnly: true
+      volumes:
+        - name: model-cache
+          hostPath:
+            path: /var/lib/ai-model-cache
+            type: DirectoryOrCreate
+```
+
+如果是多租户生产环境，建议把 `hostPath` 换成 Local PV 或专用缓存服务，并配置配额。
+
+### 3) 用占位 Pod 预留容量，降低 GPU 扩容等待
+
+```yaml
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: overprovisioning
+value: -10
+globalDefault: false
+description: "Low-priority placeholder pods for faster scale-out"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: overprovisioning
+  namespace: kube-system
+spec:
+  replicas: 20
+  selector:
+    matchLabels:
+      app: overprovisioning
+  template:
+    metadata:
+      labels:
+        app: overprovisioning
+    spec:
+      priorityClassName: overprovisioning
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: pause
+          image: registry.k8s.io/pause:3.9
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+```
+
+真实业务 Pod 到来时会抢占这些低优先级占位 Pod，从而触发更快的节点扩容与替换。
+
+### 4) 分段时间戳采集：先做到可复盘
+
+先用 `kubectl + jq` 直接抽时间点，快速验证口径：
+
+```bash
+kubectl get pod -n ai llm-serving-0 -o json | jq -r '
+{
+  pod: .metadata.name,
+  created: .metadata.creationTimestamp,
+  scheduled: (.status.conditions[]? | select(.type=="PodScheduled") | .lastTransitionTime),
+  initialized: (.status.conditions[]? | select(.type=="Initialized") | .lastTransitionTime),
+  ready: (.status.conditions[]? | select(.type=="Ready") | .lastTransitionTime),
+  model_loaded: (.status.conditions[]? | select(.type=="ai.example.com/ModelLoaded") | .lastTransitionTime),
+  warmup_done: (.status.conditions[]? | select(.type=="ai.example.com/WarmupDone") | .lastTransitionTime)
+}'
+```
+
+建议把这些阶段写入自定义直方图指标，例如 `ai_pod_startup_seconds_bucket{stage=...}`。
+
+Prometheus recording rule 示例：
+
+```yaml
+groups:
+  - name: ai-startup
+    rules:
+      - record: ai:pod_startup_seconds:p95
+        expr: |
+          histogram_quantile(
+            0.95,
+            sum(rate(ai_pod_startup_seconds_bucket[5m])) by (le, stage, model)
+          )
+```
+
+### 5) 把 SLO 直接接到灰度门禁和自动回滚
+
+示例：发布后检查 warmup 阶段 P95，超阈值则回滚。
+
+```bash
+QUERY='ai:pod_startup_seconds:p95{stage="warmup",model="llama-3-8b"}'
+P95=$(curl -sG "http://prometheus.monitoring:9090/api/v1/query" \
+  --data-urlencode "query=${QUERY}" | jq -r '.data.result[0].value[1]')
+
+awk "BEGIN {exit !(${P95} < 45)}" || {
+  echo "warmup p95=${P95}s > 45s, rollback"
+  kubectl rollout undo deploy/llm-serving -n ai
+  exit 1
+}
+```
+
+这一步能把“发布后观察”变成“发布时门禁”，减少回归窗口。
+
 ## 优化策略（按优先级）
 
 ### 1) 先处理容量与节点就绪 (`T_capacity`)
