@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-24
+last_updated: 2026-03-27
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -12,6 +12,23 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2026-03-27: c-ray 代码梳理：一个面向容器运行时层的 TUI 观察器
+
+- [c-ray 代码梳理：一个面向容器运行时层的 TUI 观察器 (Chinese)](./2026-03-27/2026-03-27-c-ray-runtime-introspection_zh.md)
+
+A Chinese code-oriented walkthrough of `Iceber/c-ray`, focusing on runtime-level
+observability and architecture:
+
+- **Unified runtime abstraction**: one `Runtime` interface with both
+  `containerd` and `CRI-O` backends
+- **Handle-oriented API shape**: container/image/pod handles with lazy detail
+  loading and cache-friendly structure
+- **Mount introspection pipeline**: merges CRI declarations, OCI spec, and live
+  mountinfo into origin/state-aware views
+- **Linux node diagnostics focus**: process tree, cgroup signals, network
+  counters, image layer and writable-layer context
+- **Current status note**: latest `main` branch is in active refactor stage and
+  still has CLI duplicate-symbol build issues in `cmd/cray`
 ## 2026-03-24: Maintenance Scan (Outdated Resources + Safe Upgrades)
 
 Implemented in this cleanup:
