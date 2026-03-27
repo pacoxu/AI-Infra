@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-24
+last_updated: 2026-03-26
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,22 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-03-26: Kubernetes Pod Startup Speed Optimization Guide: AI Edition
+
+- [Kubernetes Pod Startup Speed Optimization Guide: AI Edition (English)](./2026-03-26/2026-03-26-kubernetes-pod-startup-speed-ai-edition.md)
+- [Kubernetes Pod Startup Speed Optimization Guide: AI Edition (Chinese)](./2026-03-26/2026-03-26-kubernetes-pod-startup-speed-ai-edition_zh.md)
+
+A rewritten AI-focused startup optimization guide for Kubernetes platform teams:
+
+- **Critical-path first**: Split startup into capacity, scheduling, image/model
+  distribution, runtime init, and warmup.
+- **AI-ready definition**: Use `readinessGates` to gate traffic on
+  `ModelLoaded/WarmupDone` instead of plain container readiness.
+- **High-leverage order**: Prioritize capacity readiness and artifact
+  distribution before scheduler micro-tuning.
+- **Operational playbook**: Includes anti-patterns and a practical 30-day rollout
+  sequence for platform teams.
 
 ## 2026-03-24: Maintenance Scan (Outdated Resources + Safe Upgrades)
 
