@@ -13,6 +13,71 @@
 - 节点与数据面层：`katalyst-core`
 - 跨层可观测层：`kelemetry`
 
+## 可编辑架构图（Mermaid）
+
+```mermaid
+flowchart TB
+  subgraph L1["Multi-Cluster & Federation Layer (多集群与联邦层)"]
+    KA["6. kubeadmiral<br/>多集群编排"]
+    PS["7. podseidon<br/>多集群保护"]
+  end
+
+  subgraph L2["Access & Governance Layer (入口与治理层)"]
+    KGW["2. KubeGateway<br/>七层网关（L7入口）"]
+    KZZ["3. KubeZoo<br/>轻量级多租户（租户隔离）"]
+  end
+
+  subgraph L3["Core Control Plane Layer (核心控制面层)"]
+    subgraph API["API & Logic"]
+      KAS["kube-apiserver"]
+      KCM["kube-controller-manager"]
+    end
+
+    subgraph SCH["Scheduling (调度)"]
+      KSCH["kube-scheduler<br/>（标准调度）"]
+      GODEL["4. Godel Scheduler<br/>（大规模混部调度）"]
+    end
+
+    subgraph STO["Storage (存储)"]
+      ETCD["etcd<br/>（标准存储）"]
+      KB["1. KubeBrain<br/>（高性能元信息存储）"]
+    end
+  end
+
+  subgraph L4["Node & Data Plane Layer (节点与数据面层)"]
+    KLET["kubelet"]
+    KAT["5. Katalyst<br/>（节点资源管理/拓扑感知）"]
+  end
+
+  subgraph L5["Observability Layer (可观测性层 - 跨层级)"]
+    KEL["8. kelemetry<br/>（控制平面全链路可观测）"]
+  end
+
+  KA --> KGW
+  PS --> KZZ
+  KGW --> KAS
+  KZZ --> KAS
+  KAS --> KCM
+  KAS --> KSCH
+  KSCH --> GODEL
+  KAS --> ETCD
+  ETCD --> KB
+  KAS --> KLET
+  KSCH --> KAT
+
+  KAS -. traces/events .-> KEL
+  KSCH -. traces/events .-> KEL
+  ETCD -. data-path telemetry .-> KEL
+  KB -. control-plane telemetry .-> KEL
+  KAT -. node telemetry .-> KEL
+
+  classDef std fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
+  classDef bt fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
+
+  class KAS,KCM,KSCH,ETCD,KLET std;
+  class KA,PS,KGW,KZZ,GODEL,KB,KAT,KEL bt;
+```
+
 ## 发起/主导项目（代表）
 
 - [kubewharf/kubebrain](https://github.com/kubewharf/kubebrain)
