@@ -2,7 +2,7 @@
   "meta": {
     "title": "AI Infra Landscape",
     "version": "2026-03",
-    "last_updated": "2026-03-13",
+    "last_updated": "2026-03-30",
     "note": "Regenerate diagrams/ai-infra-landscape.svg with node scripts/generate-landscape-svg.js"
   },
   "axes": {
@@ -177,6 +177,22 @@
       "group": "workflow",
       "stage": "mature",
       "logo": "KA"
+    },
+    {
+      "name": "AgentRegistry",
+      "x": 30,
+      "y": 90,
+      "group": "workflow",
+      "stage": "early",
+      "logo": "AR"
+    },
+    {
+      "name": "Volcano AgentCube",
+      "x": 20,
+      "y": 84,
+      "group": "workflow",
+      "stage": "early",
+      "logo": "VC"
     },
     {
       "name": "Dagger",
@@ -496,6 +512,24 @@
       "logo": "MS"
     },
     {
+      "name": "ModelPack",
+      "x": 12,
+      "y": 26,
+      "group": "kernel",
+      "stage": "early",
+      "logo": "MP",
+      "url": "https://github.com/modelpack"
+    },
+    {
+      "name": "ORAS",
+      "x": 24,
+      "y": 24,
+      "group": "kernel",
+      "stage": "mature",
+      "logo": "OR",
+      "url": "https://github.com/oras-project/oras"
+    },
+    {
       "name": "KWOK",
       "x": 70,
       "y": 20,
@@ -540,6 +574,15 @@
       "logo": "AC",
       "url": "https://github.com/NVIDIA/aicr",
       "logo_image": "diagrams/logos/landscape/aicr.png"
+    },
+    {
+      "name": "NVIDIA NVSentinel",
+      "x": 30,
+      "y": 28,
+      "group": "kernel",
+      "stage": "early",
+      "logo": "NS",
+      "url": "https://github.com/NVIDIA/NVSentinel"
     }
   ]
 }
