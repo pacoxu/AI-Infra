@@ -102,7 +102,7 @@ pools to reduce scheduling conflicts and improve cache locality.
 
 - <a href="https://github.com/koordinator-sh/koordinator">`Koordinator`</a>:
   CNCF Sandbox project with colocation and QoS management
-- <a href="https://github.com/NVIDIA/grove">`NVIDIA Grove`</a>: Gang
+- <a href="https://github.com/ai-dynamo/grove">`NVIDIA Grove`</a>: Gang
   scheduling for AI workloads with topology awareness
 
 ### 1.3 Hierarchical Scheduling
@@ -390,7 +390,7 @@ deadlocks.
 
 - <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: PodGroup CRD
   with minMember field for gang scheduling
-- <a href="https://github.com/NVIDIA/grove">`NVIDIA Grove`</a>: Gang
+- <a href="https://github.com/ai-dynamo/grove">`NVIDIA Grove`</a>: Gang
   scheduling optimized for NVIDIA GPUs
 - <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Workload
   admission control with gang scheduling
@@ -898,7 +898,7 @@ SLA-based scheduling complements other optimization strategies:
   Apache, DRF and multi-tenancy
 - <a href="https://github.com/NVIDIA/kai-scheduler">`NVIDIA Kai
   Scheduler`</a>: NVIDIA, GPU-optimized scheduling
-- <a href="https://github.com/NVIDIA/grove">`NVIDIA Grove`</a>: Gang
+- <a href="https://github.com/ai-dynamo/grove">`NVIDIA Grove`</a>: Gang
   scheduling for AI workloads
 
 **Device Management:**
