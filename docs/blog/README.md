@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-24
+last_updated: 2026-04-06
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,22 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-04-06: GPU Pod 冷启动优化：AI 工作负载的性能突破
+
+- [GPU Pod 冷启动优化：AI 工作负载的性能突破 (Chinese)](./2026-04-06/2026-04-06-gpu-pod-cold-start-optimization_zh.md)
+
+A Chinese practical deep dive that extends the AI startup critical-path model
+from PR #281 into production scenarios:
+
+- **Critical-path + economics**: combines startup decomposition with tenant-level
+  warm-pool cost modeling.
+- **Model loading first**: prioritizes Run:ai Model Streamer and cache
+  orchestration (Fluid) before micro-level scheduler tuning.
+- **Capacity-aware scaling**: links large-cluster scheduling patterns with
+  cold-start budget control under multi-tenant AI workloads.
+- **Not only acceleration**: introduces workaround paths (VPA and in-place Pod
+  container restarts in v1.35) to reduce unnecessary full cold starts.
 
 ## 2026-03-24: Maintenance Scan (Outdated Resources + Safe Upgrades)
 
