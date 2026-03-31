@@ -1052,23 +1052,34 @@ spec:
 Not all latency work must come from "faster cold starts". For GPU workloads, it
 is often equally valuable to avoid triggering full cold starts unnecessarily.
 
-### 1. Use VPA (In-Place Vertical Scaling Path) to Reduce Recovery Jitter
+### 1. Use VPA Recommendations and In-Place Vertical Scaling (Where Supported)
 
-When startup phases cannot be further shortened, VPA recommendations (and
-in-place scaling where available) can reduce post-start resource contention and
-stabilize tail latency faster.
+When startup phases cannot be further shortened:
+
+- Use VPA recommendations (and, where appropriate, VPA auto modes) to converge
+  on better CPU/memory requests and limits over time. Note that VPA may evict
+  and recreate Pods when applying changes, and is not the same as in-place pod
+  vertical scaling.
+- Where your cluster supports in-place pod vertical scaling (resource resize),
+  use it to adjust requests/limits without a full Pod reschedule, reducing
+  post-start contention and stabilizing tail latency faster.
 
 ### 2. Use In-Place Pod Container Restart (v1.35 Alpha) in Suitable Scenarios
 
-`RestartAllContainers` is useful when you need to re-run initialization logic
-without forcing a full Pod re-scheduling cycle. This can reduce restart
-recovery time for some AI batch/serving workflows.
+In Kubernetes v1.35, `RestartAllContainers` can help when all containers in a
+Pod should restart together after a container exit (for example, completion or
+crash) without re-scheduling the Pod to another node. This requires enabling
+the corresponding alpha feature gate and exit-based policy configuration; it is
+not an imperative on-demand restart API. Used correctly, it can reduce recovery
+time for AI batch/serving workflows where container exits are part of normal
+control flow.
 
 ### 3. Gate Real Readiness (Not Just Container Running)
 
-For AI serving, consider readiness gates for business-level conditions (for
-example model loaded and warmup done), so traffic does not hit "running but not
-actually ready" instances.
+For AI serving, use `readinessProbe` as the primary container-level readiness
+signal (for example, check model-loaded and warmup state in probe endpoints).
+For external coordination scenarios, add readiness gates for business-level
+conditions so traffic does not hit "running but not actually ready" instances.
 
 ```yaml
 spec:
