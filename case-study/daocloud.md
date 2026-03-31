@@ -11,7 +11,7 @@
   - 1. 调度编排层：`LWS`、`Kueue`（`llm-d` 使用 `LWS`）
   - 2. 网络存储层：`Spiderpool(CNI)`、`Hwameistor(存储)`、`merbridge(mesh)`
   - 3. 资源管理层：`HAMi`、`containerd`
-- AI 引擎层：`vLLM`（并与 `llm-d` 协同）
+- AI 引擎层：`❤️ vLLM`（并与 `llm-d` 协同）
 - 安装与测试链路：`kubean -> kubespray -> kubeadm`，`kwok` 作为测试组件
 - 核心控制关系：`Scheduler -> API Server`（与 `API Server` 同级/上层表达）
 
@@ -28,11 +28,11 @@ flowchart TB
     end
 
     subgraph ENGINE["AI 引擎层"]
-      VLLM["⭐ vLLM<br/>推理引擎"]
+      VLLM["❤️ ⭐ vLLM<br/>推理引擎"]
     end
   end
 
-  subgraph MID["Kubernetes 平台（中间）"]
+  subgraph MID["❤️ Kubernetes 平台（中间）"]
     direction TB
     subgraph ORCH["Kubernetes 工作负载编排层"]
       LWS["LWS"]
@@ -40,10 +40,10 @@ flowchart TB
     end
 
     subgraph EXT["Kubernetes 平台扩展层"]
-      SP["Spiderpool<br/>CNI / IPAM"]
+      SP["⭐ Spiderpool<br/>CNI / IPAM"]
       HW["Hwameistor<br/>CSI / Storage"]
       MB["merbridge<br/>Mesh Dataplane Enhance"]
-      HAMI["HAMi<br/>GPU / 异构资源管理"]
+      HAMI["⭐ HAMi<br/>GPU / 异构资源管理"]
       ISTIO["Istio"]
     end
 
@@ -57,11 +57,16 @@ flowchart TB
     subgraph NODE["节点运行时层"]
       CTD["containerd"]
     end
+
+    subgraph TOOL["安装与测试工具层"]
+      KWOK["kubernetes-sigs/kwok<br/>集群仿真 / 压测"]
+      MXH["matrixhub-ai/matrixhub<br/>AI 基础设施工具链"]
+    end
   end
 
   subgraph GLOBAL["全局 / 多集群层（位于 Kubernetes 下方）"]
     KAR["⭐ Karmada<br/>多集群编排 / 调度"]
-    CP["Clusterpedia<br/>多集群同步 / 检索 / 统一视图"]
+    CP["⭐ Clusterpedia<br/>多集群同步 / 检索 / 统一视图"]
   end
 
   subgraph EDGE["边缘扩展分支（更下方）"]
@@ -99,6 +104,10 @@ flowchart TB
   APIS --> KLET
   KLET --> CTD
 
+  %% Tooling
+  KWOK -. 仿真测试 .-> APIS
+  MXH -. AI Infra 工具链协同 .-> AIB
+
   %% Edge
   APIS --> KE
   KE --> EN
@@ -108,7 +117,7 @@ flowchart TB
   classDef core fill:#e8fff1,stroke:#16a34a,color:#14532d,stroke-width:1.2px;
 
   class KAR,AIB,VLLM,KE top;
-  class CP,LLMD,SR,LWS,KUEUE,SP,HW,MB,HAMI,ISTIO,CTD,EN mid;
+  class CP,LLMD,SR,LWS,KUEUE,SP,HW,MB,HAMI,ISTIO,CTD,KWOK,MXH,EN mid;
   class APIS,SCH,KLET core;
 ```
 
@@ -120,7 +129,7 @@ flowchart TB
 
 ### AI 引擎层
 
-- [⭐ vllm-project/vllm](https://github.com/vllm-project/vllm)
+- [❤️ ⭐ vllm-project/vllm](https://github.com/vllm-project/vllm)
 - [llm-d/llm-d](https://github.com/llm-d/llm-d)
 
 ### Kubernetes 平台层
@@ -144,7 +153,7 @@ flowchart TB
 
 #### 底座
 
-- [⭐ kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
+- [❤️ ⭐ kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
 
 ### 安装与测试组件
 
@@ -152,6 +161,7 @@ flowchart TB
 - [kubernetes-sigs/kubespray](https://github.com/kubernetes-sigs/kubespray)
 - [kubernetes/kubeadm](https://github.com/kubernetes/kubeadm)
 - [kubernetes-sigs/kwok](https://github.com/kubernetes-sigs/kwok)
+- [matrixhub-ai/matrixhub](https://github.com/matrixhub-ai/matrixhub)
 
 ### 其他 DaoCloud 相关项目（补充）
 
