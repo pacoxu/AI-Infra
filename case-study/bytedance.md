@@ -47,7 +47,7 @@ flowchart TB
 
   subgraph L4["Node & Data Plane Layer (节点与数据面层)"]
     KLET["kubelet"]
-    KAT["5. Katalyst<br/>（kubelet 增强：节点资源管理/拓扑感知）"]
+    KAT["5. ⭐ Katalyst<br/>（kubelet 增强：节点资源管理/拓扑感知）"]
   end
 
   subgraph L5["Observability Layer (可观测性层 - 跨层级)"]
