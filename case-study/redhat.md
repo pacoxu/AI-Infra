@@ -37,6 +37,7 @@ flowchart LR
     KN["Knative"]
     KSERVE["KServe"]
     LLMD["llm-d"]
+    VLLM["vLLM"]
     ISTIO["Istio"]
     ARGO["Argo"]
     PROM["Prometheus"]
@@ -62,19 +63,22 @@ flowchart LR
   OCP -. ecosystem integration .-> KN
   OCP -. model serving integration .-> KSERVE
   OCP -. disaggregated inference orchestration .-> LLMD
+  OCP -. inference engine ecosystem .-> VLLM
   OCP -. service mesh integration .-> ISTIO
   OCP -. GitOps / delivery .-> ARGO
   OCP -. observability .-> PROM
   OCP -. tracing .-> JAE
   KSERVE -. builds on .-> KN
+  KSERVE -. commonly serves .-> VLLM
   LLMD -. runs on .-> K8S
+  LLMD -. can orchestrate .-> VLLM
 
   classDef rh fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.4px;
   classDef eco fill:#eef4ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
   classDef prod fill:#f5f5f5,stroke:#666,color:#222,stroke-dasharray: 5 3;
 
   class OKD,OCM,OF,SDK,OLM,OH,KV,CRIO,KEDA,KONV,M3 rh;
-  class ETCD,K8S,KN,KSERVE,LLMD,ISTIO,ARGO,PROM,JAE eco;
+  class ETCD,K8S,KN,KSERVE,LLMD,VLLM,ISTIO,ARGO,PROM,JAE eco;
   class OCP prod;
 ```
 
@@ -111,6 +115,7 @@ flowchart LR
 - [knative/serving](https://github.com/knative/serving)
 - [kserve/kserve](https://github.com/kserve/kserve)
 - [llm-d/llm-d](https://github.com/llm-d/llm-d)
+- [vllm-project/vllm](https://github.com/vllm-project/vllm)
 - [istio/istio](https://github.com/istio/istio)
 - [argoproj/argo-workflows](https://github.com/argoproj/argo-workflows)
 - [prometheus/prometheus](https://github.com/prometheus/prometheus)

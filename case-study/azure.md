@@ -30,6 +30,8 @@ flowchart TB
 
   subgraph ECO["生态深度参与"]
     ISTIO["Istio"]
+    HEAD["Headlamp"]
+    SR["Semantic Router"]
   end
 
   DAPR --> K8S
@@ -49,6 +51,9 @@ flowchart TB
   DAPR -. often coupled with .-> KEDA
   OSM -. service mesh ecosystem .-> ISTIO
   KAITO -. AI workload scaling can integrate with .-> KEDA
+  HEAD --> K8S
+  SR --> KAITO
+  SR -. semantic routing for AI traffic .-> K8S
 
   classDef star fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
   classDef normal fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
@@ -56,7 +61,7 @@ flowchart TB
   classDef base fill:#f5f5f5,stroke:#666,color:#222,stroke-width:1px;
 
   class DAPR,FLEET,KEDA,KAITO star;
-  class KVL,VK,ASO,OSM,ISTIO normal;
+  class KVL,VK,ASO,OSM,ISTIO,HEAD,SR normal;
   class K8S core;
   class CTD,ETCD,OPA base;
 ```
@@ -79,3 +84,5 @@ flowchart TB
 - [containerd/containerd](https://github.com/containerd/containerd)
 - [etcd-io/etcd](https://github.com/etcd-io/etcd)
 - [open-policy-agent/opa](https://github.com/open-policy-agent/opa)
+- [kubernetes-sigs/headlamp](https://github.com/kubernetes-sigs/headlamp)
+- [vllm-project/semantic-router](https://github.com/vllm-project/semantic-router)
