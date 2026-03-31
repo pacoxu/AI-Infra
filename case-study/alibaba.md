@@ -20,17 +20,6 @@ flowchart TB
     OY["OpenYurt<br/>Edge Extension"]
   end
 
-  subgraph RUNTIME["运行时与安全面"]
-    KATA["⭐ Kata Containers<br/>Lightweight VM Runtime"]
-    COC["Confidential Containers"]
-    CB["ChaosBlade"]
-  end
-
-  subgraph DATA["数据分发与缓存加速面"]
-    FLUID["Fluid<br/>Dataset / Cache Orchestration"]
-    DFLY["Dragonfly<br/>P2P Distribution Acceleration"]
-  end
-
   subgraph GOV["服务发现与流量治理面"]
     ISTIO["Istio"]
     NACOS["Nacos"]
@@ -39,13 +28,24 @@ flowchart TB
 
   K8S["⭐ Kubernetes<br/>统一控制平面"]
 
+  subgraph RUNTIME["运行时与安全面（位于 Kubernetes 下方）"]
+    KATA["⭐ Kata Containers<br/>Lightweight VM Runtime"]
+    COC["Confidential Containers"]
+    CB["ChaosBlade"]
+  end
+
+  subgraph DATA["数据分发与缓存加速面（位于 Kubernetes 下方）"]
+    FLUID["Fluid<br/>Dataset / Cache Orchestration"]
+    DFLY["Dragonfly<br/>P2P Distribution Acceleration"]
+  end
+
   %% stronger relationships
   KVL --> K8S
   OKR --> K8S
   KRD --> K8S
   OY --> K8S
-  KATA --> K8S
-  FLUID --> K8S
+  K8S --> KATA
+  K8S --> FLUID
   ISTIO --> K8S
   HIG --> ISTIO
 
@@ -54,8 +54,8 @@ flowchart TB
   KRD -. works with workload scheduling .-> OKR
   OY -. extends Kubernetes to edge .-> K8S
   COC -. commonly builds on Kata ecosystem .-> KATA
-  CB -. chaos engineering for .-> K8S
-  DFLY -. accelerates images / OCI / models / files .-> K8S
+  K8S -. chaos engineering with .-> CB
+  K8S -. accelerates images / OCI / models / files via .-> DFLY
   DFLY -. can complement caching / distribution .-> FLUID
   NACOS -. service discovery / config for workloads on .-> K8S
   SENT -. traffic governance / resilience for workloads on .-> K8S
