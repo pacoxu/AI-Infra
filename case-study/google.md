@@ -82,8 +82,8 @@ flowchart TB
   classDef normal fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
   classDef base fill:#e8fff1,stroke:#16a34a,color:#14532d,stroke-width:1.2px;
 
-  class K8S star;
-  class KUEUE,KUBEFLOW,SLURM,RAY,MORE,KNATIVE,TEKTON,BAZEL,P1,P2,P3,CTD,GVISOR,CADV,GPU,ISTIO,ETCD normal;
+  class K8S,KUEUE,KUBEFLOW,KNATIVE,TEKTON,BAZEL,GVISOR,CADV,ISTIO star;
+  class SLURM,RAY,MORE,P1,P2,P3,CTD,GPU,ETCD normal;
   class U1,U2,U3 base;
 ```
 
