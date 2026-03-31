@@ -6,7 +6,7 @@
 
 ## 架构分层视角（你给定的结构）
 
-- 多云组件（位于 Kubernetes 右侧）：`Clusterpedia`（并可对接 `Karmada`）
+- 多云组件（位于 Kubernetes 下方）：`Clusterpedia`（并可对接 `Karmada`）
 - Kubernetes 平台层（3 层）：
   - 1. 调度编排层：`LWS`、`Kueue`（`llm-d` 使用 `LWS`）
   - 2. 网络存储层：`Spiderpool(CNI)`、`Hwameistor(存储)`、`merbridge(mesh)`
@@ -18,8 +18,8 @@
 ## 可编辑生态图（Mermaid）
 
 ```mermaid
-flowchart LR
-  subgraph LEFT["AI Serving（最左）"]
+flowchart TB
+  subgraph TOP["AI Serving（上方）"]
     direction TB
     subgraph AICP["AI Serving Control Plane"]
       LLMD["llm-d<br/>分布式推理编排"]
@@ -59,12 +59,12 @@ flowchart LR
     end
   end
 
-  subgraph GLOBAL["全局 / 多集群层（位于 Kubernetes 右侧）"]
+  subgraph GLOBAL["全局 / 多集群层（位于 Kubernetes 下方）"]
     KAR["⭐ Karmada<br/>多集群编排 / 调度"]
     CP["Clusterpedia<br/>多集群同步 / 检索 / 统一视图"]
   end
 
-  subgraph EDGE["边缘扩展分支（最右）"]
+  subgraph EDGE["边缘扩展分支（更下方）"]
     KE["⭐ KubeEdge<br/>Cloud-Edge Extension"]
     EN["Edge Nodes / Devices"]
   end
