@@ -39,43 +39,42 @@ flowchart TB
     end
 
     subgraph STO["Storage (存储)"]
-      ETCD["etcd<br/>（标准存储）"]
-      KB["1. KubeBrain<br/>（高性能元信息存储）"]
+      KB["1. KubeBrain<br/>（高性能元信息存储，替代 etcd）"]
+      TIKV["TiKV<br/>（社区版本）"]
+      BKV["ByteKV<br/>（内部）"]
     end
   end
 
   subgraph L4["Node & Data Plane Layer (节点与数据面层)"]
     KLET["kubelet"]
-    KAT["5. Katalyst<br/>（节点资源管理/拓扑感知）"]
+    KAT["5. ⭐ Katalyst<br/>（kubelet 增强：节点资源管理/拓扑感知）"]
   end
 
   subgraph L5["Observability Layer (可观测性层 - 跨层级)"]
-    KEL["8. kelemetry<br/>（控制平面全链路可观测）"]
+    KEL["8. kelemetry<br/>（定时拉取信息 / 也可上报信息）"]
   end
 
   KA --> KGW
-  PS --> KZZ
+  KA --> KZZ
+  PS -. 保护多集群 .-> KA
   KGW --> KAS
   KZZ --> KAS
-  KAS --> KCM
-  KAS --> KSCH
-  KSCH --> GODEL
-  KAS --> ETCD
-  ETCD --> KB
+  KCM --> KAS
+  KSCH --> KAS
+  GODEL --> KAS
+  KAS --> KB
+  KB --> TIKV
+  KB --> BKV
   KAS --> KLET
-  KSCH --> KAT
-
-  KAS -. traces/events .-> KEL
-  KSCH -. traces/events .-> KEL
-  ETCD -. data-path telemetry .-> KEL
-  KB -. control-plane telemetry .-> KEL
-  KAT -. node telemetry .-> KEL
+  KLET --> KAT
 
   classDef std fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
   classDef bt fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
+  classDef backend fill:#f5f5f5,stroke:#666,color:#333,stroke-width:1px;
 
-  class KAS,KCM,KSCH,ETCD,KLET std;
+  class KAS,KCM,KSCH,KLET std;
   class KA,PS,KGW,KZZ,GODEL,KB,KAT,KEL bt;
+  class TIKV,BKV backend;
 ```
 
 ## 发起/主导项目（代表）
@@ -93,3 +92,4 @@ flowchart TB
 
 - [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
 - [istio/istio](https://github.com/istio/istio)
+- [etcd-io/etcd](https://github.com/etcd-io/etcd)
