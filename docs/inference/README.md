@@ -15,6 +15,7 @@ More details about specific platforms and techniques:
 
 - [Model Architectures (Llama, Qwen, DeepSeek, Flux)](./model-architectures.md)
 - [LoRA: Low-Rank Adaptation for Efficient LLM Serving](./lora.md)
+- [Grove: Kubernetes API for Inference Orchestration](./grove.md)
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
 - [Serverless AI Inference (Knative, AWS SageMaker, Platform Comparison)](./serverless.md)
 - [Model Switching and Dynamic Scheduling (Aegaeon, vLLM Sleep Mode)](./model-switching.md)
@@ -53,6 +54,7 @@ Kubernetes-native platforms for orchestrating LLM inference at scale:
 | Platform | Organization | Architecture | Key Features |
 | --- | --- | --- | --- |
 | [AIBrix](https://github.com/vllm-project/aibrix) | vLLM Project | StormService + RoleSet CRDs | High-density LoRA, gateway, autoscaling, P/D disaggregation |
+| [Grove](https://github.com/ai-dynamo/grove) | NVIDIA (ai-dynamo) | PodCliqueSet CRDs | Hierarchical gang scheduling, topology-aware, multi-level autoscaling, startup ordering |
 | [Kthena](https://github.com/volcano-sh/kthena) | Volcano (CNCF Sandbox) | Serving Group / LWS | Gang scheduling, topology-aware, revision control |
 | [NVIDIA Dynamo](https://github.com/ai-dynamo/dynamo) | NVIDIA | Grove/LWS dual mode | NVIDIA-optimized, disaggregated serving, KV routing |
 | [OME](https://github.com/sigs/ome) | Kubernetes SIG | Operator pattern | Model management, lifecycle, multi-engine support |
@@ -96,6 +98,30 @@ for constructing scalable GenAI inference infrastructure.
 - Cost-efficient heterogeneous serving with SLO guarantees
 
 For detailed information, see [AIBrix Introduction](./aibrix.md).
+
+### Grove
+
+[`Grove`](https://github.com/ai-dynamo/grove) is a Kubernetes API providing a
+single declarative interface for orchestrating any AI inference workload — from
+simple single-pod deployments to complex multi-node, disaggregated systems.
+Grove describes the entire inference serving system (prefill, decode, routing,
+etc.) as a single `PodCliqueSet` Custom Resource, from which the platform
+coordinates hierarchical gang scheduling, topology-aware placement, multi-level
+autoscaling, and explicit startup ordering.
+
+**Key highlights:**
+
+- **Hierarchical gang scheduling** – atomically schedules all required pods
+  across multiple roles and scaling groups
+- **Topology-aware placement** – places pods within NVLink domains or RDMA
+  networks for minimal communication latency
+- **Multi-level autoscaling** – independently scales PodCliques while honouring
+  gang constraints
+- **Startup ordering** – guarantees correct initialisation sequences (e.g.,
+  workers before leader)
+- **Single CRD** – entire inference system described in one `PodCliqueSet` CR
+
+For detailed information, see [Grove: Kubernetes Inference Orchestration](./grove.md).
 
 ### Kthena
 
