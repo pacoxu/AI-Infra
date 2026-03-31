@@ -12,18 +12,18 @@ flowchart LR
   ALI["Alibaba 云原生开源生态"]
 
   subgraph APP["应用平台与入口治理"]
-    HIG["Higress<br/>（CNCF Sandbox）"]
+    HIG["⭐ Higress<br/>（CNCF Sandbox）"]
     OKR["OpenKruise"]
     KVL["KubeVela"]
     OY["OpenYurt"]
   end
 
   subgraph SCH["调度与资源管理"]
-    KRD["Koordinator"]
+    KRD["⭐ Koordinator"]
   end
 
   subgraph RTSEC["运行时与机密计算/安全"]
-    KATA["Kata Containers"]
+    KATA["⭐ Kata Containers"]
     COC["Confidential Containers"]
     CB["ChaosBlade"]
   end
