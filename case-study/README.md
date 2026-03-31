@@ -15,6 +15,7 @@
 - [Red Hat](./redhat.md)
 - [AWS](./aws.md)
 - [NVIDIA](./nvidia.md)
+- [Solo.io](./solo-io.md)
 
 ## 说明
 
