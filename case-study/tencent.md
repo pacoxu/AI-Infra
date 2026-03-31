@@ -12,3 +12,5 @@
 
 - [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
 - [istio/istio](https://github.com/istio/istio)
+- [envoyproxy/envoy](https://github.com/envoyproxy/envoy)
+- [vllm-project/semantic-router](https://github.com/vllm-project/semantic-router)
