@@ -62,8 +62,6 @@ flowchart TB
   KCM --> KAS
   KSCH --> KAS
   GODEL --> KAS
-  SOPT -.-> KSCH
-  SOPT -.-> GODEL
   KAS --> KB
   KB --> TIKV
   KB --> BKV
