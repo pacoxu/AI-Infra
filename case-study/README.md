@@ -8,6 +8,7 @@
 - [华为](./huawei.md)
 - [DaoCloud](./daocloud.md)
 - [阿里巴巴](./alibaba.md)
+- [蚂蚁集团](./ant-group.md)
 - [腾讯](./tencent.md)
 - [Google](./google.md)
 - [Azure（Microsoft）](./azure.md)
