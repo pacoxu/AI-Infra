@@ -1,96 +1,133 @@
-# DaoCloud 云原生开源案例（初稿）
+# DaoCloud 云原生开源案例（架构重整版）
 
 ## 参考输入
 
 - DaoCloud Profile README: https://github.com/DaoCloud/.github/blob/main/profile/README.md
 
+## 架构分层视角（你给定的结构）
+
+- 多云组件（最上层）：`Clusterpedia`
+- Kubernetes 平台层（3 层）：
+  - 1. 调度编排层：`LWS`、`Kueue`（`llm-d` 使用 `LWS`）
+  - 2. 网络存储层：`Spiderpool(CNI)`、`Hwameistor(存储)`、`merbridge(mesh)`
+  - 3. 资源管理层：`HAMi`、`containerd`
+- AI 引擎层：`vLLM`（并与 `llm-d` 协同）
+- 安装与测试链路：`kubean -> kubespray -> kubeadm`，`kwok` 作为测试组件
+
 ## 可编辑生态图（Mermaid）
 
 ```mermaid
-flowchart LR
-  D["DaoCloud / d.run 开源生态"]
+flowchart TB
+  CP["⭐ Clusterpedia<br/>多云/多集群组件（顶层）"]
 
-  subgraph FOUNDED["发起/共建项目"]
-    SP["⭐ Spiderpool"]
-    CP["⭐ Clusterpedia"]
-    KA["⭐ kubean"]
-    HM["⭐ HAMi"]
-    HW["Hwameistor"]
-    LMD["llm-d"]
-    KW["knoway"]
-    MB["merbridge"]
+  subgraph AI["AI 引擎层"]
+    VLLM["⭐ vLLM"]
+    LLMD["llm-d"]
   end
 
-  subgraph MAINT["深度参与/维护项目"]
-    K8S["⭐ Kubernetes"]
-    VLLM["⭐ vLLM"]
-    CTD["containerd"]
-    KUEUE["kueue"]
-    KWOK["kwok"]
-    LWS["lws"]
+  subgraph K8S["Kubernetes 平台层"]
+    KCORE["⭐ Kubernetes"]
+
+    subgraph SCHED["1. 调度编排层"]
+      LWS["LWS"]
+      KUEUE["Kueue"]
+    end
+
+    subgraph NETSTO["2. 网络存储层"]
+      SP["⭐ Spiderpool (CNI)"]
+      HW["Hwameistor (Storage)"]
+      MB["merbridge (Mesh 加强)"]
+      ISTIO["Istio"]
+      CIL["Cilium"]
+      CAL["Calico"]
+      MAC["macvlan"]
+    end
+
+    subgraph RES["3. 资源管理层"]
+      HAMI["⭐ HAMi"]
+      CTD["containerd"]
+    end
+  end
+
+  subgraph TOOL["安装与测试组件"]
+    KUBEAN["⭐ kubean"]
     KSP["kubespray"]
     KADM["kubeadm"]
-    ISTIO["Istio"]
+    KWOK["kwok（测试模拟）"]
   end
 
-  D --> SP
-  D --> CP
-  D --> KA
-  D --> HM
-  D --> HW
-  D --> LMD
-  D --> KW
-  D --> MB
-  D --> K8S
-  D --> VLLM
-  D --> CTD
-  D --> KUEUE
-  D --> KWOK
-  D --> LWS
-  D --> KSP
-  D --> KADM
-  D --> ISTIO
+  CP --> KCORE
+  LLMD --> LWS
+  LLMD --> VLLM
+  VLLM --> KCORE
 
-  SP --> K8S
-  CP --> K8S
-  KA --> KSP
-  KA --> K8S
-  HM --> K8S
-  CTD --> K8S
-  KUEUE --> K8S
-  KWOK --> K8S
-  LWS --> K8S
-  KADM --> K8S
-  LMD --> K8S
-  LMD --> VLLM
+  LWS --> KCORE
+  KUEUE --> KCORE
+  SP --> KCORE
+  HW --> KCORE
+  MB --> KCORE
+  HAMI --> KCORE
+  CTD --> KCORE
+
+  SP -. 支持 .-> CIL
+  SP -. 支持 .-> CAL
+  SP -. 支持 .-> MAC
+  MB -. 加强 .-> ISTIO
+
+  KUBEAN --> KSP
+  KSP --> KADM
+  KADM --> KCORE
+  KWOK -. 测试 .-> KCORE
 
   classDef star fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
   classDef normal fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
 
-  class SP,CP,KA,HM,K8S,VLLM star;
-  class HW,LMD,KW,MB,CTD,KUEUE,KWOK,LWS,KSP,KADM,ISTIO normal;
+  class CP,VLLM,KCORE,SP,HAMI,KUBEAN star;
+  class LLMD,LWS,KUEUE,HW,MB,ISTIO,CIL,CAL,MAC,CTD,KSP,KADM,KWOK normal;
 ```
 
-## 发起/主导项目（代表）
+## 项目清单（按架构分层）
+
+### 多云组件（顶层）
+
+- [⭐ clusterpedia-io/clusterpedia](https://github.com/clusterpedia-io/clusterpedia)
+
+### AI 引擎层
+
+- [⭐ vllm-project/vllm](https://github.com/vllm-project/vllm)
+- [llm-d/llm-d](https://github.com/llm-d/llm-d)
+
+### Kubernetes 平台层
+
+#### 调度编排层
+
+- [kubernetes-sigs/lws](https://github.com/kubernetes-sigs/lws)
+- [kubernetes-sigs/kueue](https://github.com/kubernetes-sigs/kueue)
+
+#### 网络存储层
 
 - [⭐ spidernet-io/spiderpool](https://github.com/spidernet-io/spiderpool)
-- [⭐ clusterpedia-io/clusterpedia](https://github.com/clusterpedia-io/clusterpedia)
-- [⭐ kubean-io/kubean](https://github.com/kubean-io/kubean)
-- [⭐ Project-HAMi/HAMi](https://github.com/Project-HAMi/HAMi)
-- [knoway-dev/knoway](https://github.com/knoway-dev/knoway)
-- [merbridge/merbridge](https://github.com/merbridge/merbridge)
 - [hwameistor/hwameistor](https://github.com/hwameistor/hwameistor)
-- [llm-d/llm-d](https://github.com/llm-d/llm-d)
-- [kdoctor-io/kdoctor](https://github.com/kdoctor-io/kdoctor)
+- [merbridge/merbridge](https://github.com/merbridge/merbridge)
+- [istio/istio](https://github.com/istio/istio)
 
-## 深度参与项目（代表）
+#### 资源管理层
+
+- [⭐ Project-HAMi/HAMi](https://github.com/Project-HAMi/HAMi)
+- [containerd/containerd](https://github.com/containerd/containerd)
+
+#### 底座
 
 - [⭐ kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
-- [⭐ vllm-project/vllm](https://github.com/vllm-project/vllm)
-- [containerd/containerd](https://github.com/containerd/containerd)
-- [kubernetes-sigs/kueue](https://github.com/kubernetes-sigs/kueue)
-- [kubernetes-sigs/kwok](https://github.com/kubernetes-sigs/kwok)
-- [kubernetes-sigs/lws](https://github.com/kubernetes-sigs/lws)
+
+### 安装与测试组件
+
+- [⭐ kubean-io/kubean](https://github.com/kubean-io/kubean)
 - [kubernetes-sigs/kubespray](https://github.com/kubernetes-sigs/kubespray)
 - [kubernetes/kubeadm](https://github.com/kubernetes/kubeadm)
-- [istio/istio](https://github.com/istio/istio)
+- [kubernetes-sigs/kwok](https://github.com/kubernetes-sigs/kwok)
+
+### 其他 DaoCloud 相关项目（补充）
+
+- [knoway-dev/knoway](https://github.com/knoway-dev/knoway)
+- [kdoctor-io/kdoctor](https://github.com/kdoctor-io/kdoctor)
