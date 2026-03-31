@@ -16,6 +16,8 @@
 
 ## 可编辑生态图（Mermaid）
 
+> 华为云原生“三驾马车”：⭐ Karmada、⭐ KubeEdge、⭐ Volcano
+
 ```mermaid
 flowchart TB
   subgraph Foundation["社区基础（早期深度参与）"]
@@ -27,14 +29,14 @@ flowchart TB
     direction TB
 
     subgraph MC["多集群与调度"]
-      KARMADA["Karmada<br/>多集群编排与联邦"]
-      VOLCANO["Volcano<br/>批处理/Gang 调度"]
+      KARMADA["⭐ Karmada<br/>多集群编排与联邦"]
+      VOLCANO["⭐ Volcano<br/>批处理/Gang 调度"]
       KTHENA["Kthena<br/>Volcano 生态 AI Serving 编排"]
       AGENTCUBE["AgentCube<br/>Volcano 生态 Agent 编排"]
     end
 
     subgraph ER["边云与运行时"]
-      KUBEEDGE["KubeEdge<br/>边云协同"]
+      KUBEEDGE["⭐ KubeEdge<br/>边云协同"]
       KUASAR["kuasar<br/>轻量隔离容器运行时"]
     end
 
