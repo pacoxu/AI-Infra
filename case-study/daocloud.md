@@ -18,72 +18,90 @@
 
 ```mermaid
 flowchart TB
-  CP["⭐ Clusterpedia<br/>多云/多集群组件（顶层）"]
-
-  subgraph AI["AI 引擎层"]
-    VLLM["⭐ vLLM"]
-    LLMD["llm-d"]
+  subgraph GLOBAL["全局 / 多集群层"]
+    KAR["⭐ Karmada<br/>多集群编排 / 调度"]
+    CP["Clusterpedia<br/>多集群同步 / 检索 / 统一视图"]
   end
 
-  subgraph K8S["Kubernetes 平台层"]
-    KCORE["⭐ Kubernetes"]
-
-    subgraph SCHED["1. 调度编排层"]
-      LWS["LWS"]
-      KUEUE["Kueue"]
-    end
-
-    subgraph NETSTO["2. 网络存储层"]
-      SP["⭐ Spiderpool (CNI)"]
-      HW["Hwameistor (Storage)"]
-      MB["merbridge (Mesh 加强)"]
-      ISTIO["Istio"]
-      CIL["Cilium"]
-      CAL["Calico"]
-      MAC["macvlan"]
-    end
-
-    subgraph RES["3. 资源管理层"]
-      HAMI["⭐ HAMi"]
-      CTD["containerd"]
-    end
+  subgraph AICP["AI Serving Control Plane"]
+    LLMD["llm-d<br/>分布式推理编排"]
+    AIB["⭐ AIBrix<br/>推理基础设施 / Gateway / KV Cache / Routing"]
+    SR["Semantic Router<br/>语义路由 / MoM"]
   end
 
-  subgraph TOOL["安装与测试组件"]
-    KUBEAN["⭐ kubean"]
-    KSP["kubespray"]
-    KADM["kubeadm"]
-    KWOK["kwok（测试模拟）"]
+  subgraph ENGINE["AI 引擎层"]
+    VLLM["⭐ vLLM<br/>推理引擎"]
   end
 
-  CP --> KCORE
+  subgraph ORCH["Kubernetes 工作负载编排层"]
+    LWS["LWS"]
+    KUEUE["Kueue<br/>Queue / Quota / Admission"]
+  end
+
+  subgraph EXT["Kubernetes 平台扩展层"]
+    SP["Spiderpool<br/>CNI / IPAM"]
+    HW["Hwameistor<br/>CSI / Storage"]
+    MB["merbridge<br/>Mesh Dataplane Enhance"]
+    HAMI["HAMi<br/>GPU / 异构资源管理"]
+    ISTIO["Istio"]
+  end
+
+  subgraph CORE["Kubernetes 核心层"]
+    APIS["API Server"]
+    SCH["Scheduler"]
+    KLET["Kubelet"]
+  end
+
+  subgraph NODE["节点运行时层"]
+    CTD["containerd"]
+  end
+
+  subgraph EDGE["边缘扩展分支"]
+    KE["⭐ KubeEdge<br/>Cloud-Edge Extension"]
+    EN["Edge Nodes / Devices"]
+  end
+
+  %% Global
+  KAR --> APIS
+  CP -. 对接 / 检索 .-> APIS
+  CP -. 可对接 .-> KAR
+
+  %% AI control plane
   LLMD --> LWS
   LLMD --> VLLM
-  VLLM --> KCORE
+  AIB --> VLLM
+  AIB --> APIS
+  SR --> AIB
+  SR --> VLLM
 
-  LWS --> KCORE
-  KUEUE --> KCORE
-  SP --> KCORE
-  HW --> KCORE
-  MB --> KCORE
-  HAMI --> KCORE
-  CTD --> KCORE
+  %% Orchestration
+  LWS --> APIS
+  KUEUE --> APIS
+  KUEUE -. 与标准调度器协同 .-> SCH
 
-  SP -. 支持 .-> CIL
-  SP -. 支持 .-> CAL
-  SP -. 支持 .-> MAC
-  MB -. 加强 .-> ISTIO
+  %% Extensions
+  SP --> KLET
+  HW --> KLET
+  HAMI --> SCH
+  MB --> ISTIO
+  ISTIO --> APIS
 
-  KUBEAN --> KSP
-  KSP --> KADM
-  KADM --> KCORE
-  KWOK -. 测试 .-> KCORE
+  %% Core to runtime
+  APIS --> SCH
+  APIS --> KLET
+  KLET --> CTD
 
-  classDef star fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
-  classDef normal fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
+  %% Edge
+  APIS --> KE
+  KE --> EN
 
-  class CP,VLLM,KCORE,SP,HAMI,KUBEAN star;
-  class LLMD,LWS,KUEUE,HW,MB,ISTIO,CIL,CAL,MAC,CTD,KSP,KADM,KWOK normal;
+  classDef top fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
+  classDef mid fill:#eef4ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
+  classDef core fill:#e8fff1,stroke:#16a34a,color:#14532d,stroke-width:1.2px;
+
+  class KAR,AIB,VLLM,KE top;
+  class CP,LLMD,SR,LWS,KUEUE,SP,HW,MB,HAMI,ISTIO,CTD,EN mid;
+  class APIS,SCH,KLET core;
 ```
 
 ## 项目清单（按架构分层）
