@@ -14,6 +14,69 @@
 - 可观测/数据底座：字节 `kelemetry`；华为 `openGemini`
 - AI 推理适配：华为侧代表项目 `vllm-ascend`
 
+## 可编辑生态图（Mermaid）
+
+```mermaid
+flowchart TB
+  subgraph Foundation["社区基础（早期深度参与）"]
+    K8S["Kubernetes"]
+    ISTIO["Istio"]
+  end
+
+  subgraph HuaweiEco["华为云原生开源生态"]
+    direction TB
+
+    subgraph MC["多集群与调度"]
+      KARMADA["Karmada<br/>多集群编排与联邦"]
+      VOLCANO["Volcano<br/>批处理/Gang 调度"]
+      KTHENA["Kthena<br/>Volcano 生态 AI Serving 编排"]
+      AGENTCUBE["AgentCube<br/>Volcano 生态 Agent 编排"]
+    end
+
+    subgraph ER["边云与运行时"]
+      KUBEEDGE["KubeEdge<br/>边云协同"]
+      KUASAR["kuasar<br/>轻量隔离容器运行时"]
+    end
+
+    subgraph SG["服务治理与流量"]
+      KMESH["kmesh<br/>eBPF Service Mesh 数据面"]
+      SERMANT["Sermant<br/>服务治理/无损治理"]
+    end
+
+    subgraph DO["数据与可观测"]
+      OPENG["openGemini<br/>时序数据与可观测存储"]
+    end
+
+    subgraph AI["AI 推理适配"]
+      VLLMA["vLLM Ascend<br/>Ascend NPU 推理后端适配"]
+    end
+  end
+
+  K8S --> KARMADA
+  K8S --> VOLCANO
+  K8S --> KUBEEDGE
+  K8S --> KUASAR
+  ISTIO --> KMESH
+  ISTIO --> SERMANT
+
+  VOLCANO --> KTHENA
+  VOLCANO --> AGENTCUBE
+  KARMADA --> VOLCANO
+  KARMADA --> KUBEEDGE
+
+  VOLCANO --> VLLMA
+  KMESH --> SERMANT
+  OPENG -. metrics/traces .-> SERMANT
+  OPENG -. observability .-> KARMADA
+  OPENG -. observability .-> VOLCANO
+
+  classDef foundation fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
+  classDef huawei fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
+
+  class K8S,ISTIO foundation;
+  class KARMADA,VOLCANO,KTHENA,AGENTCUBE,KUBEEDGE,KUASAR,KMESH,SERMANT,OPENG,VLLMA huawei;
+```
+
 ## 发起/主导项目（代表）
 
 - [karmada-io/karmada](https://github.com/karmada-io/karmada)
