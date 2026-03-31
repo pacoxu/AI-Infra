@@ -9,6 +9,7 @@
 
 - 多集群与联邦层：`kubeadmiral`、`podseidon`
 - 入口与治理层：`kubegateway`、`kubezoo`
+- AI 服务编排层：`aibrix`、`kuberay`
 - 核心控制面层：`kubebrain`（元信息存储）、`godel-scheduler`（调度）
 - 节点与数据面层：`katalyst-core`
 - 跨层可观测层：`kelemetry`
@@ -25,6 +26,11 @@ flowchart TB
   subgraph L2["Access & Governance Layer (入口与治理层)"]
     KGW["2. KubeGateway<br/>七层网关（L7入口）"]
     KZZ["3. KubeZoo<br/>轻量级多租户（租户隔离）"]
+  end
+
+  subgraph L2_5["AI Serving Layer (AI 服务编排层)"]
+    AIB["AIBrix<br/>AI Gateway / Inference Infra"]
+    KRAY["KubeRay<br/>Ray on Kubernetes"]
   end
 
   subgraph L3["Core Control Plane Layer (核心控制面层)"]
@@ -59,6 +65,9 @@ flowchart TB
   PS -. 保护多集群 .-> KA
   KGW --> KAS
   KZZ --> KAS
+  KGW --> AIB
+  AIB --> KRAY
+  KRAY --> KAS
   KCM --> KAS
   KSCH --> KAS
   GODEL --> KAS
@@ -73,7 +82,7 @@ flowchart TB
   classDef backend fill:#f5f5f5,stroke:#666,color:#333,stroke-width:1px;
 
   class KAS,KCM,KSCH,KLET std;
-  class KA,PS,KGW,KZZ,GODEL,KB,KAT,KEL bt;
+  class KA,PS,KGW,KZZ,AIB,KRAY,GODEL,KB,KAT,KEL bt;
   class TIKV,BKV backend;
 ```
 
@@ -93,3 +102,5 @@ flowchart TB
 - [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
 - [istio/istio](https://github.com/istio/istio)
 - [etcd-io/etcd](https://github.com/etcd-io/etcd)
+- [vllm-project/aibrix](https://github.com/vllm-project/aibrix)
+- [ray-project/kuberay](https://github.com/ray-project/kuberay)
