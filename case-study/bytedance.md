@@ -36,7 +36,6 @@ flowchart TB
     subgraph SCH["Scheduling (调度)"]
       KSCH["kube-scheduler<br/>（标准调度）"]
       GODEL["4. Godel Scheduler<br/>（大规模混部调度）"]
-      SOPT["调度器选项（二选一）"]
     end
 
     subgraph STO["Storage (存储)"]
