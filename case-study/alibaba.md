@@ -4,6 +4,7 @@
 
 - `Higress`：新晋 CNCF Sandbox（API Gateway 方向）
 - `Kata Containers`：容器隔离与安全运行时领域的重要项目
+- `SGLang / RBG`：补充 AI 推理引擎与请求批处理/路由能力（纳入本图）
 
 ## 可编辑架构分层图（Mermaid）
 
@@ -12,6 +13,11 @@ flowchart TB
   subgraph ENTRY["入口与应用交付面"]
     HIG["⭐ Higress<br/>AI / API Gateway"]
     KVL["KubeVela<br/>Application Delivery Control Plane"]
+  end
+
+  subgraph AI["AI 推理与请求路由面"]
+    SGL["SGLang<br/>LLM Serving Engine"]
+    RBG["RBG<br/>Request Batching / Routing Gateway"]
   end
 
   subgraph CTRL["工作负载与资源控制面"]
@@ -48,6 +54,9 @@ flowchart TB
   K8S --> FLUID
   ISTIO --> K8S
   HIG --> ISTIO
+  HIG --> RBG
+  RBG --> SGL
+  SGL --> K8S
 
   %% collaboration / ecosystem integrations
   KVL -. often drives .-> OKR
@@ -67,7 +76,7 @@ flowchart TB
   classDef base fill:#e8fff1,stroke:#16a34a,color:#14532d,stroke-width:1.3px;
 
   class HIG,KRD,KATA,K8S star;
-  class KVL,OKR,OY,COC,CB,FLUID,DFLY,NACOS,SENT,ISTIO normal;
+  class KVL,OKR,OY,COC,CB,FLUID,DFLY,NACOS,SENT,ISTIO,SGL,RBG normal;
 ```
 
 ## 发起/主导项目（代表）
@@ -84,6 +93,11 @@ flowchart TB
 - [dragonflyoss/dragonfly](https://github.com/dragonflyoss/dragonfly)
 - [alibaba/nacos](https://github.com/alibaba/nacos)
 - [alibaba/Sentinel](https://github.com/alibaba/Sentinel)
+
+## 补充：AI 推理生态项目（本图纳入）
+
+- [sgl-project/sglang](https://github.com/sgl-project/sglang)
+- [sgl-project/rbg](https://github.com/sgl-project/rbg)
 
 ## 深度参与项目（代表）
 
