@@ -3,33 +3,36 @@
 ## 可编辑开源全景图（Mermaid）
 
 ```mermaid
-flowchart TB
-  subgraph PLATFORM["企业发行版与平台层（Red Hat 血统）"]
-    K8S["Kubernetes（联合发起/早期核心贡献）"]
-    OKD["OKD"]
-    OCP["OpenShift"]
+flowchart LR
+  subgraph BASE["基础底座 / Upstream Foundation"]
+    K8S["Kubernetes\n（非 Red Hat 发起；长期核心贡献）"]
   end
 
-  subgraph MULTI["多集群与运维控制面"]
+  subgraph PLATFORM["平台发行版 / Red Hat 血统"]
+    OKD["OKD\n（OpenShift upstream）"]
+    OCP["OpenShift\n（企业发行版 / 产品映射）"]
+  end
+
+  subgraph CONTROL["集群控制面与平台扩展"]
     OCM["Open Cluster Management"]
     OF["Operator Framework"]
     SDK["Operator SDK"]
-    OLM["Operator Lifecycle Manager"]
+    OLM["OLM"]
     OH["OperatorHub"]
   end
 
-  subgraph RUNTIME["虚拟化与运行时层"]
+  subgraph WORKLOAD["工作负载能力"]
     KV["KubeVirt"]
-    CRIO["CRI-O"]
-    KEDA["KEDA"]
+    CRIO["CRI-O\n（Red Hat 发起）"]
+    KEDA["KEDA\n（与 Microsoft 共同创建）"]
   end
 
-  subgraph MODERNIZE["迁移与基础设施"]
+  subgraph INFRA["现代化 / 基础设施"]
     KONV["Konveyor"]
     M3["Metal3.io"]
   end
 
-  subgraph UPSTREAM["深度参与生态（非 Red Hat 主导）"]
+  subgraph ECO["生态集成 / 深度参与（非 Red Hat 主导）"]
     ETCD["etcd"]
     KN["Knative"]
     ISTIO["Istio"]
@@ -38,32 +41,35 @@ flowchart TB
     JAE["Jaeger"]
   end
 
+  K8S --> OKD
   OKD --> OCP
-  K8S --> OCP
-  OCP --> OCM
-  OCP --> OF
-  OCP --> KV
-  OCP --> CRIO
-  OCP --> KEDA
-  OCP --> KONV
-  OCP --> M3
 
+  K8S --> OF
   OF --> SDK
   OF --> OLM
-  OF --> OH
+  OLM --> OH
+  OCP --> OCM
 
-  OCP -. ecosystem integration .-> ETCD
+  K8S --> KV
+  K8S --> CRIO
+  K8S --> KEDA
+  OCP --> KONV
+  K8S --> M3
+
+  K8S -. control-plane storage .-> ETCD
   OCP -. ecosystem integration .-> KN
-  OCP -. ecosystem integration .-> ISTIO
-  OCP -. ecosystem integration .-> ARGO
-  OCP -. ecosystem integration .-> PROM
-  OCP -. ecosystem integration .-> JAE
+  OCP -. service mesh integration .-> ISTIO
+  OCP -. GitOps / delivery .-> ARGO
+  OCP -. observability .-> PROM
+  OCP -. tracing .-> JAE
 
-  classDef core fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
-  classDef normal fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
+  classDef rh fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.4px;
+  classDef eco fill:#eef4ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
+  classDef prod fill:#f5f5f5,stroke:#666,color:#222,stroke-dasharray: 5 3;
 
-  class K8S,OKD,OCP,OCM,OF,KV,CRIO,KEDA core;
-  class SDK,OLM,OH,KONV,M3,ETCD,KN,ISTIO,ARGO,PROM,JAE normal;
+  class OKD,OCM,OF,SDK,OLM,OH,KV,CRIO,KEDA,KONV,M3 rh;
+  class ETCD,K8S,KN,ISTIO,ARGO,PROM,JAE eco;
+  class OCP prod;
 ```
 
 ## 发起/主导项目（代表）
@@ -76,7 +82,7 @@ flowchart TB
 - [operatorhub.io](https://operatorhub.io/)（OperatorHub 生态入口）
 - [kubevirt/kubevirt](https://github.com/kubevirt/kubevirt)
 - [cri-o/cri-o](https://github.com/cri-o/cri-o)
-- [kedacore/keda](https://github.com/kedacore/keda)
+- [kedacore/keda](https://github.com/kedacore/keda)（与 Microsoft 共同创建）
 
 ## 发起/主导（或 Red Hat 血统很强）
 
@@ -88,7 +94,7 @@ flowchart TB
   [operatorhub.io](https://operatorhub.io/)
 - [kubevirt/kubevirt](https://github.com/kubevirt/kubevirt)
 - [cri-o/cri-o](https://github.com/cri-o/cri-o)
-- [kedacore/keda](https://github.com/kedacore/keda)
+- [kedacore/keda](https://github.com/kedacore/keda)（与 Microsoft 共同创建）
 - [konveyor（GitHub Org）](https://github.com/konveyor)
 - [metal3-io（GitHub Org）](https://github.com/metal3-io)
 
