@@ -1,0 +1,23 @@
+flowchart LR
+  A["Traffic Spike / Scale Trigger"] --> B["Create Pod"]
+  B --> C["API Server + Admission"]
+  C --> D["etcd Persist + Watch Propagation"]
+  D --> E["Scheduler Queue"]
+  E --> F["Node Selected"]
+  F --> G["Kubelet Pod Sync"]
+  G --> H["Sandbox + CNI + Volume"]
+  H --> I["Image Distribution"]
+  I --> J["Model Fetch / Stream"]
+  J --> K["GPU Runtime Init"]
+  K --> L["Model Warmup + Compile"]
+  L --> M["Readiness / Gates Passed"]
+  M --> N["Ready to Serve"]
+
+  subgraph Metrics["Key Stage Timers"]
+    T1["T_capacity"]
+    T2["T_schedule"]
+    T3["T_image"]
+    T4["T_model"]
+    T5["T_runtime"]
+    T6["T_warmup"]
+  end
