@@ -8,76 +8,71 @@
 ## 可编辑云原生开源全景图（Mermaid）
 
 ```mermaid
-flowchart TB
-  subgraph TL["时间演进（结合图片）"]
-    T2017["2017"]
-    T2025["2025"]
-    TNOW["当前阶段"]
-    T2017 --> T2025 --> TNOW
-  end
-
-  subgraph BASE["Kubernetes 基座"]
+flowchart LR
+  subgraph UP["上游基座（深度参与）"]
     K8S["Kubernetes"]
     CTD["containerd"]
   end
 
-  subgraph RUNTIME["GPU 运行时与集群运维"]
-    CTK["NVIDIA Container Toolkit"]
+  subgraph OPS["GPU 接入与集群运维"]
     GPO["GPU Operator"]
+    CTK["NVIDIA Container Toolkit"]
     KDP["k8s-device-plugin"]
     DCGM["dcgm-exporter"]
     AICR["AI Cluster Runtime (AICR)"]
   end
 
-  subgraph SCHED["调度与资源分配（K8s 集成）"]
-    KAI["⭐ KAI Scheduler"]
+  subgraph RES["资源建模 / 调度 / 故障治理"]
     DRA["⭐ GPU DRA Driver"]
+    KAI["⭐ KAI Scheduler"]
     NVS["NVSentinel"]
   end
 
-  subgraph INFER["推理与加速栈"]
-    DYN["⭐ Dynamo Inference Framework"]
+  subgraph SERVE["推理编排与服务"]
+    DYN["⭐ Dynamo"]
     TRT["TensorRT-LLM"]
     TRITON["Triton Inference Server"]
+  end
+
+  subgraph COMM["高性能通信基础"]
     NCCL["NCCL"]
   end
 
-  %% timeline mapping
-  T2017 -.-> CTK
-  T2017 -.-> GPO
-  T2025 -.-> KAI
-  T2025 -.-> DYN
-  T2025 -.-> NVS
-  T2025 -.-> DRA
-  TNOW -.-> AICR
+  %% foundation
+  K8S --> GPO
+  K8S --> DRA
+  K8S --> KAI
+  K8S --> NVS
+  K8S --> DYN
+  CTD --> CTK
 
-  %% base relations
-  CTD --> K8S
-  CTK --> CTD
-  GPO --> K8S
-  KDP --> GPO
-  DCGM --> GPO
+  %% ops layer
+  GPO --> CTK
+  GPO --> KDP
+  GPO --> DCGM
   AICR --> GPO
-  AICR --> K8S
+  GPO -. "集成入口" .-> DRA
 
-  %% scheduler/resource
-  KAI --> K8S
-  DRA --> K8S
-  NVS --> DRA
+  %% resource / scheduling / remediation
+  KDP -. "从设备暴露走向\n更细粒度资源建模" .-> DRA
+  DRA -. "资源声明 / 共享 / 拓扑信息" .-> KAI
+  DCGM -. "健康信号 / 指标输入" .-> NVS
 
-  %% inference stack
-  DYN --> TRITON
+  %% serving
   DYN --> TRT
-  DYN --> K8S
-  NCCL --> DYN
-  TRT --> TRITON
+  DYN --> TRITON
+  TRT -. "可作为 Triton backend\n也可直接使用" .-> TRITON
 
-  classDef star fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
+  %% comms
+  NCCL -. "多 GPU / 多节点通信" .-> TRT
+  NCCL -. "分布式通信基础" .-> DYN
+
+  classDef star fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.4px;
   classDef normal fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
   classDef base fill:#e8fff1,stroke:#16a34a,color:#14532d,stroke-width:1.2px;
 
   class KAI,DRA,DYN star;
-  class CTK,GPO,KDP,DCGM,AICR,NVS,TRT,TRITON,NCCL normal;
+  class GPO,CTK,KDP,DCGM,AICR,NVS,TRT,TRITON,NCCL normal;
   class K8S,CTD base;
 ```
 

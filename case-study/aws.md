@@ -15,3 +15,9 @@
 
 - [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
 - [containerd/containerd](https://github.com/containerd/containerd)
+- [cortexproject/cortex](https://github.com/cortexproject/cortex)
+- [thanos-io/thanos](https://github.com/thanos-io/thanos)
+
+## 可选补充：云原生周边 / 基础数据设施生态
+
+- [valkey-io/valkey](https://github.com/valkey-io/valkey)
