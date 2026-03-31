@@ -92,7 +92,7 @@ flowchart TB
 - [konveyor（GitHub Org）](https://github.com/konveyor)
 - [metal3-io（GitHub Org）](https://github.com/metal3-io)
 
-## 深度参与（但不建议写成 Red Hat 主导）
+## 深度参与项目（代表）
 
 - [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
 - [etcd-io/etcd](https://github.com/etcd-io/etcd)
