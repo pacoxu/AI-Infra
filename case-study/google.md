@@ -98,10 +98,10 @@ flowchart TB
 - [tektoncd/pipeline](https://github.com/tektoncd/pipeline)
 - [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow)
 - [kubernetes-sigs/kueue](https://github.com/kubernetes-sigs/kueue)
-- [ray-project/ray](https://github.com/ray-project/ray)
 
 ## 深度参与项目（代表）
 
 - [containerd/containerd](https://github.com/containerd/containerd)
 - [etcd-io/etcd](https://github.com/etcd-io/etcd)
 - [SchedMD/slurm](https://github.com/SchedMD/slurm)
+- [ray-project/ray](https://github.com/ray-project/ray)
