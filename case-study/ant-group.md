@@ -1,5 +1,54 @@
 # 蚂蚁集团（Ant Group）云原生开源案例（初稿）
 
+## 可编辑全景图（Mermaid）
+
+```mermaid
+flowchart TB
+  ANT["蚂蚁开源全景图"]
+
+  subgraph DIST["分发与镜像"]
+    DFLY["Dragonfly"]
+    HARBOR["Harbor"]
+  end
+
+  subgraph PLATFORM["平台工程与运维（KusionStack）"]
+    KS["KusionStack 社区"]
+    KARPOR["Karpor"]
+    CMESH["Controller Mesh"]
+    KUP["Kuperator"]
+  end
+
+  subgraph AI["模型与 AI 交付"]
+    MPORG["modelpack（GitHub Org）"]
+    MPC["modelpack/community"]
+  end
+
+  subgraph RUNTIME["运行时与安全隔离"]
+    KATA["Kata Containers"]
+  end
+
+  subgraph UPSTREAM["上游生态参与"]
+    K8S["Kubernetes（参与）"]
+  end
+
+  ANT --> DFLY
+  ANT --> HARBOR
+  ANT --> KS
+  ANT --> MPORG
+  ANT --> KATA
+  ANT --> K8S
+
+  KS --> KARPOR
+  KS --> CMESH
+  KS --> KUP
+  MPORG --> MPC
+
+  DFLY --> K8S
+  HARBOR --> K8S
+  KATA --> K8S
+  KUP --> K8S
+```
+
 ## 发起/主导项目（代表）
 
 - [dragonflyoss/dragonfly](https://github.com/dragonflyoss/dragonfly)
