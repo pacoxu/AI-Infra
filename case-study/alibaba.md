@@ -9,59 +9,65 @@
 
 ```mermaid
 flowchart TB
-  subgraph L1["L1 入口与应用交付层"]
-    HIG["⭐ Higress<br/>（CNCF Sandbox）"]
-    KVL["KubeVela"]
-    OKR["OpenKruise"]
-    OY["OpenYurt"]
+  subgraph ENTRY["入口与应用交付面"]
+    HIG["⭐ Higress<br/>AI / API Gateway"]
+    KVL["KubeVela<br/>Application Delivery Control Plane"]
   end
 
-  subgraph L2["L2 调度与资源管理层"]
-    KRD["⭐ Koordinator"]
+  subgraph CTRL["工作负载与资源控制面"]
+    OKR["OpenKruise<br/>Workload Automation"]
+    KRD["⭐ Koordinator<br/>Scheduling / QoS / Colocation"]
+    OY["OpenYurt<br/>Edge Extension"]
   end
 
-  subgraph L3["L3 运行时与安全层"]
-    KATA["⭐ Kata Containers"]
+  subgraph RUNTIME["运行时与安全面"]
+    KATA["⭐ Kata Containers<br/>Lightweight VM Runtime"]
     COC["Confidential Containers"]
     CB["ChaosBlade"]
   end
 
-  subgraph L4["L4 数据与分发加速层"]
-    FLUID["Fluid"]
-    DFLY["Dragonfly"]
+  subgraph DATA["数据分发与缓存加速面"]
+    FLUID["Fluid<br/>Dataset / Cache Orchestration"]
+    DFLY["Dragonfly<br/>P2P Distribution Acceleration"]
   end
 
-  subgraph L5["L5 中间件与治理层"]
+  subgraph GOV["服务发现与流量治理面"]
+    ISTIO["Istio"]
     NACOS["Nacos"]
     SENT["Sentinel"]
   end
 
-  subgraph BASE["基础开源底座（深度参与）"]
-    K8S["Kubernetes"]
-    ISTIO["Istio"]
-  end
+  K8S["⭐ Kubernetes<br/>统一控制平面"]
 
-  HIG --> KRD
-  KVL --> OKR
-  OKR --> KRD
-  OY --> K8S
-  KRD --> OKR
+  %% stronger relationships
+  KVL --> K8S
+  OKR --> K8S
   KRD --> K8S
+  OY --> K8S
   KATA --> K8S
-  COC --> KATA
-  CB --> K8S
   FLUID --> K8S
-  DFLY --> FLUID
-  NACOS --> K8S
-  SENT --> K8S
-  HIG --> ISTIO
   ISTIO --> K8S
+  HIG --> ISTIO
+
+  %% collaboration / ecosystem integrations
+  KVL -. often drives .-> OKR
+  KRD -. works with workload scheduling .-> OKR
+  OY -. extends Kubernetes to edge .-> K8S
+  COC -. commonly builds on Kata ecosystem .-> KATA
+  CB -. chaos engineering for .-> K8S
+  DFLY -. accelerates images / OCI / models / files .-> K8S
+  DFLY -. can complement caching / distribution .-> FLUID
+  NACOS -. service discovery / config for workloads on .-> K8S
+  SENT -. traffic governance / resilience for workloads on .-> K8S
+  SENT -. complements .-> ISTIO
+  NACOS -. can integrate with gateways / services .-> HIG
 
   classDef star fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
   classDef normal fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
+  classDef base fill:#e8fff1,stroke:#16a34a,color:#14532d,stroke-width:1.3px;
 
-  class HIG,KRD,KATA star;
-  class KVL,OKR,OY,COC,CB,FLUID,DFLY,NACOS,SENT,K8S,ISTIO normal;
+  class HIG,KRD,KATA,K8S star;
+  class KVL,OKR,OY,COC,CB,FLUID,DFLY,NACOS,SENT,ISTIO normal;
 ```
 
 ## 发起/主导项目（代表）
