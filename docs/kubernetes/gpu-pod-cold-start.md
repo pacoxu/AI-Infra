@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-11-13
+last_updated: 2026-03-31
 tags: kubernetes, gpu, cold-start, optimization, ai-workloads
 canonical_path: docs/kubernetes/gpu-pod-cold-start.md
 ---
@@ -12,6 +12,40 @@ This guide covers strategies to minimize cold start latency for GPU-accelerated
 Pods in Kubernetes, particularly for AI/ML inference workloads. Based on
 KubeCon NA 2025 presentation and production implementations from cloud
 providers.
+
+## Related 2026 Deep Dive
+
+- [GPU Pod 冷启动优化：AI 工作负载的性能突破 (Chinese)](../blog/2026-04-06/2026-04-06-gpu-pod-cold-start-optimization_zh.md)
+
+## Editable GPU Pod Startup Flow (Critical Path)
+
+Editable source: [gpu-pod-startup-critical-path.mmd](../../diagrams/gpu-pod-startup-critical-path.mmd)
+
+```mermaid
+flowchart LR
+  A["Traffic Spike / Scale Trigger"] --> B["Create Pod"]
+  B --> C["API Server + Admission"]
+  C --> D["etcd Persist + Watch Propagation"]
+  D --> E["Scheduler Queue"]
+  E --> F["Node Selected"]
+  F --> G["Kubelet Pod Sync"]
+  G --> H["Sandbox + CNI + Volume"]
+  H --> I["Image Distribution"]
+  I --> J["Model Fetch / Stream"]
+  J --> K["GPU Runtime Init"]
+  K --> L["Model Warmup + Compile"]
+  L --> M["Readiness / Gates Passed"]
+  M --> N["Ready to Serve"]
+
+  subgraph Metrics["Key Stage Timers"]
+    T1["T_capacity"]
+    T2["T_schedule"]
+    T3["T_image"]
+    T4["T_model"]
+    T5["T_runtime"]
+    T6["T_warmup"]
+  end
+```
 
 ## Why GPU Pod Cold Start Matters
 
@@ -48,6 +82,46 @@ Cold start times vary significantly based on model size and optimization:
 - **30-60 seconds**: Medium models (7B-13B parameters) with standard formats
 - **1-3 minutes**: Large models (13B-70B parameters) with PyTorch pickle
 - **3-10 minutes**: Very large models (70B+ parameters) without optimization
+
+## Bottleneck Localization at Scale (Huge Cluster vs Multi-Clusters)
+
+Combining this guide with `pod-startup-speed.md` and KCD Beijing 2026
+("Huge Cluster or Multi-Clusters?"), cold-start bottlenecks are usually
+distributed across control plane, scheduling, distribution, and networking.
+
+### Single Huge Cluster: Common Cold-Start Bottlenecks
+
+- **API server and etcd pressure**: event storms, aggressive controllers, or
+  expensive admission paths can delay Pod creation and watch propagation.
+- **Scheduler backlog under heterogeneity**: mixed CPU/GPU SKUs, topology
+  constraints, and gang semantics increase scheduling wait time.
+- **Image/model distribution contention**: large images and model artifacts
+  compete for registry/object-store bandwidth.
+- **DNS and service discovery pressure**: high QPS and short-lived requests can
+  amplify tail latency during cold-start windows.
+- **Operator/control-plane overhead**: high-frequency reconciliation loops can
+  consume shared control-plane budget.
+
+### Multi-Cluster: What Improves and What Gets Harder
+
+| Dimension | Huge Cluster | Multi-Cluster |
+| --- | --- | --- |
+| Blast radius | Larger | Smaller per cluster |
+| Resource utilization | Easier global pooling | Better isolation, more fragmentation risk |
+| Cold-start predictability | Impacted by shared control-plane load | More stable per tenant/region if capacity is reserved |
+| Network planning | Single but complex scaling path | Cross-cluster connectivity/discovery becomes first-class |
+| Operations | Centralized | Higher management overhead without automation |
+
+### Practical Triage Order
+
+1. Verify control-plane latency (`Pod create -> watch visible`).
+2. Measure scheduling wait (`PodScheduled` gap) and GPU-capacity readiness.
+3. Separate image pull time from model fetch/load time.
+4. Measure runtime initialization and warmup independently.
+5. Validate DNS/service discovery behavior under burst startup.
+
+For large-scale pre-production validation, build repeatable tests with tools
+like KWOK/Kubemark before changing production autoscaling policies.
 
 ## Three Primary Solutions
 
@@ -750,10 +824,10 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 30
         env:
-        - name: LAZY_LOAD
-          value: "true"
-        - name: MODEL_PATH
-          value: "/models/llama-2-7b"
+          - name: LAZY_LOAD
+            value: "true"
+          - name: MODEL_PATH
+            value: "/models/llama-2-7b"
 ```
 
 #### When to Use Lazy Loading
@@ -966,11 +1040,52 @@ spec:
       - name: lazy-server
         image: my-registry/lazy-llm-server:latest
         env:
-        - name: LAZY_LOAD
-          value: "true"
+          - name: LAZY_LOAD
+            value: "true"
         resources:
           limits:
             nvidia.com/gpu: 1
+```
+
+## Reduce Unnecessary Full Cold Starts
+
+Not all latency work must come from "faster cold starts". For GPU workloads, it
+is often equally valuable to avoid triggering full cold starts unnecessarily.
+
+### 1. Use VPA Recommendations and In-Place Vertical Scaling (Where Supported)
+
+When startup phases cannot be further shortened:
+
+- Use VPA recommendations (and, where appropriate, VPA auto modes) to converge
+  on better CPU/memory requests and limits over time. Note that VPA may evict
+  and recreate Pods when applying changes, and is not the same as in-place pod
+  vertical scaling.
+- Where your cluster supports in-place pod vertical scaling (resource resize),
+  use it to adjust requests/limits without a full Pod reschedule, reducing
+  post-start contention and stabilizing tail latency faster.
+
+### 2. Use In-Place Pod Container Restart (v1.35 Alpha) in Suitable Scenarios
+
+In Kubernetes v1.35, `RestartAllContainers` can help when all containers in a
+Pod should restart together after a container exit (for example, completion or
+crash) without re-scheduling the Pod to another node. This requires enabling
+the corresponding alpha feature gate and exit-based policy configuration; it is
+not an imperative on-demand restart API. Used correctly, it can reduce recovery
+time for AI batch/serving workflows where container exits are part of normal
+control flow.
+
+### 3. Gate Real Readiness (Not Just Container Running)
+
+For AI serving, use `readinessProbe` as the primary container-level readiness
+signal (for example, check model-loaded and warmup state in probe endpoints).
+For external coordination scenarios, add readiness gates for business-level
+conditions so traffic does not hit "running but not actually ready" instances.
+
+```yaml
+spec:
+  readinessGates:
+    - conditionType: ai.example.com/ModelLoaded
+    - conditionType: ai.example.com/WarmupDone
 ```
 
 ---
@@ -1050,15 +1165,18 @@ Cost Metrics:
 ### Presentations
 
 - [KubeCon NA 2025: GPU Pod Cold Start Optimization](https://sched.co/27Fa0)
+- KCD Beijing 2026 keynote: "Huge Cluster or Multi-Clusters? Identifying the Bottleneck"
 
 ### Cloud Provider Implementations
 
 - [GKE Agent Sandbox: Strong Guardrails for Agentic AI on Kubernetes](https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke)
+- [Run:ai Model Streamer on GKE](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/run-ai-model-streamer?hl=zh-cn)
 - [vLLM: High-throughput LLM Inference](https://github.com/vllm-project/vllm)
 - [Safetensors: Safe Tensor Serialization](https://github.com/huggingface/safetensors)
 
 ### Related Documentation
 
+- [GPU Pod 冷启动优化：AI 工作负载的性能突破 (Chinese blog)](../blog/2026-04-06/2026-04-06-gpu-pod-cold-start-optimization_zh.md)
 - [Pod Startup Speed Optimization](./pod-startup-speed.md)
 - [Model Lifecycle Management](../inference/model-lifecycle.md)
 - [Workload Isolation](./isolation.md)
@@ -1066,6 +1184,12 @@ Cost Metrics:
 
 ### Additional Resources
 
+- [The weight of AI models: Why infrastructure always arrives slowly](https://www.cncf.io/blog/2026/03/27/the-weight-of-ai-models-why-infrastructure-always-arrives-slowly/)
+- [Kubernetes v1.35: Restart all containers in a Pod](https://kubernetes.io/blog/2026/01/02/kubernetes-v1-35-restart-all-containers/)
+- [Vertical Pod Autoscaling](https://kubernetes.io/docs/concepts/workloads/autoscaling/vertical-pod-autoscale/)
+- [Fluid Documentation](https://fluid-cloudnative.github.io/docs)
+- [P2P Image Acceleration (VolcEngine)](https://www.volcengine.com/docs/6460/658947?lang=zh)
+- [GPU Workloads in Kubernetes (MIG and virtualized sharing overview)](https://oneuptime.com/blog/post/2026-01-06-kubernetes-gpu-workloads-ml-ai/view)
 - [ONNX Runtime Documentation](https://onnxruntime.ai/)
 - [PyTorch TorchScript Guide](https://pytorch.org/docs/stable/jit.html)
 - [Hugging Face Model Hub](https://huggingface.co/models)
