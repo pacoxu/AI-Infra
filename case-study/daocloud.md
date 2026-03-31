@@ -6,57 +6,65 @@
 
 ## 架构分层视角（你给定的结构）
 
-- 多云组件（最上层）：`Clusterpedia`
+- 多云组件（位于 Kubernetes 右侧）：`Clusterpedia`（并可对接 `Karmada`）
 - Kubernetes 平台层（3 层）：
   - 1. 调度编排层：`LWS`、`Kueue`（`llm-d` 使用 `LWS`）
   - 2. 网络存储层：`Spiderpool(CNI)`、`Hwameistor(存储)`、`merbridge(mesh)`
   - 3. 资源管理层：`HAMi`、`containerd`
 - AI 引擎层：`vLLM`（并与 `llm-d` 协同）
 - 安装与测试链路：`kubean -> kubespray -> kubeadm`，`kwok` 作为测试组件
+- 核心控制关系：`Scheduler -> API Server`（与 `API Server` 同级/上层表达）
 
 ## 可编辑生态图（Mermaid）
 
 ```mermaid
-flowchart TB
-  subgraph GLOBAL["全局 / 多集群层"]
+flowchart LR
+  subgraph LEFT["AI Serving（最左）"]
+    direction TB
+    subgraph AICP["AI Serving Control Plane"]
+      LLMD["llm-d<br/>分布式推理编排"]
+      AIB["⭐ AIBrix<br/>推理基础设施 / Gateway / KV Cache / Routing"]
+      SR["Semantic Router<br/>语义路由 / MoM"]
+    end
+
+    subgraph ENGINE["AI 引擎层"]
+      VLLM["⭐ vLLM<br/>推理引擎"]
+    end
+  end
+
+  subgraph MID["Kubernetes 平台（中间）"]
+    direction TB
+    subgraph ORCH["Kubernetes 工作负载编排层"]
+      LWS["LWS"]
+      KUEUE["Kueue<br/>Queue / Quota / Admission"]
+    end
+
+    subgraph EXT["Kubernetes 平台扩展层"]
+      SP["Spiderpool<br/>CNI / IPAM"]
+      HW["Hwameistor<br/>CSI / Storage"]
+      MB["merbridge<br/>Mesh Dataplane Enhance"]
+      HAMI["HAMi<br/>GPU / 异构资源管理"]
+      ISTIO["Istio"]
+    end
+
+    subgraph CORE["Kubernetes 核心层"]
+      direction TB
+      SCH["Scheduler"]
+      APIS["API Server"]
+      KLET["Kubelet"]
+    end
+
+    subgraph NODE["节点运行时层"]
+      CTD["containerd"]
+    end
+  end
+
+  subgraph GLOBAL["全局 / 多集群层（位于 Kubernetes 右侧）"]
     KAR["⭐ Karmada<br/>多集群编排 / 调度"]
     CP["Clusterpedia<br/>多集群同步 / 检索 / 统一视图"]
   end
 
-  subgraph AICP["AI Serving Control Plane"]
-    LLMD["llm-d<br/>分布式推理编排"]
-    AIB["⭐ AIBrix<br/>推理基础设施 / Gateway / KV Cache / Routing"]
-    SR["Semantic Router<br/>语义路由 / MoM"]
-  end
-
-  subgraph ENGINE["AI 引擎层"]
-    VLLM["⭐ vLLM<br/>推理引擎"]
-  end
-
-  subgraph ORCH["Kubernetes 工作负载编排层"]
-    LWS["LWS"]
-    KUEUE["Kueue<br/>Queue / Quota / Admission"]
-  end
-
-  subgraph EXT["Kubernetes 平台扩展层"]
-    SP["Spiderpool<br/>CNI / IPAM"]
-    HW["Hwameistor<br/>CSI / Storage"]
-    MB["merbridge<br/>Mesh Dataplane Enhance"]
-    HAMI["HAMi<br/>GPU / 异构资源管理"]
-    ISTIO["Istio"]
-  end
-
-  subgraph CORE["Kubernetes 核心层"]
-    APIS["API Server"]
-    SCH["Scheduler"]
-    KLET["Kubelet"]
-  end
-
-  subgraph NODE["节点运行时层"]
-    CTD["containerd"]
-  end
-
-  subgraph EDGE["边缘扩展分支"]
+  subgraph EDGE["边缘扩展分支（最右）"]
     KE["⭐ KubeEdge<br/>Cloud-Edge Extension"]
     EN["Edge Nodes / Devices"]
   end
@@ -87,7 +95,7 @@ flowchart TB
   ISTIO --> APIS
 
   %% Core to runtime
-  APIS --> SCH
+  SCH --> APIS
   APIS --> KLET
   KLET --> CTD
 
