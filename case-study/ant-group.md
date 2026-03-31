@@ -8,11 +8,13 @@ flowchart TB
 
   subgraph DIST["分发与镜像"]
     DFLY["Dragonfly"]
+    NYD["Nydus"]
     HARBOR["Harbor"]
   end
 
   subgraph PLATFORM["平台工程与运维（KusionStack）"]
     KS["KusionStack 社区"]
+    KCL["KCL"]
     KARPOR["Karpor"]
     CMESH["Controller Mesh"]
     KUP["Kuperator"]
@@ -31,22 +33,36 @@ flowchart TB
     K8S["Kubernetes（参与）"]
   end
 
+  subgraph ECO["生态协作（补充提及）"]
+    ARGO["Argo"]
+    FLANNEL["flannel"]
+  end
+
   ANT --> DFLY
+  ANT --> NYD
   ANT --> HARBOR
   ANT --> KS
+  ANT --> KCL
   ANT --> MPORG
   ANT --> KATA
   ANT --> K8S
+  ANT --> ARGO
+  ANT --> FLANNEL
 
+  KS --> KCL
   KS --> KARPOR
   KS --> CMESH
   KS --> KUP
   MPORG --> MPC
 
   DFLY --> K8S
+  NYD --> K8S
+  NYD -. image format / lazy pull .-> DFLY
   HARBOR --> K8S
   KATA --> K8S
   KUP --> K8S
+  ARGO --> K8S
+  FLANNEL --> K8S
 ```
 
 ## 发起/主导项目（代表）
@@ -64,3 +80,10 @@ flowchart TB
 ## 深度参与项目（代表）
 
 - [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
+
+## 补充提及（基于全景图）
+
+- [kcl-lang/kcl](https://github.com/kcl-lang/kcl)
+- [dragonflyoss/nydus](https://github.com/dragonflyoss/nydus)
+- [argoproj/argo-workflows](https://github.com/argoproj/argo-workflows)
+- [flannel-io/flannel](https://github.com/flannel-io/flannel)
