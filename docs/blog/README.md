@@ -31,6 +31,7 @@ from PR #281 into production scenarios:
 ## 2026-04-01: Kubernetes Swap Status in 2026
 
 - [Kubernetes Swap Status in 2026: kubelet behavior, memory pressure, and what is next](./2026-04-01/2026-04-01-kubernetes-swap-status-kubelet-and-memory-pressure.md)
+- [Kubernetes Swap 现状（2026）：kubelet 行为、内存压力与场景化落地 (Chinese)](./2026-04-01/2026-04-01-kubernetes-swap-status-kubelet-memory-pressure_zh.md)
 
 An up-to-date status summary of Kubernetes swap support with a practical
 operations lens:
@@ -41,6 +42,9 @@ operations lens:
   and memory-pressure tuning boundaries
 - **Roadmap gap**: workload-controlled swap, swap-aware scheduling, and
   swap-aware evictions tracked in #5359/#5424/#5433
+- **Scenario-oriented guidance**: converts conference materials into concrete
+  rollout scenarios (cost density, memory spikes, control-plane protection,
+  and fine-grained policy exploration)
 
 ## 2026-03-24: Maintenance Scan (Outdated Resources + Safe Upgrades)
 
