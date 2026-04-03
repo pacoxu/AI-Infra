@@ -1,0 +1,106 @@
+name: Roadmap Execution Item
+description: Create an executable issue from the AI-Infra roadmap backlog.
+title: "[Backlog] <ID> <short title>"
+labels:
+  - status/needs-design
+body:
+  - type: input
+    id: backlog_id
+    attributes:
+      label: Backlog ID
+      description: Use the ID from the backlog (for example C01, O01, T13).
+      placeholder: C01
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - scheduling
+        - inference
+        - observability
+        - security
+        - agent-infra
+        - multi-cluster
+        - storage
+        - tooling
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - P0 (this month)
+        - P1 (this quarter)
+        - P2 (later)
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Statement
+      description: Describe the current failure mode and impact.
+      placeholder: |
+        What is failing now?
+        Who is affected?
+        Why do we need this now?
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal_non_goal
+    attributes:
+      label: Goal / Non-Goal
+      placeholder: |
+        Goal:
+        - ...
+        Non-goal:
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: deliverables
+    attributes:
+      label: Deliverables (with paths)
+      description: List expected docs/scripts/config outputs.
+      placeholder: |
+        - docs/...
+        - scripts/...
+        - configs/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: Include run command + expected result.
+      placeholder: |
+        - [ ] Command:
+        - [ ] Expected output/state:
+        - [ ] Negative test:
+    validations:
+      required: true
+
+  - type: textarea
+    id: risk
+    attributes:
+      label: Risks and Dependencies
+      placeholder: |
+        - Upstream version dependency:
+        - Environment prerequisite:
+        - Potential regression:
+
+  - type: textarea
+    id: rollback
+    attributes:
+      label: Rollback / Cleanup
+      placeholder: |
+        - Revert steps:
+        - Resource cleanup commands:
