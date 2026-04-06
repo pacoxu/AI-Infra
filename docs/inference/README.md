@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-02
+last_updated: 2026-04-06
 tags: inference, llm, vllm, serving, optimization
 canonical_path: docs/inference/README.md
 ---
@@ -55,7 +55,7 @@ Kubernetes-native platforms for orchestrating LLM inference at scale:
 | [AIBrix](https://github.com/vllm-project/aibrix) | vLLM Project | StormService + RoleSet CRDs | High-density LoRA, gateway, autoscaling, P/D disaggregation |
 | [Kthena](https://github.com/volcano-sh/kthena) | Volcano (CNCF Sandbox) | Serving Group / LWS | Gang scheduling, topology-aware, revision control |
 | [NVIDIA Dynamo](https://github.com/ai-dynamo/dynamo) | NVIDIA | Grove/LWS dual mode | NVIDIA-optimized, disaggregated serving, KV routing |
-| [OME](https://github.com/sigs/ome) | Kubernetes SIG | Operator pattern | Model management, lifecycle, multi-engine support |
+| [OME](https://github.com/sgl-project/ome) | SGLang Project | Operator pattern | Model management, lifecycle, multi-engine support |
 | [KServe](https://github.com/kserve/kserve) | CNCF Incubating | InferenceService CRD | Multi-framework, canary, explainability, serverless |
 | [llm-d](https://github.com/llm-d/llm-d) | Red Hat / IBM | Dual LWS + KServe | P/D disaggregation reference implementation |
 | [vLLM production-stack](https://github.com/vllm-project/production-stack) | vLLM Project | Helm-based | Router, multi-instance, KV-aware routing |

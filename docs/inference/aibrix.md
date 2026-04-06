@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2026-04-06
 tags: inference, aibrix, vllm, llm-serving, lora
 canonical_path: docs/inference/aibrix.md
 ---
@@ -63,17 +63,18 @@ to provide a comprehensive LLM inference platform:
 
 ## Project Status
 
-- **Current Version**: v0.4.0 (as of August 2025)
+- **Current Version**: v0.6.0 (as of March 2026)
 - **License**: Apache 2.0
 - **Maturity**: Active development with regular releases
 - **Community**: Part of vLLM project with dedicated Slack channel
 
 ## Prefill/Decode Disaggregation Support
 
-AIBrix v0.4.0 introduces comprehensive Prefill/Decode (P/D) disaggregation
+AIBrix v0.4.0 introduced comprehensive Prefill/Decode (P/D) disaggregation
 support with StormService and RoleSet CRDs to enable fine-grained
 orchestration of P/D roles, along with routing to unlock disaggregated
-inference at scale.
+inference at scale. These capabilities are now part of the current v0.6.0
+release line.
 
 Key features include:
 
@@ -94,7 +95,7 @@ For more details, see [PD Disaggregation](./pd-disaggregation.md).
 
 ```bash
 # Install component dependencies
-AIBRIX_VERSION="v0.4.0"
+AIBRIX_VERSION="v0.6.0"
 GITHUB_BASE="https://github.com/vllm-project/aibrix/releases/download"
 kubectl apply -f \
   "${GITHUB_BASE}/${AIBRIX_VERSION}/aibrix-dependency-${AIBRIX_VERSION}.yaml" \
