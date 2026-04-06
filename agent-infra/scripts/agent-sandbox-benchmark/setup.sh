@@ -34,7 +34,7 @@ else
 fi
 
 echo "==> Installing agent-sandbox CRDs..."
-export VERSION="${AGENT_SANDBOX_VERSION:-v0.1.0}"
+export VERSION="${AGENT_SANDBOX_VERSION:-v0.2.1}"
 kubectl apply -f "https://github.com/kubernetes-sigs/agent-sandbox/releases/download/${VERSION}/manifest.yaml" || \
   echo "WARN: Could not apply manifest (offline or version mismatch). Install manually."
 
