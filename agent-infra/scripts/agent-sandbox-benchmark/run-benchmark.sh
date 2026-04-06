@@ -108,7 +108,7 @@ spec:
       runtimeClassName: ${runtime_class}
       containers:
       - name: agent
-        image: ghcr.io/kubernetes-sigs/agent-sandbox/agent-runtime:v0.2.1
+        image: ghcr.io/kubernetes-sigs/agent-sandbox/agent-runtime:${AGENT_SANDBOX_VERSION:-v0.2.1}
         command: ["sleep", "${sleep_secs}"]
 YAML
   else
