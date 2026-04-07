@@ -1,0 +1,29 @@
+{
+  "data": {
+    "repository": {
+      "discussion": {
+        "comments": {
+          "totalCount": 2,
+          "nodes": [
+            {
+              "author": {
+                "login": "danwinship"
+              },
+              "createdAt": "2026-02-25T14:49:17Z",
+              "body": "[KEP-4858](https://github.com/kubernetes/enhancements/blob/master/keps/sig-network/4858-ip-cidr-validation/README.md) \"IP/CIDR Validation Improvements\" is now Beta, meaning that non-canonical IP address formats (like \"`010.000.001.005`\" or \"`::ffff:10.0.1.5`\") and ambiguous CIDR values (like \"`192.168.1.5/24`\" in a context that's expecting either \"`192.168.1.0/24`\" or \"`192.168.1.5/32`\") are no longer considered valid in core Kubernetes objects, and attempts to set fields to such values will fail. This change was made because these types of values might be interpreted differently by different implementations, potentially allowing for security exploits (as in CVE-2021-29923).\r\n\r\nWhile this is technically a breaking change, there's not really any good reason anybody should have been setting fields to such values before, and we've been emitting warnings about them for a few releases now, so hopefully this change should have no effect on anyone, other than guaranteeing better security and interoperability in the future.",
+              "url": "https://github.com/kubernetes/sig-release/discussions/2958#discussioncomment-15924135"
+            },
+            {
+              "author": {
+                "login": "xing-yang"
+              },
+              "createdAt": "2026-03-04T02:45:04Z",
+              "body": "From SIG-Storage:\r\nNew Features:\r\n\r\n- [Volume Group Snapshot](https://github.com/kubernetes/enhancements/issues/3476) feature targets GA in Kubernetes 1.36 release. The support for volume group snapshots relies on a set of [extension APIs for group snapshots](https://kubernetes-csi.github.io/docs/group-snapshot-restore-feature.html#volume-group-snapshot-apis). These APIs allow users to take crash consistent snapshots for a set of volumes. A key aim is to allow you to restore that set of snapshots to new volumes and recover your workload based on a crash consistent recovery point.\r\n- [Service Account Tokens via Secrets Field](https://github.com/kubernetes/enhancements/issues/5538) feature targets GA in v1.36. This feature adds an optional ability for CSI drivers to receive service account tokens via secrets field instead of volume context.\r\n[Mutable Volume Attach Limits](https://github.com/kubernetes/enhancements/issues/4876) feature targets GA in v1.36. This feature allows CSI drivers to dynamically adjust the maximum number of attachable volumes at runtime.\r\n- [SELinux Relabeling with Mount Options](https://github.com/kubernetes/enhancements/issues/1710) for non-RWOP volumes.\r\n  - Speeds up container startup by mounting volumes with the correct SELinux label\r\n  - Selinux changepolicy feature gate targets GA in 1.36\r\n\r\nDriver disabled:\r\n- Starting Kubernetes v1.36 the [`gitRepo` volume plugin](https://github.com/kubernetes/enhancements/issues/5040) has been disabled and cannot be enabled.\r\n\r\ncc @saad-ali @msau42 @jsafrane ",
+              "url": "https://github.com/kubernetes/sig-release/discussions/2958#discussioncomment-15992196"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,734 @@
+[
+  {
+    "number": 5882,
+    "title": "Deployment Pod Replacement Policy",
+    "url": "https://github.com/kubernetes/enhancements/issues/5882",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/apps"
+    ]
+  },
+  {
+    "number": 5866,
+    "title": "Server-side Sharded List and Watch",
+    "url": "https://github.com/kubernetes/enhancements/issues/5866",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/api-machinery"
+    ]
+  },
+  {
+    "number": 5832,
+    "title": "WAS: Decouple PodGroup API",
+    "url": "https://github.com/kubernetes/enhancements/issues/5832",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5825,
+    "title": "CRI List Streaming",
+    "url": "https://github.com/kubernetes/enhancements/issues/5825",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5808,
+    "title": "Native Histogram Support for Kubernetes Metrics",
+    "url": "https://github.com/kubernetes/enhancements/issues/5808",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/instrumentation"
+    ]
+  },
+  {
+    "number": 5793,
+    "title": "Manifest Based Admission Control Config",
+    "url": "https://github.com/kubernetes/enhancements/issues/5793",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/api-machinery"
+    ]
+  },
+  {
+    "number": 5758,
+    "title": "Per-container ulimits configuration",
+    "url": "https://github.com/kubernetes/enhancements/issues/5758",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5732,
+    "title": "KEP-5732: Topology-aware workload scheduling",
+    "url": "https://github.com/kubernetes/enhancements/issues/5732",
+    "stage": "stage/unknown",
+    "sigs": [
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5729,
+    "title": "DRA: ResourceClaim Support for Workloads",
+    "url": "https://github.com/kubernetes/enhancements/issues/5729",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5710,
+    "title": "Workload-aware preemption",
+    "url": "https://github.com/kubernetes/enhancements/issues/5710",
+    "stage": "stage/unknown",
+    "sigs": [
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5681,
+    "title": "Conditional Authorization",
+    "url": "https://github.com/kubernetes/enhancements/issues/5681",
+    "stage": "stage/unknown",
+    "sigs": [
+      "sig/auth"
+    ]
+  },
+  {
+    "number": 5679,
+    "title": "HPA External Metrics Fallback on Retrieval Failure",
+    "url": "https://github.com/kubernetes/enhancements/issues/5679",
+    "stage": "stage/unknown",
+    "sigs": [
+      "sig/autoscaling"
+    ]
+  },
+  {
+    "number": 5677,
+    "title": "DRA: Resource Availability Visibility",
+    "url": "https://github.com/kubernetes/enhancements/issues/5677",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/autoscaling",
+      "sig/node",
+      "sig/cli"
+    ]
+  },
+  {
+    "number": 5647,
+    "title": "Stale Controller Mitigation",
+    "url": "https://github.com/kubernetes/enhancements/issues/5647",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/api-machinery"
+    ]
+  },
+  {
+    "number": 5607,
+    "title": " Allow HostNetwork Pods to Use User Namespaces",
+    "url": "https://github.com/kubernetes/enhancements/issues/5607",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5598,
+    "title": "Opportunistic batching",
+    "url": "https://github.com/kubernetes/enhancements/issues/5598",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5589,
+    "title": "Remove gogo protobuf dependency for Kubernetes API types",
+    "url": "https://github.com/kubernetes/enhancements/issues/5589",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/api-machinery",
+      "sig/architecture"
+    ]
+  },
+  {
+    "number": 5554,
+    "title": "Support In place update pod resources alongside static cpu manager policy",
+    "url": "https://github.com/kubernetes/enhancements/issues/5554",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5547,
+    "title": "WAS: Integrate Workload APIs with Job controller",
+    "url": "https://github.com/kubernetes/enhancements/issues/5547",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/apps",
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5541,
+    "title": "Report last used time on a PVC",
+    "url": "https://github.com/kubernetes/enhancements/issues/5541",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/storage"
+    ]
+  },
+  {
+    "number": 5538,
+    "title": "CSI driver opt-in for service account tokens via secrets field",
+    "url": "https://github.com/kubernetes/enhancements/issues/5538",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/auth",
+      "sig/storage"
+    ]
+  },
+  {
+    "number": 5532,
+    "title": "Restart all containers on container exits",
+    "url": "https://github.com/kubernetes/enhancements/issues/5532",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5526,
+    "title": "Pod Level Resource Managers",
+    "url": "https://github.com/kubernetes/enhancements/issues/5526",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5517,
+    "title": "DRA: Native Resource Requests",
+    "url": "https://github.com/kubernetes/enhancements/issues/5517",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node",
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5491,
+    "title": "DRA: List Types for Attributes",
+    "url": "https://github.com/kubernetes/enhancements/issues/5491",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5440,
+    "title": "Mutable Container Resources when Job is suspended",
+    "url": "https://github.com/kubernetes/enhancements/issues/5440",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/apps"
+    ]
+  },
+  {
+    "number": 5419,
+    "title": "Pod Level Resources Support With In Place Pod Vertical Scaling",
+    "url": "https://github.com/kubernetes/enhancements/issues/5419",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5394,
+    "title": "PSI-based node conditions",
+    "url": "https://github.com/kubernetes/enhancements/issues/5394",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5366,
+    "title": "Graceful Leader Transition",
+    "url": "https://github.com/kubernetes/enhancements/issues/5366",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/api-machinery"
+    ]
+  },
+  {
+    "number": 5328,
+    "title": "Node Declared Features (formerly Node Capabilities)",
+    "url": "https://github.com/kubernetes/enhancements/issues/5328",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/autoscaling",
+      "sig/node",
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5311,
+    "title": "Relaxed validation for Services names",
+    "url": "https://github.com/kubernetes/enhancements/issues/5311",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/network"
+    ]
+  },
+  {
+    "number": 5304,
+    "title": "DRA: Device Attributes in Downward API",
+    "url": "https://github.com/kubernetes/enhancements/issues/5304",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5284,
+    "title": "Constrained Impersonation",
+    "url": "https://github.com/kubernetes/enhancements/issues/5284",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/auth"
+    ]
+  },
+  {
+    "number": 5237,
+    "title": "CCM: watch-based route controller reconciliation using informers",
+    "url": "https://github.com/kubernetes/enhancements/issues/5237",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/cloud-provider"
+    ]
+  },
+  {
+    "number": 5109,
+    "title": "Split L3 Cache Topology Awareness in CPU Manager",
+    "url": "https://github.com/kubernetes/enhancements/issues/5109",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5075,
+    "title": "DRA: Consumable Capacity",
+    "url": "https://github.com/kubernetes/enhancements/issues/5075",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/network",
+      "sig/node",
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5073,
+    "title": "Declarative Validation Of Kubernetes Native Types With validation-gen",
+    "url": "https://github.com/kubernetes/enhancements/issues/5073",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/api-machinery"
+    ]
+  },
+  {
+    "number": 5055,
+    "title": "DRA: device taints and tolerations",
+    "url": "https://github.com/kubernetes/enhancements/issues/5055",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/node",
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5040,
+    "title": "Remove gitRepo volume driver",
+    "url": "https://github.com/kubernetes/enhancements/issues/5040",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/storage"
+    ]
+  },
+  {
+    "number": 5030,
+    "title": "Integrate CSI Volume attach limits with cluster autoscaler",
+    "url": "https://github.com/kubernetes/enhancements/issues/5030",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/autoscaling",
+      "sig/scheduling",
+      "sig/storage"
+    ]
+  },
+  {
+    "number": 5018,
+    "title": "DRA: AdminAccess for ResourceClaims and ResourceClaimTemplates",
+    "url": "https://github.com/kubernetes/enhancements/issues/5018",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/auth",
+      "sig/node"
+    ]
+  },
+  {
+    "number": 5007,
+    "title": "DRA: Device Binding Conditions",
+    "url": "https://github.com/kubernetes/enhancements/issues/5007",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 5004,
+    "title": "DRA: Handle extended resource requests via DRA Driver",
+    "url": "https://github.com/kubernetes/enhancements/issues/5004",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/node",
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 4960,
+    "title": "Container Stop Signals",
+    "url": "https://github.com/kubernetes/enhancements/issues/4960",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 4876,
+    "title": "Mutable CSINode Allocatable Property",
+    "url": "https://github.com/kubernetes/enhancements/issues/4876",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/storage"
+    ]
+  },
+  {
+    "number": 4828,
+    "title": "Flagz for Kubernetes Components",
+    "url": "https://github.com/kubernetes/enhancements/issues/4828",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/instrumentation"
+    ]
+  },
+  {
+    "number": 4827,
+    "title": "Statusz for Kubernetes Components",
+    "url": "https://github.com/kubernetes/enhancements/issues/4827",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/instrumentation"
+    ]
+  },
+  {
+    "number": 4817,
+    "title": "DRA: Resource Claim Status with possible standardized network interface data",
+    "url": "https://github.com/kubernetes/enhancements/issues/4817",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/auth",
+      "sig/network",
+      "sig/node"
+    ]
+  },
+  {
+    "number": 4816,
+    "title": "DRA: Prioritized Alternatives in Device Requests",
+    "url": "https://github.com/kubernetes/enhancements/issues/4816",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/node",
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 4815,
+    "title": "DRA: Partitionable Devices",
+    "url": "https://github.com/kubernetes/enhancements/issues/4815",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/node",
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 4680,
+    "title": "Add Resource Health Status to the Pod Status for Device Plugin and DRA",
+    "url": "https://github.com/kubernetes/enhancements/issues/4680",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 4671,
+    "title": "Gang Scheduling Support in Kubernetes",
+    "url": "https://github.com/kubernetes/enhancements/issues/4671",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/scheduling"
+    ]
+  },
+  {
+    "number": 4639,
+    "title": "VolumeSource: OCI Artifact and/or Image",
+    "url": "https://github.com/kubernetes/enhancements/issues/4639",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/node",
+      "sig/storage"
+    ]
+  },
+  {
+    "number": 4563,
+    "title": "EvictionRequest API",
+    "url": "https://github.com/kubernetes/enhancements/issues/4563",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/apps",
+      "sig/node"
+    ]
+  },
+  {
+    "number": 4317,
+    "title": "Pod Certificates",
+    "url": "https://github.com/kubernetes/enhancements/issues/4317",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/auth"
+    ]
+  },
+  {
+    "number": 4265,
+    "title": "add ProcMount option",
+    "url": "https://github.com/kubernetes/enhancements/issues/4265",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/auth",
+      "sig/node"
+    ]
+  },
+  {
+    "number": 4205,
+    "title": "Support PSI based on cgroupv2",
+    "url": "https://github.com/kubernetes/enhancements/issues/4205",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 4192,
+    "title": "Move Storage Version Migrator in-tree",
+    "url": "https://github.com/kubernetes/enhancements/issues/4192",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/api-machinery"
+    ]
+  },
+  {
+    "number": 4188,
+    "title": "KEP: New kubelet gRPC API with endpoint returning local pods information",
+    "url": "https://github.com/kubernetes/enhancements/issues/4188",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node",
+      "sig/architecture"
+    ]
+  },
+  {
+    "number": 4138,
+    "title": "[KEP-3085] Add condition for sandbox creation (xposted from original issue)",
+    "url": "https://github.com/kubernetes/enhancements/issues/4138",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 4020,
+    "title": "Mixed Version Proxy (aka Unknown Version Interoperability Proxy)",
+    "url": "https://github.com/kubernetes/enhancements/issues/4020",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/api-machinery"
+    ]
+  },
+  {
+    "number": 4006,
+    "title": "Transition from SPDY to WebSockets",
+    "url": "https://github.com/kubernetes/enhancements/issues/4006",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/api-machinery",
+      "sig/cli"
+    ]
+  },
+  {
+    "number": 3962,
+    "title": "Mutating Admission Policies",
+    "url": "https://github.com/kubernetes/enhancements/issues/3962",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/api-machinery"
+    ]
+  },
+  {
+    "number": 3926,
+    "title": "Handling undecryptable resources",
+    "url": "https://github.com/kubernetes/enhancements/issues/3926",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/auth",
+      "sig/api-machinery"
+    ]
+  },
+  {
+    "number": 3695,
+    "title": "DRA: Extend PodResources to include resources from Dynamic Resource Allocation",
+    "url": "https://github.com/kubernetes/enhancements/issues/3695",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/network",
+      "sig/node"
+    ]
+  },
+  {
+    "number": 3541,
+    "title": "Add Recreate Update Strategy to StatefulSet",
+    "url": "https://github.com/kubernetes/enhancements/issues/3541",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/apps"
+    ]
+  },
+  {
+    "number": 3476,
+    "title": "VolumeGroupSnapshot",
+    "url": "https://github.com/kubernetes/enhancements/issues/3476",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/storage"
+    ]
+  },
+  {
+    "number": 3386,
+    "title": "Kubelet Evented PLEG for Better Performance",
+    "url": "https://github.com/kubernetes/enhancements/issues/3386",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 3314,
+    "title": "CSI Differential Snapshot for Block Volumes",
+    "url": "https://github.com/kubernetes/enhancements/issues/3314",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/storage"
+    ]
+  },
+  {
+    "number": 3104,
+    "title": "Separate kubectl user preferences from cluster configs",
+    "url": "https://github.com/kubernetes/enhancements/issues/3104",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/auth",
+      "sig/cli"
+    ]
+  },
+  {
+    "number": 2862,
+    "title": "Fine grained Kubelet API authorization ",
+    "url": "https://github.com/kubernetes/enhancements/issues/2862",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/auth",
+      "sig/node"
+    ]
+  },
+  {
+    "number": 2570,
+    "title": "Support memory qos with cgroups v2",
+    "url": "https://github.com/kubernetes/enhancements/issues/2570",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/node"
+    ]
+  },
+  {
+    "number": 2371,
+    "title": "cAdvisor-less, CRI-full Container and Pod Stats",
+    "url": "https://github.com/kubernetes/enhancements/issues/2371",
+    "stage": "stage/beta",
+    "sigs": [
+      "sig/node",
+      "sig/windows"
+    ]
+  },
+  {
+    "number": 2258,
+    "title": "Node log query",
+    "url": "https://github.com/kubernetes/enhancements/issues/2258",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/windows"
+    ]
+  },
+  {
+    "number": 2021,
+    "title": "Support scaling to/from zero pods for object/external metrics",
+    "url": "https://github.com/kubernetes/enhancements/issues/2021",
+    "stage": "stage/alpha",
+    "sigs": [
+      "sig/autoscaling"
+    ]
+  },
+  {
+    "number": 1710,
+    "title": "Speed up recursive SELinux label change",
+    "url": "https://github.com/kubernetes/enhancements/issues/1710",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/node",
+      "sig/storage"
+    ]
+  },
+  {
+    "number": 740,
+    "title": "API for external signing of Service Account tokens",
+    "url": "https://github.com/kubernetes/enhancements/issues/740",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/auth"
+    ]
+  },
+  {
+    "number": 127,
+    "title": "Support User Namespaces in pods",
+    "url": "https://github.com/kubernetes/enhancements/issues/127",
+    "stage": "stage/stable",
+    "sigs": [
+      "sig/node"
+    ]
+  }
+]
