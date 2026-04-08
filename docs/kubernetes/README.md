@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-01
+last_updated: 2026-04-07
 tags: kubernetes, ai-infrastructure, scheduling, resource-management
 canonical_path: docs/kubernetes/README.md
 ---
@@ -53,6 +53,9 @@ workload isolation.
   remediation strategies
 - **[Node Resource Interface (NRI)](./nri.md)**: Fine-grained container
   resource management at the runtime level
+- **[Kubernetes v1.36 AI Infra Highlights](./v1.36-ai-infra-highlights.md)**:
+  Curated v1.36 release signals focused on AI infrastructure relevance,
+  upgrade risks, and recommended actions
 
 #### Workload Isolation
 
