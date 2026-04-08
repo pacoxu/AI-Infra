@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-25
+last_updated: 2026-04-06
 tags: agent-sandbox, benchmark, runtime, gvisor, kata-containers, runc, vm, performance
 canonical_path: agent-infra/runtime-benchmark.md
 ---
@@ -51,7 +51,7 @@ selection for production deployments.
 | gVisor (runsc) version | 20240318 |
 | Kata Containers version | 3.5 (kata-qemu) |
 | VM baseline | Dedicated GCE VM (same machine type, Docker CE) |
-| Image | `ghcr.io/kubernetes-sigs/agent-sandbox/agent-runtime:v0.1.0` |
+| Image | `ghcr.io/kubernetes-sigs/agent-sandbox/agent-runtime:v0.2.1` |
 | SandboxWarmPool size | 5 (for warm-start experiments) |
 | Experiment rounds | 3 (results below are median across rounds) |
 

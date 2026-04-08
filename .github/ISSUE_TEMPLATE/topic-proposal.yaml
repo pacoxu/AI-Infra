@@ -1,0 +1,65 @@
+name: Topic Proposal
+description: Propose a new AI-Infra topic for roadmap or backlog.
+title: "[Topic] <short title>"
+labels:
+  - status/needs-design
+body:
+  - type: input
+    id: topic_name
+    attributes:
+      label: Topic Name
+      placeholder: Agent runtime guardrails
+    validations:
+      required: true
+
+  - type: textarea
+    id: pain_point
+    attributes:
+      label: Pain Point
+      description: What production problem does this topic solve?
+      placeholder: Describe failure mode and business impact.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: expected_track
+    attributes:
+      label: Expected Track
+      options:
+        - docs/kubernetes
+        - docs/inference
+        - docs/training
+        - docs/observability
+        - agent-infra
+        - case-study
+        - scripts/configs
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_outputs
+    attributes:
+      label: Proposed Outputs
+      placeholder: |
+        - doc path:
+        - script/config path:
+        - demo scope:
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      placeholder: |
+        - [ ] Minimal reproducible path
+        - [ ] Verification commands
+        - [ ] Rollback or cleanup path
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: Primary References
+      description: Official docs/spec links only.

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-03
+last_updated: 2026-04-03
 tags: roadmap, planning, future-work, ai-native
 ---
 
@@ -52,6 +52,20 @@ This repository is evolving to address the key challenges of the AI Native era:
 
 The following topics are planned for future addition to the repository,
 organized by AI Native focus areas:
+
+### 🔧 Execution Backlog (Sanitized, 2026 Q2)
+
+For actionable items that can be converted directly into issues, use:
+[Executable Backlog 2026 Q2](./docs/planning/executable-backlog-2026Q2.md).
+
+Execution rhythm for this quarter:
+
+- **Wave 1 (Weeks 1-4)**: Agent observability + runtime security baseline + eval gate
+- **Wave 2 (Weeks 5-8)**: Scheduling controls + inference conformance gate
+- **Wave 3 (Weeks 9-12)**: Multi-cluster burst + model storage baseline
+
+RoadMap keeps strategic direction; the backlog document tracks item-level
+execution and acceptance criteria.
 
 ### AI Native Platform
 
@@ -401,11 +415,11 @@ contribute learning materials, please:
 
 **This roadmap is reviewed and updated every quarter** to ensure it remains
 current with the rapidly evolving AI infrastructure landscape. The next
-scheduled review is planned for Q1 2026.
+scheduled review is planned for Q2 2026.
 
 If you notice that items on this roadmap have become outdated or if you'd like
 to propose new topics, please open an issue or submit a pull request.
 
 ---
 
-Last updated: 2026-03-03
+Last updated: 2026-04-03
