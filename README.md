@@ -72,6 +72,7 @@ where to focus their learning.
 - [Inference Overview](./docs/inference/README.md)
 - [Model Architectures](./docs/inference/model-architectures.md)
 - [LoRA: Low-Rank Adaptation](./docs/inference/lora.md)
+- [Grove: Kubernetes Inference Orchestration](./docs/inference/grove.md)
 - [AIBrix Platform](./docs/inference/aibrix.md)
 - [OME Platform](./docs/inference/ome.md)
 - [Serverless AI Inference](./docs/inference/serverless.md)
@@ -172,7 +173,8 @@ workloads in Kubernetes clusters.
 - **Key Areas:**
   - **Batch Scheduling**: Kueue, Volcano, koordinator, Godel, YuniKorn
     ([Kubernetes WG Batch](https://github.com/kubernetes/community/blob/master/wg-batch/README.md))
-  - **GPU Scheduling**: HAMI, NVIDIA Kai Scheduler, NVIDIA Grove
+  - **GPU Scheduling**: HAMI, NVIDIA Kai Scheduler
+  - **Inference Orchestration**: Grove (hierarchical gang scheduling, topology-aware placement)
   - **GPU Management**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins,
     NVIDIA AICR
   - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling

@@ -206,7 +206,7 @@ groups:
       severity: warning
     annotations:
       summary: "NVLink bandwidth degraded on {{ $labels.gpu }}"
-```text
+```
 
 **References:**
 
@@ -290,7 +290,7 @@ data:
         }
       ]
     }
-```text
+```
 
 **References:**
 
@@ -371,7 +371,7 @@ status:
     reason: NVLinkStatusInactive
     message: "NVLink 0-1 connection down"
     lastTransitionTime: "2025-12-17T10:05:00Z"
-```text
+```
 
 **Condition Types:**
 
@@ -419,7 +419,7 @@ status:
     timestamp: "2025-12-17T10:00:00Z"
     count: 1
   allocatable: false
-```text
+```
 
 **Benefits:**
 
@@ -452,7 +452,7 @@ status:
     phase: Requeued
     lastTransitionTime: "2025-12-17T10:01:00Z"
     reason: GPUFaultRemediation
-```text
+```
 
 **Integration with Training Frameworks:**
 
@@ -496,7 +496,7 @@ Action Hints:
   - reset-gpu: nvidia-smi -r (high risk)
   - drain: Evict pods and reboot node
   - replace: Hardware replacement required
-```text
+```
 
 **Example Multi-Signal Correlation:**
 
@@ -518,7 +518,7 @@ IF (ecc_uncorrectable_errors > threshold) THEN
   fault.severity = S0
   fault.confidence = 0.90
   action.hints = [cordon, isolate-device, replace]
-```text
+```
 
 ## Progressive Remediation Strategies
 
@@ -680,7 +680,7 @@ def remediate_gpu_fault(node, fault):
     
     # Schedule post-action verification
     schedule_verification(node, action, delay=2min)
-```text
+```
 
 ### Integration with Existing Controllers
 
@@ -706,7 +706,7 @@ data:
     drain-buffer: 10m
     eviction-headroom: 5
     max-concurrent-drains: 3
-```text
+```
 
 **Node Readiness Controller:**
 
@@ -725,7 +725,7 @@ data:
         status: "False"
       action: cordon_and_drain
       grace_period: 5m
-```text
+```
 
 **Cluster Autoscaler:**
 
@@ -786,7 +786,7 @@ func (p *GPUHealthPlugin) Score(ctx context.Context, state *framework.CycleState
     // Convert to scheduler score (0-100)
     return int64(score * 100), nil
 }
-```text
+```
 
 **Filter Plugin for Minimum Health Threshold:**
 
@@ -811,7 +811,7 @@ func (p *GPUHealthPlugin) Filter(ctx context.Context, state *framework.CycleStat
     
     return nil
 }
-```text
+```
 
 ### Kueue/Volcano Integration
 
@@ -845,7 +845,7 @@ spec:
         nominalQuota: 64
       nodeSelector:
         gpu.health/score: "0.7"  # Lower bar for standard workloads
-```text
+```
 
 **Volcano Gang Scheduling with Health:**
 
@@ -873,7 +873,7 @@ spec:
           resources:
             limits:
               nvidia.com/gpu: 8
-```text
+```
 
 ### DRA Health Integration
 
@@ -899,7 +899,7 @@ spec:
             device.health.score > 0.9 &&
             device.health.xidErrors == 0 &&
             device.health.nvlinkStatus == "active"
-```text
+```
 
 **DRA Driver Health Extension:**
 
@@ -925,7 +925,7 @@ func (d *driver) GetDevices() []*GPUDevice {
     }
     return devices
 }
-```text
+```
 
 ## Job-Level Attribution and Billing
 
@@ -957,7 +957,7 @@ spec:
       volumeMount:
         hostPath: /var/lib/kubelet/pod-resources
         mountPath: /var/lib/kubelet/pod-resources
-```text
+```
 
 **Job Mapping File Format:**
 
@@ -966,7 +966,7 @@ spec:
 # Format: <GPU UUID>,<Job ID>,<Job Name>,<Job User>,<Job Start Time>
 GPU-12345678-1234-1234-1234-123456789abc,job-12345,training-job-01,team-ml,1702800000
 GPU-87654321-4321-4321-4321-cba987654321,job-12346,inference-serve,team-ai,1702800060
-```text
+```
 
 **Enhanced DCGM Metrics with Job Labels:**
 
@@ -984,7 +984,7 @@ DCGM_FI_DEV_GPU_UTIL{
   namespace="ml-team",
   pod="training-job-01-worker-0"
 } 95.0
-```text
+```
 
 ### Kubernetes Job Mapping Controller
 
@@ -1048,7 +1048,7 @@ func (c *JobMappingController) reconcilePod(pod *v1.Pod) error {
     mappingFile := filepath.Join(c.mappingDir, fmt.Sprintf("pod-%s.txt", pod.UID))
     return os.WriteFile(mappingFile, []byte(strings.Join(mappings, "\n")), 0644)
 }
-```text
+```
 
 ### Fault Attribution Queries
 
@@ -1058,7 +1058,7 @@ With job-aware metrics, we can attribute faults to specific workloads:
 
 ```promql
 increase(DCGM_FI_DEV_XID_ERRORS{job_name!=""}[1h]) > 0
-```text
+```
 
 **Query: GPU utilization when fault occurred:**
 
@@ -1066,7 +1066,7 @@ increase(DCGM_FI_DEV_XID_ERRORS{job_name!=""}[1h]) > 0
 DCGM_FI_DEV_GPU_UTIL{job_name="training-job-01"}
   and on(gpu, UUID)
   increase(DCGM_FI_DEV_XID_ERRORS[5m]) > 0
-```text
+```
 
 **Query: Cost attribution for GPU downtime:**
 
@@ -1075,7 +1075,7 @@ sum by (namespace, job_name) (
   rate(DCGM_FI_DEV_GPU_UTIL[1h]) *
   (1 - (increase(DCGM_FI_DEV_XID_ERRORS[1h]) > bool 0))
 ) * GPU_HOURLY_COST
-```text
+```
 
 ### Chargeback and SLA Enforcement
 
@@ -1102,7 +1102,7 @@ data:
       memory_error:
         charge_adjustment: 0.5  # Shared responsibility
         xids: [92, 95]  # ECC errors (could be workload stress)
-```text
+```
 
 ## Production Implementation
 
@@ -1157,7 +1157,7 @@ data:
 │  └──────────────────────────────────────────────────────────┘  │
 │                                                                   │
 └─────────────────────────────────────────────────────────────────┘
-```text
+```
 
 ### Deployment Checklist
 

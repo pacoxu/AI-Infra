@@ -583,6 +583,15 @@
       "stage": "early",
       "logo": "NS",
       "url": "https://github.com/NVIDIA/NVSentinel"
+    },
+    {
+      "name": "Grove",
+      "x": 14,
+      "y": 50,
+      "group": "scheduling",
+      "stage": "early",
+      "logo": "GR",
+      "url": "https://github.com/ai-dynamo/grove"
     }
   ]
 }
