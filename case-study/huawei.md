@@ -14,6 +14,10 @@
 - 可观测/数据底座：字节 `kelemetry`；华为 `openGemini`
 - AI 推理适配：华为侧代表项目 `vllm-ascend`
 
+## 关联文档
+
+- 全栈生态布局（独立文档）：[huawei-ecosystem.md](./huawei-ecosystem.md)
+
 ## 可编辑生态图（Mermaid）
 
 > 华为云原生“三驾马车”：⭐ Karmada、⭐ KubeEdge、⭐ Volcano
