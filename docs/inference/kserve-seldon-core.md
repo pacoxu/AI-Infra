@@ -82,6 +82,112 @@ Deliverable:
 Deliverable:
 - one shared observability dashboard and one alert policy set.
 
+## Capability, Complexity, and Ops Cost Matrix
+
+Use this matrix as a first-pass decision baseline:
+
+| Area | KServe | Seldon Core | Notes |
+| --- | --- | --- | --- |
+| Single model endpoint | Strong | Strong | Both are production-capable |
+| Multi-model routing and composition | Medium to strong | Strong | Seldon graph/pipeline patterns are often preferred for complex compositions |
+| Kubernetes ecosystem alignment | Strong | Medium to strong | KServe often fits teams optimizing for Kubernetes-native serving APIs |
+| Day-2 operations complexity | Medium | Medium to high | Complexity depends on runtime mix and policy depth |
+| Governance and enterprise controls | Medium to strong | Strong | Seldon often appears in stricter enterprise governance scenarios |
+| Team onboarding speed | Strong | Medium | KServe onboarding can be simpler for K8s-native teams |
+
+## Minimal Deployment Templates (MVP)
+
+The goal is repeatability, not framework-specific optimization. Start with one
+model and one runtime, then expand.
+
+### KServe MVP Template
+
+```yaml
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: sample-kserve-model
+  namespace: inference
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: sklearn
+      storageUri: "s3://model-bucket/sklearn-iris"
+```
+
+### Seldon Core MVP Template
+
+```yaml
+apiVersion: machinelearning.seldon.io/v1
+kind: SeldonDeployment
+metadata:
+  name: sample-seldon-model
+  namespace: inference
+spec:
+  name: sample
+  predictors:
+  - name: default
+    replicas: 1
+    graph:
+      name: classifier
+      implementation: SKLEARN_SERVER
+      modelUri: "s3://model-bucket/sklearn-iris"
+      endpoint:
+        type: REST
+```
+
+If you use newer Seldon runtime stacks, keep the same validation flow but adapt
+CRDs and runtime fields accordingly.
+
+## Unified Benchmark and Observability Baseline
+
+Define one common benchmark protocol before framework comparison:
+
+| Category | Baseline |
+| --- | --- |
+| Workload profiles | low concurrency, burst traffic, sustained traffic |
+| Latency | p50, p95, p99 |
+| Reliability | success rate, timeout rate, 5xx rate |
+| Throughput | requests per second, tokens per second (for LLM) |
+| Efficiency | CPU, memory, GPU utilization, queue depth |
+| Startup | cold-start duration, first-request latency |
+| Cost proxy | cost per 1k requests or cost per token |
+
+Recommended report output:
+
+1. Environment and runtime config snapshot.
+2. Traffic profile definition.
+3. Side-by-side KServe vs Seldon Core results table.
+4. Top bottlenecks and remediation suggestions.
+
+## Release and Rollback Runbook (Minimum)
+
+- Pre-release checks: config lint/schema validation, dependency and model
+  artifact readiness, baseline smoke tests.
+- Progressive release: start with canary traffic split, monitor p95 and error
+  rate, then increase traffic only when SLO remains stable.
+- Rollback triggers: sustained error-rate increase, p95/p99 latency regression,
+  or persistent queue backlog growth.
+- Rollback actions: route traffic to the previous stable revision, verify
+  recovery, then create a postmortem with guardrail updates.
+
+## Framework Selection Guidance
+
+| Scenario | Recommendation |
+| --- | --- |
+| Fast Kubernetes-native standardization with moderate complexity | Prefer KServe |
+| Complex inference graph and stronger enterprise MLOps controls | Prefer Seldon Core |
+| Mixed organization with different workload classes | Hybrid mode (KServe + Seldon Core), but unify SLO and observability |
+| Team has limited platform capacity | Start with one framework first, avoid dual-stack in early phase |
+
+Risks to track for any choice:
+
+- fragmented runtime configurations across teams
+- inconsistent SLI/SLO definitions
+- no clear rollback ownership
+- benchmark results not reproducible
+
 ## Deep-Dive Learning Path (Weeks 5-10)
 
 ### Phase 5: Multi-Tenant Governance
