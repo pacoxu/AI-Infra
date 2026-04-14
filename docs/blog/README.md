@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-06
+last_updated: 2026-04-14
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,23 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-04-14: 聚焦 SIG etcd（中文整理）
+
+- [聚焦 SIG etcd：从稳定性到社区协作的一线观察（中文整理）](./2026-04-14/2026-04-14-sig-etcd-spotlight_zh.md)
+
+A Chinese summary and translation of Kubernetes Blog's SIG etcd spotlight,
+focused on why SIG etcd was formed and what changed after it joined the SIG
+governance model:
+
+- **Why SIG etcd was created**: etcd is critical to Kubernetes and needed a
+  more sustainable maintenance and reliability model.
+- **What improved after SIG adoption**: clearer process via KEP/PRR, stronger
+  quality infra via Prow/TestGrid, and tighter cross-SIG collaboration.
+- **Community momentum**: highlights contribution trends and increased PR
+  author activity from the official spotlight data.
+- **Actionable participation paths**: meetings, mailing list, issue triage,
+  code/tests/docs, and mentorship-driven onboarding.
 
 ## 2026-04-06: GPU Pod 冷启动优化：AI 工作负载的性能突破
 
