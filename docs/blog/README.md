@@ -525,6 +525,7 @@ A comprehensive guide to topology-aware scheduling for AI workloads, covering:
 
 - [Gang Scheduling Blog (English)](../archive-blog/2025-11-25/2025-11-25-gang-scheduling.md)
 - [Gang Scheduling Blog (Chinese)](../archive-blog/2025-11-25/2025-11-25-gang-scheduling_zh.md)
+- [Upstream: Kubernetes v1.35 WAS Intro](https://kubernetes.io/blog/2025/12/29/kubernetes-v1-35-introducing-workload-aware-scheduling/)
 
 A comprehensive overview of gang scheduling and workload-aware scheduling
 coming to Kubernetes v1.35, covering:
