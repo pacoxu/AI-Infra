@@ -164,7 +164,7 @@
   "projects": [
     {
       "name": "Agent Sandbox",
-      "x": 8,
+      "x": 14,
       "y": 92,
       "group": "workflow",
       "stage": "early",
@@ -172,7 +172,7 @@
     },
     {
       "name": "kagent",
-      "x": 18,
+      "x": 36,
       "y": 93,
       "group": "workflow",
       "stage": "mature",
@@ -213,24 +213,24 @@
     },
     {
       "name": "AIBrix",
-      "x": 26,
+      "x": 47,
       "y": 72,
       "group": "inference",
-      "stage": "early",
+      "stage": "mature",
       "logo": "AB"
     },
     {
       "name": "Dynamo",
-      "x": 33,
+      "x": 50,
       "y": 68,
       "group": "inference",
-      "stage": "early",
+      "stage": "mature",
       "logo": "DY",
       "logo_image": "diagrams/logos/landscape/dynamo.png"
     },
     {
       "name": "OME",
-      "x": 40,
+      "x": 44,
       "y": 66,
       "group": "inference",
       "stage": "early",
@@ -246,7 +246,7 @@
     },
     {
       "name": "rbg",
-      "x": 24,
+      "x": 47,
       "y": 60,
       "group": "inference",
       "stage": "mature",
@@ -254,7 +254,7 @@
     },
     {
       "name": "kthena",
-      "x": 25,
+      "x": 46,
       "y": 55,
       "group": "inference",
       "stage": "mature",
@@ -287,16 +287,16 @@
     },
     {
       "name": "Envoy AI Gateway",
-      "x": 60,
-      "y": 83,
+      "x": 50,
+      "y": 76,
       "group": "gateway",
-      "stage": "mature",
+      "stage": "early",
       "logo": "EA",
       "logo_image": "diagrams/logos/landscape/envoy.png"
     },
     {
       "name": "kgateway",
-      "x": 68,
+      "x": 66,
       "y": 80,
       "group": "gateway",
       "stage": "mature",
@@ -304,7 +304,7 @@
     },
     {
       "name": "knoway",
-      "x": 73,
+      "x": 42,
       "y": 80,
       "group": "gateway",
       "stage": "early",
@@ -312,7 +312,7 @@
     },
     {
       "name": "Higress",
-      "x": 62,
+      "x": 66,
       "y": 78,
       "group": "gateway",
       "stage": "mature",
@@ -330,7 +330,7 @@
     },
     {
       "name": "Istio",
-      "x": 70,
+      "x": 82,
       "y": 90,
       "group": "gateway",
       "stage": "mature",
@@ -374,7 +374,7 @@
     },
     {
       "name": "SGLang",
-      "x": 45,
+      "x": 52,
       "y": 55,
       "group": "inference",
       "stage": "mature",
@@ -383,7 +383,7 @@
     },
     {
       "name": "vLLM",
-      "x": 54,
+      "x": 58,
       "y": 49,
       "group": "inference",
       "stage": "mature",
@@ -401,7 +401,7 @@
     },
     {
       "name": "LWS",
-      "x": 34,
+      "x": 50,
       "y": 50,
       "group": "scheduling",
       "stage": "early",
@@ -426,8 +426,8 @@
       "logo": "GD"
     },
     {
-      "name": "Kai Scheduler",
-      "x": 29,
+      "name": "KAI Scheduler",
+      "x": 52,
       "y": 38,
       "group": "scheduling",
       "stage": "early",
@@ -435,7 +435,7 @@
     },
     {
       "name": "Volcano",
-      "x": 39,
+      "x": 55,
       "y": 36,
       "group": "scheduling",
       "stage": "mature",
@@ -471,8 +471,8 @@
     },
     {
       "name": "Koordinator",
-      "x": 75,
-      "y": 36,
+      "x": 55,
+      "y": 33,
       "group": "scheduling",
       "stage": "mature",
       "logo": "KD",
@@ -488,7 +488,7 @@
     },
     {
       "name": "ImageVolume",
-      "x": 45,
+      "x": 54,
       "y": 23,
       "group": "kernel",
       "stage": "early",
@@ -505,7 +505,7 @@
     },
     {
       "name": "NRI",
-      "x": 30,
+      "x": 50,
       "y": 18,
       "group": "kernel",
       "stage": "early",
@@ -531,7 +531,7 @@
     },
     {
       "name": "ORAS",
-      "x": 24,
+      "x": 55,
       "y": 24,
       "group": "kernel",
       "stage": "mature",
@@ -595,7 +595,7 @@
     },
     {
       "name": "kube-agentic-networking",
-      "x": 82,
+      "x": 6,
       "y": 84,
       "group": "gateway",
       "stage": "early",
@@ -604,7 +604,7 @@
     },
     {
       "name": "Grove",
-      "x": 14,
+      "x": 18,
       "y": 50,
       "group": "scheduling",
       "stage": "early",
