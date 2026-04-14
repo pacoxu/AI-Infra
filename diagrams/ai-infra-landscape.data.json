@@ -374,7 +374,7 @@
     },
     {
       "name": "SGLang",
-      "x": 52,
+      "x": 58,
       "y": 55,
       "group": "inference",
       "stage": "mature",
@@ -383,7 +383,7 @@
     },
     {
       "name": "vLLM",
-      "x": 58,
+      "x": 64,
       "y": 49,
       "group": "inference",
       "stage": "mature",
@@ -410,8 +410,8 @@
     },
     {
       "name": "JobSet",
-      "x": 70,
-      "y": 48,
+      "x": 44,
+      "y": 38,
       "group": "scheduling",
       "stage": "early",
       "logo": "JS",
@@ -428,7 +428,7 @@
     {
       "name": "KAI Scheduler",
       "x": 40,
-      "y": 40,
+      "y": 32,
       "group": "scheduling",
       "stage": "early",
       "logo": "KI"
@@ -453,7 +453,7 @@
     },
     {
       "name": "WAS",
-      "x": 70,
+      "x": 28,
       "y": 34,
       "group": "scheduling",
       "stage": "early",
