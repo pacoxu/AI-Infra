@@ -2,7 +2,7 @@
   "meta": {
     "title": "AI Infra Landscape",
     "version": "2026-03",
-    "last_updated": "2026-03-30",
+    "last_updated": "2026-04-14",
     "note": "Regenerate diagrams/ai-infra-landscape.svg with node scripts/generate-landscape-svg.js"
   },
   "axes": {
@@ -583,6 +583,15 @@
       "stage": "early",
       "logo": "NS",
       "url": "https://github.com/NVIDIA/NVSentinel"
+    },
+    {
+      "name": "kube-agentic-networking",
+      "x": 82,
+      "y": 84,
+      "group": "gateway",
+      "stage": "early",
+      "logo": "KAN",
+      "url": "https://github.com/kubernetes-sigs/kube-agentic-networking"
     }
   ]
 }
