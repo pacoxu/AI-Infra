@@ -177,7 +177,8 @@ workloads in Kubernetes clusters.
   - **Inference Orchestration**: Grove (hierarchical gang scheduling, topology-aware placement)
   - **GPU Management**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins,
     NVIDIA AICR
-  - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling
+  - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling,
+    WAS (Workload Aware Scheduling)
   - **Device Management**: DRA, NRI
     ([Kubernetes WG Device Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md))
   - **Checkpoint/Restore**: GPU checkpoint/restore for fault tolerance and
@@ -203,6 +204,8 @@ management. Detailed guides:
 [NRI](./docs/kubernetes/nri.md)
 
 - **RoadMap:**
+  - Kubernetes v1.35 WAS Intro:
+    [Introducing Workload Aware Scheduling](https://kubernetes.io/blog/2025/12/29/kubernetes-v1-35-introducing-workload-aware-scheduling/)
   - Gang Scheduling in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
   - LWS Gang Scheduling [KEP-407](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
 
