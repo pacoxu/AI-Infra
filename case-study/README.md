@@ -5,6 +5,7 @@
 ## 公司列表
 
 - [字节跳动](./bytedance.md)
+- [AML vs PAI 对照架构](./aml-vs-pai.md)
 - [华为](./huawei.md)
 - [DaoCloud](./daocloud.md)
 - [阿里巴巴](./alibaba.md)
