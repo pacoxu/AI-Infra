@@ -23,7 +23,7 @@
   <rect x="0" y="0" width="1800" height="1150" fill="#f4f5f7" />
 
   <text x="110" y="52" class="title">AI Infra Landscape</text>
-  <text x="110" y="82" class="subtitle">2026-03 | Last updated 2026-03-30</text>
+  <text x="110" y="82" class="subtitle">2026-03 | Last updated 2026-04-14</text>
 
   <rect x="110" y="130" width="710" height="450" fill="#FBFCFF" />
   <rect x="820" y="130" width="710" height="450" fill="#FAFDFF" />
@@ -603,6 +603,13 @@
       <circle cx="462.0" cy="778.0" r="11.5" fill="white" stroke="#667EEA" />
       <text x="462.0" y="782.2" text-anchor="middle" class="logo">NS</text>
       <text x="480.0" y="783.0" class="project-label">NVIDIA NVSentinel</text>
+    </g>
+  
+    <g class="project project-early" data-name="kube-agentic-networking">
+      <rect x="1160.4" y="257.0" width="228" height="34" rx="8" fill="#FDF1D2" stroke="#D5B062" />
+      <circle cx="1178.4" cy="274.0" r="11.5" fill="white" stroke="#D5B062" />
+      <text x="1178.4" y="278.2" text-anchor="middle" class="logo">KAN</text>
+      <text x="1196.4" y="279.0" class="project-label">kube-agentic-networking</text>
     </g>
   
     <g class="project project-early" data-name="Grove">

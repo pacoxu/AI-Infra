@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-06
+last_updated: 2026-04-14
 tags: inference, llm, vllm, serving, optimization
 canonical_path: docs/inference/README.md
 ---
@@ -16,6 +16,7 @@ More details about specific platforms and techniques:
 - [Model Architectures (Llama, Qwen, DeepSeek, Flux)](./model-architectures.md)
 - [LoRA: Low-Rank Adaptation for Efficient LLM Serving](./lora.md)
 - [Grove: Kubernetes API for Inference Orchestration](./grove.md)
+- [kube-agentic-networking: Agentic Networking Governance](./kube-agentic-networking.md)
 - [OME: Kubernetes Operator for LLM Management](./ome.md)
 - [Serverless AI Inference (Knative, AWS SageMaker, Platform Comparison)](./serverless.md)
 - [Model Switching and Dynamic Scheduling (Aegaeon, vLLM Sleep Mode)](./model-switching.md)
@@ -73,6 +74,7 @@ Components that handle request routing, load balancing, and P/D disaggregation:
 | --- | --- | --- |
 | Gateway API Inference Extension | Kubernetes SIG | Inference-aware routing via Gateway API |
 | AIBrix Gateway | AIBrix | LLM-aware routing, load balancing, prefix caching |
+| kube-agentic-networking | Kubernetes SIGs | Agentic networking policy and governance for agent-to-tool/API traffic |
 | Kthena Router | Kthena | Topology-aware P/D routing |
 | LMCache | [LMCache](https://github.com/LMCache/LMCache) | KV cache offloading and reuse |
 | Mooncake | [Moonshot AI](https://github.com/kvcache-ai/Mooncake) | KV cache-centric disaggregated inference |
@@ -122,6 +124,25 @@ autoscaling, and explicit startup ordering.
 - **Single CRD** – entire inference system described in one `PodCliqueSet` CR
 
 For detailed information, see [Grove: Kubernetes Inference Orchestration](./grove.md).
+
+### kube-agentic-networking
+
+[`kube-agentic-networking`](https://github.com/kubernetes-sigs/kube-agentic-networking)
+focuses on network policy and governance for agent workflows on Kubernetes.
+This helps platform teams control and audit how agents access tools, APIs,
+and inference endpoints in multi-tenant environments.
+
+**Key highlights:**
+
+- **Agent-aware network governance**: policy boundaries for agent-to-tool/API
+  traffic
+- **Kubernetes-native posture**: designed to fit existing cluster policy and
+  platform operations
+- **Security and compliance fit**: improves least-privilege controls and
+  auditability for agentic systems
+
+For detailed information, see
+[kube-agentic-networking: Agentic Networking Governance](./kube-agentic-networking.md).
 
 ### Kthena
 
