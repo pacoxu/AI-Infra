@@ -592,6 +592,15 @@
       "stage": "early",
       "logo": "KAN",
       "url": "https://github.com/kubernetes-sigs/kube-agentic-networking"
+    },
+    {
+      "name": "Grove",
+      "x": 14,
+      "y": 50,
+      "group": "scheduling",
+      "stage": "early",
+      "logo": "GR",
+      "url": "https://github.com/ai-dynamo/grove"
     }
   ]
 }

@@ -611,6 +611,13 @@
       <text x="1178.4" y="278.2" text-anchor="middle" class="logo">KAN</text>
       <text x="1196.4" y="279.0" class="project-label">kube-agentic-networking</text>
     </g>
+  
+    <g class="project project-early" data-name="Grove">
+      <rect x="234.8" y="563.0" width="148" height="34" rx="8" fill="#EBF8EE" stroke="#65A97B" />
+      <circle cx="252.8" cy="580.0" r="11.5" fill="white" stroke="#65A97B" />
+      <text x="252.8" y="584.2" text-anchor="middle" class="logo">GR</text>
+      <text x="270.8" y="585.0" class="project-label">Grove</text>
+    </g>
 
   
     <g class="note" transform="translate(1560, 198)">

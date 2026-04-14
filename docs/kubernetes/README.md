@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-12-17
+last_updated: 2026-04-07
 tags: kubernetes, ai-infrastructure, scheduling, resource-management
 canonical_path: docs/kubernetes/README.md
 ---
@@ -36,6 +36,9 @@ workload isolation.
   guide covering high-throughput scheduling, multi-scheduler patterns,
   gang scheduling, topology-aware scheduling, load balancing, and
   descheduling strategies
+- **[Swap Memory Management](./swap-memory-management.md)**: Practical guide to
+  kubelet swap behaviors (`NoSwap`/`LimitedSwap`), observability, and memory
+  pressure tuning in Kubernetes
 - **[Dynamic Resource Allocation (DRA)](./dra.md)**: Flexible device
   allocation with structured parameters and topology awareness
 - **[NVIDIA GPU Operator](./nvidia-gpu-operator.md)**: Automated GPU driver
@@ -50,6 +53,9 @@ workload isolation.
   remediation strategies
 - **[Node Resource Interface (NRI)](./nri.md)**: Fine-grained container
   resource management at the runtime level
+- **[Kubernetes v1.36 AI Infra Highlights](./v1.36-ai-infra-highlights.md)**:
+  Curated v1.36 release signals focused on AI infrastructure relevance,
+  upgrade risks, and recommended actions
 
 #### Workload Isolation
 
@@ -76,6 +82,8 @@ workload isolation.
    for GPU resource management
 3. Explore [NRI](./nri.md) for fine-grained container control
 4. Understand [Pod Lifecycle](./pod-lifecycle.md) for debugging
+5. Use [Swap Memory Management](./swap-memory-management.md) when tuning
+   kubelet behavior under memory pressure
 
 ### For Platform Engineers
 
