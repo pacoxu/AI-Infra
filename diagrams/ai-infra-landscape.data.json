@@ -173,7 +173,7 @@
     {
       "name": "kagent",
       "x": 36,
-      "y": 93,
+      "y": 95,
       "group": "workflow",
       "stage": "mature",
       "logo": "KA"
@@ -196,8 +196,8 @@
     },
     {
       "name": "Dagger",
-      "x": 42,
-      "y": 98,
+      "x": 44,
+      "y": 90,
       "group": "workflow",
       "stage": "mature",
       "logo": "DG"
@@ -231,7 +231,7 @@
     {
       "name": "OME",
       "x": 44,
-      "y": 66,
+      "y": 64,
       "group": "inference",
       "stage": "early",
       "logo": "OM"
@@ -255,7 +255,7 @@
     {
       "name": "kthena",
       "x": 46,
-      "y": 55,
+      "y": 51,
       "group": "inference",
       "stage": "mature",
       "logo": "KT"
@@ -297,15 +297,15 @@
     {
       "name": "kgateway",
       "x": 66,
-      "y": 80,
+      "y": 82,
       "group": "gateway",
       "stage": "mature",
       "logo": "KG"
     },
     {
       "name": "knoway",
-      "x": 42,
-      "y": 80,
+      "x": 34,
+      "y": 74,
       "group": "gateway",
       "stage": "early",
       "logo": "KW"
@@ -322,7 +322,7 @@
     {
       "name": "Kong",
       "x": 66,
-      "y": 76,
+      "y": 66,
       "group": "gateway",
       "stage": "mature",
       "logo": "KO",
@@ -349,7 +349,7 @@
     {
       "name": "Knative",
       "x": 80,
-      "y": 71,
+      "y": 67,
       "group": "workflow",
       "stage": "mature",
       "logo": "KN",
@@ -402,7 +402,7 @@
     {
       "name": "LWS",
       "x": 50,
-      "y": 50,
+      "y": 45,
       "group": "scheduling",
       "stage": "early",
       "logo": "LW",
@@ -410,8 +410,8 @@
     },
     {
       "name": "JobSet",
-      "x": 52,
-      "y": 56,
+      "x": 70,
+      "y": 48,
       "group": "scheduling",
       "stage": "early",
       "logo": "JS",
@@ -427,8 +427,8 @@
     },
     {
       "name": "KAI Scheduler",
-      "x": 52,
-      "y": 38,
+      "x": 40,
+      "y": 40,
       "group": "scheduling",
       "stage": "early",
       "logo": "KI"
@@ -445,7 +445,7 @@
     {
       "name": "Kueue",
       "x": 66,
-      "y": 42,
+      "y": 38,
       "group": "scheduling",
       "stage": "mature",
       "logo": "KQ",
@@ -453,8 +453,8 @@
     },
     {
       "name": "WAS",
-      "x": 56,
-      "y": 38,
+      "x": 70,
+      "y": 34,
       "group": "scheduling",
       "stage": "early",
       "logo": "WA",
@@ -472,7 +472,7 @@
     {
       "name": "Koordinator",
       "x": 55,
-      "y": 33,
+      "y": 31,
       "group": "scheduling",
       "stage": "mature",
       "logo": "KD",
@@ -531,8 +531,8 @@
     },
     {
       "name": "ORAS",
-      "x": 55,
-      "y": 24,
+      "x": 64,
+      "y": 27,
       "group": "kernel",
       "stage": "mature",
       "logo": "OR",
@@ -568,7 +568,7 @@
     {
       "name": "KubeVirt",
       "x": 78,
-      "y": 12,
+      "y": 14,
       "group": "kernel",
       "stage": "mature",
       "logo": "KV",
@@ -596,7 +596,7 @@
     {
       "name": "kube-agentic-networking",
       "x": 6,
-      "y": 84,
+      "y": 88,
       "group": "gateway",
       "stage": "early",
       "logo": "KAN",
