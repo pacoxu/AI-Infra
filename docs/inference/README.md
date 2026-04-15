@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-06
+last_updated: 2026-04-15
 tags: inference, llm, vllm, serving, optimization
 canonical_path: docs/inference/README.md
 ---
@@ -54,7 +54,7 @@ Kubernetes-native platforms for orchestrating LLM inference at scale:
 | --- | --- | --- | --- |
 | [AIBrix](https://github.com/vllm-project/aibrix) | vLLM Project | StormService + RoleSet CRDs | High-density LoRA, gateway, autoscaling, P/D disaggregation |
 | [Kthena](https://github.com/volcano-sh/kthena) | Volcano (CNCF Sandbox) | Serving Group / LWS | Gang scheduling, topology-aware, revision control |
-| [NVIDIA Dynamo](https://github.com/ai-dynamo/dynamo) | NVIDIA | Grove/LWS dual mode | NVIDIA-optimized, disaggregated serving, KV routing |
+| [NVIDIA Dynamo](https://github.com/ai-dynamo/dynamo) | NVIDIA | Grove + Kubernetes integration (LWS / RBG) | NVIDIA-optimized, disaggregated serving, KV routing |
 | [OME](https://github.com/sgl-project/ome) | SGLang Project | Operator pattern | Model management, lifecycle, multi-engine support |
 | [KServe](https://github.com/kserve/kserve) | CNCF Incubating | InferenceService CRD | Multi-framework, canary, explainability, serverless |
 | [llm-d](https://github.com/llm-d/llm-d) | Red Hat / IBM | Dual LWS + KServe | P/D disaggregation reference implementation |
@@ -74,7 +74,7 @@ Components that handle request routing, load balancing, and P/D disaggregation:
 | Kthena Router | Kthena | Topology-aware P/D routing |
 | LMCache | [LMCache](https://github.com/LMCache/LMCache) | KV cache offloading and reuse |
 | Mooncake | [Moonshot AI](https://github.com/kvcache-ai/Mooncake) | KV cache-centric disaggregated inference |
-| RBG | [SGLang](https://github.com/sgl-project/rbg) | Resource-aware batch scheduler (LWS-inspired) |
+| RBG | [SGLang](https://github.com/sgl-project/rbg) | RoleBasedGroup CRD for multi-role inference orchestration |
 | SGLang Router | [SGLang](https://github.com/sgl-project/sglang) | Inference routing and load balancing for SGLang |
 
 ## Featured Projects
@@ -153,10 +153,15 @@ NVIDIA hardware and software stacks.
 **Key highlights:**
 
 - **Disaggregated serving**: Native P/D disaggregation with KV cache routing
-- **Dual deployment modes**: Grove (NVIDIA-native) and LWS (Kubernetes-native)
+- **Dual deployment modes**: Grove (NVIDIA-native) and Kubernetes-native patterns
+  (including LWS and emerging RBG workflows)
 - **Smart KV routing**: Intelligent routing based on KV cache locality
 - **NIXL transport**: High-performance KV cache transfer protocol
 - **AIConfigurator**: Data-driven P/D configuration optimization tool
+- **RBG ecosystem progress**: Companion examples merged in
+  [sgl-project/rbg#255](https://github.com/sgl-project/rbg/pull/255), while
+  Dynamo-side integration guide is tracked in
+  [ai-dynamo/dynamo#5457](https://github.com/ai-dynamo/dynamo/pull/5457)
 
 ### KServe
 

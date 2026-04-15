@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2026-04-15
 tags: inference, pd-disaggregation, prefill-decode, llm-optimization
 canonical_path: docs/inference/pd-disaggregation.md
 ---
@@ -439,28 +439,43 @@ phase while maintaining coordination through the LWS leader-follower pattern.
 
 ### SGLang RBG
 
-[`SGLang RBG`](https://github.com/sgl-project/rbg) is a resource-aware batch
-scheduler designed for efficient LLM inference workload management. The
-project learned from and reused design patterns from the LWS project.
+[`SGLang RBG`](https://github.com/sgl-project/rbg) is a Kubernetes API
+(`RoleBasedGroup`) for orchestrating multi-role AI inference workloads (for
+example, `processor` / `prefill` / `decode`) as one logical unit.
 
 **Key Features:**
 
-- **LWS-Inspired Design**: Incorporates proven patterns from the LWS project
-  for workload orchestration
-- **Resource-Aware Scheduling**: Optimizes batch scheduling based on
-  available GPU resources and workload characteristics
-- **P/D Disaggregation Support**: Enables efficient scheduling of disaggregated
-  prefill and decode workloads
-- **Batch Optimization**: Provides intelligent batching strategies for
-  improved throughput
+- **Role-Based Workload Model**: Manage distributed inference services as
+  coordinated role groups instead of isolated Deployments/StatefulSets
+- **Multiple Deployment Patterns**: Support `standalonePattern` and
+  `leaderWorkerPattern` for single-node and multi-node topologies
+- **Role-Level Lifecycle Control**: Provide rollout strategy controls
+  (including `InPlaceIfPossible` and partitioned rolling updates)
+- **Scaling Adapter Integration**: Expose role-level scaling endpoints for HPA,
+  KEDA, and Planner-driven autoscaling
+- **Coordination/Gang Scheduling**: Support coordinated policies and optional
+  group-level gang scheduling behavior
 
 **Integration with P/D Disaggregation:**
 
-SGLang RBG enhances P/D disaggregation by providing:
+RBG enhances P/D disaggregation by providing:
 
-- Intelligent scheduling of prefill and decode batches
-- Resource optimization across disaggregated components
-- Coordination between prefill and decode phases
+- Native multi-role orchestration for `prefill` and `decode`
+- Independent scaling controls at role granularity
+- Coordinated rollout/update semantics across disaggregated components
+
+**Recent Upstream Status (as of 2026-04-15):**
+
+- **Merged**:
+  [sgl-project/rbg#255](https://github.com/sgl-project/rbg/pull/255) (2026-04-03)
+  adds Dynamo integration examples under
+  `examples/inference/ecosystem/dynamo/`:
+  `agg.yaml`, `agg-multi-nodes.yaml`, `pd-disagg.yaml`,
+  `pd-disagg-multi-nodes.yaml`, plus dependency manifests (`etcd.yaml`,
+  `nats.yaml`)
+- **In Progress**:
+  [ai-dynamo/dynamo#5457](https://github.com/ai-dynamo/dynamo/pull/5457)
+  (open) adds a dedicated RBG integration guide in Dynamo docs
 
 ### AIBrix StormService
 
@@ -613,8 +628,9 @@ comprehensive support for Prefill-Decode disaggregation.
 
 - **Supported**: Dynamo has implemented P/D disaggregation for enhanced
   performance and resource efficiency
-- **Multi-Node Architecture**: In multi-node deployments, Dynamo utilizes
-  LeaderWorkSet (LWS) for orchestrating disaggregated workloads
+- **Multi-Node Architecture**: In Kubernetes deployments, Dynamo supports
+  leader-worker based topologies, and the community has added RoleBasedGroup
+  examples for Dynamo runtime orchestration
 - **Design Documentation**:
   [Disaggregation Serving](https://github.com/ai-dynamo/dynamo/blob/main/docs/design_docs/disagg_serving.md)
   \- Detailed design for separating prefill and decode phases
@@ -630,6 +646,10 @@ comprehensive support for Prefill-Decode disaggregation.
   [#1511](https://github.com/ai-dynamo/dynamo/pull/1511)
 - Ongoing unification efforts
   [#1728](https://github.com/ai-dynamo/dynamo/issues/1728)
+- RoleBasedGroup integration guide (open)
+  [#5457](https://github.com/ai-dynamo/dynamo/pull/5457)
+- RoleBasedGroup Dynamo examples merged in companion project
+  [sgl-project/rbg#255](https://github.com/sgl-project/rbg/pull/255)
 
 **Architecture:**
 
@@ -947,8 +967,11 @@ across heterogeneous GPU clusters.
 - <https://github.com/llm-d/llm-d>
 - <https://github.com/llm-d/llm-d-routing-sidecar>
 - <https://github.com/sgl-project/rbg>
+- <https://github.com/sgl-project/rbg/pull/255>
+- <https://github.com/sgl-project/rbg/tree/main/examples/inference/ecosystem/dynamo>
 - <https://github.com/volcano-sh/kthena>
 - <https://github.com/ai-dynamo/dynamo>
+- <https://github.com/ai-dynamo/dynamo/pull/5457>
 - <https://github.com/ai-dynamo/aiconfigurator>
 - <https://github.com/kubernetes/enhancements/pull/5473> - KEP-5471:
   Extended Toleration Operators for Threshold-Based Placement (SLA-based
