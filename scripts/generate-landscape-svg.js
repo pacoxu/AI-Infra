@@ -36,9 +36,15 @@ function textWidth(name) {
   return Math.max(88, Math.round([...name].length * 7.4));
 }
 
-function cardDimensions(name) {
+function hasTag(entity, tag) {
+  return Array.isArray(entity?.tags) && entity.tags.includes(tag);
+}
+
+function cardDimensions(project) {
+  const baseWidth = Math.max(148, 58 + textWidth(project.name));
+  const tagExtra = hasTag(project, 'k8s-feature') ? 44 : 0;
   return {
-    width: Math.max(148, 58 + textWidth(name)),
+    width: baseWidth + tagExtra,
     height: 34
   };
 }
@@ -166,11 +172,12 @@ function projectNode(project, index) {
   const group = data.groups[project.group] || data.groups.kernel;
   const baseX = toX(project.x);
   const baseY = toY(project.y);
-  const size = cardDimensions(project.name);
+  const size = cardDimensions(project);
 
   const left = clamp(baseX - size.width / 2, chart.x + 8, chart.x + chart.width - size.width - 8);
   const top = clamp(baseY - size.height / 2, chart.y + 8, chart.y + chart.height - size.height - 8);
   const dashed = project.stage === 'early' ? ' project-early' : '';
+  const k8sFeature = hasTag(project, 'k8s-feature');
   const bubble = logoText(project.name, project.logo);
   const iconCx = left + 18;
   const iconCy = top + size.height / 2;
@@ -185,11 +192,23 @@ function projectNode(project, index) {
     logoImage: project.logo_image,
     clipId
   });
+  const k8sTagWidth = 34;
+  const k8sTagHeight = 14;
+  const k8sTagX = left + size.width - k8sTagWidth - 8;
+  const k8sTagY = top + 3;
+  const k8sTagMarkup = k8sFeature
+    ? `
+      <g class="project-tag-k8s">
+        <rect x="${k8sTagX.toFixed(1)}" y="${k8sTagY.toFixed(1)}" width="${k8sTagWidth}" height="${k8sTagHeight}" rx="4" />
+        <text x="${(k8sTagX + k8sTagWidth / 2).toFixed(1)}" y="${(k8sTagY + 10.2).toFixed(1)}" text-anchor="middle">K8s</text>
+      </g>`
+    : '';
 
   return `
     <g class="project${dashed}" data-name="${escapeXml(project.name)}">
       <rect x="${left.toFixed(1)}" y="${top.toFixed(1)}" width="${size.width}" height="${size.height}" rx="8" fill="${group.fill}" stroke="${group.stroke}" />
       ${iconMarkup}
+      ${k8sTagMarkup}
       <text x="${(left + 36).toFixed(1)}" y="${(top + size.height / 2 + 5).toFixed(1)}" class="project-label">${escapeXml(project.name)}</text>
     </g>`;
 }
@@ -259,6 +278,8 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
       .legend { font: 500 15px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #374151; }
       .project-label { font: 600 14px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #111827; }
       .logo { font: 700 10px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #374151; }
+      .project-tag-k8s rect { fill: #DBEAFE; stroke: #3B82F6; }
+      .project-tag-k8s text { font: 700 9px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #1D4ED8; }
       .ecosystem-label { font: 600 13px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #111827; }
       .ecosystem-logo { font: 700 8px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #374151; }
       .note-label { font: 600 15px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #1f2937; }
@@ -293,7 +314,7 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
     )
     .join('\n  ')}
 
-  <text x="${chart.x}" y="104" class="legend">Legend: dashed border = early stage / under exploration</text>
+  <text x="${chart.x}" y="104" class="legend">Legend: dashed border = early stage / under exploration | K8s tag = Kubernetes native feature</text>
 
   ${data.ecosystem.map((item, index) => ecosystemNode(item, index)).join('\n  ')}
 

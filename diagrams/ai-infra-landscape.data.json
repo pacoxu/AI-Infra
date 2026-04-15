@@ -2,7 +2,7 @@
   "meta": {
     "title": "AI Infra Landscape",
     "version": "2026-03",
-    "last_updated": "2026-04-14",
+    "last_updated": "2026-04-15",
     "note": "Regenerate diagrams/ai-infra-landscape.svg with node scripts/generate-landscape-svg.js"
   },
   "axes": {
@@ -484,7 +484,17 @@
       "y": 28,
       "group": "kernel",
       "stage": "early",
-      "logo": "PR"
+      "logo": "PR",
+      "tags": ["k8s-feature"]
+    },
+    {
+      "name": "Pod In-place Resize",
+      "x": 64,
+      "y": 30,
+      "group": "kernel",
+      "stage": "early",
+      "logo": "IR",
+      "tags": ["k8s-feature"]
     },
     {
       "name": "ImageVolume",
@@ -492,7 +502,8 @@
       "y": 23,
       "group": "kernel",
       "stage": "early",
-      "logo": "IV"
+      "logo": "IV",
+      "tags": ["k8s-feature"]
     },
     {
       "name": "DRA",
@@ -501,7 +512,8 @@
       "group": "kernel",
       "stage": "early",
       "logo": "DR",
-      "logo_image": "diagrams/logos/landscape/dra.png"
+      "logo_image": "diagrams/logos/landscape/dra.png",
+      "tags": ["k8s-feature"]
     },
     {
       "name": "NRI",
