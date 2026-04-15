@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-06
+last_updated: 2026-04-15
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,34 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-04-15: Kubernetes v1.34 PSI Metrics Beta（AI-Infra 落地）
+
+- [Kubernetes v1.34 PSI Metrics Beta：AI-Infra 该如何落地 (Chinese)](./2026-04-15/2026-04-15-kubernetes-v1.34-psi-metrics-beta-ai-infra_zh.md)
+
+A Chinese practical guide focused on operationalizing PSI metrics in AI
+clusters after KEP-4205 moved to Beta:
+
+- **From kernel to platform signal**: maps Linux PSI into kubelet Summary API
+  and `/metrics/cadvisor` collection paths.
+- **Actionable observability**: highlights the six PSI Prometheus metrics and
+  proposes node/workload alert starting points.
+- **AI-oriented closed loop**: links PSI pressure to scheduling and scaling
+  decisions instead of keeping it dashboard-only.
+
+## 2026-04-15: VolumeGroupSnapshot + CBT for AI Checkpoints
+
+- [用 VolumeGroupSnapshot + CBT 改善 AI Checkpoint 备份与恢复 (Chinese)](./2026-04-15/2026-04-15-volume-group-snapshot-and-cbt-for-ai-checkpoints_zh.md)
+
+A Chinese implementation note that combines KEP-3476 and KEP-3314 for AI
+training backup and recovery:
+
+- **Consistent multi-volume recovery point**: uses VolumeGroupSnapshot for
+  crash-consistent checkpoints across PVC groups.
+- **Incremental backup path**: introduces changed-block tracking (CBT) to avoid
+  repeated full-volume transfers.
+- **Production rollout framing**: includes driver capability checks, phased
+  adoption, and restore-first validation guidance.
 
 ## 2026-04-06: GPU Pod 冷启动优化：AI 工作负载的性能突破
 
