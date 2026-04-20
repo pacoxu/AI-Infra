@@ -350,7 +350,7 @@ A production-grade agent sandbox must satisfy:
 4. **Convenient image building**: Simple workflow to build and deploy custom
    agent images
 
-### Agent Runtime Security Baseline (Lobster Profile)
+### Agent Runtime Security Baseline (Claw Profile for OpenClaw)
 
 For platform teams that need a concise external answer to "how do you constrain
 agent permissions and keep the system safe?", use a layered baseline:
@@ -371,7 +371,7 @@ Minimum hardened pod settings:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: lobster-agent-sandbox
+  name: claw-agent-sandbox
 spec:
   securityContext:
     seccompProfile:
@@ -393,7 +393,7 @@ Network baseline (deny all by default):
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: lobster-agent-default-deny-egress
+  name: claw-agent-default-deny-egress
 spec:
   podSelector: {}
   policyTypes: ["Egress"]
