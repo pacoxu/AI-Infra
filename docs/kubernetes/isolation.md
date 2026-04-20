@@ -350,6 +350,75 @@ A production-grade agent sandbox must satisfy:
 4. **Convenient image building**: Simple workflow to build and deploy custom
    agent images
 
+### Agent Runtime Security Baseline (Lobster Profile)
+
+For platform teams that need a concise external answer to "how do you constrain
+agent permissions and keep the system safe?", use a layered baseline:
+**identity + execution + network + tools/data**, with fail-closed behavior.
+
+#### Layered Guardrails (Default-On)
+
+| Layer | Default Policy | Why It Matters |
+| ----- | -------------- | -------------- |
+| Identity | Per-session service identity, short-lived tokens, no long-lived access keys inside sandbox | Limits blast radius and credential reuse |
+| Execution | `runAsNonRoot`, `readOnlyRootFilesystem`, `allowPrivilegeEscalation=false`, `capabilities.drop=["ALL"]`, `seccompProfile=RuntimeDefault` | Blocks common privilege-escalation paths |
+| Network | Deny-all egress by default, allow-list only required destinations (typically via egress proxy) | Prevents arbitrary data exfiltration and command-and-control traffic |
+| Tools and Data | Tool allow-list + parameter validation + human approval for destructive operations; ephemeral workspace and no secret persistence | Reduces high-risk actions and cross-session leakage |
+
+Minimum hardened pod settings:
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lobster-agent-sandbox
+spec:
+  securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - name: runtime
+      image: your-agent-image:latest
+      securityContext:
+        runAsNonRoot: true
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop: ["ALL"]
+```
+
+Network baseline (deny all by default):
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: lobster-agent-default-deny-egress
+spec:
+  podSelector: {}
+  policyTypes: ["Egress"]
+  egress: []
+```
+
+#### Backstop Mechanisms
+
+1. **Policy deny by default**: Anything outside explicit policy is rejected.
+2. **Fail-closed containment**: On anomalous behavior (privilege attempts,
+   forbidden egress, repeated policy violations), terminate the sandbox and
+   revoke session credentials.
+
+#### Pre-Production Verification Checklist
+
+1. **Privilege escalation test**: Pod specs using `privileged`, `hostPID`,
+   `hostNetwork`, or `hostPath` are denied by admission policy.
+2. **Credential boundary test**: Session token expires as expected and cannot be
+   reused across sessions.
+3. **Network boundary test**: Non-allowlisted outbound destinations are blocked.
+4. **Auditability test**: Every high-risk tool call has traceable
+   `who/when/what/target/result` records.
+5. **Cleanup test**: Temporary files and credentials are removed after session
+   termination.
+
 ### Two Architecture Patterns
 
 When agents can execute arbitrary code, two fundamental architecture patterns
