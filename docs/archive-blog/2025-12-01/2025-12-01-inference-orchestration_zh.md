@@ -120,6 +120,16 @@ LWS 的设计模式：
 - **批处理优化**：智能批处理策略提升吞吐量
 - **P/D 支持**：支持分离的 prefill 和 decode 工作负载
 
+**更新（2026-04-15）：**
+
+- RBG 已在
+  [sgl-project/rbg#255](https://github.com/sgl-project/rbg/pull/255)
+  合并 Dynamo 示例，新增
+  `examples/inference/ecosystem/dynamo/` 下的聚合和 P/D 分离示例
+- Dynamo 侧的 RBG 集成指南在
+  [ai-dynamo/dynamo#5457](https://github.com/ai-dynamo/dynamo/pull/5457)
+  持续推进（截至 2026-04-15 仍为 open）
+
 ## 收敛趋势
 
 ### 涌现的共同模式

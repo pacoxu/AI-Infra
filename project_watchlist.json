@@ -1,0 +1,1146 @@
+{
+  "included": [
+    {
+      "repo": "ai-dynamo/dynamo",
+      "url": "https://github.com/ai-dynamo/dynamo"
+    },
+    {
+      "repo": "alibaba/higress",
+      "url": "https://github.com/alibaba/higress"
+    },
+    {
+      "repo": "axolotl-ai-cloud/axolotl",
+      "url": "https://github.com/axolotl-ai-cloud/axolotl"
+    },
+    {
+      "repo": "bentoml/bentoml",
+      "url": "https://github.com/bentoml/bentoml"
+    },
+    {
+      "repo": "chroma-core/chroma",
+      "url": "https://github.com/chroma-core/chroma"
+    },
+    {
+      "repo": "confident-ai/deepeval",
+      "url": "https://github.com/confident-ai/deepeval"
+    },
+    {
+      "repo": "deepchecks/deepchecks",
+      "url": "https://github.com/deepchecks/deepchecks"
+    },
+    {
+      "repo": "deepseek-ai/3fs",
+      "url": "https://github.com/deepseek-ai/3fs"
+    },
+    {
+      "repo": "deepseek-ai/deepgemm",
+      "url": "https://github.com/deepseek-ai/deepgemm"
+    },
+    {
+      "repo": "deepseek-ai/deepseek-v3",
+      "url": "https://github.com/deepseek-ai/deepseek-v3"
+    },
+    {
+      "repo": "dragonflyoss/dragonfly2",
+      "url": "https://github.com/dragonflyoss/dragonfly2"
+    },
+    {
+      "repo": "e2b-dev/e2b",
+      "url": "https://github.com/e2b-dev/e2b"
+    },
+    {
+      "repo": "eleutherai/lm-evaluation-harness",
+      "url": "https://github.com/eleutherai/lm-evaluation-harness"
+    },
+    {
+      "repo": "envoyproxy/ai-gateway",
+      "url": "https://github.com/envoyproxy/ai-gateway"
+    },
+    {
+      "repo": "explodinggradients/ragas",
+      "url": "https://github.com/explodinggradients/ragas"
+    },
+    {
+      "repo": "facebookresearch/faiss",
+      "url": "https://github.com/facebookresearch/faiss"
+    },
+    {
+      "repo": "flyteorg/flyte",
+      "url": "https://github.com/flyteorg/flyte"
+    },
+    {
+      "repo": "ggerganov/llama.cpp",
+      "url": "https://github.com/ggerganov/llama.cpp"
+    },
+    {
+      "repo": "google/jax",
+      "url": "https://github.com/google/jax"
+    },
+    {
+      "repo": "google/maxtext",
+      "url": "https://github.com/google/maxtext"
+    },
+    {
+      "repo": "hiyouga/llama-factory",
+      "url": "https://github.com/hiyouga/llama-factory"
+    },
+    {
+      "repo": "huggingface/candle",
+      "url": "https://github.com/huggingface/candle"
+    },
+    {
+      "repo": "huggingface/text-generation-inference",
+      "url": "https://github.com/huggingface/text-generation-inference"
+    },
+    {
+      "repo": "internlm/lmdeploy",
+      "url": "https://github.com/internlm/lmdeploy"
+    },
+    {
+      "repo": "kagent-dev/kagent",
+      "url": "https://github.com/kagent-dev/kagent"
+    },
+    {
+      "repo": "kaito-project/kaito",
+      "url": "https://github.com/kaito-project/kaito"
+    },
+    {
+      "repo": "kgateway-dev/kgateway",
+      "url": "https://github.com/kgateway-dev/kgateway"
+    },
+    {
+      "repo": "kong/kong",
+      "url": "https://github.com/kong/kong"
+    },
+    {
+      "repo": "kserve/kserve",
+      "url": "https://github.com/kserve/kserve"
+    },
+    {
+      "repo": "kubeflow/kubeflow",
+      "url": "https://github.com/kubeflow/kubeflow"
+    },
+    {
+      "repo": "kubeflow/pipelines",
+      "url": "https://github.com/kubeflow/pipelines"
+    },
+    {
+      "repo": "kubernetes-sigs/gateway-api-inference-extension",
+      "url": "https://github.com/kubernetes-sigs/gateway-api-inference-extension"
+    },
+    {
+      "repo": "kubernetes-sigs/inference-perf",
+      "url": "https://github.com/kubernetes-sigs/inference-perf"
+    },
+    {
+      "repo": "kvcache-ai/mooncake",
+      "url": "https://github.com/kvcache-ai/mooncake"
+    },
+    {
+      "repo": "langfuse/langfuse",
+      "url": "https://github.com/langfuse/langfuse"
+    },
+    {
+      "repo": "langgenius/dify",
+      "url": "https://github.com/langgenius/dify"
+    },
+    {
+      "repo": "llm-d/llm-d",
+      "url": "https://github.com/llm-d/llm-d"
+    },
+    {
+      "repo": "lm-sys/fastchat",
+      "url": "https://github.com/lm-sys/fastchat"
+    },
+    {
+      "repo": "lmcache/lmcache",
+      "url": "https://github.com/lmcache/lmcache"
+    },
+    {
+      "repo": "milvus-io/milvus",
+      "url": "https://github.com/milvus-io/milvus"
+    },
+    {
+      "repo": "ml-explore/mlx",
+      "url": "https://github.com/ml-explore/mlx"
+    },
+    {
+      "repo": "mlflow/mlflow",
+      "url": "https://github.com/mlflow/mlflow"
+    },
+    {
+      "repo": "netflix/metaflow",
+      "url": "https://github.com/netflix/metaflow"
+    },
+    {
+      "repo": "ollama/ollama",
+      "url": "https://github.com/ollama/ollama"
+    },
+    {
+      "repo": "open-compass/opencompass",
+      "url": "https://github.com/open-compass/opencompass"
+    },
+    {
+      "repo": "openlit/openlit",
+      "url": "https://github.com/openlit/openlit"
+    },
+    {
+      "repo": "openvinotoolkit/openvino",
+      "url": "https://github.com/openvinotoolkit/openvino"
+    },
+    {
+      "repo": "ovg-project/kvcached",
+      "url": "https://github.com/ovg-project/kvcached"
+    },
+    {
+      "repo": "pgvector/pgvector",
+      "url": "https://github.com/pgvector/pgvector"
+    },
+    {
+      "repo": "polyaxon/polyaxon",
+      "url": "https://github.com/polyaxon/polyaxon"
+    },
+    {
+      "repo": "pytorch/pytorch",
+      "url": "https://github.com/pytorch/pytorch"
+    },
+    {
+      "repo": "qdrant/qdrant",
+      "url": "https://github.com/qdrant/qdrant"
+    },
+    {
+      "repo": "ray-project/ray",
+      "url": "https://github.com/ray-project/ray"
+    },
+    {
+      "repo": "seldonio/seldon-core",
+      "url": "https://github.com/seldonio/seldon-core"
+    },
+    {
+      "repo": "sgl-project/genai-bench",
+      "url": "https://github.com/sgl-project/genai-bench"
+    },
+    {
+      "repo": "sgl-project/ome",
+      "url": "https://github.com/sgl-project/ome"
+    },
+    {
+      "repo": "sgl-project/sglang",
+      "url": "https://github.com/sgl-project/sglang"
+    },
+    {
+      "repo": "thudm/slime",
+      "url": "https://github.com/thudm/slime"
+    },
+    {
+      "repo": "traceloop/openllmetry",
+      "url": "https://github.com/traceloop/openllmetry"
+    },
+    {
+      "repo": "triton-inference-server/server",
+      "url": "https://github.com/triton-inference-server/server"
+    },
+    {
+      "repo": "unslothai/unsloth",
+      "url": "https://github.com/unslothai/unsloth"
+    },
+    {
+      "repo": "vllm-project/aibrix",
+      "url": "https://github.com/vllm-project/aibrix"
+    },
+    {
+      "repo": "vllm-project/semantic-router",
+      "url": "https://github.com/vllm-project/semantic-router"
+    },
+    {
+      "repo": "vllm-project/vllm",
+      "url": "https://github.com/vllm-project/vllm"
+    },
+    {
+      "repo": "volcengine/verl",
+      "url": "https://github.com/volcengine/verl"
+    },
+    {
+      "repo": "weaviate/weaviate",
+      "url": "https://github.com/weaviate/weaviate"
+    },
+    {
+      "repo": "zenml-io/zenml",
+      "url": "https://github.com/zenml-io/zenml"
+    }
+  ],
+  "todo": [
+    {
+      "repo": "8monkey-ai/hebo-gateway",
+      "url": "https://github.com/8monkey-ai/hebo-gateway"
+    },
+    {
+      "repo": "activeloopai/deeplake",
+      "url": "https://github.com/activeloopai/deeplake"
+    },
+    {
+      "repo": "agent-field/agentfield",
+      "url": "https://github.com/agent-field/agentfield"
+    },
+    {
+      "repo": "agentgateway/agentgateway",
+      "url": "https://github.com/agentgateway/agentgateway"
+    },
+    {
+      "repo": "agentops-ai/agentops",
+      "url": "https://github.com/agentops-ai/agentops"
+    },
+    {
+      "repo": "agno-agi/agno",
+      "url": "https://github.com/agno-agi/agno"
+    },
+    {
+      "repo": "ai-hypercomputer/inference-benchmark",
+      "url": "https://github.com/ai-hypercomputer/inference-benchmark"
+    },
+    {
+      "repo": "aider-ai/aider",
+      "url": "https://github.com/aider-ai/aider"
+    },
+    {
+      "repo": "airbytehq/airbyte",
+      "url": "https://github.com/airbytehq/airbyte"
+    },
+    {
+      "repo": "alibaba-nlp/deepresearch",
+      "url": "https://github.com/alibaba-nlp/deepresearch"
+    },
+    {
+      "repo": "alibabapai/llumnix",
+      "url": "https://github.com/alibabapai/llumnix"
+    },
+    {
+      "repo": "angel-ml/angel",
+      "url": "https://github.com/angel-ml/angel"
+    },
+    {
+      "repo": "apache/apisix",
+      "url": "https://github.com/apache/apisix"
+    },
+    {
+      "repo": "apple/axlearn",
+      "url": "https://github.com/apple/axlearn"
+    },
+    {
+      "repo": "arize-ai/phoenix",
+      "url": "https://github.com/arize-ai/phoenix"
+    },
+    {
+      "repo": "asqi-engineer/asqi-engineer",
+      "url": "https://github.com/asqi-engineer/asqi-engineer"
+    },
+    {
+      "repo": "baidu-baige/loongflow",
+      "url": "https://github.com/baidu-baige/loongflow"
+    },
+    {
+      "repo": "beam-cloud/beta9",
+      "url": "https://github.com/beam-cloud/beta9"
+    },
+    {
+      "repo": "bentoml/openllm",
+      "url": "https://github.com/bentoml/openllm"
+    },
+    {
+      "repo": "berriai/litellm",
+      "url": "https://github.com/berriai/litellm"
+    },
+    {
+      "repo": "bigscience-workshop/petals",
+      "url": "https://github.com/bigscience-workshop/petals"
+    },
+    {
+      "repo": "blaizzy/mlx-vlm",
+      "url": "https://github.com/blaizzy/mlx-vlm"
+    },
+    {
+      "repo": "block/goose",
+      "url": "https://github.com/block/goose"
+    },
+    {
+      "repo": "boundaryml/baml",
+      "url": "https://github.com/boundaryml/baml"
+    },
+    {
+      "repo": "browser-use/browser-use",
+      "url": "https://github.com/browser-use/browser-use"
+    },
+    {
+      "repo": "bvlc/caffe",
+      "url": "https://github.com/bvlc/caffe"
+    },
+    {
+      "repo": "calvinxky/basiccuda",
+      "url": "https://github.com/calvinxky/basiccuda"
+    },
+    {
+      "repo": "calvinxky/transformer_one_page",
+      "url": "https://github.com/calvinxky/transformer_one_page"
+    },
+    {
+      "repo": "camel-ai/camel",
+      "url": "https://github.com/camel-ai/camel"
+    },
+    {
+      "repo": "canner/wrenai",
+      "url": "https://github.com/canner/wrenai"
+    },
+    {
+      "repo": "charmbracelet/crush",
+      "url": "https://github.com/charmbracelet/crush"
+    },
+    {
+      "repo": "chat2db/chat2db",
+      "url": "https://github.com/chat2db/chat2db"
+    },
+    {
+      "repo": "chatgptnextweb/nextchat",
+      "url": "https://github.com/chatgptnextweb/nextchat"
+    },
+    {
+      "repo": "cherryhq/cherry-studio",
+      "url": "https://github.com/cherryhq/cherry-studio"
+    },
+    {
+      "repo": "cleanlab/cleanlab",
+      "url": "https://github.com/cleanlab/cleanlab"
+    },
+    {
+      "repo": "codelion/openevolve",
+      "url": "https://github.com/codelion/openevolve"
+    },
+    {
+      "repo": "comet-ml/opik",
+      "url": "https://github.com/comet-ml/opik"
+    },
+    {
+      "repo": "comfyanonymous/comfyui",
+      "url": "https://github.com/comfyanonymous/comfyui"
+    },
+    {
+      "repo": "continuedev/continue",
+      "url": "https://github.com/continuedev/continue"
+    },
+    {
+      "repo": "cordum-io/cordum",
+      "url": "https://github.com/cordum-io/cordum"
+    },
+    {
+      "repo": "crewaiinc/crewai",
+      "url": "https://github.com/crewaiinc/crewai"
+    },
+    {
+      "repo": "daytonaio/daytona",
+      "url": "https://github.com/daytonaio/daytona"
+    },
+    {
+      "repo": "deepseek-ai/deepep",
+      "url": "https://github.com/deepseek-ai/deepep"
+    },
+    {
+      "repo": "deepseek-ai/deepseek-r1",
+      "url": "https://github.com/deepseek-ai/deepseek-r1"
+    },
+    {
+      "repo": "deepseek-ai/deepseek-v2",
+      "url": "https://github.com/deepseek-ai/deepseek-v2"
+    },
+    {
+      "repo": "deepseek-ai/dualpipe",
+      "url": "https://github.com/deepseek-ai/dualpipe"
+    },
+    {
+      "repo": "deepseek-ai/eplb",
+      "url": "https://github.com/deepseek-ai/eplb"
+    },
+    {
+      "repo": "deepseek-ai/flashmla",
+      "url": "https://github.com/deepseek-ai/flashmla"
+    },
+    {
+      "repo": "deepseek-ai/open-infra-index",
+      "url": "https://github.com/deepseek-ai/open-infra-index"
+    },
+    {
+      "repo": "deepseek-ai/profile-data",
+      "url": "https://github.com/deepseek-ai/profile-data"
+    },
+    {
+      "repo": "deepseek-ai/smallpond",
+      "url": "https://github.com/deepseek-ai/smallpond"
+    },
+    {
+      "repo": "deepset-ai/haystack",
+      "url": "https://github.com/deepset-ai/haystack"
+    },
+    {
+      "repo": "dlsys-course/dlsys-course.github.io",
+      "url": "https://github.com/dlsys-course/dlsys-course.github.io"
+    },
+    {
+      "repo": "dmlc/tvm",
+      "url": "https://github.com/dmlc/tvm"
+    },
+    {
+      "repo": "dmlc/xgboost",
+      "url": "https://github.com/dmlc/xgboost"
+    },
+    {
+      "repo": "dottxt-ai/outlines",
+      "url": "https://github.com/dottxt-ai/outlines"
+    },
+    {
+      "repo": "epsilla-cloud/vectordb",
+      "url": "https://github.com/epsilla-cloud/vectordb"
+    },
+    {
+      "repo": "evalstate/fast-agent",
+      "url": "https://github.com/evalstate/fast-agent"
+    },
+    {
+      "repo": "evidentlyai/evidently",
+      "url": "https://github.com/evidentlyai/evidently"
+    },
+    {
+      "repo": "evoagentx/evoagentx",
+      "url": "https://github.com/evoagentx/evoagentx"
+    },
+    {
+      "repo": "facebookresearch/llama",
+      "url": "https://github.com/facebookresearch/llama"
+    },
+    {
+      "repo": "facebookresearch/tensorcomprehensions",
+      "url": "https://github.com/facebookresearch/tensorcomprehensions"
+    },
+    {
+      "repo": "fastxyz/skill-optimizer",
+      "url": "https://github.com/fastxyz/skill-optimizer"
+    },
+    {
+      "repo": "floomai/floom",
+      "url": "https://github.com/floomai/floom"
+    },
+    {
+      "repo": "flowiseai/flowise",
+      "url": "https://github.com/flowiseai/flowise"
+    },
+    {
+      "repo": "foundationagents/openmanus",
+      "url": "https://github.com/foundationagents/openmanus"
+    },
+    {
+      "repo": "geekan/metagpt",
+      "url": "https://github.com/geekan/metagpt"
+    },
+    {
+      "repo": "getasterisk/opcode",
+      "url": "https://github.com/getasterisk/opcode"
+    },
+    {
+      "repo": "getzep/graphiti",
+      "url": "https://github.com/getzep/graphiti"
+    },
+    {
+      "repo": "ggerganov/ggml",
+      "url": "https://github.com/ggerganov/ggml"
+    },
+    {
+      "repo": "giskard-ai/giskard",
+      "url": "https://github.com/giskard-ai/giskard"
+    },
+    {
+      "repo": "google-gemini/gemini-cli",
+      "url": "https://github.com/google-gemini/gemini-cli"
+    },
+    {
+      "repo": "google/adk-python",
+      "url": "https://github.com/google/adk-python"
+    },
+    {
+      "repo": "gpustack/llama-box",
+      "url": "https://github.com/gpustack/llama-box"
+    },
+    {
+      "repo": "gradio-app/gradio",
+      "url": "https://github.com/gradio-app/gradio"
+    },
+    {
+      "repo": "greptimeteam/greptimeai",
+      "url": "https://github.com/greptimeteam/greptimeai"
+    },
+    {
+      "repo": "gunrock/gunrock",
+      "url": "https://github.com/gunrock/gunrock"
+    },
+    {
+      "repo": "halide/halide",
+      "url": "https://github.com/halide/halide"
+    },
+    {
+      "repo": "helicone/helicone",
+      "url": "https://github.com/helicone/helicone"
+    },
+    {
+      "repo": "hips/autograd",
+      "url": "https://github.com/hips/autograd"
+    },
+    {
+      "repo": "hkuds/ai-researcher",
+      "url": "https://github.com/hkuds/ai-researcher"
+    },
+    {
+      "repo": "hkuds/lightrag",
+      "url": "https://github.com/hkuds/lightrag"
+    },
+    {
+      "repo": "hkuds/rag-anything",
+      "url": "https://github.com/hkuds/rag-anything"
+    },
+    {
+      "repo": "homanp/superagent",
+      "url": "https://github.com/homanp/superagent"
+    },
+    {
+      "repo": "hpcaitech/colossalai",
+      "url": "https://github.com/hpcaitech/colossalai"
+    },
+    {
+      "repo": "huggingface/ratchet",
+      "url": "https://github.com/huggingface/ratchet"
+    },
+    {
+      "repo": "huggingface/transformers.js",
+      "url": "https://github.com/huggingface/transformers.js"
+    },
+    {
+      "repo": "ibm/ffdl",
+      "url": "https://github.com/ibm/ffdl"
+    },
+    {
+      "repo": "inclusionai/areal",
+      "url": "https://github.com/inclusionai/areal"
+    },
+    {
+      "repo": "infiniflow/ragflow",
+      "url": "https://github.com/infiniflow/ragflow"
+    },
+    {
+      "repo": "inftyai/llmaz",
+      "url": "https://github.com/inftyai/llmaz"
+    },
+    {
+      "repo": "instill-ai/instill-core",
+      "url": "https://github.com/instill-ai/instill-core"
+    },
+    {
+      "repo": "instructor-ai/instructor",
+      "url": "https://github.com/instructor-ai/instructor"
+    },
+    {
+      "repo": "intel-analytics/analytics-zoo",
+      "url": "https://github.com/intel-analytics/analytics-zoo"
+    },
+    {
+      "repo": "intel-analytics/bigdl",
+      "url": "https://github.com/intel-analytics/bigdl"
+    },
+    {
+      "repo": "intel-analytics/ipex-llm",
+      "url": "https://github.com/intel-analytics/ipex-llm"
+    },
+    {
+      "repo": "intelligent-machine-learning/dlrover",
+      "url": "https://github.com/intelligent-machine-learning/dlrover"
+    },
+    {
+      "repo": "invoke-ai/invokeai",
+      "url": "https://github.com/invoke-ai/invokeai"
+    },
+    {
+      "repo": "janhq/cortex.cpp",
+      "url": "https://github.com/janhq/cortex.cpp"
+    },
+    {
+      "repo": "janhq/jan",
+      "url": "https://github.com/janhq/jan"
+    },
+    {
+      "repo": "jhfjhfj1/autokeras",
+      "url": "https://github.com/jhfjhfj1/autokeras"
+    },
+    {
+      "repo": "juicedata/juicefs",
+      "url": "https://github.com/juicedata/juicefs"
+    },
+    {
+      "repo": "juspay/neurolink",
+      "url": "https://github.com/juspay/neurolink"
+    },
+    {
+      "repo": "kortix-ai/suna",
+      "url": "https://github.com/kortix-ai/suna"
+    },
+    {
+      "repo": "labring/fastgpt",
+      "url": "https://github.com/labring/fastgpt"
+    },
+    {
+      "repo": "lamini-ai/lamini",
+      "url": "https://github.com/lamini-ai/lamini"
+    },
+    {
+      "repo": "lancedb/lancedb",
+      "url": "https://github.com/lancedb/lancedb"
+    },
+    {
+      "repo": "langchain-ai/langchain",
+      "url": "https://github.com/langchain-ai/langchain"
+    },
+    {
+      "repo": "langchain-ai/langgraph",
+      "url": "https://github.com/langchain-ai/langgraph"
+    },
+    {
+      "repo": "langchain-ai/open-swe",
+      "url": "https://github.com/langchain-ai/open-swe"
+    },
+    {
+      "repo": "laude-institute/terminal-bench",
+      "url": "https://github.com/laude-institute/terminal-bench"
+    },
+    {
+      "repo": "leptonai/leptonai",
+      "url": "https://github.com/leptonai/leptonai"
+    },
+    {
+      "repo": "lightly-ai/lightly",
+      "url": "https://github.com/lightly-ai/lightly"
+    },
+    {
+      "repo": "livebench/livebench",
+      "url": "https://github.com/livebench/livebench"
+    },
+    {
+      "repo": "lm-sys/routellm",
+      "url": "https://github.com/lm-sys/routellm"
+    },
+    {
+      "repo": "lobehub/lobe-chat",
+      "url": "https://github.com/lobehub/lobe-chat"
+    },
+    {
+      "repo": "logspace-ai/langflow",
+      "url": "https://github.com/logspace-ai/langflow"
+    },
+    {
+      "repo": "ludwig-ai/ludwig",
+      "url": "https://github.com/ludwig-ai/ludwig"
+    },
+    {
+      "repo": "lunary-ai/lunary",
+      "url": "https://github.com/lunary-ai/lunary"
+    },
+    {
+      "repo": "maximhq/bifrost",
+      "url": "https://github.com/maximhq/bifrost"
+    },
+    {
+      "repo": "mckaywrigley/chatbot-ui",
+      "url": "https://github.com/mckaywrigley/chatbot-ui"
+    },
+    {
+      "repo": "mem0ai/mem0",
+      "url": "https://github.com/mem0ai/mem0"
+    },
+    {
+      "repo": "microsoft/autogen",
+      "url": "https://github.com/microsoft/autogen"
+    },
+    {
+      "repo": "microsoft/deepspeed-mii",
+      "url": "https://github.com/microsoft/deepspeed-mii"
+    },
+    {
+      "repo": "microsoft/graphrag",
+      "url": "https://github.com/microsoft/graphrag"
+    },
+    {
+      "repo": "microsoft/magentic-ui",
+      "url": "https://github.com/microsoft/magentic-ui"
+    },
+    {
+      "repo": "microsoft/minference",
+      "url": "https://github.com/microsoft/minference"
+    },
+    {
+      "repo": "microsoft/nni",
+      "url": "https://github.com/microsoft/nni"
+    },
+    {
+      "repo": "microsoft/semantic-kernel",
+      "url": "https://github.com/microsoft/semantic-kernel"
+    },
+    {
+      "repo": "microsoft/vidur",
+      "url": "https://github.com/microsoft/vidur"
+    },
+    {
+      "repo": "mindsdb/mindsdb",
+      "url": "https://github.com/mindsdb/mindsdb"
+    },
+    {
+      "repo": "mintplex-labs/anything-llm",
+      "url": "https://github.com/mintplex-labs/anything-llm"
+    },
+    {
+      "repo": "mistralai/mistral-src",
+      "url": "https://github.com/mistralai/mistral-src"
+    },
+    {
+      "repo": "mlc-ai/mlc-llm",
+      "url": "https://github.com/mlc-ai/mlc-llm"
+    },
+    {
+      "repo": "mlc-ai/web-llm",
+      "url": "https://github.com/mlc-ai/web-llm"
+    },
+    {
+      "repo": "mlc-ai/xgrammar",
+      "url": "https://github.com/mlc-ai/xgrammar"
+    },
+    {
+      "repo": "modelscope/agentevolver",
+      "url": "https://github.com/modelscope/agentevolver"
+    },
+    {
+      "repo": "modelscope/ms-swift",
+      "url": "https://github.com/modelscope/ms-swift"
+    },
+    {
+      "repo": "modular/modular",
+      "url": "https://github.com/modular/modular"
+    },
+    {
+      "repo": "moonshotai/checkpoint-engine",
+      "url": "https://github.com/moonshotai/checkpoint-engine"
+    },
+    {
+      "repo": "myscale/myscaledb",
+      "url": "https://github.com/myscale/myscaledb"
+    },
+    {
+      "repo": "nanbingxyz/5ire",
+      "url": "https://github.com/nanbingxyz/5ire"
+    },
+    {
+      "repo": "nervanasystems/distiller",
+      "url": "https://github.com/nervanasystems/distiller"
+    },
+    {
+      "repo": "nervanasystems/ngraph",
+      "url": "https://github.com/nervanasystems/ngraph"
+    },
+    {
+      "repo": "neumtry/neumai",
+      "url": "https://github.com/neumtry/neumai"
+    },
+    {
+      "repo": "onnx/onnx",
+      "url": "https://github.com/onnx/onnx"
+    },
+    {
+      "repo": "open-webui/open-webui",
+      "url": "https://github.com/open-webui/open-webui"
+    },
+    {
+      "repo": "openai/codex",
+      "url": "https://github.com/openai/codex"
+    },
+    {
+      "repo": "openai/mle-bench",
+      "url": "https://github.com/openai/mle-bench"
+    },
+    {
+      "repo": "openai/openai-agents-python",
+      "url": "https://github.com/openai/openai-agents-python"
+    },
+    {
+      "repo": "openai/openai-cua-sample-app",
+      "url": "https://github.com/openai/openai-cua-sample-app"
+    },
+    {
+      "repo": "openai/swarm",
+      "url": "https://github.com/openai/swarm"
+    },
+    {
+      "repo": "openllmai/openrlhf",
+      "url": "https://github.com/openllmai/openrlhf"
+    },
+    {
+      "repo": "optimalscale/lmflow",
+      "url": "https://github.com/optimalscale/lmflow"
+    },
+    {
+      "repo": "oracle/graphpipe",
+      "url": "https://github.com/oracle/graphpipe"
+    },
+    {
+      "repo": "phidatahq/phidata",
+      "url": "https://github.com/phidatahq/phidata"
+    },
+    {
+      "repo": "pku-alignment/safe-rlhf",
+      "url": "https://github.com/pku-alignment/safe-rlhf"
+    },
+    {
+      "repo": "pooyanjamshidi/mls",
+      "url": "https://github.com/pooyanjamshidi/mls"
+    },
+    {
+      "repo": "portkey-ai/gateway",
+      "url": "https://github.com/portkey-ai/gateway"
+    },
+    {
+      "repo": "postgresml/postgresml",
+      "url": "https://github.com/postgresml/postgresml"
+    },
+    {
+      "repo": "posthog/posthog",
+      "url": "https://github.com/posthog/posthog"
+    },
+    {
+      "repo": "predibase/lorax",
+      "url": "https://github.com/predibase/lorax"
+    },
+    {
+      "repo": "pydantic/pydantic-ai",
+      "url": "https://github.com/pydantic/pydantic-ai"
+    },
+    {
+      "repo": "pytorch/glow",
+      "url": "https://github.com/pytorch/glow"
+    },
+    {
+      "repo": "pytorch/torchtune",
+      "url": "https://github.com/pytorch/torchtune"
+    },
+    {
+      "repo": "quivrhq/quivr",
+      "url": "https://github.com/quivrhq/quivr"
+    },
+    {
+      "repo": "qwenlm/qwen-agent",
+      "url": "https://github.com/qwenlm/qwen-agent"
+    },
+    {
+      "repo": "reflex-dev/reflex",
+      "url": "https://github.com/reflex-dev/reflex"
+    },
+    {
+      "repo": "replicate/cog",
+      "url": "https://github.com/replicate/cog"
+    },
+    {
+      "repo": "rllm-org/rllm",
+      "url": "https://github.com/rllm-org/rllm"
+    },
+    {
+      "repo": "roboflow/inference",
+      "url": "https://github.com/roboflow/inference"
+    },
+    {
+      "repo": "roboflow/maestro",
+      "url": "https://github.com/roboflow/maestro"
+    },
+    {
+      "repo": "run-llama/llama_index",
+      "url": "https://github.com/run-llama/llama_index"
+    },
+    {
+      "repo": "sakanaai/shinkaevolve",
+      "url": "https://github.com/sakanaai/shinkaevolve"
+    },
+    {
+      "repo": "salesforce/transmogrifai",
+      "url": "https://github.com/salesforce/transmogrifai"
+    },
+    {
+      "repo": "seldonio/mlserver",
+      "url": "https://github.com/seldonio/mlserver"
+    },
+    {
+      "repo": "sidclawhq/platform",
+      "url": "https://github.com/sidclawhq/platform"
+    },
+    {
+      "repo": "significant-gravitas/autogpt",
+      "url": "https://github.com/significant-gravitas/autogpt"
+    },
+    {
+      "repo": "simonw/llm",
+      "url": "https://github.com/simonw/llm"
+    },
+    {
+      "repo": "skypilot-org/skypilot",
+      "url": "https://github.com/skypilot-org/skypilot"
+    },
+    {
+      "repo": "sst/opencode",
+      "url": "https://github.com/sst/opencode"
+    },
+    {
+      "repo": "stability-ai/stablediffusion",
+      "url": "https://github.com/stability-ai/stablediffusion"
+    },
+    {
+      "repo": "stakpak/agent",
+      "url": "https://github.com/stakpak/agent"
+    },
+    {
+      "repo": "steveyegge/beads",
+      "url": "https://github.com/steveyegge/beads"
+    },
+    {
+      "repo": "streamlit/streamlit",
+      "url": "https://github.com/streamlit/streamlit"
+    },
+    {
+      "repo": "substratusai/kubeai",
+      "url": "https://github.com/substratusai/kubeai"
+    },
+    {
+      "repo": "suno-ai/bark",
+      "url": "https://github.com/suno-ai/bark"
+    },
+    {
+      "repo": "swe-agent/swe-agent",
+      "url": "https://github.com/swe-agent/swe-agent"
+    },
+    {
+      "repo": "tabbyml/tabby",
+      "url": "https://github.com/tabbyml/tabby"
+    },
+    {
+      "repo": "tencent/pocketflow",
+      "url": "https://github.com/tencent/pocketflow"
+    },
+    {
+      "repo": "tensorchord/envd",
+      "url": "https://github.com/tensorchord/envd"
+    },
+    {
+      "repo": "tensorchord/openmodelz",
+      "url": "https://github.com/tensorchord/openmodelz"
+    },
+    {
+      "repo": "tensorchord/pgvecto.rs",
+      "url": "https://github.com/tensorchord/pgvecto.rs"
+    },
+    {
+      "repo": "tensorflow/mlir",
+      "url": "https://github.com/tensorflow/mlir"
+    },
+    {
+      "repo": "tensorflow/swift",
+      "url": "https://github.com/tensorflow/swift"
+    },
+    {
+      "repo": "tensorflow/tensorflow",
+      "url": "https://github.com/tensorflow/tensorflow"
+    },
+    {
+      "repo": "tensorlakeai/indexify",
+      "url": "https://github.com/tensorlakeai/indexify"
+    },
+    {
+      "repo": "thudm/agentbench",
+      "url": "https://github.com/thudm/agentbench"
+    },
+    {
+      "repo": "thudm/longbench",
+      "url": "https://github.com/thudm/longbench"
+    },
+    {
+      "repo": "tinygrad/tinygrad",
+      "url": "https://github.com/tinygrad/tinygrad"
+    },
+    {
+      "repo": "transformerlab/transformerlab-app",
+      "url": "https://github.com/transformerlab/transformerlab-app"
+    },
+    {
+      "repo": "treeverse/lakefs",
+      "url": "https://github.com/treeverse/lakefs"
+    },
+    {
+      "repo": "tudb-labs/multi-lora-fine-tune",
+      "url": "https://github.com/tudb-labs/multi-lora-fine-tune"
+    },
+    {
+      "repo": "ulab-uiuc/llmrouter",
+      "url": "https://github.com/ulab-uiuc/llmrouter"
+    },
+    {
+      "repo": "unstructured-io/unstructured",
+      "url": "https://github.com/unstructured-io/unstructured"
+    },
+    {
+      "repo": "vanna-ai/vanna",
+      "url": "https://github.com/vanna-ai/vanna"
+    },
+    {
+      "repo": "vectorize-io/hindsight",
+      "url": "https://github.com/vectorize-io/hindsight"
+    },
+    {
+      "repo": "vercel/ai-chatbot",
+      "url": "https://github.com/vercel/ai-chatbot"
+    },
+    {
+      "repo": "vespa-engine/vespa",
+      "url": "https://github.com/vespa-engine/vespa"
+    },
+    {
+      "repo": "wandb/wandb",
+      "url": "https://github.com/wandb/wandb"
+    },
+    {
+      "repo": "wandb/weave",
+      "url": "https://github.com/wandb/weave"
+    },
+    {
+      "repo": "wecoai/aideml",
+      "url": "https://github.com/wecoai/aideml"
+    },
+    {
+      "repo": "writbase/writbase",
+      "url": "https://github.com/writbase/writbase"
+    },
+    {
+      "repo": "xiaomi/mace",
+      "url": "https://github.com/xiaomi/mace"
+    },
+    {
+      "repo": "xorbitsai/inference",
+      "url": "https://github.com/xorbitsai/inference"
+    },
+    {
+      "repo": "young-geng/easylm",
+      "url": "https://github.com/young-geng/easylm"
+    },
+    {
+      "repo": "zml/zml",
+      "url": "https://github.com/zml/zml"
+    },
+    {
+      "repo": "zylon-ai/private-gpt",
+      "url": "https://github.com/zylon-ai/private-gpt"
+    }
+  ]
+}

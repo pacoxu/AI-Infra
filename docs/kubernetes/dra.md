@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-11-25
+last_updated: 2026-04-15
 tags: kubernetes, dra, resource-allocation, device-management, topology
 canonical_path: docs/kubernetes/dra.md
 ---
@@ -136,6 +136,68 @@ awareness:
 - Virtual NIC (vNIC) Sharing
 - Bandwidth-limited Network Allocation
 - I/O Bandwidth Smart Storage Device Sharing
+
+#### What changed in practice (KEP-5075)
+
+Compared with earlier DRA device sharing, Kubernetes 1.34 adds more concrete
+sharing semantics for real multi-tenant use:
+
+- **Cross-claim sharing**: one device (or partition) can be shared by multiple
+  ResourceClaims or DeviceRequests when driver enables
+  `allowMultipleAllocations`.
+- **Capacity-aware scheduling**: scheduler tracks per-device `capacity` usage
+  and prevents over-allocation.
+- **DistinctAttribute constraint**: the opposite of `matchAttribute`, used to
+  ensure request results come from different resources.
+- **ShareID in allocation status**: driver can distinguish multiple shared
+  allocations on the same underlying device.
+
+Feature gate to enable on control plane and node components:
+
+```bash
+--feature-gates=...,DRAConsumableCapacity=true
+```
+
+Driver-side ResourceSlice example (memory as consumable capacity):
+
+```yaml
+apiVersion: resource.k8s.io/v1
+kind: ResourceSlice
+spec:
+  devices:
+  - name: gpu0
+    allowMultipleAllocations: true
+    capacity:
+      memory:
+        value: 40Gi
+        requestPolicy:
+          default: 5Gi
+          validRange:
+            min: 5Gi
+            step: 5Gi
+```
+
+Consumer-side request example:
+
+```yaml
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaim
+spec:
+  devices:
+    requests:
+    - name: req0
+      exactly:
+      - deviceClassName: resource.example.com
+        capacity:
+          requests:
+            memory: 10Gi
+      selectors:
+      - cel:
+          expression: device.allowMultipleAllocations == true
+```
+
+Use `distinctAttribute` when requests must not land on the same underlying
+device (for example different subnets or fault domains).
 
 ### Migration from Device Plugin to DRA
 

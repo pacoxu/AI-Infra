@@ -140,6 +140,16 @@ learned from and reused design patterns from LWS:
 - **Batch optimization**: Intelligent batching strategies for throughput
 - **P/D support**: Enables disaggregated prefill and decode workloads
 
+**Update (2026-04-15):**
+
+- RBG merged Dynamo examples in
+  [sgl-project/rbg#255](https://github.com/sgl-project/rbg/pull/255), including
+  aggregated and P/D disaggregated manifests under
+  `examples/inference/ecosystem/dynamo/`
+- Dynamo's dedicated RBG integration guide is tracked in
+  [ai-dynamo/dynamo#5457](https://github.com/ai-dynamo/dynamo/pull/5457)
+  (open as of 2026-04-15)
+
 ## Convergence Trends
 
 ### Common Patterns Emerging
