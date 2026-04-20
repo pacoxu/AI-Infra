@@ -2,7 +2,7 @@
   "meta": {
     "title": "AI Infra Landscape",
     "version": "2026-03",
-    "last_updated": "2026-04-14",
+    "last_updated": "2026-04-15",
     "note": "Regenerate diagrams/ai-infra-landscape.svg with node scripts/generate-landscape-svg.js"
   },
   "axes": {
@@ -164,7 +164,7 @@
   "projects": [
     {
       "name": "Agent Sandbox",
-      "x": 8,
+      "x": 14,
       "y": 92,
       "group": "workflow",
       "stage": "early",
@@ -172,8 +172,8 @@
     },
     {
       "name": "kagent",
-      "x": 18,
-      "y": 93,
+      "x": 36,
+      "y": 95,
       "group": "workflow",
       "stage": "mature",
       "logo": "KA"
@@ -196,8 +196,8 @@
     },
     {
       "name": "Dagger",
-      "x": 42,
-      "y": 98,
+      "x": 44,
+      "y": 90,
       "group": "workflow",
       "stage": "mature",
       "logo": "DG"
@@ -213,25 +213,25 @@
     },
     {
       "name": "AIBrix",
-      "x": 26,
+      "x": 47,
       "y": 72,
       "group": "inference",
-      "stage": "early",
+      "stage": "mature",
       "logo": "AB"
     },
     {
       "name": "Dynamo",
-      "x": 33,
+      "x": 50,
       "y": 68,
       "group": "inference",
-      "stage": "early",
+      "stage": "mature",
       "logo": "DY",
       "logo_image": "diagrams/logos/landscape/dynamo.png"
     },
     {
       "name": "OME",
-      "x": 40,
-      "y": 66,
+      "x": 44,
+      "y": 64,
       "group": "inference",
       "stage": "early",
       "logo": "OM"
@@ -246,7 +246,7 @@
     },
     {
       "name": "rbg",
-      "x": 24,
+      "x": 47,
       "y": 60,
       "group": "inference",
       "stage": "mature",
@@ -254,8 +254,8 @@
     },
     {
       "name": "kthena",
-      "x": 25,
-      "y": 55,
+      "x": 46,
+      "y": 51,
       "group": "inference",
       "stage": "mature",
       "logo": "KT"
@@ -287,32 +287,32 @@
     },
     {
       "name": "Envoy AI Gateway",
-      "x": 60,
-      "y": 83,
+      "x": 50,
+      "y": 76,
       "group": "gateway",
-      "stage": "mature",
+      "stage": "early",
       "logo": "EA",
       "logo_image": "diagrams/logos/landscape/envoy.png"
     },
     {
       "name": "kgateway",
-      "x": 68,
-      "y": 80,
+      "x": 66,
+      "y": 82,
       "group": "gateway",
       "stage": "mature",
       "logo": "KG"
     },
     {
       "name": "knoway",
-      "x": 73,
-      "y": 80,
+      "x": 34,
+      "y": 74,
       "group": "gateway",
       "stage": "early",
       "logo": "KW"
     },
     {
       "name": "Higress",
-      "x": 62,
+      "x": 66,
       "y": 78,
       "group": "gateway",
       "stage": "mature",
@@ -322,7 +322,7 @@
     {
       "name": "Kong",
       "x": 66,
-      "y": 76,
+      "y": 66,
       "group": "gateway",
       "stage": "mature",
       "logo": "KO",
@@ -330,7 +330,7 @@
     },
     {
       "name": "Istio",
-      "x": 70,
+      "x": 82,
       "y": 90,
       "group": "gateway",
       "stage": "mature",
@@ -349,7 +349,7 @@
     {
       "name": "Knative",
       "x": 80,
-      "y": 71,
+      "y": 67,
       "group": "workflow",
       "stage": "mature",
       "logo": "KN",
@@ -374,7 +374,7 @@
     },
     {
       "name": "SGLang",
-      "x": 45,
+      "x": 58,
       "y": 55,
       "group": "inference",
       "stage": "mature",
@@ -383,7 +383,7 @@
     },
     {
       "name": "vLLM",
-      "x": 54,
+      "x": 64,
       "y": 49,
       "group": "inference",
       "stage": "mature",
@@ -401,8 +401,8 @@
     },
     {
       "name": "LWS",
-      "x": 34,
-      "y": 50,
+      "x": 50,
+      "y": 45,
       "group": "scheduling",
       "stage": "early",
       "logo": "LW",
@@ -410,8 +410,8 @@
     },
     {
       "name": "JobSet",
-      "x": 52,
-      "y": 56,
+      "x": 44,
+      "y": 38,
       "group": "scheduling",
       "stage": "early",
       "logo": "JS",
@@ -426,16 +426,16 @@
       "logo": "GD"
     },
     {
-      "name": "Kai Scheduler",
-      "x": 29,
-      "y": 38,
+      "name": "KAI Scheduler",
+      "x": 40,
+      "y": 32,
       "group": "scheduling",
       "stage": "early",
       "logo": "KI"
     },
     {
       "name": "Volcano",
-      "x": 39,
+      "x": 55,
       "y": 36,
       "group": "scheduling",
       "stage": "mature",
@@ -445,11 +445,20 @@
     {
       "name": "Kueue",
       "x": 66,
-      "y": 42,
+      "y": 38,
       "group": "scheduling",
       "stage": "mature",
       "logo": "KQ",
       "logo_image": "diagrams/logos/landscape/kueue.png"
+    },
+    {
+      "name": "WAS",
+      "x": 28,
+      "y": 34,
+      "group": "scheduling",
+      "stage": "early",
+      "logo": "WA",
+      "url": "https://kubernetes.io/blog/2025/12/29/kubernetes-v1-35-introducing-workload-aware-scheduling/"
     },
     {
       "name": "YuniKorn",
@@ -462,8 +471,8 @@
     },
     {
       "name": "Koordinator",
-      "x": 75,
-      "y": 36,
+      "x": 55,
+      "y": 31,
       "group": "scheduling",
       "stage": "mature",
       "logo": "KD",
@@ -475,15 +484,26 @@
       "y": 28,
       "group": "kernel",
       "stage": "early",
-      "logo": "PR"
+      "logo": "PR",
+      "tags": ["k8s-feature"]
+    },
+    {
+      "name": "Pod In-place Resize",
+      "x": 64,
+      "y": 30,
+      "group": "kernel",
+      "stage": "early",
+      "logo": "IR",
+      "tags": ["k8s-feature"]
     },
     {
       "name": "ImageVolume",
-      "x": 45,
+      "x": 54,
       "y": 23,
       "group": "kernel",
       "stage": "early",
-      "logo": "IV"
+      "logo": "IV",
+      "tags": ["k8s-feature"]
     },
     {
       "name": "DRA",
@@ -492,11 +512,12 @@
       "group": "kernel",
       "stage": "early",
       "logo": "DR",
-      "logo_image": "diagrams/logos/landscape/dra.png"
+      "logo_image": "diagrams/logos/landscape/dra.png",
+      "tags": ["k8s-feature"]
     },
     {
       "name": "NRI",
-      "x": 30,
+      "x": 50,
       "y": 18,
       "group": "kernel",
       "stage": "early",
@@ -522,8 +543,8 @@
     },
     {
       "name": "ORAS",
-      "x": 24,
-      "y": 24,
+      "x": 64,
+      "y": 27,
       "group": "kernel",
       "stage": "mature",
       "logo": "OR",
@@ -559,7 +580,7 @@
     {
       "name": "KubeVirt",
       "x": 78,
-      "y": 12,
+      "y": 14,
       "group": "kernel",
       "stage": "mature",
       "logo": "KV",
@@ -586,12 +607,21 @@
     },
     {
       "name": "kube-agentic-networking",
-      "x": 82,
-      "y": 84,
+      "x": 6,
+      "y": 88,
       "group": "gateway",
       "stage": "early",
       "logo": "KAN",
       "url": "https://github.com/kubernetes-sigs/kube-agentic-networking"
+    },
+    {
+      "name": "Grove",
+      "x": 18,
+      "y": 50,
+      "group": "scheduling",
+      "stage": "early",
+      "logo": "GR",
+      "url": "https://github.com/ai-dynamo/grove"
     }
   ]
 }

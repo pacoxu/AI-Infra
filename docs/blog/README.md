@@ -56,6 +56,24 @@ from PR #281 into production scenarios:
 - **Not only acceleration**: introduces workaround paths (VPA and in-place Pod
   container restarts in v1.35) to reduce unnecessary full cold starts.
 
+## 2026-04-01: Kubernetes Swap Status in 2026
+
+- [Kubernetes Swap Status in 2026: kubelet behavior, memory pressure, and what is next](./2026-04-01/2026-04-01-kubernetes-swap-status-kubelet-and-memory-pressure.md)
+- [Kubernetes Swap 现状（2026）：kubelet 行为、内存压力与场景化落地 (Chinese)](./2026-04-01/2026-04-01-kubernetes-swap-status-kubelet-memory-pressure_zh.md)
+
+An up-to-date status summary of Kubernetes swap support with a practical
+operations lens:
+
+- **Current status**: KEP-2400 is implemented and closed; NodeSwap is GA in 1.34
+- **kubelet behavior today**: `NoSwap` vs `LimitedSwap`, Linux + cgroup v2 path
+- **Operational focus**: observability endpoints, `kubectl top --show-swap`,
+  and memory-pressure tuning boundaries
+- **Roadmap gap**: workload-controlled swap, swap-aware scheduling, and
+  swap-aware evictions tracked in #5359/#5424/#5433
+- **Scenario-oriented guidance**: converts conference materials into concrete
+  rollout scenarios (cost density, memory spikes, control-plane protection,
+  and fine-grained policy exploration)
+
 ## 2026-03-24: Maintenance Scan (Outdated Resources + Safe Upgrades)
 
 Implemented in this cleanup:
@@ -535,6 +553,7 @@ A comprehensive guide to topology-aware scheduling for AI workloads, covering:
 
 - [Gang Scheduling Blog (English)](../archive-blog/2025-11-25/2025-11-25-gang-scheduling.md)
 - [Gang Scheduling Blog (Chinese)](../archive-blog/2025-11-25/2025-11-25-gang-scheduling_zh.md)
+- [Upstream: Kubernetes v1.35 WAS Intro](https://kubernetes.io/blog/2025/12/29/kubernetes-v1-35-introducing-workload-aware-scheduling/)
 
 A comprehensive overview of gang scheduling and workload-aware scheduling
 coming to Kubernetes v1.35, covering:

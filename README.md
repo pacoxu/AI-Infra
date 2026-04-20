@@ -72,6 +72,7 @@ where to focus their learning.
 - [Inference Overview](./docs/inference/README.md)
 - [Model Architectures](./docs/inference/model-architectures.md)
 - [LoRA: Low-Rank Adaptation](./docs/inference/lora.md)
+- [Grove: Kubernetes Inference Orchestration](./docs/inference/grove.md)
 - [AIBrix Platform](./docs/inference/aibrix.md)
 - [OME Platform](./docs/inference/ome.md)
 - [Serverless AI Inference](./docs/inference/serverless.md)
@@ -172,10 +173,12 @@ workloads in Kubernetes clusters.
 - **Key Areas:**
   - **Batch Scheduling**: Kueue, Volcano, koordinator, Godel, YuniKorn
     ([Kubernetes WG Batch](https://github.com/kubernetes/community/blob/master/wg-batch/README.md))
-  - **GPU Scheduling**: HAMI, NVIDIA Kai Scheduler, NVIDIA Grove
+  - **GPU Scheduling**: HAMI, NVIDIA Kai Scheduler
+  - **Inference Orchestration**: Grove (hierarchical gang scheduling, topology-aware placement)
   - **GPU Management**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins,
     NVIDIA AICR
-  - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling
+  - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling,
+    WAS (Workload Aware Scheduling)
   - **Device Management**: DRA, NRI
     ([Kubernetes WG Device Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md))
   - **Checkpoint/Restore**: GPU checkpoint/restore for fault tolerance and
@@ -201,6 +204,8 @@ management. Detailed guides:
 [NRI](./docs/kubernetes/nri.md)
 
 - **RoadMap:**
+  - Kubernetes v1.35 WAS Intro:
+    [Introducing Workload Aware Scheduling](https://kubernetes.io/blog/2025/12/29/kubernetes-v1-35-introducing-workload-aware-scheduling/)
   - Gang Scheduling in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
   - LWS Gang Scheduling [KEP-407](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
 
@@ -405,6 +410,7 @@ For GPU fault detection and self-healing, see the
 - **Projects to Learn:**
   - [`Model Spec`](https://github.com/modelpack/model-spec): CNCF Sandbox
   - [`ImageVolume`](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
+  - [`Pod In-place Resize`](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources)
 
 ---
 
