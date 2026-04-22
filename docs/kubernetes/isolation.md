@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
+last_updated: 2026-04-22
 tags: kubernetes, isolation, security, multi-tenancy
 canonical_path: docs/kubernetes/isolation.md
 ---
@@ -489,6 +489,29 @@ Different technologies offer distinct tradeoffs for agent sandboxing:
 | WASM (monty) | 0.06ms | Sandboxed | Limited subset | Custom |
 | Unikernel (Unikraft) | <100ms | Very strong | Improving | Custom |
 
+### Layered Agent Sandbox Selection (2026-04-22)
+
+Agent sandbox projects now span several layers. For Kubernetes production
+designs, the most important decision is where each project sits in the stack:
+
+| Layer | Projects | Fit for Kubernetes Isolation |
+| ----- | -------- | ---------------------------- |
+| Kubernetes lifecycle API | [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox), [agent-sandbox/agent-sandbox](https://github.com/agent-sandbox/agent-sandbox), [volcano-sh/agentcube](https://github.com/volcano-sh/agentcube) | Use for `Sandbox` CRDs, warm pools, stable identity, and scheduler integration. This layer still needs a runtime boundary underneath. |
+| Agent sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | Use for SDK/API, templates, command/file/browser execution, and self-hosted service operations. Validate licensing and deployment model before embedding. |
+| Runtime boundary | [gVisor](https://github.com/google/gvisor), [Kata Containers](https://github.com/kata-containers/kata-containers), [containerd/nerdbox](https://github.com/containerd/nerdbox), [Firecracker](https://github.com/firecracker-microvm/firecracker), [Kuasar](https://github.com/kuasar-io/kuasar) | Use as the actual isolation boundary: gVisor for density, Kata for VM-level isolation, Firecracker for custom microVM control planes, Kuasar for multi-sandbox containerd integration. |
+| Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime) | Evaluate separately for developer workstations, where repo-scoped egress, host-side credentials, and post-run diff review matter more than K8s CRDs. |
+
+Recommended Kubernetes shape:
+
+1. Run agent APIs, auth, billing, policy, and observability as regular Pods.
+2. Allocate execution sandboxes through a `Sandbox` CRD or an equivalent
+   platform API.
+3. Select `RuntimeClass` by risk: `runsc`/gVisor for dense CPU-only tasks,
+   Kata for high-risk or GPU-capable tenants, and dedicated VM/microVM pools
+   for compliance-heavy workloads.
+4. Keep sandboxes zero-secret and short-lived; route LLM, storage, and
+   external API credentials through a control-plane proxy.
+
 #### Container-based Sandboxing
 
 Containers start in under 50ms (excluding image pull) by running only
@@ -640,10 +663,24 @@ capabilities.
 
 - <a href="https://github.com/kubernetes-sigs/agent-sandbox">Kubernetes SIG
   Agent Sandbox</a>
+- <a href="https://github.com/alibaba/OpenSandbox">OpenSandbox</a>: General
+  self-hosted sandbox API/SDK with Docker, Kubernetes, and secure runtime
+  backends
+- <a href="https://github.com/TencentCloud/CubeSandbox">CubeSandbox</a>:
+  E2B-compatible KVM microVM sandbox service with Cube agent/runtime
+  components
 - <a href="https://github.com/e2b-dev/e2b">e2b</a>: Open-source Firecracker
   agent sandbox with snapshot-based fast resume
+- <a href="https://github.com/daytonaio/daytona">Daytona</a>: Agent code
+  execution platform with snapshots, SDKs, dashboard, and runner model
 - <a href="https://github.com/Katakate/k7">k7</a>: Kata Containers-based
   agent sandbox with OCI image support
+- <a href="https://github.com/containerd/nerdbox">containerd/nerdbox</a>:
+  Experimental containerd VM sandbox runtime shim
+- <a href="https://github.com/buildkite/cleanroom">Cleanroom</a> and
+  <a href="https://github.com/stacklok/brood-box">Brood Box</a>: Local
+  coding-agent microVM sandboxes focused on repo policy, egress, credentials,
+  and change review
 - <a href="https://unikraft.org/">Unikraft</a>: Unikernel framework with
   multi-process support (v0.19+)
 - <a href="https://github.com/pydantic/monty">monty</a>: WASM Python-subset
