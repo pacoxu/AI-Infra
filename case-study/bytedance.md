@@ -86,6 +86,10 @@ flowchart TB
   class TIKV,BKV backend;
 ```
 
+## ByteDance 开源全景图（SVG 版）
+
+![ByteDance Open Source Landscape](../diagrams/bytedance-open-source-panorama.svg)
+
 ## 发起/主导项目（代表）
 
 - [kubewharf/kubebrain](https://github.com/kubewharf/kubebrain)
