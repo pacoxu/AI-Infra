@@ -1,0 +1,253 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1120" width="1600" height="1120" role="img" aria-labelledby="title desc">
+  <title id="title">DRA KEP architecture map</title>
+  <desc id="desc">Architecture map of Kubernetes Dynamic Resource Allocation KEPs across request, API state, scheduler, node driver, hardware, and observability layers.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M 1 1 L 11 6 L 1 11 Z" fill="#344054"/>
+    </marker>
+    <marker id="arrow-muted" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M 1 1 L 11 6 L 1 11 Z" fill="#667085"/>
+    </marker>
+    <style>
+      .bg { fill: #f8fafc; }
+      .title { font: 700 34px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .subtitle { font: 400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475467; }
+      .lane-title { font: 700 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .card-title { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .section-title { font: 700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #344054; }
+      .body { font: 400 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #344054; }
+      .small { font: 400 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #667085; }
+      .kep { font: 700 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
+      .tag { font: 700 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #344054; }
+      .card { fill: #ffffff; stroke: #d0d5dd; stroke-width: 1.4; rx: 8; }
+      .band { fill: #eef2f6; stroke: #d0d5dd; stroke-width: 1; rx: 8; }
+      .arrow { fill: none; stroke: #344054; stroke-width: 2.2; marker-end: url(#arrow); }
+      .arrow-muted { fill: none; stroke: #667085; stroke-width: 1.7; stroke-dasharray: 7 6; marker-end: url(#arrow-muted); }
+      .accent-blue { fill: #2b6cb0; }
+      .accent-green { fill: #2f855a; }
+      .accent-amber { fill: #b7791f; }
+      .accent-violet { fill: #6b46c1; }
+      .accent-teal { fill: #0f766e; }
+      .accent-slate { fill: #475467; }
+      .accent-orange { fill: #c05621; }
+      .chip-stable { fill: #dcfce7; stroke: #86efac; }
+      .chip-beta { fill: #e0f2fe; stroke: #7dd3fc; }
+      .chip-alpha { fill: #fff7ed; stroke: #fdba74; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="1120"/>
+  <text class="title" x="48" y="58">Dynamic Resource Allocation KEP Architecture Map</text>
+  <text class="subtitle" x="48" y="88">Request intent, API state, scheduler accounting, node preparation, device state, and operational feedback in one view.</text>
+  <text class="small" x="48" y="111">KEP titles and stage labels checked from kubernetes/enhancements on 2026-04-22.</text>
+
+  <g transform="translate(48 138)">
+    <rect class="band" x="0" y="0" width="1504" height="62"/>
+    <text class="lane-title" x="20" y="26">Reading direction</text>
+    <text class="body" x="20" y="49">Workloads declare intent; API objects hold desired and observed state; scheduler makes fit decisions; kubelet and DRA drivers prepare devices; status flows back to users and operators.</text>
+  </g>
+
+  <!-- Request entry points -->
+  <g id="request-surface" transform="translate(48 230)">
+    <rect class="card" x="0" y="0" width="330" height="250"/>
+    <rect class="accent-blue" x="0" y="0" width="8" height="250" rx="4"/>
+    <text class="card-title" x="24" y="34">1. Request Surface</text>
+    <text class="body" x="24" y="68">
+      <tspan x="24" dy="0">Pods, Jobs, and workload APIs ask for</tspan>
+      <tspan x="24" dy="22">devices through claims or legacy resource</tspan>
+      <tspan x="24" dy="22">syntax during migration.</tspan>
+    </text>
+    <g data-kep="5729">
+      <rect class="chip-alpha" x="24" y="144" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="161">5729</text>
+      <text class="body" x="90" y="162">ResourceClaim support for workloads</text>
+    </g>
+    <g data-kep="5004">
+      <rect class="chip-beta" x="24" y="178" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="195">5004</text>
+      <text class="body" x="90" y="196">Extended resources served by DRA</text>
+    </g>
+    <g data-kep="5018">
+      <rect class="chip-stable" x="24" y="212" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="229">5018</text>
+      <text class="body" x="90" y="230">AdminAccess for diagnosis claims</text>
+    </g>
+  </g>
+
+  <!-- API state -->
+  <g id="api-state" transform="translate(430 230)">
+    <rect class="card" x="0" y="0" width="370" height="250"/>
+    <rect class="accent-green" x="0" y="0" width="8" height="250" rx="4"/>
+    <text class="card-title" x="24" y="34">2. Kubernetes API State</text>
+    <text class="body" x="24" y="68">
+      <tspan x="24" dy="0">ResourceClaim, ResourceClaimTemplate,</tspan>
+      <tspan x="24" dy="22">DeviceClass, ResourceSlice, Pod status,</tspan>
+      <tspan x="24" dy="22">and Downward API form the contract.</tspan>
+    </text>
+    <g data-kep="4817">
+      <rect class="chip-beta" x="24" y="144" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="161">4817</text>
+      <text class="body" x="90" y="162">Claim status and network data</text>
+    </g>
+    <g data-kep="4680">
+      <rect class="chip-beta" x="24" y="178" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="195">4680</text>
+      <text class="body" x="90" y="196">Pod status resource health</text>
+    </g>
+    <g data-kep="5304">
+      <rect class="chip-alpha" x="24" y="212" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="229">5304</text>
+      <text class="body" x="90" y="230">Device attributes in Downward API</text>
+    </g>
+  </g>
+
+  <!-- Scheduler -->
+  <g id="scheduler-binding" transform="translate(852 230)">
+    <rect class="card" x="0" y="0" width="330" height="250"/>
+    <rect class="accent-amber" x="0" y="0" width="8" height="250" rx="4"/>
+    <text class="card-title" x="24" y="34">3. Scheduling and Binding</text>
+    <text class="body" x="24" y="68">
+      <tspan x="24" dy="0">The scheduler evaluates claims against</tspan>
+      <tspan x="24" dy="22">available slices, topology, capacity, taints,</tspan>
+      <tspan x="24" dy="22">and binding readiness.</tspan>
+    </text>
+    <g data-kep="4816">
+      <rect class="chip-stable" x="24" y="144" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="161">4816</text>
+      <text class="body" x="90" y="162">Prioritized request alternatives</text>
+    </g>
+    <g data-kep="5007">
+      <rect class="chip-beta" x="24" y="178" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="195">5007</text>
+      <text class="body" x="90" y="196">Device binding conditions</text>
+    </g>
+    <g data-kep="5055">
+      <rect class="chip-beta" x="24" y="212" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="229">5055</text>
+      <text class="body" x="90" y="230">Device taints and tolerations</text>
+    </g>
+  </g>
+
+  <!-- Visibility -->
+  <g id="visibility" transform="translate(1234 230)">
+    <rect class="card" x="0" y="0" width="318" height="250"/>
+    <rect class="accent-orange" x="0" y="0" width="8" height="250" rx="4"/>
+    <text class="card-title" x="24" y="34">4. Availability View</text>
+    <text class="body" x="24" y="68">
+      <tspan x="24" dy="0">Controllers and CLI can summarize pools,</tspan>
+      <tspan x="24" dy="22">remaining capacity, and claim consumption</tspan>
+      <tspan x="24" dy="22">for troubleshooting and planning.</tspan>
+    </text>
+    <g data-kep="5677">
+      <rect class="chip-alpha" x="24" y="144" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="161">5677</text>
+      <text class="body" x="90" y="154">Resource availability</text>
+      <text class="body" x="90" y="176">visibility</text>
+    </g>
+    <text class="small" x="24" y="218">Used by kubectl, autoscalers, and platform SREs.</text>
+  </g>
+
+  <!-- Resource model -->
+  <g id="resource-model" transform="translate(156 560)">
+    <rect class="card" x="0" y="0" width="580" height="252"/>
+    <rect class="accent-violet" x="0" y="0" width="8" height="252" rx="4"/>
+    <text class="card-title" x="24" y="34">5. Resource Model and Fit Semantics</text>
+    <text class="body" x="24" y="68">
+      <tspan x="24" dy="0">DRA extends the shape of a device from whole-device</tspan>
+      <tspan x="24" dy="22">allocation to slices, shared capacity, typed topology</tspan>
+      <tspan x="24" dy="22">attributes, and native CPU or memory accounting.</tspan>
+    </text>
+    <g data-kep="4815">
+      <rect class="chip-beta" x="24" y="142" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="159">4815</text>
+      <text class="body" x="90" y="160">Partitionable devices: MIG, TPU slices, logical devices</text>
+    </g>
+    <g data-kep="5075">
+      <rect class="chip-beta" x="24" y="176" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="193">5075</text>
+      <text class="body" x="90" y="194">Consumable capacity across independent claims</text>
+    </g>
+    <g data-kep="5491">
+      <rect class="chip-alpha" x="24" y="210" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="227">5491</text>
+      <text class="body" x="90" y="228">List-typed attributes for NUMA and PCIe topology</text>
+    </g>
+    <g data-kep="5517">
+      <rect class="chip-alpha" x="374" y="210" width="54" height="24" rx="5"/>
+      <text class="kep" x="386" y="227">5517</text>
+      <text class="body" x="440" y="228">Native resources</text>
+    </g>
+  </g>
+
+  <!-- Node and driver -->
+  <g id="node-driver" transform="translate(864 560)">
+    <rect class="card" x="0" y="0" width="580" height="252"/>
+    <rect class="accent-teal" x="0" y="0" width="8" height="252" rx="4"/>
+    <text class="card-title" x="24" y="34">6. Node, Kubelet, and DRA Driver</text>
+    <text class="body" x="24" y="68">
+      <tspan x="24" dy="0">Drivers publish ResourceSlices, allocate selected devices,</tspan>
+      <tspan x="24" dy="22">write CDI or runtime state, and report health, status,</tspan>
+      <tspan x="24" dy="22">taints, partitions, and capacity back to the API.</tspan>
+    </text>
+    <text class="section-title" x="24" y="142">NodePrepareResources / NodeUnprepareResources</text>
+    <text class="body" x="24" y="170">Kubelet mounts prepared devices into containers through CDI, NRI, or driver-specific hooks.</text>
+    <g data-kep="3695">
+      <rect class="chip-stable" x="24" y="204" width="54" height="24" rx="5"/>
+      <text class="kep" x="36" y="221">3695</text>
+      <text class="body" x="90" y="222">PodResources API includes DRA allocations</text>
+    </g>
+  </g>
+
+  <!-- Hardware layer -->
+  <g id="hardware" transform="translate(156 892)">
+    <rect class="card" x="0" y="0" width="580" height="154"/>
+    <rect class="accent-slate" x="0" y="0" width="8" height="154" rx="4"/>
+    <text class="card-title" x="24" y="34">7. Heterogeneous Device Pools</text>
+    <text class="body" x="24" y="68">
+      <tspan x="24" dy="0">GPU, MIG, TPU, RDMA NIC, storage accelerator, CPU,</tspan>
+      <tspan x="24" dy="22">memory, and fabric resources expose identity, topology,</tspan>
+      <tspan x="24" dy="22">health, taints, and consumable capacity through drivers.</tspan>
+    </text>
+    <text class="small" x="24" y="132">The scheduler does not guess hardware shape; it consumes ResourceSlice data.</text>
+  </g>
+
+  <!-- Observability -->
+  <g id="observability" transform="translate(864 892)">
+    <rect class="card" x="0" y="0" width="580" height="154"/>
+    <rect class="accent-orange" x="0" y="0" width="8" height="154" rx="4"/>
+    <text class="card-title" x="24" y="34">8. Workload and Operations Feedback</text>
+    <text class="body" x="24" y="68">
+      <tspan x="24" dy="0">PodResources, Pod status, ResourceClaim status, Downward</tspan>
+      <tspan x="24" dy="22">API, and availability summaries let local agents, apps,</tspan>
+      <tspan x="24" dy="22">autoscalers, and SREs explain placement and failures.</tspan>
+    </text>
+    <text class="small" x="24" y="132">This closes the loop for migration, debugging, health checks, and capacity planning.</text>
+  </g>
+
+  <!-- Flow arrows -->
+  <path class="arrow" d="M 378 355 C 396 355 410 355 430 355"/>
+  <path class="arrow" d="M 800 355 C 820 355 832 355 852 355"/>
+  <path class="arrow" d="M 1182 355 C 1204 355 1214 355 1234 355"/>
+  <path class="arrow" d="M 1017 480 C 1017 512 1060 518 1092 560"/>
+  <path class="arrow" d="M 630 480 C 590 518 526 518 482 560"/>
+  <path class="arrow" d="M 736 686 C 780 686 820 686 864 686"/>
+  <path class="arrow" d="M 1154 812 C 1154 844 1154 860 1154 892"/>
+  <path class="arrow" d="M 448 812 C 448 844 448 860 448 892"/>
+  <path class="arrow-muted" d="M 880 1002 C 760 1054 640 1068 522 1046"/>
+  <path class="arrow-muted" d="M 1390 480 C 1390 528 1324 540 1266 560"/>
+  <path class="arrow-muted" d="M 1002 892 C 956 850 916 820 878 812"/>
+  <path class="arrow-muted" d="M 580 560 C 622 522 632 490 614 480"/>
+
+  <!-- Legend -->
+  <g id="legend" transform="translate(48 1068)">
+    <rect class="chip-stable" x="0" y="-18" width="72" height="26" rx="5"/>
+    <text class="tag" x="14" y="0">stable</text>
+    <text class="small" x="82" y="0">3695, 4816, 5018</text>
+    <rect class="chip-beta" x="262" y="-18" width="72" height="26" rx="5"/>
+    <text class="tag" x="284" y="0">beta</text>
+    <text class="small" x="344" y="0">4680, 4815, 4817, 5004, 5007, 5055, 5075</text>
+    <rect class="chip-alpha" x="762" y="-18" width="72" height="26" rx="5"/>
+    <text class="tag" x="783" y="0">alpha</text>
+    <text class="small" x="844" y="0">5304, 5491, 5517, 5677, 5729</text>
+  </g>
+</svg>

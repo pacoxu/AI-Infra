@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-15
+last_updated: 2026-04-22
 tags: kubernetes, dra, resource-allocation, device-management, topology
 canonical_path: docs/kubernetes/dra.md
 ---
@@ -23,6 +23,31 @@ framework, supporting:
 - Multiple device types per pod
 
 ![dra](../../diagrams/dra-user-flow.svg)
+
+## Architecture View of DRA KEPs
+
+DRA is now more than a claim allocation API. The active KEPs are best read as a
+set of connected control loops: workload intent, API state, scheduler fit,
+node-side preparation, and feedback for applications and operators.
+
+![DRA KEP architecture](../../diagrams/dra-kep-architecture.svg)
+
+The diagram keeps the KEPs in architecture lanes instead of release-order
+lists:
+
+- **Request surface**: Workload-level claims, extended resource compatibility,
+  and AdminAccess determine who can ask for DRA resources and how migration
+  from Device Plugins can happen.
+- **API state**: ResourceClaim status, Pod status, Downward API, and
+  availability summaries make the allocation observable after scheduling.
+- **Scheduling and binding**: Prioritized alternatives, binding conditions,
+  taints, typed attributes, consumable capacity, and native resources define
+  how the scheduler decides whether a claim can fit.
+- **Node and driver loop**: DRA drivers publish ResourceSlices, prepare devices
+  through kubelet, and expose the result through PodResources, CDI, NRI, and
+  driver-specific hooks.
+- **Operations feedback**: Health, topology, capacity, and claim status close
+  the loop for debugging, autoscaling, and capacity planning.
 
 
 # NVIDIA GPU DRA
@@ -50,6 +75,16 @@ for DRA usage in production scenarios.
 - DRA: structured parameters
   [#4381](https://github.com/kubernetes/enhancements/issues/4381). GA in
   v1.34.
+- Current DRA KEPs mapped in the architecture diagram:
+
+| Architecture lane | KEPs | Intent |
+| --- | --- | --- |
+| Request surface | [#5729](https://github.com/kubernetes/enhancements/issues/5729), [#5004](https://github.com/kubernetes/enhancements/issues/5004), [#5018](https://github.com/kubernetes/enhancements/issues/5018) | Let workloads, legacy extended resources, and admins create the right kind of DRA claim. |
+| API state and workload feedback | [#4817](https://github.com/kubernetes/enhancements/issues/4817), [#4680](https://github.com/kubernetes/enhancements/issues/4680), [#5304](https://github.com/kubernetes/enhancements/issues/5304) | Publish allocated device status, health, network data, and attributes back to Pods and containers. |
+| Scheduling and binding | [#4816](https://github.com/kubernetes/enhancements/issues/4816), [#5007](https://github.com/kubernetes/enhancements/issues/5007), [#5055](https://github.com/kubernetes/enhancements/issues/5055) | Improve fit decisions for scarce devices and avoid binding Pods before external device readiness is known. |
+| Resource model | [#4815](https://github.com/kubernetes/enhancements/issues/4815), [#5075](https://github.com/kubernetes/enhancements/issues/5075), [#5491](https://github.com/kubernetes/enhancements/issues/5491), [#5517](https://github.com/kubernetes/enhancements/issues/5517) | Represent partitioned devices, shared capacity, multi-value topology attributes, and native resources. |
+| Node and observability loop | [#3695](https://github.com/kubernetes/enhancements/issues/3695), [#5677](https://github.com/kubernetes/enhancements/issues/5677) | Expose DRA allocations through kubelet PodResources and summarize remaining pool capacity. |
+
 - All KEPs about DRA:
   [GitHub Issues](https://github.com/kubernetes/enhancements/issues/?q=is%3Aissue%20%20DRA%20in%3Atitle)
 
@@ -122,10 +157,11 @@ cloud.google.com/gce-topology-host
 kubernetes.io/hostname
 ```
 
-### DRAConsumableCapacity (Alpha in 1.34)
+### DRA Consumable Capacity
 
 A new feature enabling flexible resource sharing while maintaining topology
-awareness:
+awareness. It was introduced after the structured-parameters work and is
+tracked as [KEP-5075](https://github.com/kubernetes/enhancements/issues/5075).
 
 - **Allow multiple allocations** over multiple resource requests
 - **Consumable capacity** - Guaranteed resource sharing
