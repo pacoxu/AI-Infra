@@ -121,6 +121,10 @@ flowchart TB
   class APIS,SCH,KLET core;
 ```
 
+## DaoCloud 开源全景图（SVG 版）
+
+![DaoCloud Open Source Landscape](../diagrams/daocloud-open-source-landscape.svg)
+
 ## 项目清单（按架构分层）
 
 ### 多云组件（顶层）
