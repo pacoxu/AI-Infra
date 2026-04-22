@@ -322,10 +322,10 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
 
   ${data.right_notes.map((note) => noteNode(note)).join('\n  ')}
 
-  <text x="${chart.x}" y="${chart.y + chart.height + 38}" class="footer">Scope note: this landscape intentionally excludes storage, networking, and VM-specific projects.</text>
+  <text x="${chart.x}" y="${chart.y + chart.height + 38}" class="footer">Scope note: this landscape includes selected runtime projects when they are directly relevant to AI/agent workloads.</text>
   <text x="${chart.x}" y="${chart.y + chart.height + 58}" class="footer">Maintenance: edit diagrams/ai-infra-landscape.data.json then run node scripts/generate-landscape-svg.js</text>
 </svg>
 `;
 
-fs.writeFileSync(outPath, svg);
+fs.writeFileSync(outPath, svg.replace(/[ \t]+$/gm, ''));
 console.log(`Generated ${path.relative(repoRoot, outPath)} from ${path.relative(repoRoot, dataPath)}`);

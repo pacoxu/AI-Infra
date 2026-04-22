@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-25
+last_updated: 2026-04-22
 tags: ai-agents, agentic-workflow, kubernetes, mcp, agent-platforms
 canonical_path: agent-infra/README.md
 ---
@@ -300,6 +300,31 @@ community), the current sandbox/runtime ecosystem can be summarized as:
 These projects indicate a convergence path: **standardized CRD control plane +
 pluggable sandbox runtime backends + warm pool for latency control**.
 
+#### Agent Sandbox Selection Update (2026-04-22)
+
+Recent agent sandbox projects should be compared by layer, not as direct
+one-for-one replacements. A practical platform usually combines an
+agent-facing API, a Kubernetes lifecycle controller, and one or more isolation
+runtimes:
+
+| Layer | Candidate Projects | Primary Role | Selection Notes |
+| ----- | ------------------ | ------------ | --------------- |
+| Agent-facing sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | SDK/API, sandbox lifecycle, command/file/browser execution, templates | Use OpenSandbox as the broad self-hosted default; evaluate CubeSandbox for high-density E2B-compatible microVM pools; check Daytona's AGPLv3 impact before embedding. |
+| Kubernetes lifecycle API | [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox), [agent-sandbox/agent-sandbox](https://github.com/agent-sandbox/agent-sandbox), [volcano-sh/agentcube](https://github.com/volcano-sh/agentcube) | CRD/controller, warm pools, stable sandbox identity, scheduling hooks | `kubernetes-sigs/agent-sandbox` is the neutral K8s API layer; `agent-sandbox/agent-sandbox` adds REST/MCP and E2B compatibility; AgentCube is still proposal/early design. |
+| Isolation runtime | [gVisor](https://github.com/google/gvisor), [Kata Containers](https://github.com/kata-containers/kata-containers), [containerd/nerdbox](https://github.com/containerd/nerdbox), [Firecracker](https://github.com/firecracker-microvm/firecracker), [Kuasar](https://github.com/kuasar-io/kuasar) | Runtime boundary for untrusted code | Start with gVisor for density and operational simplicity; use Kata for VM-level tenant boundaries and GPU paths; treat Firecracker as a low-level primitive unless the team owns the control plane. |
+| Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime) | Developer-machine isolation, repo policy, credential proxy, diff review | Prefer Cleanroom/Brood Box when the threat model is coding-agent access to a repo; use microsandbox/BoxLite for embeddable local microVM APIs; use sandbox-runtime for OS policy guardrails without VM isolation. |
+| Watch / avoid for now | [BinSquare/ERA](https://github.com/BinSquare/ERA), [autohandai/sandbox-core](https://github.com/autohandai/sandbox-core), [SmolVM](https://github.com/CelestoAI/SmolVM), [Gondolin](https://github.com/earendil-works/gondolin), [Pyro](https://github.com/danievanzyl/pyro), `opencapsule/opencapsule` | Early-stage or unclear availability | ERA is archived/deprecated; `opencapsule/opencapsule` was not publicly resolvable on GitHub when checked; the remaining projects are useful to track or borrow ideas from but need deeper maturity validation. |
+
+Default stack recommendation:
+
+1. **Agent API**: OpenSandbox as the broad self-hosted API/SDK surface.
+2. **Kubernetes lifecycle**: `kubernetes-sigs/agent-sandbox` for `Sandbox`,
+   `SandboxTemplate`, `SandboxClaim`, and `SandboxWarmPool`.
+3. **Default runtime**: gVisor for CPU-only untrusted code with high density.
+4. **High-risk runtime**: Kata or CubeSandbox for stronger microVM boundaries.
+5. **Local development**: Cleanroom or Brood Box for repo-scoped egress,
+   host-side credentials, and post-run change review.
+
 ## Agent Development Frameworks
 
 ### LangChain DeepAgents
@@ -552,6 +577,26 @@ zone cache → CDN → object storage), dramatically cutting startup time.
 Similar techniques: <a href="https://github.com/containerd/stargz-snapshotter">
 estargz</a>, <a href="https://github.com/dragonflydb/dragonfly">Dragonfly</a>.
 
+### Selection Guidance
+
+For production AI-Infra platforms, avoid selecting a single "sandbox project"
+without first deciding the layer boundary:
+
+1. **Platform API**: choose OpenSandbox, CubeSandbox, E2B, Daytona, or
+   Sandbox0 based on self-hosting, protocol compatibility, and licensing.
+2. **Kubernetes API**: use `kubernetes-sigs/agent-sandbox` when the platform
+   needs declarative lifecycle, warm pools, and stable sandbox identity.
+3. **Runtime boundary**: map risk level to `RuntimeClass` or VM pools:
+   gVisor for density, Kata for VM isolation, and dedicated VM/microVM pools
+   for regulated tenants.
+4. **Developer workstation**: evaluate Cleanroom or Brood Box separately from
+   cluster sandboxes because local coding agents need repo diff review,
+   credential forwarding, and deny-by-default egress policy.
+
+The useful decision rule is: **OpenSandbox or CubeSandbox is a platform
+choice; Agent Sandbox is a Kubernetes lifecycle choice; gVisor, Kata,
+nerdbox, and Firecracker are runtime choices**.
+
 ### References
 
 - <a href="https://browser-use.com/posts/two-ways-to-sandbox-agents">Browser
@@ -559,6 +604,12 @@ estargz</a>, <a href="https://github.com/dragonflydb/dragonfly">Dragonfly</a>.
 - <a href="https://gaocegege.com/Blog/genai/unikernel-agent">高策: Agent
   sandbox 可能的选型以及 unikernel 的机会</a>
 - <a href="https://github.com/e2b-dev/e2b">e2b (Firecracker sandbox)</a>
+- <a href="https://github.com/alibaba/OpenSandbox">OpenSandbox</a>
+- <a href="https://github.com/TencentCloud/CubeSandbox">CubeSandbox</a>
+- <a href="https://github.com/containerd/nerdbox">containerd/nerdbox</a>
+- <a href="https://github.com/buildkite/cleanroom">Cleanroom</a>
+- <a href="https://github.com/stacklok/brood-box">Brood Box</a>
+- <a href="https://github.com/superradcompany/microsandbox">microsandbox</a>
 - <a href="https://github.com/Katakate/k7">k7 (Kata sandbox)</a>
 - <a href="https://unikraft.org/">Unikraft</a>
 - <a href="../docs/kubernetes/isolation.md#6-agent-sandbox">Detailed implementation

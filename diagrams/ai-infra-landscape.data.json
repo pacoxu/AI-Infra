@@ -2,7 +2,7 @@
   "meta": {
     "title": "AI Infra Landscape",
     "version": "2026-03",
-    "last_updated": "2026-04-15",
+    "last_updated": "2026-04-22",
     "note": "Regenerate diagrams/ai-infra-landscape.svg with node scripts/generate-landscape-svg.js"
   },
   "axes": {
@@ -163,24 +163,40 @@
   },
   "projects": [
     {
-      "name": "Agent Sandbox",
-      "x": 14,
-      "y": 92,
+      "name": "K8s Agent Sandbox",
+      "x": 8,
+      "y": 96,
       "group": "workflow",
       "stage": "early",
       "logo": "AS"
     },
     {
+      "name": "OpenSandbox",
+      "x": 25,
+      "y": 96,
+      "group": "workflow",
+      "stage": "early",
+      "logo": "OS"
+    },
+    {
+      "name": "CubeSandbox",
+      "x": 17,
+      "y": 83,
+      "group": "workflow",
+      "stage": "early",
+      "logo": "CS"
+    },
+    {
       "name": "kagent",
-      "x": 36,
-      "y": 95,
+      "x": 42,
+      "y": 96,
       "group": "workflow",
       "stage": "mature",
       "logo": "KA"
     },
     {
       "name": "AgentRegistry",
-      "x": 30,
+      "x": 29,
       "y": 90,
       "group": "workflow",
       "stage": "early",
@@ -188,28 +204,44 @@
     },
     {
       "name": "Volcano AgentCube",
-      "x": 20,
-      "y": 84,
+      "x": 31,
+      "y": 83,
       "group": "workflow",
       "stage": "early",
       "logo": "VC"
     },
     {
       "name": "Dagger",
-      "x": 44,
-      "y": 90,
+      "x": 55,
+      "y": 96,
       "group": "workflow",
       "stage": "mature",
       "logo": "DG"
     },
     {
       "name": "Dify",
-      "x": 52,
-      "y": 97,
+      "x": 68,
+      "y": 96,
       "group": "workflow",
       "stage": "mature",
       "logo": "DI",
       "logo_image": "diagrams/logos/landscape/dify.png"
+    },
+    {
+      "name": "E2B",
+      "x": 81,
+      "y": 96,
+      "group": "workflow",
+      "stage": "mature",
+      "logo": "E2"
+    },
+    {
+      "name": "Daytona",
+      "x": 80,
+      "y": 82,
+      "group": "workflow",
+      "stage": "mature",
+      "logo": "DT"
     },
     {
       "name": "AIBrix",
@@ -523,6 +555,30 @@
       "stage": "early",
       "logo": "NR",
       "logo_image": "diagrams/logos/landscape/nri.png"
+    },
+    {
+      "name": "gVisor",
+      "x": 45,
+      "y": 12,
+      "group": "kernel",
+      "stage": "mature",
+      "logo": "GV"
+    },
+    {
+      "name": "Kata Containers",
+      "x": 60,
+      "y": 12,
+      "group": "kernel",
+      "stage": "mature",
+      "logo": "KC"
+    },
+    {
+      "name": "Firecracker",
+      "x": 71,
+      "y": 8,
+      "group": "kernel",
+      "stage": "mature",
+      "logo": "FC"
     },
     {
       "name": "Model Spec",
