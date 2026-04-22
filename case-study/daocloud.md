@@ -121,7 +121,7 @@ flowchart TB
   class APIS,SCH,KLET core;
 ```
 
-## DaoCloud 开源全景图（SVG 版）
+## DaoCloud 开源生态全景图（SVG 版）
 
 ![DaoCloud Open Source Landscape](../diagrams/daocloud-open-source-landscape.svg)
 
