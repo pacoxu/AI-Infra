@@ -232,14 +232,6 @@ v1.36 起 `gitRepo` 卷驱动不可重新启用。建议统一切换至 `initCon
 7. 针对 WAS/PodGroup/Gang Scheduling 的训练和批处理场景建立试点评估，重点观察资源空占、拓扑通信和 pending 行为。
 8. 大规模集群可先评估 Controller Staleness Mitigation、Server-side Sharded List/Watch、CRI List Streaming 与 Native Histogram 对控制面和节点稳定性的收益。
 
-## DaoCloud 近期社区贡献
-
-DaoCloud 在 Kubernetes 社区持续参与。近期新增 Kueue 文档 Approver 李信和要海峰（CNCF 大使），Kueue 中文官方网站也已经上线：<https://kueue.sigs.k8s.io/zh-cn/docs/>。
-
-在 vLLM 社区，范宝发和卢传佳成为 vLLM Semantic Router 项目的 Committer。卢传佳还孵化了新项目 [clawwork](https://github.com/clawwork-ai/clawwork)，作为 OpenClaw 的客户端，支持多会话并行任务管理、多 Agent 协作编排，以及本地优先的任务/文件/上下文持久化工作流。
-
-DaoCloud 近期还在孵化云原生项目 [MatrixHub](https://github.com/matrixhub-ai/matrixhub)，面向企业级私有化大模型资产（模型、数据与版本）统一管理与分发基础设施。
-
 ## 活动预告
 
 - 6 月 18 - 19 日：KubeCon + CloudNativeCon India 2026，印度孟买。
