@@ -388,7 +388,7 @@ firmware 信息、跑低干扰诊断或执行维护动作。
 - 写厂商私有旁路工具，绕开 Kubernetes 资源模型。
 
 AdminAccess 提供的是受控的管理访问 claim。它允许管理员发起特殊 `ResourceClaim`，
-访问已分配或全局设备资源，同时通过 RBAC、namespace guardrail 和 driver 语义限制谁能
+访问已分配或全局设备资源，同时通过 RBAC、namespace guardrails 和 driver 语义限制谁能
 创建这类 claim、能做什么。
 
 这不是为了让管理员抢占租户设备，而是为了让诊断和治理有一个 Kubernetes 原生入口。
