@@ -30,7 +30,7 @@ runtime weight transfer into a single model distribution view:
 
 ## 2026-04-23: Kubernetes v1.36 DRA 控制面演进
 
-- [Kubernetes v1.36 DRA：异构资源调度正在变成完整控制面 (Chinese)](./2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md)
+- [Kubernetes v1.36 DRA：异构资源调度正在朝完整控制面演进 (Chinese)](./2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md)
 
 A Chinese architecture analysis based on the Kubernetes v1.36 DRA KEP map:
 
