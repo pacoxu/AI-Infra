@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-28
+last_updated: 2026-04-24
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -27,6 +27,19 @@ runtime weight transfer into a single model distribution view:
   right answer.
 - **One-stack diagram**: provides a Mermaid overview covering Hugging Face,
   ModelScope, MatrixHub, Harbor, Dragonfly, ModelPack, and ModelExpress.
+
+## 2026-04-23: Kubernetes v1.36 DRA 控制面演进
+
+- [Kubernetes v1.36 DRA：异构资源调度正在变成完整控制面 (Chinese)](./2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md)
+
+A Chinese architecture analysis based on the Kubernetes v1.36 DRA KEP map:
+
+- **Control-plane framing**: explains why DRA is more than a Device Plugin
+  replacement.
+- **v1.36 feature map**: groups stable, beta, and alpha DRA work by migration,
+  resource modeling, binding, health, observability, and admin access.
+- **AI-Infra rollout path**: proposes a phased adoption plan for GPU, RDMA,
+  partitioned devices, shared capacity, and workload-level resource claims.
 
 ## 2026-04-15: Kubernetes v1.34 PSI Metrics Beta（AI-Infra 落地）
 
