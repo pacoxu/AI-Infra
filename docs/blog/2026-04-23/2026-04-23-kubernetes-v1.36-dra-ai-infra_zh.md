@@ -221,7 +221,7 @@ Inferentia 拓扑，以及网络或 fabric 里的动态分区。
 
 Partitionable Devices 让 driver 可以在 `ResourceSlice` 中描述候选分区、重叠关系和
 互斥关系。scheduler 负责保证一次分配不会选出冲突组合，真正的分区动作则可以在
-allocation 后由 driver 执行。
+分配后由 driver 执行。
 
 这相当于把“按 workload 需求即时塑形设备”的能力纳入调度路径。
 
