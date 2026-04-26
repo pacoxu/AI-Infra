@@ -24,6 +24,7 @@ More details about specific platforms and techniques:
 - [Memory, Context, and Database for AI Agents](./memory-context-db.md)
 - [Large Scale Experts (MoE Models)](./large-scale-experts.md)
 - [Model Lifecycle Management (Cold-Start, Sleep Mode, Offloading)](./model-lifecycle.md)
+- [KServe and Seldon Core: Model Serving Learning Path](./kserve-seldon-core.md)
 - [Performance Testing & Benchmark Tools](./performance-testing.md)
 
 ## Inference Platform Landscape
