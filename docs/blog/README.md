@@ -39,7 +39,8 @@ A Chinese architecture analysis based on the Kubernetes v1.36 DRA KEP map:
   boundaries.
 - **Topology focus**: highlights why GPU/NIC, NUMA, PCIe, fabric, and
   supernode placement reshape the scheduler problem.
-- **Maturity and next steps**: separates practical v1.36 capabilities from
+- **Maturity and next steps**: adds a v1.37 follow-up watchlist plus KEP and
+  open-issue limitation tables, separating practical v1.36 capabilities from
   DRA+WAS and other still-open design directions.
 
 ## 2026-04-15: Kubernetes v1.34 PSI Metrics Beta（AI-Infra 落地）
