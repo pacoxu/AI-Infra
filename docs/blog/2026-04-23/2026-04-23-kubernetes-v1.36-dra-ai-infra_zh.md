@@ -168,8 +168,8 @@ plugin 协议把它们连接起来。
 
 ## v1.36 的 KEP 版图与当前完整度
 
-按照 Kubernetes v1.36 release blog 的归类，DRA 相关能力大致可以分成 Stable、Beta、
-Alpha 三组：
+按照 Kubernetes v1.36 release blog 的归类，本文关注的 DRA KEP 一共 **15 个**，其中
+**Stable 4 个、Beta 5 个、Alpha 6 个**。它们大致可以分成下面三组：
 
 | 阶段 | KEP | 能力 | AI-Infra 价值 |
 | --- | --- | --- | --- |
