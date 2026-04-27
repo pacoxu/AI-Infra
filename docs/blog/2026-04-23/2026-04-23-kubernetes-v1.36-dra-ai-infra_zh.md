@@ -5,31 +5,31 @@ date: 2026-04-23
 last_updated: 2026-04-27
 tags: kubernetes, dra, gpu, scheduling, ai-infrastructure, device-management
 canonical_path: docs/blog/2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md
-source_urls: >-
-  https://kubernetes.io/blog/2026/04/22/kubernetes-v1-36-release/<br>
-  https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/<br>
-  https://github.com/kubernetes/enhancements/issues/5018<br>
-  https://github.com/kubernetes/enhancements/issues/4816<br>
-  https://github.com/kubernetes/enhancements/issues/5004<br>
-  https://github.com/kubernetes/enhancements/issues/4815<br>
-  https://github.com/kubernetes/enhancements/issues/5075<br>
-  https://github.com/kubernetes/enhancements/issues/5055<br>
-  https://github.com/kubernetes/enhancements/issues/5007<br>
-  https://github.com/kubernetes/enhancements/issues/4817<br>
-  https://github.com/kubernetes/enhancements/issues/4680<br>
-  https://github.com/kubernetes/enhancements/issues/3695<br>
-  https://github.com/kubernetes/enhancements/issues/5729<br>
-  https://github.com/kubernetes/enhancements/issues/5304<br>
-  https://github.com/kubernetes/enhancements/issues/5517<br>
-  https://github.com/kubernetes/enhancements/issues/5677<br>
-  https://github.com/kubernetes/enhancements/issues/5491<br>
-  https://github.com/kubernetes/enhancements/issues/5963<br>
-  https://github.com/kubernetes/enhancements/issues/5941<br>
-  https://github.com/kubernetes/enhancements/issues/4970<br>
-  https://github.com/kubernetes/enhancements/issues/5690<br>
-  https://github.com/kubernetes/enhancements/issues/5981<br>
-  https://github.com/kubernetes/enhancements/issues/5719<br>
-  https://github.com/kubernetes/enhancements/issues/5717<br>
+source_urls: |-
+  https://kubernetes.io/blog/2026/04/22/kubernetes-v1-36-release/
+  https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/
+  https://github.com/kubernetes/enhancements/issues/5018
+  https://github.com/kubernetes/enhancements/issues/4816
+  https://github.com/kubernetes/enhancements/issues/5004
+  https://github.com/kubernetes/enhancements/issues/4815
+  https://github.com/kubernetes/enhancements/issues/5075
+  https://github.com/kubernetes/enhancements/issues/5055
+  https://github.com/kubernetes/enhancements/issues/5007
+  https://github.com/kubernetes/enhancements/issues/4817
+  https://github.com/kubernetes/enhancements/issues/4680
+  https://github.com/kubernetes/enhancements/issues/3695
+  https://github.com/kubernetes/enhancements/issues/5729
+  https://github.com/kubernetes/enhancements/issues/5304
+  https://github.com/kubernetes/enhancements/issues/5517
+  https://github.com/kubernetes/enhancements/issues/5677
+  https://github.com/kubernetes/enhancements/issues/5491
+  https://github.com/kubernetes/enhancements/issues/5963
+  https://github.com/kubernetes/enhancements/issues/5941
+  https://github.com/kubernetes/enhancements/issues/4970
+  https://github.com/kubernetes/enhancements/issues/5690
+  https://github.com/kubernetes/enhancements/issues/5981
+  https://github.com/kubernetes/enhancements/issues/5719
+  https://github.com/kubernetes/enhancements/issues/5717
   https://github.com/kubernetes/enhancements/issues/5993
 ---
 
