@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1120" width="1600" height="1120" role="img" aria-labelledby="title desc">
-  <title id="title">DRA KEP architecture map</title>
-  <desc id="desc">Architecture map of Kubernetes Dynamic Resource Allocation KEPs across request, API state, scheduler, node driver, hardware, and observability layers.</desc>
+  <title id="title">DRA KEP architecture map for Kubernetes v1.36</title>
+  <desc id="desc">Architecture map of Kubernetes Dynamic Resource Allocation KEPs across request, API state, scheduler, node driver, hardware, and observability layers, generated for the Kubernetes v1.36 DRA situation.</desc>
   <defs>
     <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
       <path d="M 1 1 L 11 6 L 1 11 Z" fill="#344054"/>
@@ -37,9 +37,9 @@
   </defs>
 
   <rect class="bg" x="0" y="0" width="1600" height="1120"/>
-  <text class="title" x="48" y="58">Dynamic Resource Allocation KEP Architecture Map</text>
-  <text class="subtitle" x="48" y="88">Request intent, API state, scheduler accounting, node preparation, device state, and operational feedback in one view.</text>
-  <text class="small" x="48" y="111">KEP titles and stage labels checked from kubernetes/enhancements on 2026-04-22.</text>
+  <text class="title" x="48" y="58">Dynamic Resource Allocation KEP Architecture Map (v1.36)</text>
+  <text class="subtitle" x="48" y="88">Generated for the Kubernetes v1.36 DRA situation.</text>
+  <text class="small" x="48" y="111">KEP titles and stage labels checked from kubernetes/enhancements on 2026-04-22 for the v1.36-oriented DRA snapshot.</text>
 
   <g transform="translate(48 138)">
     <rect class="band" x="0" y="0" width="1504" height="62"/>
