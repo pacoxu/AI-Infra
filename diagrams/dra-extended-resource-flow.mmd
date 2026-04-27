@@ -1,0 +1,53 @@
+flowchart LR
+  subgraph APP["Workload"]
+    POD["Pod spec\nlimits: example.com/gpu=1"]
+  end
+
+  subgraph API["API Server + etcd"]
+    DC["DeviceClass\nextendedResourceName mapping"]
+    RS["ResourceSlice\nDRA device inventory per node"]
+    NODECAP["Node.status.capacity\n(device plugin path)"]
+    SRC["Special ResourceClaim\n(created by scheduler)"]
+    PS["Pod.status.extendedResourceClaimStatus\ncontainer/resource -> requestName"]
+  end
+
+  subgraph SCHED["kube-scheduler"]
+    NRF["NodeResourcesFit\nScalarResources + DynamicResources"]
+    DRP["dynamicresources plugin\nPreFilter -> Filter -> Reserve -> PreBind"]
+    ALLOC["DRA allocator\nbuild DeviceRequests + pick devices"]
+  end
+
+  subgraph N1["Node A (DRA-backed extended resource)"]
+    KLET["kubelet DRA manager"]
+    DRIVER["DRA Driver\nPrepareResources"]
+    CDI["CDI handles"]
+    RT["Container Runtime"]
+    CTR["Containers"]
+  end
+
+  subgraph N2["Node B (legacy device plugin)"]
+    DP["Device Plugin"]
+  end
+
+  POD --> NRF
+  DC --> NRF
+  RS --> NRF
+  NODECAP --> NRF
+
+  NRF --> DRP
+  DRP --> ALLOC
+  ALLOC --> SRC
+  DRP --> PS
+
+  PS --> KLET
+  SRC --> KLET
+  KLET --> DRIVER
+  DRIVER --> CDI
+  CDI --> RT
+  RT --> CTR
+
+  NRF -. if node uses device plugin capacity .-> DP
+
+  NOTE["Constraint:\nOne node cannot expose same resource name\nfrom both DRA and Device Plugin"]
+  NOTE -.-> N1
+  NOTE -.-> N2

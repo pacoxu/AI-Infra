@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-22
+last_updated: 2026-04-27
 tags: kubernetes, dra, resource-allocation, device-management, topology
 canonical_path: docs/kubernetes/dra.md
 ---
@@ -239,6 +239,13 @@ device (for example different subnets or fault domains).
 
 Many organizations have significant investments in Device Plugin-based
 solutions. Migrating to DRA presents challenges:
+
+Compatibility flow for DRA-backed extended resources:
+
+![DRA-backed extended resource flow](../../diagrams/dra-extended-resource-flow.svg)
+
+Editable source:
+[dra-extended-resource-flow.mmd](../../diagrams/dra-extended-resource-flow.mmd)
 
 **Coexistence Problems:**
 
