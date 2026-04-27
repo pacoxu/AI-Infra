@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-24
+last_updated: 2026-04-27
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -28,18 +28,19 @@ runtime weight transfer into a single model distribution view:
 - **One-stack diagram**: provides a Mermaid overview covering Hugging Face,
   ModelScope, MatrixHub, Harbor, Dragonfly, ModelPack, and ModelExpress.
 
-## 2026-04-23: Kubernetes v1.36 DRA 控制面演进
+## 2026-04-23: Kubernetes v1.36 DRA 整体设计
 
-- [Kubernetes v1.36 DRA：异构资源调度正在朝完整控制面演进 (Chinese)](./2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md)
+- [Kubernetes v1.36 DRA 的整体设计：从请求入口到调度、状态与拓扑 (Chinese)](./2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md)
 
 A Chinese architecture analysis based on the Kubernetes v1.36 DRA KEP map:
 
-- **Control-plane framing**: explains why DRA is more than a Device Plugin
-  replacement.
-- **v1.36 feature map**: groups stable, beta, and alpha DRA work by migration,
-  resource modeling, binding, health, observability, and admin access.
-- **AI-Infra rollout path**: proposes a phased adoption plan for GPU, RDMA,
-  partitioned devices, shared capacity, and workload-level resource claims.
+- **Architecture map**: organizes DRA by request entry points, resource
+  modeling, scheduling and binding, status, observability, and admin
+  boundaries.
+- **Topology focus**: highlights why GPU/NIC, NUMA, PCIe, fabric, and
+  supernode placement reshape the scheduler problem.
+- **Maturity and next steps**: separates practical v1.36 capabilities from
+  DRA+WAS and other still-open design directions.
 
 ## 2026-04-15: Kubernetes v1.34 PSI Metrics Beta（AI-Infra 落地）
 
