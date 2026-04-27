@@ -1,253 +1,379 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1120" width="1600" height="1120" role="img" aria-labelledby="title desc">
-  <title id="title">DRA KEP architecture map</title>
-  <desc id="desc">Architecture map of Kubernetes Dynamic Resource Allocation KEPs across request, API state, scheduler, node driver, hardware, and observability layers.</desc>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2300 1500" width="2300" height="1500" role="img" aria-labelledby="title desc">
+  <title id="title">Kubernetes DRA KEP architecture and v1.37 outlook</title>
+  <desc id="desc">A DRA architecture map that combines the control-plane capability layers, active 1.37 KEPs in kep.yaml, and the open problem clusters derived from unresolved DRA issues as of 2026-04-27 Singapore time.</desc>
   <defs>
-    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
-      <path d="M 1 1 L 11 6 L 1 11 Z" fill="#344054"/>
+    <marker id="arrow-dark" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#0f172a"/>
     </marker>
-    <marker id="arrow-muted" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
-      <path d="M 1 1 L 11 6 L 1 11 Z" fill="#667085"/>
-    </marker>
-    <style>
-      .bg { fill: #f8fafc; }
-      .title { font: 700 34px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
-      .subtitle { font: 400 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #475467; }
-      .lane-title { font: 700 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
-      .card-title { font: 700 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
-      .section-title { font: 700 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #344054; }
-      .body { font: 400 15px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #344054; }
-      .small { font: 400 13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #667085; }
-      .kep { font: 700 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #111827; }
-      .tag { font: 700 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; fill: #344054; }
-      .card { fill: #ffffff; stroke: #d0d5dd; stroke-width: 1.4; rx: 8; }
-      .band { fill: #eef2f6; stroke: #d0d5dd; stroke-width: 1; rx: 8; }
-      .arrow { fill: none; stroke: #344054; stroke-width: 2.2; marker-end: url(#arrow); }
-      .arrow-muted { fill: none; stroke: #667085; stroke-width: 1.7; stroke-dasharray: 7 6; marker-end: url(#arrow-muted); }
-      .accent-blue { fill: #2b6cb0; }
-      .accent-green { fill: #2f855a; }
-      .accent-amber { fill: #b7791f; }
-      .accent-violet { fill: #6b46c1; }
-      .accent-teal { fill: #0f766e; }
-      .accent-slate { fill: #475467; }
-      .accent-orange { fill: #c05621; }
-      .chip-stable { fill: #dcfce7; stroke: #86efac; }
-      .chip-beta { fill: #e0f2fe; stroke: #7dd3fc; }
-      .chip-alpha { fill: #fff7ed; stroke: #fdba74; }
-    </style>
   </defs>
+  <style>
+    text {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC", "Helvetica Neue", Arial, sans-serif;
+      fill: #0f172a;
+    }
+    .title {
+      font-size: 34px;
+      font-weight: 700;
+    }
+    .subtitle {
+      font-size: 16px;
+      fill: #475569;
+    }
+    .section-title {
+      font-size: 23px;
+      font-weight: 700;
+    }
+    .section-note {
+      font-size: 14px;
+      fill: #475569;
+    }
+    .panel {
+      fill: #ffffff;
+      stroke: #0f172a;
+      stroke-width: 2.2;
+    }
+    .lane {
+      fill: #f8fafc;
+      stroke: #cbd5e1;
+      stroke-width: 1.8;
+    }
+    .label-box {
+      fill: #0f172a;
+    }
+    .label-text {
+      font-size: 22px;
+      font-weight: 700;
+      fill: #ffffff;
+    }
+    .lane-copy {
+      font-size: 15px;
+      fill: #334155;
+    }
+    .card {
+      stroke-width: 1.8;
+    }
+    .card-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .card-body {
+      font-size: 13px;
+      fill: #334155;
+    }
+    .foundation {
+      fill: #ecfdf5;
+      stroke: #16a34a;
+    }
+    .active {
+      fill: #dbeafe;
+      stroke: #2563eb;
+    }
+    .open {
+      fill: #fef3c7;
+      stroke: #d97706;
+      stroke-dasharray: 7 5;
+    }
+    .note-card {
+      fill: #f8fafc;
+      stroke: #64748b;
+      stroke-dasharray: 6 4;
+    }
+    .table-head {
+      fill: #e2e8f0;
+      stroke: #94a3b8;
+      stroke-width: 1.5;
+    }
+    .table-row-a {
+      fill: #ffffff;
+    }
+    .table-row-b {
+      fill: #f8fafc;
+    }
+    .table-grid {
+      stroke: #cbd5e1;
+      stroke-width: 1.2;
+    }
+    .table-text {
+      font-size: 15px;
+    }
+    .table-head-text {
+      font-size: 14px;
+      font-weight: 700;
+      fill: #0f172a;
+    }
+    .badge {
+      stroke-width: 1.5;
+    }
+    .badge-text {
+      font-size: 12px;
+      font-weight: 700;
+      text-anchor: middle;
+    }
+    .issue-card {
+      fill: #f8fafc;
+      stroke: #94a3b8;
+      stroke-width: 1.7;
+    }
+    .issue-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .issue-body {
+      font-size: 14px;
+      fill: #334155;
+    }
+    .issue-ref {
+      font-size: 13px;
+      font-weight: 700;
+      fill: #1d4ed8;
+    }
+    .footer {
+      font-size: 13px;
+      fill: #475569;
+    }
+  </style>
 
-  <rect class="bg" x="0" y="0" width="1600" height="1120"/>
-  <text class="title" x="48" y="58">Dynamic Resource Allocation KEP Architecture Map</text>
-  <text class="subtitle" x="48" y="88">Request intent, API state, scheduler accounting, node preparation, device state, and operational feedback in one view.</text>
-  <text class="small" x="48" y="111">KEP titles and stage labels checked from kubernetes/enhancements on 2026-04-22.</text>
+  <rect x="0" y="0" width="2300" height="1500" fill="#f8fafc"/>
 
-  <g transform="translate(48 138)">
-    <rect class="band" x="0" y="0" width="1504" height="62"/>
-    <text class="lane-title" x="20" y="26">Reading direction</text>
-    <text class="body" x="20" y="49">Workloads declare intent; API objects hold desired and observed state; scheduler makes fit decisions; kubelet and DRA drivers prepare devices; status flows back to users and operators.</text>
-  </g>
+  <text class="title" x="50" y="60">Kubernetes DRA KEP architecture + v1.37 outlook</text>
+  <text class="subtitle" x="50" y="92">As of 2026-04-27 (SGT) · checked against kubernetes/enhancements master · 1.37 status follows kep.yaml and issue metadata</text>
 
-  <!-- Request entry points -->
-  <g id="request-surface" transform="translate(48 230)">
-    <rect class="card" x="0" y="0" width="330" height="250"/>
-    <rect class="accent-blue" x="0" y="0" width="8" height="250" rx="4"/>
-    <text class="card-title" x="24" y="34">1. Request Surface</text>
-    <text class="body" x="24" y="68">
-      <tspan x="24" dy="0">Pods, Jobs, and workload APIs ask for</tspan>
-      <tspan x="24" dy="22">devices through claims or legacy resource</tspan>
-      <tspan x="24" dy="22">syntax during migration.</tspan>
-    </text>
-    <g data-kep="5729">
-      <rect class="chip-alpha" x="24" y="144" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="161">5729</text>
-      <text class="body" x="90" y="162">ResourceClaim support for workloads</text>
-    </g>
-    <g data-kep="5004">
-      <rect class="chip-beta" x="24" y="178" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="195">5004</text>
-      <text class="body" x="90" y="196">Extended resources served by DRA</text>
-    </g>
-    <g data-kep="5018">
-      <rect class="chip-stable" x="24" y="212" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="229">5018</text>
-      <text class="body" x="90" y="230">AdminAccess for diagnosis claims</text>
-    </g>
-  </g>
+  <rect class="panel" x="1520" y="28" width="730" height="68" rx="16" ry="16"/>
+  <rect class="card foundation" x="1545" y="45" width="130" height="34" rx="10" ry="10"/>
+  <text class="badge-text" x="1610" y="67">v1.36 已落地</text>
+  <rect class="card active" x="1695" y="45" width="180" height="34" rx="10" ry="10"/>
+  <text class="badge-text" x="1785" y="67">1.37 在推进的 KEP</text>
+  <rect class="card open" x="1895" y="45" width="220" height="34" rx="10" ry="10"/>
+  <text class="badge-text" x="2005" y="67">Open issue / 未并入 kep.yaml</text>
+  <rect class="card note-card" x="2135" y="45" width="95" height="34" rx="10" ry="10"/>
+  <text class="badge-text" x="2182" y="67">问题域</text>
 
-  <!-- API state -->
-  <g id="api-state" transform="translate(430 230)">
-    <rect class="card" x="0" y="0" width="370" height="250"/>
-    <rect class="accent-green" x="0" y="0" width="8" height="250" rx="4"/>
-    <text class="card-title" x="24" y="34">2. Kubernetes API State</text>
-    <text class="body" x="24" y="68">
-      <tspan x="24" dy="0">ResourceClaim, ResourceClaimTemplate,</tspan>
-      <tspan x="24" dy="22">DeviceClass, ResourceSlice, Pod status,</tspan>
-      <tspan x="24" dy="22">and Downward API form the contract.</tspan>
-    </text>
-    <g data-kep="4817">
-      <rect class="chip-beta" x="24" y="144" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="161">4817</text>
-      <text class="body" x="90" y="162">Claim status and network data</text>
-    </g>
-    <g data-kep="4680">
-      <rect class="chip-beta" x="24" y="178" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="195">4680</text>
-      <text class="body" x="90" y="196">Pod status resource health</text>
-    </g>
-    <g data-kep="5304">
-      <rect class="chip-alpha" x="24" y="212" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="229">5304</text>
-      <text class="body" x="90" y="230">Device attributes in Downward API</text>
-    </g>
-  </g>
+  <rect class="panel" x="40" y="120" width="960" height="1340" rx="22" ry="22"/>
+  <text class="section-title" x="70" y="165">DRA control-plane capability map</text>
+  <text class="section-note" x="70" y="190">Read top to bottom as publish/model -&gt; request/schedule -&gt; bind/prepare -&gt; observe/operate.</text>
+  <line x1="190" y1="232" x2="190" y2="1300" stroke="#0f172a" stroke-width="3" marker-end="url(#arrow-dark)"/>
 
-  <!-- Scheduler -->
-  <g id="scheduler-binding" transform="translate(852 230)">
-    <rect class="card" x="0" y="0" width="330" height="250"/>
-    <rect class="accent-amber" x="0" y="0" width="8" height="250" rx="4"/>
-    <text class="card-title" x="24" y="34">3. Scheduling and Binding</text>
-    <text class="body" x="24" y="68">
-      <tspan x="24" dy="0">The scheduler evaluates claims against</tspan>
-      <tspan x="24" dy="22">available slices, topology, capacity, taints,</tspan>
-      <tspan x="24" dy="22">and binding readiness.</tspan>
-    </text>
-    <g data-kep="4816">
-      <rect class="chip-stable" x="24" y="144" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="161">4816</text>
-      <text class="body" x="90" y="162">Prioritized request alternatives</text>
-    </g>
-    <g data-kep="5007">
-      <rect class="chip-beta" x="24" y="178" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="195">5007</text>
-      <text class="body" x="90" y="196">Device binding conditions</text>
-    </g>
-    <g data-kep="5055">
-      <rect class="chip-beta" x="24" y="212" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="229">5055</text>
-      <text class="body" x="90" y="230">Device taints and tolerations</text>
-    </g>
-  </g>
+  <rect class="lane" x="60" y="230" width="920" height="240" rx="20" ry="20"/>
+  <rect class="label-box" x="82" y="254" width="190" height="52" rx="14" ry="14"/>
+  <text class="label-text" x="102" y="288">资源发布 / 建模</text>
+  <text class="lane-copy" x="82" y="336">ResourceSlice, DeviceClass,</text>
+  <text class="lane-copy" x="82" y="358">attributes, partitions, capacity,</text>
+  <text class="lane-copy" x="82" y="380">shared semantics</text>
+  <rect class="card foundation" x="320" y="258" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="340" y="285">KEP-4815 Partitionable Devices</text>
+  <text class="card-body" x="340" y="308">v1.36 beta; express mutually exclusive</text>
+  <text class="card-body" x="340" y="326">partitions and runtime shaping</text>
+  <rect class="card foundation" x="590" y="258" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="610" y="285">KEP-5075 Consumable Capacity</text>
+  <text class="card-body" x="610" y="308">v1.36 beta; per-device shared capacity</text>
+  <text class="card-body" x="610" y="326">becomes scheduler-visible accounting</text>
+  <rect class="card foundation" x="320" y="352" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="340" y="379">KEP-5491 List Types for Attributes</text>
+  <text class="card-body" x="340" y="402">v1.36 alpha; set semantics for topology</text>
+  <text class="card-body" x="340" y="420">and cross-request matching</text>
+  <rect class="card open" x="590" y="352" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="610" y="379">KEP-5941 Shared capacity</text>
+  <text class="card-body" x="610" y="402">Open; text targets alpha in 1.37, beta</text>
+  <text class="card-body" x="610" y="420">in 1.38, stable in 1.39</text>
 
-  <!-- Visibility -->
-  <g id="visibility" transform="translate(1234 230)">
-    <rect class="card" x="0" y="0" width="318" height="250"/>
-    <rect class="accent-orange" x="0" y="0" width="8" height="250" rx="4"/>
-    <text class="card-title" x="24" y="34">4. Availability View</text>
-    <text class="body" x="24" y="68">
-      <tspan x="24" dy="0">Controllers and CLI can summarize pools,</tspan>
-      <tspan x="24" dy="22">remaining capacity, and claim consumption</tspan>
-      <tspan x="24" dy="22">for troubleshooting and planning.</tspan>
-    </text>
-    <g data-kep="5677">
-      <rect class="chip-alpha" x="24" y="144" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="161">5677</text>
-      <text class="body" x="90" y="154">Resource availability</text>
-      <text class="body" x="90" y="176">visibility</text>
-    </g>
-    <text class="small" x="24" y="218">Used by kubectl, autoscalers, and platform SREs.</text>
-  </g>
+  <rect class="lane" x="60" y="500" width="920" height="240" rx="20" ry="20"/>
+  <rect class="label-box" x="82" y="524" width="190" height="52" rx="14" ry="14"/>
+  <text class="label-text" x="102" y="558">请求 / 调度</text>
+  <text class="lane-copy" x="82" y="606">ResourceClaim, selectors,</text>
+  <text class="lane-copy" x="82" y="628">extendedResource mapping,</text>
+  <text class="lane-copy" x="82" y="650">priority and compatibility choice</text>
+  <rect class="card active" x="320" y="528" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="340" y="555">KEP-5004 DRA Extended Resource</text>
+  <text class="card-body" x="340" y="578">1.37 target stable; current beta;</text>
+  <text class="card-body" x="340" y="596">latest milestone still v1.36</text>
+  <rect class="card foundation" x="590" y="528" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="610" y="555">KEP-4816 Prioritized List</text>
+  <text class="card-body" x="610" y="578">v1.36 stable; lets claims express</text>
+  <text class="card-body" x="610" y="596">hardware preference and fallback</text>
+  <rect class="card open" x="320" y="622" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="340" y="649">KEP-5963 Compatibility Groups</text>
+  <text class="card-body" x="340" y="672">Open; proposal text calls out alpha</text>
+  <text class="card-body" x="340" y="690">in 1.37 but no merged kep.yaml yet</text>
+  <rect class="card open" x="590" y="622" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="610" y="649">Issues #5690 / #4970</text>
+  <text class="card-body" x="610" y="672">DRA preemption, scoring quality,</text>
+  <text class="card-body" x="610" y="690">and cross-device selection remain open</text>
 
-  <!-- Resource model -->
-  <g id="resource-model" transform="translate(156 560)">
-    <rect class="card" x="0" y="0" width="580" height="252"/>
-    <rect class="accent-violet" x="0" y="0" width="8" height="252" rx="4"/>
-    <text class="card-title" x="24" y="34">5. Resource Model and Fit Semantics</text>
-    <text class="body" x="24" y="68">
-      <tspan x="24" dy="0">DRA extends the shape of a device from whole-device</tspan>
-      <tspan x="24" dy="22">allocation to slices, shared capacity, typed topology</tspan>
-      <tspan x="24" dy="22">attributes, and native CPU or memory accounting.</tspan>
-    </text>
-    <g data-kep="4815">
-      <rect class="chip-beta" x="24" y="142" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="159">4815</text>
-      <text class="body" x="90" y="160">Partitionable devices: MIG, TPU slices, logical devices</text>
-    </g>
-    <g data-kep="5075">
-      <rect class="chip-beta" x="24" y="176" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="193">5075</text>
-      <text class="body" x="90" y="194">Consumable capacity across independent claims</text>
-    </g>
-    <g data-kep="5491">
-      <rect class="chip-alpha" x="24" y="210" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="227">5491</text>
-      <text class="body" x="90" y="228">List-typed attributes for NUMA and PCIe topology</text>
-    </g>
-    <g data-kep="5517">
-      <rect class="chip-alpha" x="374" y="210" width="54" height="24" rx="5"/>
-      <text class="kep" x="386" y="227">5517</text>
-      <text class="body" x="440" y="228">Native resources</text>
-    </g>
-  </g>
+  <rect class="lane" x="60" y="770" width="920" height="240" rx="20" ry="20"/>
+  <rect class="label-box" x="82" y="794" width="190" height="52" rx="14" ry="14"/>
+  <text class="label-text" x="102" y="828">绑定 / 准备</text>
+  <text class="lane-copy" x="82" y="876">Scheduler reserve and prebind,</text>
+  <text class="lane-copy" x="82" y="898">async attach, kubelet prepare,</text>
+  <text class="lane-copy" x="82" y="920">driver lifecycle on the node</text>
+  <rect class="card active" x="320" y="798" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="340" y="825">KEP-5007 Attach before scheduling</text>
+  <text class="card-body" x="340" y="848">1.37 target stable; current beta;</text>
+  <text class="card-body" x="340" y="866">external attach stays in the bind path</text>
+  <rect class="card active" x="590" y="798" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="610" y="825">KEP-5055 Device taints / tolerations</text>
+  <text class="card-body" x="610" y="848">1.37 target stable; current alpha;</text>
+  <text class="card-body" x="610" y="866">device-level isolation still maturing</text>
+  <rect class="card open" x="320" y="892" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="340" y="919">KEP-5945 Optional Node Lifecycle</text>
+  <text class="card-body" x="340" y="942">Open; proposal text calls out alpha</text>
+  <text class="card-body" x="340" y="960">in 1.37 but not merged into kep.yaml</text>
+  <rect class="card note-card" x="590" y="892" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="610" y="919">Control-path focus</text>
+  <text class="card-body" x="610" y="942">Reserve -&gt; PreBind -&gt; PrepareResources</text>
+  <text class="card-body" x="610" y="960">is where async device workflows converge</text>
 
-  <!-- Node and driver -->
-  <g id="node-driver" transform="translate(864 560)">
-    <rect class="card" x="0" y="0" width="580" height="252"/>
-    <rect class="accent-teal" x="0" y="0" width="8" height="252" rx="4"/>
-    <text class="card-title" x="24" y="34">6. Node, Kubelet, and DRA Driver</text>
-    <text class="body" x="24" y="68">
-      <tspan x="24" dy="0">Drivers publish ResourceSlices, allocate selected devices,</tspan>
-      <tspan x="24" dy="22">write CDI or runtime state, and report health, status,</tspan>
-      <tspan x="24" dy="22">taints, partitions, and capacity back to the API.</tspan>
-    </text>
-    <text class="section-title" x="24" y="142">NodePrepareResources / NodeUnprepareResources</text>
-    <text class="body" x="24" y="170">Kubelet mounts prepared devices into containers through CDI, NRI, or driver-specific hooks.</text>
-    <g data-kep="3695">
-      <rect class="chip-stable" x="24" y="204" width="54" height="24" rx="5"/>
-      <text class="kep" x="36" y="221">3695</text>
-      <text class="body" x="90" y="222">PodResources API includes DRA allocations</text>
-    </g>
-  </g>
+  <rect class="lane" x="60" y="1040" width="920" height="240" rx="20" ry="20"/>
+  <rect class="label-box" x="82" y="1064" width="190" height="52" rx="14" ry="14"/>
+  <text class="label-text" x="102" y="1098">状态 / 运维</text>
+  <text class="lane-copy" x="82" y="1146">Claim status, Pod health,</text>
+  <text class="lane-copy" x="82" y="1168">container metadata, admin access,</text>
+  <text class="lane-copy" x="82" y="1190">resource visibility and diagnosis</text>
+  <rect class="card active" x="320" y="1068" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="340" y="1095">KEP-4680 Resource health status</text>
+  <text class="card-body" x="340" y="1118">1.37 target stable; current beta;</text>
+  <text class="card-body" x="340" y="1136">Pod status exposes allocated device health</text>
+  <rect class="card active" x="590" y="1068" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="610" y="1095">KEP-5304 Device metadata API</text>
+  <text class="card-body" x="610" y="1118">1.37 target beta; current alpha;</text>
+  <text class="card-body" x="610" y="1136">device metadata reaches containers</text>
+  <rect class="card foundation" x="320" y="1162" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="340" y="1189">KEP-5018 AdminAccess</text>
+  <text class="card-body" x="340" y="1212">v1.36 stable; controlled diagnostic and</text>
+  <text class="card-body" x="340" y="1230">administrative access to allocated devices</text>
+  <rect class="card foundation" x="590" y="1162" width="250" height="72" rx="14" ry="14"/>
+  <text class="card-title" x="610" y="1189">KEP-5677 Availability visibility</text>
+  <text class="card-body" x="610" y="1212">v1.36 alpha; makes pool availability</text>
+  <text class="card-body" x="610" y="1230">queryable beyond opaque driver state</text>
 
-  <!-- Hardware layer -->
-  <g id="hardware" transform="translate(156 892)">
-    <rect class="card" x="0" y="0" width="580" height="154"/>
-    <rect class="accent-slate" x="0" y="0" width="8" height="154" rx="4"/>
-    <text class="card-title" x="24" y="34">7. Heterogeneous Device Pools</text>
-    <text class="body" x="24" y="68">
-      <tspan x="24" dy="0">GPU, MIG, TPU, RDMA NIC, storage accelerator, CPU,</tspan>
-      <tspan x="24" dy="22">memory, and fabric resources expose identity, topology,</tspan>
-      <tspan x="24" dy="22">health, taints, and consumable capacity through drivers.</tspan>
-    </text>
-    <text class="small" x="24" y="132">The scheduler does not guess hardware shape; it consumes ResourceSlice data.</text>
-  </g>
+  <rect class="panel" x="1030" y="120" width="1230" height="610" rx="22" ry="22"/>
+  <text class="section-title" x="1060" y="165">1.37 仍在推进的 DRA KEP（kep.yaml）</text>
+  <text class="section-note" x="1060" y="190">Five DRA KEPs still target Kubernetes 1.37 in kep.yaml.</text>
 
-  <!-- Observability -->
-  <g id="observability" transform="translate(864 892)">
-    <rect class="card" x="0" y="0" width="580" height="154"/>
-    <rect class="accent-orange" x="0" y="0" width="8" height="154" rx="4"/>
-    <text class="card-title" x="24" y="34">8. Workload and Operations Feedback</text>
-    <text class="body" x="24" y="68">
-      <tspan x="24" dy="0">PodResources, Pod status, ResourceClaim status, Downward</tspan>
-      <tspan x="24" dy="22">API, and availability summaries let local agents, apps,</tspan>
-      <tspan x="24" dy="22">autoscalers, and SREs explain placement and failures.</tspan>
-    </text>
-    <text class="small" x="24" y="132">This closes the loop for migration, debugging, health checks, and capacity planning.</text>
-  </g>
+  <rect class="table-head" x="1060" y="225" width="1040" height="44" rx="10" ry="10"/>
+  <text class="table-head-text" x="1080" y="253">KEP</text>
+  <text class="table-head-text" x="1190" y="253">SIG</text>
+  <text class="table-head-text" x="1330" y="253">Capability</text>
+  <text class="table-head-text" x="1690" y="253">1.37 target</text>
+  <text class="table-head-text" x="1830" y="253">Current</text>
+  <text class="table-head-text" x="1950" y="253">latest-milestone</text>
 
-  <!-- Flow arrows -->
-  <path class="arrow" d="M 378 355 C 396 355 410 355 430 355"/>
-  <path class="arrow" d="M 800 355 C 820 355 832 355 852 355"/>
-  <path class="arrow" d="M 1182 355 C 1204 355 1214 355 1234 355"/>
-  <path class="arrow" d="M 1017 480 C 1017 512 1060 518 1092 560"/>
-  <path class="arrow" d="M 630 480 C 590 518 526 518 482 560"/>
-  <path class="arrow" d="M 736 686 C 780 686 820 686 864 686"/>
-  <path class="arrow" d="M 1154 812 C 1154 844 1154 860 1154 892"/>
-  <path class="arrow" d="M 448 812 C 448 844 448 860 448 892"/>
-  <path class="arrow-muted" d="M 880 1002 C 760 1054 640 1068 522 1046"/>
-  <path class="arrow-muted" d="M 1390 480 C 1390 528 1324 540 1266 560"/>
-  <path class="arrow-muted" d="M 1002 892 C 956 850 916 820 878 812"/>
-  <path class="arrow-muted" d="M 580 560 C 622 522 632 490 614 480"/>
+  <rect class="table-row-a" x="1060" y="269" width="1040" height="64"/>
+  <rect class="table-row-b" x="1060" y="333" width="1040" height="64"/>
+  <rect class="table-row-a" x="1060" y="397" width="1040" height="64"/>
+  <rect class="table-row-b" x="1060" y="461" width="1040" height="64"/>
+  <rect class="table-row-a" x="1060" y="525" width="1040" height="64"/>
+  <line class="table-grid" x1="1060" y1="269" x2="2100" y2="269"/>
+  <line class="table-grid" x1="1060" y1="333" x2="2100" y2="333"/>
+  <line class="table-grid" x1="1060" y1="397" x2="2100" y2="397"/>
+  <line class="table-grid" x1="1060" y1="461" x2="2100" y2="461"/>
+  <line class="table-grid" x1="1060" y1="525" x2="2100" y2="525"/>
+  <line class="table-grid" x1="1060" y1="589" x2="2100" y2="589"/>
+  <line class="table-grid" x1="1170" y1="225" x2="1170" y2="589"/>
+  <line class="table-grid" x1="1310" y1="225" x2="1310" y2="589"/>
+  <line class="table-grid" x1="1670" y1="225" x2="1670" y2="589"/>
+  <line class="table-grid" x1="1810" y1="225" x2="1810" y2="589"/>
+  <line class="table-grid" x1="1930" y1="225" x2="1930" y2="589"/>
+  <rect x="1060" y="225" width="1040" height="364" fill="none" stroke="#94a3b8" stroke-width="1.5" rx="10" ry="10"/>
 
-  <!-- Legend -->
-  <g id="legend" transform="translate(48 1068)">
-    <rect class="chip-stable" x="0" y="-18" width="72" height="26" rx="5"/>
-    <text class="tag" x="14" y="0">stable</text>
-    <text class="small" x="82" y="0">3695, 4816, 5018</text>
-    <rect class="chip-beta" x="262" y="-18" width="72" height="26" rx="5"/>
-    <text class="tag" x="284" y="0">beta</text>
-    <text class="small" x="344" y="0">4680, 4815, 4817, 5004, 5007, 5055, 5075</text>
-    <rect class="chip-alpha" x="762" y="-18" width="72" height="26" rx="5"/>
-    <text class="tag" x="783" y="0">alpha</text>
-    <text class="small" x="844" y="0">5304, 5491, 5517, 5677, 5729</text>
-  </g>
+  <text class="table-text" x="1080" y="308">4680</text>
+  <text class="table-text" x="1190" y="308">sig-node</text>
+  <text class="table-text" x="1330" y="308">Resource Health Status</text>
+  <rect class="badge foundation" x="1690" y="286" width="100" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1740" y="303">stable</text>
+  <rect class="badge active" x="1830" y="286" width="80" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1870" y="303">beta</text>
+  <text class="table-text" x="1950" y="308">v1.36</text>
+
+  <text class="table-text" x="1080" y="372">5004</text>
+  <text class="table-text" x="1190" y="372">sig-scheduling</text>
+  <text class="table-text" x="1330" y="372">DRA Extended Resource</text>
+  <rect class="badge foundation" x="1690" y="350" width="100" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1740" y="367">stable</text>
+  <rect class="badge active" x="1830" y="350" width="80" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1870" y="367">beta</text>
+  <text class="table-text" x="1950" y="372">v1.36</text>
+
+  <text class="table-text" x="1080" y="436">5007</text>
+  <text class="table-text" x="1190" y="436">sig-scheduling</text>
+  <text class="table-text" x="1330" y="436">Attach before scheduling</text>
+  <rect class="badge foundation" x="1690" y="414" width="100" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1740" y="431">stable</text>
+  <rect class="badge active" x="1830" y="414" width="80" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1870" y="431">beta</text>
+  <text class="table-text" x="1950" y="436">v1.36</text>
+
+  <text class="table-text" x="1080" y="500">5055</text>
+  <text class="table-text" x="1190" y="500">sig-scheduling</text>
+  <text class="table-text" x="1330" y="500">Device taints and tolerations</text>
+  <rect class="badge foundation" x="1690" y="478" width="100" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1740" y="495">stable</text>
+  <rect class="badge open" x="1830" y="478" width="80" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1870" y="495">alpha</text>
+  <text class="table-text" x="1950" y="500">v1.36</text>
+
+  <text class="table-text" x="1080" y="564">5304</text>
+  <text class="table-text" x="1190" y="564">sig-node</text>
+  <text class="table-text" x="1330" y="564">Device metadata API</text>
+  <rect class="badge active" x="1690" y="542" width="100" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1740" y="559">beta</text>
+  <rect class="badge open" x="1830" y="542" width="80" height="24" rx="8" ry="8"/>
+  <text class="badge-text" x="1870" y="559">alpha</text>
+  <text class="table-text" x="1950" y="564">v1.36</text>
+
+  <rect class="card note-card" x="1060" y="620" width="500" height="84" rx="16" ry="16"/>
+  <text class="card-title" x="1082" y="647">Issue state</text>
+  <text class="card-body" x="1082" y="671">All 5 issues are OPEN; latest milestone is still v1.36.</text>
+  <text class="card-body" x="1082" y="691">No DRA issue with a v1.37 milestone was observed.</text>
+
+  <rect class="card note-card" x="1580" y="620" width="640" height="84" rx="16" ry="16"/>
+  <text class="card-title" x="1602" y="647">Open DRA issue counts</text>
+  <text class="card-body" x="1602" y="671">Open DRA issues: 34 total · v1.36 milestone 15 · no milestone 19</text>
+  <text class="card-body" x="1602" y="691">1.37-target discussions not in merged kep.yaml: #5963, #5941, #5945</text>
+
+  <rect class="panel" x="1030" y="760" width="1230" height="700" rx="22" ry="22"/>
+  <text class="section-title" x="1060" y="805">未来 DRA 核心问题（按未关闭 issue 归纳）</text>
+  <text class="section-note" x="1060" y="830">Open issues still cluster around sharing semantics, scheduling quality, and operations.</text>
+
+  <rect class="issue-card" x="1060" y="860" width="560" height="132" rx="18" ry="18"/>
+  <text class="issue-title" x="1084" y="890">共享语义</text>
+  <text class="issue-body" x="1084" y="916">共享亲和、受限共享、容量预留和共享一致性语义仍未定型。</text>
+  <text class="issue-ref" x="1084" y="944">Refs: #5981 #5691 #5719 #5941</text>
+
+  <rect class="issue-card" x="1640" y="860" width="560" height="132" rx="18" ry="18"/>
+  <text class="issue-title" x="1664" y="890">调度决策质量</text>
+  <text class="issue-body" x="1664" y="916">DRA 预抢占、跨节点/设备打分、兼容组选择还不完整。</text>
+  <text class="issue-ref" x="1664" y="944">Refs: #5690 #4970 #5963</text>
+
+  <rect class="issue-card" x="1060" y="1010" width="560" height="132" rx="18" ry="18"/>
+  <text class="issue-title" x="1084" y="1040">规模与一致性</text>
+  <text class="issue-body" x="1084" y="1066">每 Pod 的 slice 数、每 slice 资源数、informer 窗口和并发更新仍是瓶颈。</text>
+  <text class="issue-ref" x="1084" y="1094">Refs: #5717 #5718 #5993</text>
+
+  <rect class="issue-card" x="1640" y="1010" width="560" height="132" rx="18" ry="18"/>
+  <text class="issue-title" x="1664" y="1040">配额与资源治理</text>
+  <text class="issue-body" x="1664" y="1066">配额落在 admission 还是 allocation，以及显式/隐式 claim 如何统一计量。</text>
+  <text class="issue-ref" x="1664" y="1094">Refs: #4840</text>
+
+  <rect class="issue-card" x="1060" y="1160" width="560" height="132" rx="18" ry="18"/>
+  <text class="issue-title" x="1084" y="1190">API / 可运维性</text>
+  <text class="issue-body" x="1084" y="1216">Cluster 级模板、显式 DeviceClass 字段、可选 Node lifecycle 还在打磨。</text>
+  <text class="issue-ref" x="1084" y="1244">Refs: #5978 #5676 #5945</text>
+
+  <rect class="issue-card" x="1640" y="1160" width="560" height="132" rx="18" ry="18"/>
+  <text class="issue-title" x="1664" y="1190">健康与可观测</text>
+  <text class="issue-body" x="1664" y="1216">设备健康状态标准化和资源可用性可视化仍缺统一模型。</text>
+  <text class="issue-ref" x="1664" y="1244">Refs: #5283 #5677</text>
+
+  <rect class="issue-card" x="1060" y="1310" width="560" height="132" rx="18" ry="18"/>
+  <text class="issue-title" x="1084" y="1340">拓扑与硬件抽象</text>
+  <text class="issue-body" x="1084" y="1366">CPU 位图对齐、device profile、互斥分配模型仍需更强抽象。</text>
+  <text class="issue-ref" x="1084" y="1394">Refs: #5213 #5961</text>
+
+  <rect class="card note-card" x="1640" y="1310" width="560" height="132" rx="18" ry="18"/>
+  <text class="issue-title" x="1664" y="1340">现状判断</text>
+  <text class="issue-body" x="1664" y="1366">1.37 的 DRA 仍以补共享语义、调度质量和运维能力为主，</text>
+  <text class="issue-body" x="1664" y="1388">而不是出现新的 milestone 收敛或大批量新增已落地 KEP。</text>
+
+  <text class="footer" x="50" y="1480">Source frame for this diagram: local DRA notes in this repo plus the 2026-04-27 SGT enhancements/master cross-check provided for KEP-4680, 5004, 5007, 5055, 5304 and related open DRA issues.</text>
 </svg>
