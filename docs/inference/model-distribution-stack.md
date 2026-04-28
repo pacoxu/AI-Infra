@@ -44,15 +44,15 @@ flowchart TB
 
   subgraph C["2. Client / Download View"]
     direction LR
-    PULL["HF-compatible SDK / CLI / API"]
-    DF["Dragonfly<br/>node-level P2P<br/>image / artifact / model files"]
+    PULL["Download modes 1 / 2<br/>HF-compatible SDK / CLI / API"]
+    DF["Download mode 3 + file distribution<br/>Dragonfly<br/>node-to-node P2P only"]
   end
 
   subgraph U["3. End User / Runtime View"]
     direction LR
     APP["End users / apps"]
     SVC["Inference service<br/>vLLM / SGLang / Dynamo"]
-    ME["ModelExpress<br/>GPU worker weight P2P"]
+    ME["ModelExpress<br/>worker-to-worker / GPU-to-GPU P2P"]
 
     subgraph N1["Node 1"]
       direction TB
@@ -73,11 +73,11 @@ flowchart TB
     end
   end
 
-  HF -->|"direct HF endpoint"| PULL
-  MX -->|"private HF endpoint"| PULL
-  HF -->|"hf://"| DF
-  MS -->|"modelscope://"| DF
-  HB -->|"OCI pull"| DF
+  HF -->|"1. direct HF"| PULL
+  MX -->|"2. local MatrixHub"| PULL
+  HF -->|"hf:// file pull"| DF
+  MS -->|"modelscope:// file pull"| DF
+  HB -->|"3. OCI pull"| DF
 
   PULL --> F1
   PULL --> F2
@@ -123,14 +123,14 @@ flowchart TB
   style private registry, while ModelPack is the packaging step that turns a
   model into an OCI artifact. The orange lane is the model distribution path,
   with Hugging Face, ModelScope, and MatrixHub on that side.
-- **Download view**: `HF-compatible SDK / CLI / API` should be read as a
-  client for either the public Hugging Face endpoint or a private MatrixHub
-  endpoint. Dragonfly is a separate download path that handles node-level file
-  distribution and can serve OCI pulls from Harbor as well as `hf://` and
-  `modelscope://` downloads.
+- **Download view**: There are three download modes in this framing:
+  `1. direct Hugging Face`, `2. local MatrixHub`, and `3. OCI pull from Docker
+  Hub / Harbor after OCI adaptation`. Dragonfly sits in the file distribution
+  layer and handles node-level P2P only.
 - **End user / runtime view**: Model files first land in node-local caches,
   then feed GPU workers. ModelExpress sits later in the path and accelerates
-  weight reuse between workers, including cross-node GPU transfers over RDMA.
+  worker-to-worker and GPU-to-GPU weight reuse, including cross-node transfers
+  over RDMA.
 
 Line colors also carry meaning:
 
@@ -138,6 +138,13 @@ Line colors also carry meaning:
 - **Blue links**: OCI pull paths
 - **Grey node-to-node links**: Dragonfly node-level file chunk propagation
 - **Green GPU-to-GPU links**: runtime weight sharing paths relevant to ModelExpress
+
+In one sentence:
+
+- **Three model download modes**:
+  `1. direct HF`, `2. local MatrixHub`, `3. OCI-adapted Docker Hub / Harbor`
+- **Two P2P distribution modes**:
+  `Dragonfly = node-to-node only`, `ModelExpress = worker-to-worker / GPU-to-GPU`
 
 ## Focused Reference Diagrams
 
@@ -151,7 +158,7 @@ flowchart LR
 
   HF["Hugging Face / ModelScope<br/>public model hub"]
   HB["Harbor<br/>private OCI registry"]
-  DF["Dragonfly<br/>seed peer + scheduler + peers"]
+  DF["Dragonfly<br/>seed peer + scheduler + peers<br/>node-to-node only"]
 
   subgraph CL["Cluster nodes"]
     direction LR
@@ -212,7 +219,7 @@ flowchart LR
   classDef neutral fill:#f8fafc,stroke:#64748b,color:#111827;
 
   HF["Hugging Face<br/>public model hub"]
-  ME["ModelExpress<br/>metadata + runtime weight P2P"]
+  ME["ModelExpress<br/>metadata + runtime weight P2P<br/>worker-to-worker / GPU-to-GPU"]
 
   subgraph N1["Source node"]
     direction TB
