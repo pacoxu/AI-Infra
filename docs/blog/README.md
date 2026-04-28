@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-15
+last_updated: 2026-04-28
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,22 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-04-28: 如何理解 Hugging Face、私有 Hugging Face、MatrixHub、Harbor + Dragonfly + ModelPack 与 ModelExpress
+
+- [如何理解 Hugging Face、私有 Hugging Face、MatrixHub、Harbor + Dragonfly + ModelPack 与 ModelExpress (Chinese)](./2026-04-28/2026-04-28-understanding-model-distribution-stack_zh.md)
+
+A Chinese architecture-oriented article that places public model hubs, private
+model hubs, OCI-first artifact stacks, node-level P2P distribution, and
+runtime weight transfer into a single model distribution view:
+
+- **Layered framing**: separates public model sources, enterprise governance,
+  node distribution, and runtime acceleration.
+- **Scenario-driven comparison**: explains when to prefer MatrixHub, when to
+  prefer Harbor + ModelPack + Dragonfly, and when ModelExpress becomes the
+  right answer.
+- **One-stack diagram**: provides a Mermaid overview covering Hugging Face,
+  ModelScope, MatrixHub, Harbor, Dragonfly, ModelPack, and ModelExpress.
 
 ## 2026-04-15: Kubernetes v1.34 PSI Metrics Beta（AI-Infra 落地）
 

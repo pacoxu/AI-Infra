@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-15
+last_updated: 2026-04-28
 tags: inference, llm, vllm, serving, optimization
 canonical_path: docs/inference/README.md
 ---
@@ -24,6 +24,7 @@ More details about specific platforms and techniques:
 - [Memory, Context, and Database for AI Agents](./memory-context-db.md)
 - [Large Scale Experts (MoE Models)](./large-scale-experts.md)
 - [Model Lifecycle Management (Cold-Start, Sleep Mode, Offloading)](./model-lifecycle.md)
+- [One Diagram for Model Distribution (HF, MatrixHub, Harbor, Dragonfly, ModelPack, ModelExpress)](./model-distribution-stack.md)
 - [Performance Testing & Benchmark Tools](./performance-testing.md)
 
 ## Inference Platform Landscape
