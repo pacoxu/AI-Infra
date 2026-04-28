@@ -44,8 +44,10 @@ flowchart TB
     subgraph OCI_LANE["Docker image / OCI artifact lane"]
       direction TB
       DH["Docker Hub<br/>公共镜像仓库"]
+      MP["ModelPack<br/>把模型打包为 OCI artifact"]
       HB["Harbor<br/>local Docker Hub / distribution<br/>私有 OCI Registry"]
       DH -->|"同步 / 复制 / 私有镜像管理"| HB
+      MP -->|"模型打包后上传"| HB
     end
 
     subgraph MODEL_LANE["Model distribution lane"]
@@ -53,10 +55,7 @@ flowchart TB
       HF["Hugging Face<br/>公共模型 Hub"]
       MS["ModelScope<br/>公共模型 / 数据 / API 平台"]
       MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible 私有模型 Hub"]
-      MP["ModelPack<br/>把模型打包为 OCI artifact"]
       HF -->|"镜像 / 缓存"| MX
-      MS -. "公共来源之一" .-> MX
-      MP -->|"模型进入 OCI 生态"| HB
     end
   end
 
@@ -91,7 +90,8 @@ flowchart TB
     end
   end
 
-  MX -->|"HF-compatible endpoint"| PULL
+  HF -->|"direct HF endpoint"| PULL
+  MX -->|"private HF endpoint"| PULL
   HF -->|"hf://"| DF
   MS -->|"modelscope://"| DF
   HB -->|"OCI pull"| DF
@@ -129,14 +129,14 @@ flowchart TB
   style MODEL_LANE fill:#fff1e6,stroke:#c2410c,stroke-width:2px
   style N1 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
   style N2 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
-  linkStyle 5,6,7,9,10 stroke:#c2410c,stroke-width:3px,color:#c2410c
-  linkStyle 8 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
+  linkStyle 2,3,4,5,6,8,9 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 0,1,7 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
 ```
 
 这张图可以从三个视角来读：
 
-- **提供方 / 服务端视角**：蓝色背景代表 `Docker image / OCI artifact` 路线，Harbor 在这里更像企业内部的 `local Docker Hub / distribution`；橙色背景代表 `model distribution` 路线，Hugging Face、ModelScope 和 MatrixHub 都属于这一侧。
-- **下载获取视角**：MatrixHub 提供 HF-compatible 拉取入口；Dragonfly 负责 node 级文件分发，它既可以接 Harbor 的 OCI pull，也可以接 `hf://` 与 `modelscope://` 这类模型来源。
+- **提供方 / 服务端视角**：蓝色背景代表 `Docker image / OCI artifact` 路线，Harbor 在这里更像企业内部的 `local Docker Hub / distribution`，ModelPack 负责把模型变成 OCI artifact；橙色背景代表 `model distribution` 路线，Hugging Face、ModelScope 和 MatrixHub 都属于这一侧。
+- **下载获取视角**：`HF-compatible SDK / CLI / API` 只对应两种 HF 风格 endpoint：直接访问公共 Hugging Face，或者访问私有的 MatrixHub。Dragonfly 则是另一条下载路径，负责 node 级文件分发，它既可以接 Harbor 的 OCI pull，也可以接 `hf://` 与 `modelscope://` 这类模型来源。
 - **最终使用者视角**：模型文件先进入 node 本地缓存，再进入 GPU worker；`ModelExpress` 则位于更靠后的运行时层，处理同 node 甚至跨 node GPU 之间的权重共享与冷启动优化。
 
 颜色也有含义：
@@ -201,7 +201,7 @@ flowchart LR
   classDef client fill:#f8fafc,stroke:#64748b,color:#111827;
 
   DEV["模型提供方 / 微调团队"]
-  HF["Hugging Face / ModelScope<br/>public model hub"]
+  HF["Hugging Face<br/>public model hub"]
   MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible endpoint"]
   CLI["HF-compatible clients<br/>transformers / vLLM / SDK / CLI"]
   N1["训练 / 评测 / 推理节点 A"]
@@ -209,14 +209,15 @@ flowchart LR
 
   DEV -->|"私有上传"| MX
   HF -->|"镜像 / 缓存"| MX
-  CLI -->|"HF-compatible 拉取"| MX
+  CLI -. "也可直接访问公共 HF" .-> HF
+  CLI -->|"private HF endpoint"| MX
   MX --> N1
   MX --> N2
 
   class HF public;
   class MX private;
   class DEV,CLI,N1,N2 client;
-  linkStyle 1,2 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 1,2,3 stroke:#c2410c,stroke-width:3px,color:#c2410c
 ```
 
 这张图强调的是：

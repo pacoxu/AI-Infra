@@ -27,8 +27,10 @@ flowchart TB
     subgraph OCI_LANE["Docker image / OCI artifact lane"]
       direction TB
       DH["Docker Hub<br/>public image registry"]
+      MP["ModelPack<br/>package model as OCI artifact"]
       HB["Harbor<br/>local Docker Hub / distribution<br/>private OCI registry"]
       DH -->|"sync / replicate / private image management"| HB
+      MP -->|"upload packaged model"| HB
     end
 
     subgraph MODEL_LANE["Model distribution lane"]
@@ -36,10 +38,7 @@ flowchart TB
       HF["Hugging Face<br/>public model hub"]
       MS["ModelScope<br/>public model / dataset / API platform"]
       MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible private hub"]
-      MP["ModelPack<br/>package model as OCI artifact"]
       HF -->|"mirror / cache"| MX
-      MS -. "one public upstream" .-> MX
-      MP -->|"model enters OCI workflow"| HB
     end
   end
 
@@ -74,7 +73,8 @@ flowchart TB
     end
   end
 
-  MX -->|"HF-compatible endpoint"| PULL
+  HF -->|"direct HF endpoint"| PULL
+  MX -->|"private HF endpoint"| PULL
   HF -->|"hf://"| DF
   MS -->|"modelscope://"| DF
   HB -->|"OCI pull"| DF
@@ -112,19 +112,22 @@ flowchart TB
   style MODEL_LANE fill:#fff1e6,stroke:#c2410c,stroke-width:2px
   style N1 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
   style N2 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
-  linkStyle 5,6,7,9,10 stroke:#c2410c,stroke-width:3px,color:#c2410c
-  linkStyle 8 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
+  linkStyle 2,3,4,5,6,8,9 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 0,1,7 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
 ```
 
 ## Read the Diagram by Role
 
 - **Provider / server view**: The blue lane is the Docker image / OCI artifact
   path. Harbor is easiest to read here as a local Docker Hub / Distribution
-  style private registry. The orange lane is the model distribution path, with
-  Hugging Face, ModelScope, and MatrixHub on that side.
-- **Download view**: MatrixHub exposes an HF-compatible pull path. Dragonfly
-  handles node-level file distribution and can serve OCI pulls from Harbor as
-  well as `hf://` and `modelscope://` downloads.
+  style private registry, while ModelPack is the packaging step that turns a
+  model into an OCI artifact. The orange lane is the model distribution path,
+  with Hugging Face, ModelScope, and MatrixHub on that side.
+- **Download view**: `HF-compatible SDK / CLI / API` should be read as a
+  client for either the public Hugging Face endpoint or a private MatrixHub
+  endpoint. Dragonfly is a separate download path that handles node-level file
+  distribution and can serve OCI pulls from Harbor as well as `hf://` and
+  `modelscope://` downloads.
 - **End user / runtime view**: Model files first land in node-local caches,
   then feed GPU workers. ModelExpress sits later in the path and accelerates
   weight reuse between workers, including cross-node GPU transfers over RDMA.
@@ -181,7 +184,7 @@ flowchart LR
   classDef client fill:#f8fafc,stroke:#64748b,color:#111827;
 
   DEV["Model provider / fine-tune team"]
-  HF["Hugging Face / ModelScope<br/>public model hub"]
+  HF["Hugging Face<br/>public model hub"]
   MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible endpoint"]
   CLI["HF-compatible clients<br/>transformers / vLLM / SDK / CLI"]
   N1["Training / eval / inference node A"]
@@ -189,14 +192,15 @@ flowchart LR
 
   DEV -->|"private upload"| MX
   HF -->|"mirror / cache"| MX
-  CLI -->|"HF-compatible pull"| MX
+  CLI -. "can also use public HF directly" .-> HF
+  CLI -->|"private HF endpoint"| MX
   MX --> N1
   MX --> N2
 
   class HF public;
   class MX private;
   class DEV,CLI,N1,N2 client;
-  linkStyle 1,2 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 1,2,3 stroke:#c2410c,stroke-width:3px,color:#c2410c
 ```
 
 ### 3. ModelExpress path: runtime weight sharing after initial pull
