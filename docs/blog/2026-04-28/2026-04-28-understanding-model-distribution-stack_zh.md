@@ -44,8 +44,10 @@ flowchart TB
     subgraph OCI_LANE["Docker image / OCI artifact lane"]
       direction TB
       DH["Docker Hub<br/>公共镜像仓库"]
+      MP["ModelPack<br/>把模型打包为 OCI artifact"]
       HB["Harbor<br/>local Docker Hub / distribution<br/>私有 OCI Registry"]
       DH -->|"同步 / 复制 / 私有镜像管理"| HB
+      MP -->|"模型打包后上传"| HB
     end
 
     subgraph MODEL_LANE["Model distribution lane"]
@@ -53,24 +55,21 @@ flowchart TB
       HF["Hugging Face<br/>公共模型 Hub"]
       MS["ModelScope<br/>公共模型 / 数据 / API 平台"]
       MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible 私有模型 Hub"]
-      MP["ModelPack<br/>把模型打包为 OCI artifact"]
       HF -->|"镜像 / 缓存"| MX
-      MS -. "公共来源之一" .-> MX
-      MP -->|"模型进入 OCI 生态"| HB
     end
   end
 
   subgraph C["2. Client / 下载获取视角"]
     direction LR
-    PULL["HF-compatible SDK / CLI / API"]
-    DF["Dragonfly<br/>node 级 P2P<br/>image / artifact / model files"]
+    PULL["下载模式 1 / 2<br/>HF-compatible SDK / CLI / API"]
+    DF["下载模式 3 + 文件分发<br/>Dragonfly<br/>仅 node-to-node P2P"]
   end
 
   subgraph U["3. 最终使用者 / 运行时视角"]
     direction LR
     APP["最终用户 / 业务应用"]
     SVC["推理服务<br/>vLLM / SGLang / Dynamo"]
-    ME["ModelExpress<br/>GPU worker 权重 P2P"]
+    ME["ModelExpress<br/>worker-to-worker / GPU-to-GPU P2P"]
 
     subgraph N1["Node 1"]
       direction TB
@@ -91,10 +90,11 @@ flowchart TB
     end
   end
 
-  MX -->|"HF-compatible endpoint"| PULL
-  HF -->|"hf://"| DF
-  MS -->|"modelscope://"| DF
-  HB -->|"OCI pull"| DF
+  HF -->|"1. 直连 HF"| PULL
+  MX -->|"2. 本地 MatrixHub"| PULL
+  HF -->|"hf:// file pull"| DF
+  MS -->|"modelscope:// file pull"| DF
+  HB -->|"3. OCI pull"| DF
 
   PULL --> F1
   PULL --> F2
@@ -129,15 +129,15 @@ flowchart TB
   style MODEL_LANE fill:#fff1e6,stroke:#c2410c,stroke-width:2px
   style N1 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
   style N2 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
-  linkStyle 5,6,7,9,10 stroke:#c2410c,stroke-width:3px,color:#c2410c
-  linkStyle 8 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
+  linkStyle 2,3,4,5,6,8,9 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 0,1,7 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
 ```
 
 这张图可以从三个视角来读：
 
-- **提供方 / 服务端视角**：蓝色背景代表 `Docker image / OCI artifact` 路线，Harbor 在这里更像企业内部的 `local Docker Hub / distribution`；橙色背景代表 `model distribution` 路线，Hugging Face、ModelScope 和 MatrixHub 都属于这一侧。
-- **下载获取视角**：MatrixHub 提供 HF-compatible 拉取入口；Dragonfly 负责 node 级文件分发，它既可以接 Harbor 的 OCI pull，也可以接 `hf://` 与 `modelscope://` 这类模型来源。
-- **最终使用者视角**：模型文件先进入 node 本地缓存，再进入 GPU worker；`ModelExpress` 则位于更靠后的运行时层，处理同 node 甚至跨 node GPU 之间的权重共享与冷启动优化。
+- **提供方 / 服务端视角**：蓝色背景代表 `Docker image / OCI artifact` 路线，Harbor 在这里更像企业内部的 `local Docker Hub / distribution`，ModelPack 负责把模型变成 OCI artifact；橙色背景代表 `model distribution` 路线，Hugging Face、ModelScope 和 MatrixHub 都属于这一侧。
+- **下载获取视角**：这里明确区分三种下载模式。`HF-compatible SDK / CLI / API` 对应前两种：`1. 直连 Hugging Face`，`2. 访问本地 MatrixHub`；第三种是 `OCI 改造后通过 Docker Hub / Harbor 拉取`。Dragonfly 位于文件分发层，负责 node 级 P2P。
+- **最终使用者视角**：模型文件先进入 node 本地缓存，再进入 GPU worker；`ModelExpress` 则位于更靠后的运行时层，处理 worker-to-worker、甚至 GPU-to-GPU 的权重共享与冷启动优化。
 
 颜色也有含义：
 
@@ -145,6 +145,16 @@ flowchart TB
 - **蓝色线**：OCI pull 路径
 - **灰色 node 间线**：Dragonfly 的 node 级文件分片传播
 - **绿色 GPU 间线**：ModelExpress 关注的运行时权重共享路径
+
+如果只用一句话概括：
+
+- **模型下载有 3 种模式**：
+  1. 直连 `Hugging Face`
+  2. 走本地 `MatrixHub`
+  3. 先做 `OCI` 改造，再走 `Docker Hub / Harbor`
+- **P2P 分发有 2 种模式**：
+  1. `Dragonfly`：**仅 node-to-node**
+  2. `ModelExpress`：**worker-to-worker / GPU-to-GPU**
 
 理解这一点之后，很多争论都会自然消失：这些项目大多不是彼此替代，而是站在不同层上解不同的问题。
 
@@ -162,7 +172,7 @@ flowchart LR
 
   HF["Hugging Face / ModelScope<br/>public model hub"]
   HB["Harbor<br/>private OCI registry"]
-  DF["Dragonfly<br/>seed peer + scheduler + peers"]
+  DF["Dragonfly<br/>seed peer + scheduler + peers<br/>node-to-node only"]
 
   subgraph CL["Cluster nodes"]
     direction LR
@@ -190,6 +200,7 @@ flowchart LR
 
 - Dragonfly 可以同时接公共模型来源和私有 OCI registry
 - 它解决的是 **node 级文件分发**
+- 它的 P2P 语义是 **仅 node-to-node**
 - 它不关心 GPU 权重是否已经加载
 
 ### 2. MatrixHub 方案：更像“私有 Hugging Face”
@@ -201,7 +212,7 @@ flowchart LR
   classDef client fill:#f8fafc,stroke:#64748b,color:#111827;
 
   DEV["模型提供方 / 微调团队"]
-  HF["Hugging Face / ModelScope<br/>public model hub"]
+  HF["Hugging Face<br/>public model hub"]
   MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible endpoint"]
   CLI["HF-compatible clients<br/>transformers / vLLM / SDK / CLI"]
   N1["训练 / 评测 / 推理节点 A"]
@@ -209,19 +220,21 @@ flowchart LR
 
   DEV -->|"私有上传"| MX
   HF -->|"镜像 / 缓存"| MX
-  CLI -->|"HF-compatible 拉取"| MX
+  CLI -. "也可直接访问公共 HF" .-> HF
+  CLI -->|"private HF endpoint"| MX
   MX --> N1
   MX --> N2
 
   class HF public;
   class MX private;
   class DEV,CLI,N1,N2 client;
-  linkStyle 1,2 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 1,2,3 stroke:#c2410c,stroke-width:3px,color:#c2410c
 ```
 
 这张图强调的是：
 
 - MatrixHub 更关注 **私有模型入口与治理**
+- 它对应的是 **下载模式 2：本地 MatrixHub**
 - 它尽量保留 Hugging Face 风格的使用方式
 - 它不是专门做 GPU-to-GPU 权重搬运的组件
 
@@ -234,7 +247,7 @@ flowchart LR
   classDef neutral fill:#f8fafc,stroke:#64748b,color:#111827;
 
   HF["Hugging Face<br/>public model hub"]
-  ME["ModelExpress<br/>metadata + runtime weight P2P"]
+  ME["ModelExpress<br/>metadata + runtime weight P2P<br/>worker-to-worker / GPU-to-GPU"]
 
   subgraph N1["Source node"]
     direction TB
@@ -273,6 +286,7 @@ flowchart LR
 这张图强调的是：
 
 - ModelExpress 关注的是 **运行时权重共享**
+- 它的 P2P 语义是 **worker-to-worker / GPU-to-GPU**
 - source node 先加载模型
 - 后续 worker，尤其是跨 node 的 GPU worker，可以通过更快的路径复用权重状态
 
