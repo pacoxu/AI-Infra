@@ -33,47 +33,91 @@ canonical_path: docs/blog/2026-04-28/2026-04-28-understanding-model-distribution
 
 ```mermaid
 flowchart LR
-  U["模型消费者<br/>训练 / 评测 / vLLM / SGLang / Dynamo"]
+  subgraph P["1. 模型提供方 / 模型仓"]
+    DEV["模型提供方 / 微调团队"]
+    subgraph NET["互联网"]
+      HF["Hugging Face<br/>公共模型 Hub"]
+      MS["ModelScope<br/>公共模型 / 数据 / API 平台"]
+    end
+    subgraph IDC["企业数据中心 / 私有环境"]
+      PHF["私有 Hugging Face<br/>目标能力"]
+      MX["MatrixHub<br/>HF-compatible 私有模型 Hub"]
+      MP["ModelPack<br/>OCI 模型打包"]
+      HB["Harbor<br/>私有 OCI Registry"]
+    end
+  end
 
-  HF["Hugging Face<br/>公共模型 Hub"]
-  MS["ModelScope<br/>公共模型 / 数据 / API 平台"]
+  subgraph A["2. 模型获取 / 下载方式"]
+    PULL["HF-compatible 拉取<br/>SDK / CLI / API"]
+    DF["Dragonfly<br/>node 级 P2P<br/>seed peer + scheduler"]
+  end
 
-  PHF["私有 Hugging Face<br/>目标能力"]
-  MX["MatrixHub<br/>HF-compatible 私有模型 Hub"]
+  subgraph R["3. 最终使用者 / 运行时"]
+    USER["最终使用者 / 业务应用"]
+    SVC["推理服务<br/>vLLM / SGLang / Dynamo"]
+    ME["ModelExpress<br/>运行时权重 P2P"]
 
-  MP["ModelPack<br/>OCI 模型打包 / 规范"]
-  HB["Harbor<br/>私有 OCI Registry"]
-  DF["Dragonfly<br/>P2P 分发加速"]
+    subgraph N1["Node 1"]
+      F1["本地模型缓存 / 文件"]
+      subgraph G1["GPU workers"]
+        W11["GPU 0 worker"]
+        W12["GPU 1 worker"]
+      end
+    end
 
-  CL["Inference / Kubernetes Cluster"]
-  ME["ModelExpress<br/>运行时权重传输 / 冷启动加速"]
+    subgraph N2["Node 2"]
+      F2["本地模型缓存 / 文件"]
+      subgraph G2["GPU workers"]
+        W21["GPU 0 worker"]
+        W22["GPU 1 worker"]
+      end
+    end
+  end
 
-  U -->|"HF / SDK / API"| HF
-  U -->|"SDK / API"| MS
+  DEV -->|"发布 / 同步"| HF
+  DEV -->|"发布 / 同步"| MS
+  DEV -->|"私有上传"| MX
+  DEV -->|"打包模型"| MP
 
   PHF -. "可由此实现" .-> MX
-  U -->|"HF-compatible endpoint"| MX
-  HF -->|"首次拉取 / 缓存 / 同步"| MX
-
-  HF -->|"打包为 OCI artifact"| MP
-  MS -->|"打包为 OCI artifact"| MP
   MP --> HB
-  HB --> DF
-  DF -->|"节点级 P2P 下载 / 预热"| CL
+  HF -->|"镜像 / 缓存"| MX
 
-  MX -->|"私有模型源 / 治理入口"| CL
-  CL --> ME
-  ME -->|"worker-to-worker / GPU-to-GPU"| CL
+  MX -->|"HF-compatible endpoint"| PULL
+  HF -->|"hf://"| DF
+  MS -->|"modelscope://"| DF
+  HB -->|"OCI pull"| DF
 
-  MX -. "可组合" .-> ME
-  DF -. "解决文件分发" .-> ME
+  PULL --> F1
+  PULL --> F2
+  DF --> F1
+  DF --> F2
+  F1 <-->|"node 级 P2P 文件分片"| F2
+
+  F1 --> W11
+  F1 --> W12
+  F2 --> W21
+  F2 --> W22
+
+  USER --> SVC
+  SVC --> W11
+  SVC --> W21
+
+  ME -. "权重复用" .-> W11
+  ME -. "权重复用" .-> W12
+  ME -. "权重复用" .-> W21
+  ME -. "权重复用" .-> W22
+
+  W11 <-->|"同节点 GPU / NVLink"| W12
+  W12 <-->|"跨节点 RDMA / UCX / NIXL"| W21
+  W21 <-->|"同节点 GPU / NVLink"| W22
 ```
 
-这张图的阅读方式很简单：
+这张图可以从三个视角来读：
 
-- **最左侧**是公共模型来源和开发者默认入口
-- **中间**是企业内部的私有模型入口或制品治理体系
-- **右侧**是集群内的节点分发和运行时加速
+- **模型提供方视角**：左侧是模型来源。Hugging Face 和 ModelScope 位于互联网侧，MatrixHub 和 Harbor 更适合放在企业数据中心内部。
+- **模型获取视角**：中间是下载路径。MatrixHub 更像 HF-compatible 的私有入口，Dragonfly 则是 node 级别的 P2P 文件分发层。
+- **最终使用者视角**：右侧是运行时。最终用户请求进入推理服务，模型文件先进入节点本地缓存，再由 GPU worker 消费；ModelExpress 则进一步处理 worker 之间、甚至跨 node GPU 之间的权重共享与冷启动优化。
 
 理解这一点之后，很多争论都会自然消失：这些项目大多不是彼此替代，而是站在不同层上解不同的问题。
 

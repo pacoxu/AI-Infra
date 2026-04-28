@@ -16,34 +16,97 @@ distribution**, and **runtime acceleration** layers.
 
 ```mermaid
 flowchart LR
-  U["Model Consumers<br/>training / eval / vLLM / SGLang / Dynamo"]
+  subgraph P["1. Model Providers / Repositories"]
+    DEV["Model provider / fine-tune team"]
+    subgraph NET["Internet"]
+      HF["Hugging Face<br/>public model hub"]
+      MS["ModelScope<br/>public model / dataset / API platform"]
+    end
+    subgraph IDC["Private data center"]
+      PHF["Private Hugging Face<br/>(target capability)"]
+      MX["MatrixHub<br/>HF-compatible private hub"]
+      MP["ModelPack<br/>OCI model packaging"]
+      HB["Harbor<br/>private OCI registry"]
+    end
+  end
 
-  HF["Hugging Face<br/>public model hub"]
-  PHF["Private Hugging Face<br/>(target capability)"]
-  MX["MatrixHub<br/>HF-compatible private hub"]
+  subgraph A["2. Model Acquisition / Download"]
+    PULL["HF-compatible pull<br/>SDK / CLI / API"]
+    DF["Dragonfly<br/>node-level P2P<br/>seed peer + scheduler"]
+  end
 
-  MP["ModelPack<br/>OCI model packaging / spec"]
-  HB["Harbor<br/>private OCI registry"]
-  DF["Dragonfly<br/>P2P distribution acceleration"]
+  subgraph R["3. Runtime / End Users"]
+    USER["End users / apps"]
+    SVC["Inference service<br/>vLLM / SGLang / Dynamo"]
+    ME["ModelExpress<br/>runtime weight P2P"]
 
-  CL["Inference / Kubernetes Cluster"]
-  ME["ModelExpress<br/>runtime weight acceleration"]
+    subgraph N1["Node 1"]
+      F1["Local model cache / files"]
+      subgraph G1["GPU workers"]
+        W11["GPU 0 worker"]
+        W12["GPU 1 worker"]
+      end
+    end
 
-  U -->|"HF Hub API"| HF
-  PHF -. "implemented by" .-> MX
-  U -->|"HF-compatible endpoint"| MX
-  HF -->|"sync / cache / first pull"| MX
+    subgraph N2["Node 2"]
+      F2["Local model cache / files"]
+      subgraph G2["GPU workers"]
+        W21["GPU 0 worker"]
+        W22["GPU 1 worker"]
+      end
+    end
+  end
 
-  HF -->|"package as OCI artifact"| MP
+  DEV -->|"publish / sync"| HF
+  DEV -->|"publish / sync"| MS
+  DEV -->|"private upload"| MX
+  DEV -->|"package model"| MP
+
+  PHF -. "can be implemented by" .-> MX
   MP --> HB
-  HB --> DF
-  DF -->|"node pull / preheat / P2P"| CL
+  HF -->|"mirror / cache"| MX
 
-  MX -->|"governed model source"| CL
-  CL --> ME
-  ME -->|"worker-to-worker / GPU-path acceleration"| CL
-  MX -. "complements" .-> ME
+  MX -->|"HF-compatible endpoint"| PULL
+  HF -->|"hf://"| DF
+  MS -->|"modelscope://"| DF
+  HB -->|"OCI pull"| DF
+
+  PULL --> F1
+  PULL --> F2
+  DF --> F1
+  DF --> F2
+  F1 <-->|"node-level P2P file chunks"| F2
+
+  F1 --> W11
+  F1 --> W12
+  F2 --> W21
+  F2 --> W22
+
+  USER --> SVC
+  SVC --> W11
+  SVC --> W21
+
+  ME -. "weight reuse" .-> W11
+  ME -. "weight reuse" .-> W12
+  ME -. "weight reuse" .-> W21
+  ME -. "weight reuse" .-> W22
+
+  W11 <-->|"same-node GPU / NVLink"| W12
+  W12 <-->|"cross-node RDMA / UCX / NIXL"| W21
+  W21 <-->|"same-node GPU / NVLink"| W22
 ```
+
+## Read the Diagram by Role
+
+- **Model provider view**: Public upstreams such as Hugging Face and
+  ModelScope live on the Internet side. Private upload and governance happen
+  inside the data center via MatrixHub or Harbor-based workflows.
+- **Model acquisition view**: MatrixHub serves HF-compatible pulls, while
+  Dragonfly handles node-level P2P file distribution from upstream repositories
+  or a private OCI registry.
+- **End user and runtime view**: End users reach inference services, inference
+  services schedule workers, Dragonfly gets model files onto nodes, and
+  ModelExpress accelerates weight reuse between GPU workers.
 
 ## Read the Diagram from Left to Right
 
