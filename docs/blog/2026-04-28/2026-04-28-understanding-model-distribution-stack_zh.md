@@ -32,33 +32,49 @@ canonical_path: docs/blog/2026-04-28/2026-04-28-understanding-model-distribution
 ## 总体架构图
 
 ```mermaid
-flowchart LR
-  subgraph P["1. 模型提供方 / 模型仓"]
-    DEV["模型提供方 / 微调团队"]
-    subgraph NET["互联网"]
+flowchart TB
+  classDef oci fill:#e8f3ff,stroke:#2b6cb0,color:#0f172a;
+  classDef model fill:#fff1e6,stroke:#c2410c,color:#111827;
+  classDef runtime fill:#ecfdf5,stroke:#047857,color:#111827;
+  classDef neutral fill:#f8fafc,stroke:#64748b,color:#111827;
+
+  subgraph S["1. 提供方 / 服务端视角"]
+    direction LR
+
+    subgraph OCI_LANE["Docker image / OCI artifact lane"]
+      direction TB
+      DH["Docker Hub<br/>公共镜像仓库"]
+      HB["Harbor<br/>local Docker Hub / distribution<br/>私有 OCI Registry"]
+      DH -->|"同步 / 复制 / 私有镜像管理"| HB
+    end
+
+    subgraph MODEL_LANE["Model distribution lane"]
+      direction TB
       HF["Hugging Face<br/>公共模型 Hub"]
       MS["ModelScope<br/>公共模型 / 数据 / API 平台"]
-    end
-    subgraph IDC["企业数据中心 / 私有环境"]
-      PHF["私有 Hugging Face<br/>目标能力"]
-      MX["MatrixHub<br/>HF-compatible 私有模型 Hub"]
-      MP["ModelPack<br/>OCI 模型打包"]
-      HB["Harbor<br/>私有 OCI Registry"]
+      MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible 私有模型 Hub"]
+      MP["ModelPack<br/>把模型打包为 OCI artifact"]
+      HF -->|"镜像 / 缓存"| MX
+      MS -. "公共来源之一" .-> MX
+      MP -->|"模型进入 OCI 生态"| HB
     end
   end
 
-  subgraph A["2. 模型获取 / 下载方式"]
-    PULL["HF-compatible 拉取<br/>SDK / CLI / API"]
-    DF["Dragonfly<br/>node 级 P2P<br/>seed peer + scheduler"]
+  subgraph C["2. Client / 下载获取视角"]
+    direction LR
+    PULL["HF-compatible SDK / CLI / API"]
+    DF["Dragonfly<br/>node 级 P2P<br/>image / artifact / model files"]
   end
 
-  subgraph R["3. 最终使用者 / 运行时"]
-    USER["最终使用者 / 业务应用"]
+  subgraph U["3. 最终使用者 / 运行时视角"]
+    direction LR
+    APP["最终用户 / 业务应用"]
     SVC["推理服务<br/>vLLM / SGLang / Dynamo"]
-    ME["ModelExpress<br/>运行时权重 P2P"]
+    ME["ModelExpress<br/>GPU worker 权重 P2P"]
 
     subgraph N1["Node 1"]
-      F1["本地模型缓存 / 文件"]
+      direction TB
+      F1["本地镜像 / 模型文件缓存"]
       subgraph G1["GPU workers"]
         W11["GPU 0 worker"]
         W12["GPU 1 worker"]
@@ -66,22 +82,14 @@ flowchart LR
     end
 
     subgraph N2["Node 2"]
-      F2["本地模型缓存 / 文件"]
+      direction TB
+      F2["本地镜像 / 模型文件缓存"]
       subgraph G2["GPU workers"]
         W21["GPU 0 worker"]
         W22["GPU 1 worker"]
       end
     end
   end
-
-  DEV -->|"发布 / 同步"| HF
-  DEV -->|"发布 / 同步"| MS
-  DEV -->|"私有上传"| MX
-  DEV -->|"打包模型"| MP
-
-  PHF -. "可由此实现" .-> MX
-  MP --> HB
-  HF -->|"镜像 / 缓存"| MX
 
   MX -->|"HF-compatible endpoint"| PULL
   HF -->|"hf://"| DF
@@ -92,32 +100,42 @@ flowchart LR
   PULL --> F2
   DF --> F1
   DF --> F2
-  F1 <-->|"node 级 P2P 文件分片"| F2
+  F1 <-->|"Dragonfly: node 级文件分片 P2P"| F2
 
   F1 --> W11
   F1 --> W12
   F2 --> W21
   F2 --> W22
 
-  USER --> SVC
+  APP --> SVC
   SVC --> W11
   SVC --> W21
 
-  ME -. "权重复用" .-> W11
-  ME -. "权重复用" .-> W12
-  ME -. "权重复用" .-> W21
-  ME -. "权重复用" .-> W22
+  ME -. "权重复用 / 热副本传播" .-> W11
+  ME -. "权重复用 / 热副本传播" .-> W12
+  ME -. "权重复用 / 热副本传播" .-> W21
+  ME -. "权重复用 / 热副本传播" .-> W22
 
   W11 <-->|"同节点 GPU / NVLink"| W12
   W12 <-->|"跨节点 RDMA / UCX / NIXL"| W21
   W21 <-->|"同节点 GPU / NVLink"| W22
+
+  class DH,HB oci;
+  class HF,MS,MX,MP,PULL model;
+  class DF,F1,F2 neutral;
+  class APP,SVC,ME,W11,W12,W21,W22 runtime;
+
+  style OCI_LANE fill:#e8f3ff,stroke:#2b6cb0,stroke-width:2px
+  style MODEL_LANE fill:#fff1e6,stroke:#c2410c,stroke-width:2px
+  style N1 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
+  style N2 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
 ```
 
 这张图可以从三个视角来读：
 
-- **模型提供方视角**：左侧是模型来源。Hugging Face 和 ModelScope 位于互联网侧，MatrixHub 和 Harbor 更适合放在企业数据中心内部。
-- **模型获取视角**：中间是下载路径。MatrixHub 更像 HF-compatible 的私有入口，Dragonfly 则是 node 级别的 P2P 文件分发层。
-- **最终使用者视角**：右侧是运行时。最终用户请求进入推理服务，模型文件先进入节点本地缓存，再由 GPU worker 消费；ModelExpress 则进一步处理 worker 之间、甚至跨 node GPU 之间的权重共享与冷启动优化。
+- **提供方 / 服务端视角**：蓝色背景代表 `Docker image / OCI artifact` 路线，Harbor 在这里更像企业内部的 `local Docker Hub / distribution`；橙色背景代表 `model distribution` 路线，Hugging Face、ModelScope 和 MatrixHub 都属于这一侧。
+- **下载获取视角**：MatrixHub 提供 HF-compatible 拉取入口；Dragonfly 负责 node 级文件分发，它既可以接 Harbor 的 OCI pull，也可以接 `hf://` 与 `modelscope://` 这类模型来源。
+- **最终使用者视角**：模型文件先进入 node 本地缓存，再进入 GPU worker；`ModelExpress` 则位于更靠后的运行时层，处理同 node 甚至跨 node GPU 之间的权重共享与冷启动优化。
 
 理解这一点之后，很多争论都会自然消失：这些项目大多不是彼此替代，而是站在不同层上解不同的问题。
 
@@ -216,6 +234,10 @@ Harbor 是一个成熟的私有 OCI Registry。它擅长的是：
 - 复制
 - 保留策略
 - 统一管理 OCI artifact
+
+如果要用一句更容易代入的话来理解它，可以把 Harbor 看作：
+
+**企业内部增强版的 Docker Hub / distribution。**
 
 所以 Harbor 解决的不是“原生 HF-compatible 入口”，而是：
 

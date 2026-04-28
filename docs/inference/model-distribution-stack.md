@@ -15,33 +15,49 @@ distribution**, and **runtime acceleration** layers.
 ## The Stack in One Diagram
 
 ```mermaid
-flowchart LR
-  subgraph P["1. Model Providers / Repositories"]
-    DEV["Model provider / fine-tune team"]
-    subgraph NET["Internet"]
+flowchart TB
+  classDef oci fill:#e8f3ff,stroke:#2b6cb0,color:#0f172a;
+  classDef model fill:#fff1e6,stroke:#c2410c,color:#111827;
+  classDef runtime fill:#ecfdf5,stroke:#047857,color:#111827;
+  classDef neutral fill:#f8fafc,stroke:#64748b,color:#111827;
+
+  subgraph S["1. Provider / Server View"]
+    direction LR
+
+    subgraph OCI_LANE["Docker image / OCI artifact lane"]
+      direction TB
+      DH["Docker Hub<br/>public image registry"]
+      HB["Harbor<br/>local Docker Hub / distribution<br/>private OCI registry"]
+      DH -->|"sync / replicate / private image management"| HB
+    end
+
+    subgraph MODEL_LANE["Model distribution lane"]
+      direction TB
       HF["Hugging Face<br/>public model hub"]
       MS["ModelScope<br/>public model / dataset / API platform"]
-    end
-    subgraph IDC["Private data center"]
-      PHF["Private Hugging Face<br/>(target capability)"]
-      MX["MatrixHub<br/>HF-compatible private hub"]
-      MP["ModelPack<br/>OCI model packaging"]
-      HB["Harbor<br/>private OCI registry"]
+      MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible private hub"]
+      MP["ModelPack<br/>package model as OCI artifact"]
+      HF -->|"mirror / cache"| MX
+      MS -. "one public upstream" .-> MX
+      MP -->|"model enters OCI workflow"| HB
     end
   end
 
-  subgraph A["2. Model Acquisition / Download"]
-    PULL["HF-compatible pull<br/>SDK / CLI / API"]
-    DF["Dragonfly<br/>node-level P2P<br/>seed peer + scheduler"]
+  subgraph C["2. Client / Download View"]
+    direction LR
+    PULL["HF-compatible SDK / CLI / API"]
+    DF["Dragonfly<br/>node-level P2P<br/>image / artifact / model files"]
   end
 
-  subgraph R["3. Runtime / End Users"]
-    USER["End users / apps"]
+  subgraph U["3. End User / Runtime View"]
+    direction LR
+    APP["End users / apps"]
     SVC["Inference service<br/>vLLM / SGLang / Dynamo"]
-    ME["ModelExpress<br/>runtime weight P2P"]
+    ME["ModelExpress<br/>GPU worker weight P2P"]
 
     subgraph N1["Node 1"]
-      F1["Local model cache / files"]
+      direction TB
+      F1["Local image / model file cache"]
       subgraph G1["GPU workers"]
         W11["GPU 0 worker"]
         W12["GPU 1 worker"]
@@ -49,22 +65,14 @@ flowchart LR
     end
 
     subgraph N2["Node 2"]
-      F2["Local model cache / files"]
+      direction TB
+      F2["Local image / model file cache"]
       subgraph G2["GPU workers"]
         W21["GPU 0 worker"]
         W22["GPU 1 worker"]
       end
     end
   end
-
-  DEV -->|"publish / sync"| HF
-  DEV -->|"publish / sync"| MS
-  DEV -->|"private upload"| MX
-  DEV -->|"package model"| MP
-
-  PHF -. "can be implemented by" .-> MX
-  MP --> HB
-  HF -->|"mirror / cache"| MX
 
   MX -->|"HF-compatible endpoint"| PULL
   HF -->|"hf://"| DF
@@ -75,38 +83,49 @@ flowchart LR
   PULL --> F2
   DF --> F1
   DF --> F2
-  F1 <-->|"node-level P2P file chunks"| F2
+  F1 <-->|"Dragonfly: node-level P2P file chunks"| F2
 
   F1 --> W11
   F1 --> W12
   F2 --> W21
   F2 --> W22
 
-  USER --> SVC
+  APP --> SVC
   SVC --> W11
   SVC --> W21
 
-  ME -. "weight reuse" .-> W11
-  ME -. "weight reuse" .-> W12
-  ME -. "weight reuse" .-> W21
-  ME -. "weight reuse" .-> W22
+  ME -. "weight reuse / hot replica propagation" .-> W11
+  ME -. "weight reuse / hot replica propagation" .-> W12
+  ME -. "weight reuse / hot replica propagation" .-> W21
+  ME -. "weight reuse / hot replica propagation" .-> W22
 
   W11 <-->|"same-node GPU / NVLink"| W12
   W12 <-->|"cross-node RDMA / UCX / NIXL"| W21
   W21 <-->|"same-node GPU / NVLink"| W22
+
+  class DH,HB oci;
+  class HF,MS,MX,MP,PULL model;
+  class DF,F1,F2 neutral;
+  class APP,SVC,ME,W11,W12,W21,W22 runtime;
+
+  style OCI_LANE fill:#e8f3ff,stroke:#2b6cb0,stroke-width:2px
+  style MODEL_LANE fill:#fff1e6,stroke:#c2410c,stroke-width:2px
+  style N1 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
+  style N2 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
 ```
 
 ## Read the Diagram by Role
 
-- **Model provider view**: Public upstreams such as Hugging Face and
-  ModelScope live on the Internet side. Private upload and governance happen
-  inside the data center via MatrixHub or Harbor-based workflows.
-- **Model acquisition view**: MatrixHub serves HF-compatible pulls, while
-  Dragonfly handles node-level P2P file distribution from upstream repositories
-  or a private OCI registry.
-- **End user and runtime view**: End users reach inference services, inference
-  services schedule workers, Dragonfly gets model files onto nodes, and
-  ModelExpress accelerates weight reuse between GPU workers.
+- **Provider / server view**: The blue lane is the Docker image / OCI artifact
+  path. Harbor is easiest to read here as a local Docker Hub / Distribution
+  style private registry. The orange lane is the model distribution path, with
+  Hugging Face, ModelScope, and MatrixHub on that side.
+- **Download view**: MatrixHub exposes an HF-compatible pull path. Dragonfly
+  handles node-level file distribution and can serve OCI pulls from Harbor as
+  well as `hf://` and `modelscope://` downloads.
+- **End user / runtime view**: Model files first land in node-local caches,
+  then feed GPU workers. ModelExpress sits later in the path and accelerates
+  weight reuse between workers, including cross-node GPU transfers over RDMA.
 
 ## Read the Diagram from Left to Right
 
@@ -144,7 +163,9 @@ This path is different. It is **OCI-first**, not HF-first.
 
 - `ModelPack` provides a packaging/spec path for OCI-based model artifacts.
 - `Harbor` provides the private OCI registry, including enterprise governance
-  features such as RBAC, signing, replication, and retention.
+  features such as RBAC, signing, replication, and retention. A useful mental
+  model is to treat it as an enterprise-local Docker Hub / Distribution style
+  system with stronger management features.
 - `Dragonfly` accelerates distribution from the registry to nodes using
   preheat and P2P transfer patterns.
 
