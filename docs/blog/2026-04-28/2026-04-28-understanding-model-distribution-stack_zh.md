@@ -129,6 +129,8 @@ flowchart TB
   style MODEL_LANE fill:#fff1e6,stroke:#c2410c,stroke-width:2px
   style N1 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
   style N2 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
+  linkStyle 5,6,7,9,10 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 8 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
 ```
 
 这张图可以从三个视角来读：
@@ -137,7 +139,142 @@ flowchart TB
 - **下载获取视角**：MatrixHub 提供 HF-compatible 拉取入口；Dragonfly 负责 node 级文件分发，它既可以接 Harbor 的 OCI pull，也可以接 `hf://` 与 `modelscope://` 这类模型来源。
 - **最终使用者视角**：模型文件先进入 node 本地缓存，再进入 GPU worker；`ModelExpress` 则位于更靠后的运行时层，处理同 node 甚至跨 node GPU 之间的权重共享与冷启动优化。
 
+颜色也有含义：
+
+- **橙色线**：HF-compatible / model hub 下载路径
+- **蓝色线**：OCI pull 路径
+- **灰色 node 间线**：Dragonfly 的 node 级文件分片传播
+- **绿色 GPU 间线**：ModelExpress 关注的运行时权重共享路径
+
 理解这一点之后，很多争论都会自然消失：这些项目大多不是彼此替代，而是站在不同层上解不同的问题。
+
+## 三个单独方案图
+
+除了总图，下面三张图分别只保留各自最关键的链路。
+
+### 1. Dragonfly 方案：Harbor + 公共模型 Hub 即可
+
+```mermaid
+flowchart LR
+  classDef oci fill:#e8f3ff,stroke:#2b6cb0,color:#0f172a;
+  classDef model fill:#fff1e6,stroke:#c2410c,color:#111827;
+  classDef neutral fill:#f8fafc,stroke:#64748b,color:#111827;
+
+  HF["Hugging Face / ModelScope<br/>public model hub"]
+  HB["Harbor<br/>private OCI registry"]
+  DF["Dragonfly<br/>seed peer + scheduler + peers"]
+
+  subgraph CL["Cluster nodes"]
+    direction LR
+    N1["Node 1<br/>local file cache"]
+    N2["Node 2<br/>local file cache"]
+    N3["Node 3<br/>local file cache"]
+  end
+
+  HF -->|"hf:// / modelscope://"| DF
+  HB -->|"OCI pull"| DF
+  DF --> N1
+  DF --> N2
+  DF --> N3
+  N1 <-->|"node-level P2P file chunks"| N2
+  N2 <-->|"node-level P2P file chunks"| N3
+
+  class HB oci;
+  class HF model;
+  class DF,N1,N2,N3 neutral;
+  linkStyle 0 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 1 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
+```
+
+这张图强调的是：
+
+- Dragonfly 可以同时接公共模型来源和私有 OCI registry
+- 它解决的是 **node 级文件分发**
+- 它不关心 GPU 权重是否已经加载
+
+### 2. MatrixHub 方案：更像“私有 Hugging Face”
+
+```mermaid
+flowchart LR
+  classDef public fill:#fff1e6,stroke:#c2410c,color:#111827;
+  classDef private fill:#ecfdf5,stroke:#047857,color:#111827;
+  classDef client fill:#f8fafc,stroke:#64748b,color:#111827;
+
+  DEV["模型提供方 / 微调团队"]
+  HF["Hugging Face / ModelScope<br/>public model hub"]
+  MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible endpoint"]
+  CLI["HF-compatible clients<br/>transformers / vLLM / SDK / CLI"]
+  N1["训练 / 评测 / 推理节点 A"]
+  N2["训练 / 评测 / 推理节点 B"]
+
+  DEV -->|"私有上传"| MX
+  HF -->|"镜像 / 缓存"| MX
+  CLI -->|"HF-compatible 拉取"| MX
+  MX --> N1
+  MX --> N2
+
+  class HF public;
+  class MX private;
+  class DEV,CLI,N1,N2 client;
+  linkStyle 1,2 stroke:#c2410c,stroke-width:3px,color:#c2410c
+```
+
+这张图强调的是：
+
+- MatrixHub 更关注 **私有模型入口与治理**
+- 它尽量保留 Hugging Face 风格的使用方式
+- 它不是专门做 GPU-to-GPU 权重搬运的组件
+
+### 3. ModelExpress 方案：只保留 HF 公共模型来源
+
+```mermaid
+flowchart LR
+  classDef public fill:#fff1e6,stroke:#c2410c,color:#111827;
+  classDef runtime fill:#ecfdf5,stroke:#047857,color:#111827;
+  classDef neutral fill:#f8fafc,stroke:#64748b,color:#111827;
+
+  HF["Hugging Face<br/>public model hub"]
+  ME["ModelExpress<br/>metadata + runtime weight P2P"]
+
+  subgraph N1["Source node"]
+    direction TB
+    F1["local model cache"]
+    W11["GPU 0 worker"]
+    W12["GPU 1 worker"]
+  end
+
+  subgraph N2["Target node"]
+    direction TB
+    F2["local model cache / fallback"]
+    W21["GPU 0 worker"]
+    W22["GPU 1 worker"]
+  end
+
+  HF -->|"first pull / seed load"| F1
+  F1 --> W11
+  F1 --> W12
+  F2 --> W21
+  F2 --> W22
+
+  ME -. "coordination" .-> W11
+  ME -. "coordination" .-> W12
+  ME -. "coordination" .-> W21
+  ME -. "coordination" .-> W22
+
+  W11 <-->|"same-node NVLink"| W12
+  W12 <-->|"cross-node RDMA / UCX / NIXL"| W21
+  W21 <-->|"same-node NVLink"| W22
+
+  class HF public;
+  class ME,W11,W12,W21,W22 runtime;
+  class F1,F2 neutral;
+```
+
+这张图强调的是：
+
+- ModelExpress 关注的是 **运行时权重共享**
+- source node 先加载模型
+- 后续 worker，尤其是跨 node 的 GPU worker，可以通过更快的路径复用权重状态
 
 ## 一、Hugging Face 与 ModelScope：它们首先是“公共模型来源”
 

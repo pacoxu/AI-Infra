@@ -112,6 +112,8 @@ flowchart TB
   style MODEL_LANE fill:#fff1e6,stroke:#c2410c,stroke-width:2px
   style N1 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
   style N2 fill:#f0fdf4,stroke:#16a34a,stroke-width:1px
+  linkStyle 5,6,7,9,10 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 8 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
 ```
 
 ## Read the Diagram by Role
@@ -126,6 +128,121 @@ flowchart TB
 - **End user / runtime view**: Model files first land in node-local caches,
   then feed GPU workers. ModelExpress sits later in the path and accelerates
   weight reuse between workers, including cross-node GPU transfers over RDMA.
+
+Line colors also carry meaning:
+
+- **Orange links**: HF-compatible or public model hub download paths
+- **Blue links**: OCI pull paths
+- **Grey node-to-node links**: Dragonfly node-level file chunk propagation
+- **Green GPU-to-GPU links**: runtime weight sharing paths relevant to ModelExpress
+
+## Focused Reference Diagrams
+
+### 1. Dragonfly path: Harbor plus public model hubs
+
+```mermaid
+flowchart LR
+  classDef oci fill:#e8f3ff,stroke:#2b6cb0,color:#0f172a;
+  classDef model fill:#fff1e6,stroke:#c2410c,color:#111827;
+  classDef neutral fill:#f8fafc,stroke:#64748b,color:#111827;
+
+  HF["Hugging Face / ModelScope<br/>public model hub"]
+  HB["Harbor<br/>private OCI registry"]
+  DF["Dragonfly<br/>seed peer + scheduler + peers"]
+
+  subgraph CL["Cluster nodes"]
+    direction LR
+    N1["Node 1<br/>local file cache"]
+    N2["Node 2<br/>local file cache"]
+    N3["Node 3<br/>local file cache"]
+  end
+
+  HF -->|"hf:// / modelscope://"| DF
+  HB -->|"OCI pull"| DF
+  DF --> N1
+  DF --> N2
+  DF --> N3
+  N1 <-->|"node-level P2P file chunks"| N2
+  N2 <-->|"node-level P2P file chunks"| N3
+
+  class HB oci;
+  class HF model;
+  class DF,N1,N2,N3 neutral;
+  linkStyle 0 stroke:#c2410c,stroke-width:3px,color:#c2410c
+  linkStyle 1 stroke:#2b6cb0,stroke-width:3px,color:#2b6cb0
+```
+
+### 2. MatrixHub path: private Hugging Face style access
+
+```mermaid
+flowchart LR
+  classDef public fill:#fff1e6,stroke:#c2410c,color:#111827;
+  classDef private fill:#ecfdf5,stroke:#047857,color:#111827;
+  classDef client fill:#f8fafc,stroke:#64748b,color:#111827;
+
+  DEV["Model provider / fine-tune team"]
+  HF["Hugging Face / ModelScope<br/>public model hub"]
+  MX["MatrixHub<br/>private Hugging Face<br/>HF-compatible endpoint"]
+  CLI["HF-compatible clients<br/>transformers / vLLM / SDK / CLI"]
+  N1["Training / eval / inference node A"]
+  N2["Training / eval / inference node B"]
+
+  DEV -->|"private upload"| MX
+  HF -->|"mirror / cache"| MX
+  CLI -->|"HF-compatible pull"| MX
+  MX --> N1
+  MX --> N2
+
+  class HF public;
+  class MX private;
+  class DEV,CLI,N1,N2 client;
+  linkStyle 1,2 stroke:#c2410c,stroke-width:3px,color:#c2410c
+```
+
+### 3. ModelExpress path: runtime weight sharing after initial pull
+
+```mermaid
+flowchart LR
+  classDef public fill:#fff1e6,stroke:#c2410c,color:#111827;
+  classDef runtime fill:#ecfdf5,stroke:#047857,color:#111827;
+  classDef neutral fill:#f8fafc,stroke:#64748b,color:#111827;
+
+  HF["Hugging Face<br/>public model hub"]
+  ME["ModelExpress<br/>metadata + runtime weight P2P"]
+
+  subgraph N1["Source node"]
+    direction TB
+    F1["local model cache"]
+    W11["GPU 0 worker"]
+    W12["GPU 1 worker"]
+  end
+
+  subgraph N2["Target node"]
+    direction TB
+    F2["local model cache / fallback"]
+    W21["GPU 0 worker"]
+    W22["GPU 1 worker"]
+  end
+
+  HF -->|"first pull / seed load"| F1
+  F1 --> W11
+  F1 --> W12
+  F2 --> W21
+  F2 --> W22
+
+  ME -. "coordination" .-> W11
+  ME -. "coordination" .-> W12
+  ME -. "coordination" .-> W21
+  ME -. "coordination" .-> W22
+
+  W11 <-->|"same-node NVLink"| W12
+  W12 <-->|"cross-node RDMA / UCX / NIXL"| W21
+  W21 <-->|"same-node NVLink"| W22
+
+  class HF public;
+  class ME,W11,W12,W21,W22 runtime;
+  class F1,F2 neutral;
+```
 
 ## Read the Diagram from Left to Right
 
