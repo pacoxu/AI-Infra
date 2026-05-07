@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-27
+last_updated: 2026-05-07
 tags: blog, kubernetes, ai-infrastructure
 ---
 
