@@ -12,29 +12,6 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
-## 2026-05-07: Kubernetes v1.36：更多驱动程序、新特性，以及 DRA 的下一个时代
-
-- [Kubernetes v1.36：更多驱动程序、新特性，以及 DRA 的下一个时代 (Chinese)](./2026-05-07/2026-05-07-kubernetes-v1.36-dra-next-era_zh.md)
-
-A Chinese translation and AI-infra-oriented reading companion for the official
-2026-05-07 upstream DRA release blog:
-
-- **Feature graduation map**: stable prioritized list plus beta extended
-  resource support, partitionable devices, device taints, binding conditions,
-  and resource health visibility.
-- **New platform direction**: workload-level claims, node allocatable
-  resources, resource-pool status, list-type attributes, deterministic device
-  selection, and discoverable device metadata.
-- **Driver ecosystem signal**: DRA is no longer only about GPUs; networking,
-  CPU, memory, and other hardware classes are moving into the same model.
-- **Recent DRA reading path**: pairs well with the local
-  [2026-04-23 DRA architecture note](./2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md),
-  plus upstream
-  [v1.33](https://kubernetes.io/blog/2025/05/01/kubernetes-v1-33-dra-updates/)
-  and
-  [v1.34](https://kubernetes.io/blog/2025/09/01/kubernetes-v1-34-dra-updates/)
-  DRA updates.
-
 ## 2026-04-28: 如何理解 Hugging Face、私有 Hugging Face、MatrixHub、Harbor + Dragonfly + ModelPack 与 ModelExpress
 
 - [如何理解 Hugging Face、私有 Hugging Face、MatrixHub、Harbor + Dragonfly + ModelPack 与 ModelExpress (Chinese)](./2026-04-28/2026-04-28-understanding-model-distribution-stack_zh.md)
@@ -60,6 +37,9 @@ A Chinese architecture analysis based on the Kubernetes v1.36 DRA KEP map:
 - **Architecture map**: organizes DRA by request entry points, resource
   modeling, scheduling and binding, status, observability, and admin
   boundaries.
+- **Official DRA blog follow-up**: now also folds in the upstream 2026-05-07
+  DRA blog and links the recent v1.33 -> v1.34 -> v1.36 progression into the
+  same article.
 - **Topology focus**: highlights why GPU/NIC, NUMA, PCIe, fabric, and
   supernode placement reshape the scheduler problem.
 - **Maturity and next steps**: adds a v1.37 follow-up watchlist plus KEP and

@@ -106,8 +106,7 @@ as a progression from "better API surface" to "real production control loop":
 
 Read together with local AI-Infra notes:
 
-- [Kubernetes v1.36 DRA 的整体设计：从请求入口到调度、状态与拓扑](../blog/2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md)
-- [Kubernetes v1.36：更多驱动程序、新特性，以及 DRA 的下一个时代](../blog/2026-05-07/2026-05-07-kubernetes-v1.36-dra-next-era_zh.md)
+- [Kubernetes v1.36 DRA 的整体设计：从请求入口到调度、状态与拓扑](../blog/2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md) - This note now also folds in the 2026-05-07 official DRA follow-up.
 
 ## v1.36 Feature Snapshot for AI Infra
 
@@ -431,7 +430,6 @@ adds CPU micro-topology support including:
 - [Kubernetes v1.34: DRA gets even more powerful](https://kubernetes.io/blog/2025/09/01/kubernetes-v1-34-dra-updates/)
 - [Kubernetes v1.36: More Drivers, New Features, and the Next Era of DRA](https://kubernetes.io/blog/2026/05/07/kubernetes-v1-36-dra-136-updates/)
 - [AI-Infra: Kubernetes v1.36 DRA 整体设计](../blog/2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md)
-- [AI-Infra: Kubernetes v1.36 更多驱动程序、新特性，以及 DRA 的下一个时代](../blog/2026-05-07/2026-05-07-kubernetes-v1.36-dra-next-era_zh.md)
 - [YouTube search: DRA](https://www.youtube.com/@cncf/search?query=DRA)
 - [Kubernetes WG Device
   Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md)
