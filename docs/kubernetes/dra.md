@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-27
+last_updated: 2026-05-08
 tags: kubernetes, dra, resource-allocation, device-management, topology
 canonical_path: docs/kubernetes/dra.md
 ---
@@ -92,6 +92,61 @@ for DRA usage in production scenarios.
 
 See [DRA Performance Testing](./dra-performance-testing.md) for comprehensive
 scale testing, performance benchmarks, and production best practices.
+
+## Recent Upstream Release Notes
+
+The fastest way to understand how DRA is evolving is to read the release blogs
+as a progression from "better API surface" to "real production control loop":
+
+| Release | Main signal | Why AI infra teams should care |
+| --- | --- | --- |
+| [v1.33 DRA updates](https://kubernetes.io/blog/2025/05/01/kubernetes-v1-33-dra-updates/) | DRA keeps maturing while still in beta; driver-owned claim status improves and new alpha work starts around prioritized alternatives, device taints, and admin access. | This is where DRA starts moving beyond "device count" and toward operator workflows and richer status. |
+| [v1.34 DRA gets even more powerful](https://kubernetes.io/blog/2025/09/01/kubernetes-v1-34-dra-updates/) | Core DRA reaches GA and adds stronger operational pieces such as AdminAccess, PodResources visibility, extended-resource migration, consumable capacity, binding conditions, and resource health. | This is the first release where production migration planning from Device Plugin to DRA becomes realistic. |
+| [v1.36: More Drivers, New Features, and the Next Era of DRA](https://kubernetes.io/blog/2026/05/07/kubernetes-v1-36-dra-136-updates/) | DRA expands across more drivers and adds workload-level claims, native resource experiments, better resource-pool visibility, deterministic selection, and discoverable device metadata. | The scope clearly broadens from GPUs into NICs, CPU, memory, and larger workload orchestration. |
+
+Read together with local AI-Infra notes:
+
+- [Kubernetes v1.36 DRA 的整体设计：从请求入口到调度、状态与拓扑](../blog/2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md) - This note now also folds in the 2026-05-07 official DRA follow-up.
+
+## v1.36 Feature Snapshot for AI Infra
+
+The 2026-05-07 upstream DRA blog is useful because it groups the v1.36 changes
+into two buckets: features that materially improve day-2 operations today, and
+features that open the next wave of platform design.
+
+### Production-oriented improvements
+
+- **Prioritized list (Stable)**: lets a claim express ordered fallback
+  preferences such as "H100 first, then A100", improving scarce-accelerator
+  utilization.
+- **Extended resource support (Beta)**: lets existing
+  `vendor.com/device: N`-style workloads migrate gradually while the backend
+  allocation path moves to DRA.
+- **Partitionable devices (Beta)**: models MIG-like or other logical slices as
+  native DRA behavior instead of pre-carving everything statically.
+- **Device taints and tolerations (Beta)**: isolates faulty or reserved
+  devices without draining an entire node.
+- **Device binding conditions (Beta)**: avoids binding Pods before attachable
+  or fabric-backed devices are actually prepared.
+- **Resource health status (Beta)**: exposes device health in Pod status for
+  faster fault attribution and controller-driven remediation.
+
+### New directions worth lab validation
+
+- **ResourceClaim support for workloads (Alpha)**: moves claim sharing from
+  single Pods toward PodGroup or workload-level semantics for large distributed
+  jobs.
+- **Node allocatable resources (Alpha)**: starts exploring DRA as the control
+  plane for CPU and memory placement, not only external accelerators.
+- **DRA resource availability visibility (Alpha)**: introduces point-in-time
+  resource-pool capacity snapshots for dashboards and capacity planning.
+- **List types for attributes**: improves CEL matching when device attributes
+  are sets instead of single scalar values.
+- **Deterministic device selection**: scheduler ordering becomes predictable,
+  which gives driver authors more influence over final placement quality.
+- **Discoverable device metadata in containers**: standardizes how drivers
+  surface attributes like PCI addresses and network configuration into
+  containers without extra API calls.
 
 ## Topology Management with DRA
 
@@ -371,7 +426,10 @@ adds CPU micro-topology support including:
 
 - [Kubernetes docs](https://kubernetes.io/docs/concepts/scheduling-eviction/dynamic-resource-allocation/)
 - [GKE docs](https://cloud.google.com/kubernetes-engine/docs/concepts/about-dynamic-resource-allocation)
-- [Kubernetes blog](https://kubernetes.io/blog/2025/05/01/kubernetes-v1-33-dra-updates/)
+- [Kubernetes v1.33 DRA updates](https://kubernetes.io/blog/2025/05/01/kubernetes-v1-33-dra-updates/)
+- [Kubernetes v1.34: DRA gets even more powerful](https://kubernetes.io/blog/2025/09/01/kubernetes-v1-34-dra-updates/)
+- [Kubernetes v1.36: More Drivers, New Features, and the Next Era of DRA](https://kubernetes.io/blog/2026/05/07/kubernetes-v1-36-dra-136-updates/)
+- [AI-Infra: Kubernetes v1.36 DRA 整体设计](../blog/2026-04-23/2026-04-23-kubernetes-v1.36-dra-ai-infra_zh.md)
 - [YouTube search: DRA](https://www.youtube.com/@cncf/search?query=DRA)
 - [Kubernetes WG Device
   Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md)

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-07
+last_updated: 2026-05-08
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -37,6 +37,9 @@ A Chinese architecture analysis based on the Kubernetes v1.36 DRA KEP map:
 - **Architecture map**: organizes DRA by request entry points, resource
   modeling, scheduling and binding, status, observability, and admin
   boundaries.
+- **Official DRA blog follow-up**: now also folds in the upstream 2026-05-07
+  DRA blog and links the recent v1.33 -> v1.34 -> v1.36 progression into the
+  same article.
 - **Topology focus**: highlights why GPU/NIC, NUMA, PCIe, fabric, and
   supernode placement reshape the scheduler problem.
 - **Maturity and next steps**: adds a v1.37 follow-up watchlist plus KEP and
