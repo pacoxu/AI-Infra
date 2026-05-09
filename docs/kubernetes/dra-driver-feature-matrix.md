@@ -84,7 +84,7 @@ Important caveat:
 
 | Repo | Resource Type | Supported | WIP | No visible issue/PR yet | Example evidence |
 | --- | --- | --- | --- | --- | --- |
-| `kubernetes-sigs/dra-driver-nvidia-gpu` | NVIDIA GPU | `ER`, `PD`, `DT`, `RHS` | `BC` | `PL`, `CC` | `demo/specs/extended-resources/*`; `cmd/gpu-kubelet-plugin/partitions.go`; PR `#983`; PR `#689`; PR `#855` |
+| [`kubernetes-sigs/dra-driver-nvidia-gpu`](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu) | NVIDIA GPU | `ER`, `PD`, `DT`, `RHS` | `BC` | `PL`, `CC` | `demo/specs/extended-resources/*`; `cmd/gpu-kubelet-plugin/partitions.go`; [PR #983](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/pull/983); [PR #689](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/pull/689); [PR #855](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/pull/855) |
 | `ROCm/k8s-gpu-dra-driver` | AMD GPU | `PD` | none | `PL`, `ER`, `DT`, `BC`, `RHS`, `CC` | PR `#33` mentions non-partitionable GPUs |
 | `kubernetes-sigs/dra-driver-cpu` | CPU | `CC` | none | `PL`, `ER`, `PD`, `DT`, `BC`, `RHS` | `README.md`; `pkg/driver/dra_hooks.go`; PR `#16` |
 | `Project-HAMi/k8s-dra-driver` | HAMi GPU | `ER`, `PD`, `CC` | none | `PL`, `DT`, `BC`, `RHS` | `templates/deviceclass-hami-gpu.yaml`; `cmd/hami-kubelet-plugin/partitions.go`; `cmd/hami-kubelet-plugin/hami_core.go` |
