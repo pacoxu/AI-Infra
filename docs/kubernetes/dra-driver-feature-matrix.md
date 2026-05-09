@@ -102,7 +102,7 @@ public evidence for the tracked Beta / GA feature set above.
 
 | Repo | Resource Type | Current read |
 | --- | --- | --- |
-| `kubernetes-sigs/dra-driver-google-tpu` | Google TPU | No strong public signal for `PL/ER/PD/DT/BC/RHS/CC` in this pass. |
+| [`kubernetes-sigs/dra-driver-google-tpu`](https://github.com/kubernetes-sigs/dra-driver-google-tpu) | Google TPU | No strong public signal for `PL/ER/PD/DT/BC/RHS/CC` in this pass. |
 | `Project-HAMi/enflame-dra-driver` | Enflame | Sparse public feature signal in tracked set. |
 | `kubernetes-sigs/dranet` | network DRA | Strong topology/network positioning, but no high-confidence explicit match in the tracked feature set from this pass. |
 | `ibm-aiu/dra-driver-spyre` | IBM AIU Spyre | Sparse public feature signal in tracked set. |
