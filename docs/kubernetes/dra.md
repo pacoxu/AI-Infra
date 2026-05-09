@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-08
+last_updated: 2026-05-09
 tags: kubernetes, dra, resource-allocation, device-management, topology
 canonical_path: docs/kubernetes/dra.md
 ---
@@ -92,6 +92,12 @@ for DRA usage in production scenarios.
 
 See [DRA Performance Testing](./dra-performance-testing.md) for comprehensive
 scale testing, performance benchmarks, and production best practices.
+
+**Driver ecosystem matrix:**
+
+See [Public Kubernetes DRA Driver Feature Matrix](./dra-driver-feature-matrix.md)
+for a repo-level view of which public implementations show explicit support,
+WIP, or no public signal yet for key Beta / GA DRA features.
 
 ## Recent Upstream Release Notes
 

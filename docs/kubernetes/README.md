@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-07
+last_updated: 2026-05-09
 tags: kubernetes, ai-infrastructure, scheduling, resource-management
 canonical_path: docs/kubernetes/README.md
 ---
@@ -41,6 +41,9 @@ workload isolation.
   pressure tuning in Kubernetes
 - **[Dynamic Resource Allocation (DRA)](./dra.md)**: Flexible device
   allocation with structured parameters and topology awareness
+- **[DRA Driver Feature Matrix](./dra-driver-feature-matrix.md)**: Public DRA
+  implementation ecosystem mapped to explicit Beta / GA feature signals,
+  active WIP, and current public gaps
 - **[NVIDIA GPU Operator](./nvidia-gpu-operator.md)**: Automated GPU driver
   installation, device plugin deployment, DRA driver integration, and GPU
   monitoring with DCGM
