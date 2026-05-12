@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-08
+last_updated: 2026-05-12
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,28 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-05-11: NVIDIA 推理编排主线拆解：Dynamo、Grove、KAI Scheduler 与 GPU DRA Driver
+
+- [NVIDIA 推理编排主线拆解：Dynamo、Grove、KAI Scheduler 与 GPU DRA Driver (Chinese)](./2026-05-11/2026-05-11-dynamo-grove-kai-dra-ecosystem-zh.md)
+
+A Chinese ecosystem analysis that zooms in from the broader NVIDIA open source
+landscape to the orchestration path around Dynamo:
+
+- **Not four competing projects**: frames `Dynamo -> Grove -> KAI Scheduler -> GPU DRA Driver`
+  as one vertical architecture from serving intent to hardware topology.
+- **Why Grove matters**: explains Grove as the workload abstraction layer for
+  multi-role disaggregated inference, not just another controller.
+- **Why KAI matters**: highlights topology-aware scheduling, hierarchical
+  PodGroups, DRA support, and fairshare as the execution layer for AI clusters.
+- **Why DRA matters now**: connects upstream DRA progress in Kubernetes 1.35/1.36
+  to NVIDIA's `ComputeDomain` and future GPU-sharing semantics.
+- **Where NIXL, NCCL, and AICR fit**: positions `NIXL/NCCL` as the data movement
+  and GPU communication layer, and `AICR/GPU Operator` as cluster baseline and
+  operations support rather than the orchestration core itself.
+- **Where LWS and vLLM fit**: positions `LWS + Volcano` as the community-native
+  alternative path and `vLLM` as engine/data-plane rather than the same layer
+  as Grove/KAI/DRA.
 
 ## 2026-04-28: 如何理解 Hugging Face、私有 Hugging Face、MatrixHub、Harbor + Dragonfly + ModelPack 与 ModelExpress
 

@@ -35,6 +35,7 @@ flowchart LR
   end
 
   subgraph COMM["高性能通信基础"]
+    NIXL["NIXL"]
     NCCL["NCCL"]
   end
 
@@ -61,9 +62,11 @@ flowchart LR
   %% serving
   DYN --> TRT
   DYN --> TRITON
+  DYN -. "KV / prefix 传输" .-> NIXL
   TRT -. "可作为 Triton backend\n也可直接使用" .-> TRITON
 
   %% comms
+  NIXL -. "分布式 KV / prefix data plane" .-> DYN
   NCCL -. "多 GPU / 多节点通信" .-> TRT
   NCCL -. "分布式通信基础" .-> DYN
 
@@ -72,13 +75,14 @@ flowchart LR
   classDef base fill:#e8fff1,stroke:#16a34a,color:#14532d,stroke-width:1.2px;
 
   class KAI,DRA,DYN star;
-  class GPO,CTK,KDP,DCGM,AICR,NVS,TRT,TRITON,NCCL normal;
+  class GPO,CTK,KDP,DCGM,AICR,NVS,TRT,TRITON,NIXL,NCCL normal;
   class K8S,CTD base;
 ```
 
 ## 发起/主导项目（代表）
 
 - [⭐ ai-dynamo/dynamo](https://github.com/ai-dynamo/dynamo)
+- [ai-dynamo/nixl](https://github.com/ai-dynamo/nixl)
 - [⭐ kai-scheduler/KAI-Scheduler](https://github.com/kai-scheduler/KAI-Scheduler)
 - [⭐ NVIDIA/k8s-dra-driver-gpu](https://github.com/NVIDIA/k8s-dra-driver-gpu)
 - [NVIDIA/gpu-operator](https://github.com/NVIDIA/gpu-operator)
