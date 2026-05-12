@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-24
+last_updated: 2026-05-11
 tags: kubernetes, pod, lifecycle, scheduling, restart-policy, KEP-5307, KEP-5532
 canonical_path: docs/kubernetes/pod-lifecycle.md
 ---
@@ -36,6 +36,11 @@ for several key reasons:
 
 ![pod-lifecycle](../../diagrams/pod-lifecycle.png)
 
+Updated for Kubernetes v1.36. The diagram now includes `SchedulingGates`,
+`PodReadyToStartContainers`, container-level restart rules,
+`RestartAllContainers`, `DisruptionTarget`, sidecar shutdown ordering, and
+Pod resize conditions.
+
 In Kubernetes, a Pod goes through several standard lifecycle **phases**.
 These phases describe the high-level status of the Pod, not the state of
 individual containers.
@@ -68,16 +73,19 @@ Reality Check" - [KubeCon NA 2025](https://sched.co/28D8Z)*
 
 ---
 
-## Recent Enhancements to Pod Lifecycle (Kubernetes 1.35+)
+## Pod Lifecycle Highlights (Kubernetes 1.36)
 
-The Kubernetes community continues to enhance Pod lifecycle management. Two
-significant enhancements are targeting Kubernetes 1.35:
+By Kubernetes 1.36, several Pod lifecycle enhancements are either stable or
+enabled by default, and they are important enough to model directly in the
+diagram and in day-2 troubleshooting:
 
 <img src="https://github.com/user-attachments/assets/1cc61c54-6cde-4bda-ab88-6c6568aa51b0" alt="restartPolicy may be enough">
 
 *Source: KubeCon NA 2025 SIG-Node Maintainer Track*
 
 ### 1. SchedulingGates
+
+**Status**: FEATURE STATE: Kubernetes v1.30 [stable]
 
 SchedulingGates allow you to control when a Pod should be scheduled. By
 adding scheduling gates, you can keep a Pod in the "Pending" phase until
@@ -91,7 +99,7 @@ certain conditions are met, preventing premature scheduling.
 
 ### 2. Container Restart Rules (KEP-5307)
 
-**Status**: Targeting Beta in Kubernetes 1.35
+**Status**: FEATURE STATE: Kubernetes v1.35 [beta] (enabled by default)
 
 [KEP-5307](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5307-container-restart-policy/README.md)
 introduces fine-grained container-level restart policy rules with more
@@ -130,7 +138,7 @@ policies](https://mp.weixin.qq.com/s/X_yhEtvkYh2RSp1F0p1UZA), including:
 
 ### 3. RestartAllContainers Action (KEP-5532)
 
-**Status**: Targeting Alpha in Kubernetes 1.35
+**Status**: FEATURE STATE: Kubernetes v1.36 [beta] (enabled by default)
 
 [KEP-5532](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5532-restart-all-containers-on-container-exits/README.md)
 introduces a new action that can be triggered by container exits: restarting
@@ -154,7 +162,21 @@ all containers in a Pod.
 3. **Coordinated updates**: Enable containers to coordinate restarts when
    certain conditions are met
 
-## Restart Decision Runbook (Kubernetes 1.35+)
+### 4. Additional Conditions And Resize Signals Reflected In The v1.36 Diagram
+
+- **`PodReadyToStartContainers`**: A kubelet-managed condition that becomes
+  visible by default in Kubernetes 1.36 once sandbox creation, networking,
+  volume mounts, and dynamic resource allocation are complete.
+- **`DisruptionTarget`**: Indicates the Pod is about to be terminated because
+  of disruption such as eviction, preemption, or garbage collection.
+- **`PodResizePending` / `PodResizeInProgress`**: Expose in-place resize
+  progress directly on the Pod.
+- **Pod-level in-place resize**: Pod-level resources in `spec.resources`
+  reached Beta in Kubernetes 1.36. Pod-level resource changes are applied
+  in-place, while each container's `resizePolicy` still decides whether a
+  container restart is required for specific CPU or memory changes.
+
+## Restart Decision Runbook (Kubernetes 1.36)
 
 In production incidents, "Pod restarted" often mixes different events. Use this
 matrix first, then decide remediation:
@@ -554,6 +576,10 @@ containers can become sidecar containers with the new restart policy "always".
 
 ![pod-lifecycle](../../diagrams/pod-lifecycle.png)
 
+已按 Kubernetes v1.36 更新图示，补入了 `SchedulingGates`、
+`PodReadyToStartContainers`、容器级重启规则、`RestartAllContainers`、
+`DisruptionTarget`、sidecar 终止顺序，以及 Pod resize 条件。
+
 在 Kubernetes 中，Pod 经历几个标准生命周期**阶段**。这些阶段描述的是 Pod
 的高级状态，而不是单个容器的状态。
 
@@ -581,16 +607,18 @@ Reality Check" - [KubeCon NA 2025](https://sched.co/28D8Z)*
 
 ---
 
-## Pod 生命周期的近期增强（Kubernetes 1.35+）
+## Pod 生命周期的关键增强（Kubernetes 1.36）
 
-Kubernetes 社区持续增强 Pod 生命周期管理。两个重要的增强特性正在针对
-Kubernetes 1.35 版本开发：
+到 Kubernetes 1.36 为止，多个 Pod 生命周期相关增强已经进入 stable 或默认开启
+的 beta，值得直接体现在生命周期图和日常排障模型里：
 
 <img src="https://github.com/user-attachments/assets/1cc61c54-6cde-4bda-ab88-6c6568aa51b0" alt="restartPolicy 可能就足够了">
 
 *来源：KubeCon NA 2025 SIG-Node 维护者分会*
 
 ### 1. SchedulingGates（调度门控）
+
+**状态**：FEATURE STATE: Kubernetes v1.30 [stable]
 
 SchedulingGates 允许您控制何时应调度 Pod。通过添加调度门控，您可以将 Pod
 保持在"Pending"阶段，直到满足某些条件，防止过早调度。
@@ -603,7 +631,7 @@ SchedulingGates 允许您控制何时应调度 Pod。通过添加调度门控，
 
 ### 2. Container Restart Rules（容器重启规则，KEP-5307）
 
-**状态**：目标是在 Kubernetes 1.35 中达到 Beta 阶段
+**状态**：FEATURE STATE: Kubernetes v1.35 [beta]（默认开启）
 
 [KEP-5307](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5307-container-restart-policy/README.md)
 引入了细粒度的容器级重启策略规则，比传统的 Pod
@@ -636,7 +664,7 @@ SchedulingGates 允许您控制何时应调度 Pod。通过添加调度门控，
 
 ### 3. RestartAllContainers Action（重启所有容器动作，KEP-5532）
 
-**状态**：目标是在 Kubernetes 1.35 中达到 Alpha 阶段
+**状态**：FEATURE STATE: Kubernetes v1.36 [beta]（默认开启）
 
 [KEP-5532](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5532-restart-all-containers-on-container-exits/README.md)
 引入了一个可以由容器退出触发的新动作：重启 Pod 中的所有容器。
@@ -655,7 +683,19 @@ SchedulingGates 允许您控制何时应调度 Pod。通过添加调度门控，
 2. **依赖管理**：当关键 sidecar 失败时，重启所有容器以确保一致状态
 3. **协调更新**：使容器能够在满足某些条件时协调重启
 
-## 重启判定 Runbook（Kubernetes 1.35+）
+### 4. v1.36 图中额外体现的条件与 Resize 信号
+
+- **`PodReadyToStartContainers`**：kubelet 管理的条件；在 Kubernetes 1.36
+  默认可见，表示 sandbox 创建、网络配置、卷挂载以及动态资源分配已经完成。
+- **`DisruptionTarget`**：表示 Pod 即将因为驱逐、抢占或垃圾回收等 disruption
+  而终止。
+- **`PodResizePending` / `PodResizeInProgress`**：直接在 Pod 上暴露原地 resize
+  的进度。
+- **Pod 级原地 resize**：`spec.resources` 的 Pod 级资源原地调整在 Kubernetes
+  1.36 进入 Beta。Pod 级资源本身原地生效，但每个容器的 `resizePolicy`
+  仍决定特定 CPU / memory 变化是否需要重启容器。
+
+## 重启判定 Runbook（Kubernetes 1.36）
 
 在生产故障里，“Pod 重启了”常常混淆了多种事件。建议先用下表判定，再决定处理动作：
 
