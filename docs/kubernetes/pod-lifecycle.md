@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-11
+last_updated: 2026-05-12
 tags: kubernetes, pod, lifecycle, scheduling, restart-policy, KEP-5307, KEP-5532
 canonical_path: docs/kubernetes/pod-lifecycle.md
 ---
@@ -34,7 +34,23 @@ for several key reasons:
 
 ## Pod Lifecycle Overview
 
-![pod-lifecycle](../../diagrams/pod-lifecycle.png)
+This overview is now split into four focused diagrams for readability:
+
+### 1. APIServer And External Interfaces
+
+![pod-lifecycle-apiserver-interfaces](../../diagrams/pod-lifecycle-apiserver-interfaces.png)
+
+### 2. Main State Flow
+
+![pod-lifecycle-main-flow](../../diagrams/pod-lifecycle-main-flow.png)
+
+### 3. Eviction And Deletion
+
+![pod-lifecycle-eviction-deletion](../../diagrams/pod-lifecycle-eviction-deletion.png)
+
+### 4. Probes, Hooks, And Runtime Control
+
+![pod-lifecycle-probe-hook](../../diagrams/pod-lifecycle-probe-hook.png)
 
 Updated for Kubernetes v1.36. The diagram now includes `SchedulingGates`,
 `PodReadyToStartContainers`, container-level restart rules,
@@ -574,7 +590,23 @@ containers can become sidecar containers with the new restart policy "always".
 
 ## Pod 生命周期简介
 
-![pod-lifecycle](../../diagrams/pod-lifecycle.png)
+为了更清晰，这里把生命周期总览拆成四张聚焦图：
+
+### 1. APIServer 与外部接口视图
+
+![pod-lifecycle-apiserver-interfaces](../../diagrams/pod-lifecycle-apiserver-interfaces.png)
+
+### 2. 主生命周期状态流
+
+![pod-lifecycle-main-flow](../../diagrams/pod-lifecycle-main-flow.png)
+
+### 3. 驱逐与删除路径
+
+![pod-lifecycle-eviction-deletion](../../diagrams/pod-lifecycle-eviction-deletion.png)
+
+### 4. Probe、Hook 与运行期控制
+
+![pod-lifecycle-probe-hook](../../diagrams/pod-lifecycle-probe-hook.png)
 
 已按 Kubernetes v1.36 更新图示，补入了 `SchedulingGates`、
 `PodReadyToStartContainers`、容器级重启规则、`RestartAllContainers`、
