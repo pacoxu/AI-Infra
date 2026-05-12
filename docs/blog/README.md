@@ -30,9 +30,10 @@ landscape to the orchestration path around Dynamo:
 - **Where NIXL, NCCL, and AICR fit**: positions `NIXL/NCCL` as the data movement
   and GPU communication layer, and `AICR/GPU Operator` as cluster baseline and
   operations support rather than the orchestration core itself.
-- **Where LWS and vLLM fit**: positions `LWS + Volcano` as the community-native
-  alternative path and `vLLM` as engine/data-plane rather than the same layer
-  as Grove/KAI/DRA.
+- **Where LWS and vLLM fit**: positions `LWS + Volcano` as the official
+  community-native path, and notes `Koordinator` can play a similar scheduling
+  role when teams already standardize on it; `vLLM` remains engine/data-plane
+  rather than the same layer as Grove/KAI/DRA.
 
 ## 2026-04-28: 如何理解 Hugging Face、私有 Hugging Face、MatrixHub、Harbor + Dragonfly + ModelPack 与 ModelExpress
 

@@ -49,7 +49,9 @@ source_urls:
 **两条 multinode 路径** 并列列出来：
 
 - **Grove + KAI Scheduler**：更完整、也是更贴近 NVIDIA 主推路线的方案
-- **LWS + Volcano**：更社区原生、更轻量的替代路径
+- **LWS + Volcano**：官方文档直接给出的社区原生替代路径
+- **LWS + Koordinator**：虽然不在 NVIDIA 当前安装示例里，但在社区侧也能承担相近的
+  gang / 配额公平性 / 拓扑约束调度角色
 
 这也是为什么要把 `LWS`、`DRA` 和 `vLLM` 一起放进来看，而不能只盯着 `Dynamo`
 本身。
@@ -68,6 +70,8 @@ source_urls:
   data movement`，`NCCL` 更偏 GPU 间 collective communication。
 - **LWS 正在成为社区通用基线。** Grove 可以理解成 NVIDIA 在这个方向上的更强意见版：
   更强调多组件、层次化 gang、显式启动顺序和拓扑约束。
+- **Volcano 不是唯一社区侧配套调度器。** 如果你的集群已经标准化 `Koordinator`，
+  它同样可以为 `LWS` 这类多节点工作负载提供 gang、配额和 topology-aware 调度能力。
 - **vLLM 更偏数据面。** vLLM core 解决推理引擎问题，`production-stack` 解决
   router + observability + Helm 部署问题；但多节点、多角色、强拓扑约束的集群编排，
   仍然需要更上层的工作负载抽象。
@@ -100,7 +104,7 @@ flowchart TB
 
   subgraph SCHED["Scheduling & Policy"]
     KAI["KAI Scheduler<br/>gang / topology / queues / fairshare / DRA"]
-    VOLC["Volcano<br/>community gang scheduling path"]
+    VOLC["Volcano / Koordinator<br/>community gang / quota / topology-aware path"]
   end
 
   subgraph RES["Resource Model & Device Allocation"]
@@ -136,7 +140,7 @@ flowchart TB
   DEPLOY -. alternative .-> LWS
 
   GROVE --> KAI
-  LWS -. with Volcano .-> VOLC
+  LWS -. with Volcano or Koordinator .-> VOLC
 
   KAI --> DRA
   VOLC --> DRA
@@ -173,7 +177,7 @@ flowchart TB
 
 1. **Dynamo** 负责表达“我要什么样的推理系统”。
 2. **Grove / LWS** 负责表达“这些 Pod 之间是什么关系，哪些要一起起，哪些要分层扩缩”。
-3. **KAI / Volcano** 负责决定“到底放到哪，怎么保证 gang、拓扑和公平性”。
+3. **KAI / Volcano / Koordinator** 负责决定“到底放到哪，怎么保证 gang、拓扑和公平性”。
 4. **DRA + GPU DRA Driver** 负责把“GPU / ComputeDomain 到底是什么、能否共享、能否切分”
    编进 Kubernetes 的资源语义里。
 5. **AICR / GPU Operator / Toolkit / DCGM / NVSentinel** 则负责把这套东西装起来、
@@ -468,7 +472,7 @@ LWS 当前 README 里公开强调的能力包括：
 | --- | --- | --- |
 | 站位 | 社区通用 API | NVIDIA 推理主线 API |
 | 核心对象 | group / leader-worker / disaggregated set | pod clique / scaling group / pod gang |
-| 调度搭配 | 常见是 `Volcano` | 主推 `KAI Scheduler` |
+| 调度搭配 | 常见是 `Volcano`，也可接 `Koordinator` | 主推 `KAI Scheduler` |
 | 目标 | 给多节点推理一个可复用 API 基线 | 给复杂推理系统一个更完整的层次化编排模型 |
 | 生态风格 | 更上游、更中性 | 更贴近 Dynamo / NVIDIA 拓扑优化路线 |
 
@@ -485,6 +489,23 @@ NVIDIA 官方安装文档现在仍然把 `LWS + Volcano` 列为 multinode 选项
 所以在生态图里，LWS 最合适的位置不是“竞争对手”，而是：
 
 > **社区侧的标准化基线**，同时也是 Grove 这条路线的重要参照系。
+
+### 6.3 如果你已经有 `Koordinator`，它也能承接类似角色
+
+截至 **2026 年 5 月 11 日**，NVIDIA Dynamo 安装文档列出的 multinode 社区路径仍是
+`LWS + Volcano`。但这不意味着 `Volcano` 是唯一能和 `LWS` 形成类似组合的调度器。
+
+从 Koordinator 官方文档公开出来的能力看，它已经具备几类和这里直接相关的调度能力：
+
+- **Gang Scheduling**：兼容 `PodGroup`，支持 `Strict / NonStrict` 两种 gang 语义
+- **Elastic Quota / Capacity Scheduling**：支持层次化 quota、公平性以及 quota 借还
+- **Network Topology Aware Scheduling**：支持按拓扑域聚合放置，以及 job-level preemption
+
+所以如果你的集群里已经标准化了 `Koordinator`，那么从“给 `LWS` 提供 gang、队列公平性
+和拓扑约束”这个角色看，它完全可以做出和 `Volcano` **相近** 的效果。只是要注意两点：
+
+1. 这说的是 **社区侧替代路径**，不是 NVIDIA 当前主推的 `Grove + KAI`。
+2. 这也不是说 `Koordinator == KAI`；`KAI` 仍然更紧贴 Grove / DRA / NVIDIA 拓扑路线。
 
 ## 7. vLLM 应该放在这张图的哪里
 
@@ -604,7 +625,7 @@ Dynamo
 Grove / LWS / DisaggregatedSet
     = 多角色工作负载抽象层
 
-KAI / Volcano
+KAI / Volcano / Koordinator
     = 调度与队列策略层
 
 DRA + GPU DRA Driver
@@ -641,6 +662,10 @@ Grove + KAI Scheduler + GPU DRA Driver
 - [NVIDIA Dynamo: Installation Guide](https://docs.nvidia.com/dynamo/dev/kubernetes-deployment/deployment-guide/installation-guide)
 - [KAI Scheduler GitHub](https://github.com/kai-scheduler/KAI-Scheduler)
 - [LWS GitHub](https://github.com/kubernetes-sigs/lws)
+- [Koordinator GitHub](https://github.com/koordinator-sh/koordinator)
+- [Koordinator: Gang Scheduling](https://koordinator.sh/docs/user-manuals/gang-scheduling/)
+- [Koordinator: Capacity Scheduling](https://koordinator.sh/docs/v1.5/user-manuals/capacity-scheduling/)
+- [Koordinator: Network Topology Aware Scheduling](https://koordinator.sh/docs/user-manuals/network-topology-aware-scheduling/)
 - [DRA Driver for NVIDIA GPUs](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu)
 - [NVIDIA AICR GitHub](https://github.com/NVIDIA/aicr)
 - [NVIDIA GPU Operator GitHub](https://github.com/NVIDIA/gpu-operator)
