@@ -103,6 +103,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 #### 博客
 
 - [博客概述](./docs/blog/README.md)
+- [最新：Dynamo / Grove / KAI / GPU DRA 主线拆解](./docs/blog/2026-05-11/2026-05-11-dynamo-grove-kai-dra-ecosystem-zh.md)
 - [最新：vLLM v0.18.0 发布解读（中文）](./docs/blog/2026-03-24/2026-03-24-vllm-v0.18.0-ai-infra-highlights_zh.md)
 - [最新：NVIDIA AICR 中文介绍](./docs/blog/2026-03-13/2026-03-13-nvidia-aicr-introduction_zh.md)
 - [最新：拜耳 15,000 节点 GKE 回顾](./docs/blog/2026-03-13/2026-03-13-bayer-gke-15000-nodes_zh.md)
