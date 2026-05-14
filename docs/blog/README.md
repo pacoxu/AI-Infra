@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-12
+last_updated: 2026-05-13
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,24 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-05-13: 推理编排方案如何选择？AIBrix、Kthena、Dynamo、llm-d、KServe、vLLM Production Stack 与 SGLang/RBG
+
+- [推理编排方案如何选择？AIBrix、Kthena、Dynamo、llm-d、KServe、vLLM Production Stack 与 SGLang/RBG (Chinese)](./2026-05-13/2026-05-13-how-to-choose-inference-orchestration-stacks_zh.md)
+- [How to choose an inference orchestration stack: AIBrix, Kthena, Dynamo, llm-d, KServe, vLLM Production Stack, and SGLang/RBG](./2026-05-13/2026-05-13-how-to-choose-inference-orchestration-stacks.md)
+
+A bilingual update of the earlier inference orchestration theme, reframed
+around stack layers rather than project names:
+
+- **Do not compare unlike layers**: separates runtime, serving stack, control
+  plane, and workload primitive before comparing projects.
+- **Latest public progress**: updates `KServe + llm-d`, `AIBrix`, `Kthena`,
+  `Dynamo/Grove`, `vLLM Production Stack`, and `SGLang/RBG` to reflect their
+  current public positioning as of 2026-05-13.
+- **Infrastructure-first decision guide**: gives a practical selection path for
+  Volcano, KServe, vLLM, NVIDIA, vanilla Kubernetes, and SGLang users.
+- **PD is still conditional**: keeps the warning that prefill/decode
+  disaggregation is a systems tradeoff, not an automatic win.
 
 ## 2026-05-11: NVIDIA 推理编排主线拆解：Dynamo、Grove、KAI Scheduler 与 GPU DRA Driver
 
