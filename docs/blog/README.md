@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-13
+last_updated: 2026-05-21
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,26 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-05-21: Kubernetes Scheduler 演进主线：从 Predicates/Priorities 到 Scheduling Framework，再到 Workload-Aware Scheduling
+
+- [Kubernetes Scheduler 演进主线：从 Predicates/Priorities 到 Scheduling Framework，再到 Workload-Aware Scheduling (Chinese)](./2026-05-21/2026-05-21-kubernetes-scheduler-framework-evolution_zh.md)
+
+A Chinese architecture-focused retrospective on how `kube-scheduler` evolved
+from built-in predicates/priorities into a plugin framework and then toward
+workload-level scheduling:
+
+- **Three-stage arc**: frames scheduler history as `Predicates/Priorities +
+  Extenders` -> `Scheduling Framework` -> `Workload-Aware Scheduling`.
+- **Framework-centered narrative**: uses `KEP-624` and the classic extension
+  points diagram as the core explanatory device, instead of turning the piece
+  into release-note enumeration.
+- **Why `v1.16-v1.20` matters**: explains why that period works as a practical
+  "framework formation phase" for writing, while still distinguishing that from
+  the official `v1.19` stable milestone.
+- **Why this still matters**: connects `profiles`, queue behavior, and
+  `v1.35/v1.36` workload-aware scheduling back to the original framework
+  design.
 
 ## 2026-05-13: 推理编排方案如何选择？AIBrix、Kthena、Dynamo、llm-d、KServe、vLLM Production Stack 与 SGLang/RBG
 
