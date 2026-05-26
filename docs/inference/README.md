@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-28
+last_updated: 2026-05-26
 tags: inference, llm, vllm, serving, optimization
 canonical_path: docs/inference/README.md
 ---
@@ -14,6 +14,7 @@ techniques for Kubernetes-native deployments.
 More details about specific platforms and techniques:
 
 - [Model Architectures (Llama, Qwen, DeepSeek, Flux)](./model-architectures.md)
+- [NVIDIA Dynamo: Panorama Architecture](./dynamo.md)
 - [LoRA: Low-Rank Adaptation for Efficient LLM Serving](./lora.md)
 - [Grove: Kubernetes API for Inference Orchestration](./grove.md)
 - [kube-agentic-networking: Agentic Networking Governance](./kube-agentic-networking.md)
@@ -210,6 +211,10 @@ NVIDIA hardware and software stacks.
   [sgl-project/rbg#255](https://github.com/sgl-project/rbg/pull/255), while
   Dynamo-side integration guide is tracked in
   [ai-dynamo/dynamo#5457](https://github.com/ai-dynamo/dynamo/pull/5457)
+
+For a top-down view of how Dynamo fits together with Grove, Planner, KVBM,
+NIXL, and the underlying hardware and storage tiers, see
+[NVIDIA Dynamo: Panorama Architecture](./dynamo.md).
 
 ### KServe
 
