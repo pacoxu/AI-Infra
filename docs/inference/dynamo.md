@@ -186,6 +186,139 @@ flowchart TB
 | Storage tiers | Memory hierarchy for KV and weights | HBM, host DRAM, local SSD, object or file storage |
 | Hardware | Physical execution substrate | GPU nodes, NVLink, RDMA fabrics, heterogeneous accelerators |
 
+## KVBM: The Center Of Dynamo's State Plane
+
+The official
+[KVBM design doc](https://github.com/ai-dynamo/dynamo/blob/main/docs/design-docs/kvbm-design.md)
+makes it clear that KVBM is not just a cache container. It is the state-plane
+orchestration layer that tracks block lifecycle, memory tier placement, and
+cross-node movement.
+
+### KVBM Tiering Model
+
+| Tier | Role | What it stores |
+| --- | --- | --- |
+| G1 | Device pool | GPU-resident KV blocks in HBM |
+| G2 | Host pool | CPU pinned-memory KV blocks for offload and recall |
+| G3 | Disk pool | Local SSD or NVMe-backed KV blocks |
+| G4 | Remote storage | Shared object or file storage accessed through NIXL |
+
+This is why the panorama puts KVBM between worker runtimes and storage tiers:
+it is the component that makes `GPU -> host -> SSD -> remote` a managed memory
+hierarchy rather than a set of ad hoc engine-specific features.
+
+### KVBM Core Mechanics
+
+- **KvBlockManager / KvBlockManagerState** own the block pools, layout config,
+  metrics, and event hooks.
+- **TransferManager** coordinates asynchronous movement across paths such as
+  Device→Host, Host→Disk, Host→Device, and Disk→Device.
+- **Block lifecycle** follows a state machine from `Reset` to `Partial`,
+  `Complete`, and `Registered`, which is what enables deduplication and safe
+  reuse by `sequence_hash`.
+- **RAII-based publish/remove handles** push block registration and removal
+  into the event plane, so other components can keep a consistent view of
+  reusable KV state.
+
+### Why NIXL Matters Here
+
+KVBM uses NIXL not just as a transport, but as the mechanism that makes remote
+KV visibility and transfer portable:
+
+- it registers memory regions for remote access
+- it serializes layout metadata so workers with different TP layouts can still
+  agree on block geometry
+- it enables host and disk onboarding flows, including remote storage access
+
+That is the architectural reason NIXL sits next to KVBM in the panorama rather
+than under the engine layer.
+
+## Discovery Plane: How Components Find Workers
+
+The official
+[discovery-plane.svg](https://github.com/ai-dynamo/dynamo/blob/main/docs/assets/img/discovery-plane.svg)
+shows a simple but important split:
+
+- **components** such as `Frontend`, `Router`, and `Planner` need to
+  **discover**
+- **workers** need to **register**
+- the actual discovery backend is either **Kubernetes-native** or **etcd**
+
+### Discovery Backends
+
+| Backend | Mechanism | Operational meaning |
+| --- | --- | --- |
+| Kubernetes | `DynamoWorkerMetadata` CRDs + `EndpointSlices` + API watch | First-class K8s-native discovery path |
+| etcd | `/services/{namespace}/{component}/{endpoint}` + lease cleanup | Default non-Kubernetes discovery backend |
+
+Two details from the official discovery-plane diagram are worth calling out:
+
+1. **Kubernetes discovery is not a sidecar feature.** It is a real discovery
+   backend built around `DynamoWorkerMetadata`, pod readiness, and
+   `EndpointSlices`.
+2. **etcd discovery is lease-driven.** Workers register into a stable key
+   hierarchy and disappear automatically when the lease expires, which is how
+   stale endpoints are cleaned up after failure.
+
+This also explains one of the most meaningful shifts described in the roadmap:
+the Dynamo team has been reducing the mandatory dependency on `etcd` and
+`NATS`, especially for the request and discovery planes in Kubernetes
+deployments.
+
+## Roadmap Context: 1.0 Hardening To 2.0 Expansion
+
+The current architecture reads differently if you line it up with the two
+roadmap issues the Dynamo team published in 2026.
+
+### Issue #5506: H1 '26 Roadmap
+
+Issue
+[#5506](https://github.com/ai-dynamo/dynamo/issues/5506),
+created on **2026-01-20**, is the bridge from the pre-1.0 releases to the
+1.0 launch period. It focuses on five areas:
+
+- performance
+- production-grade serving and scaling
+- core router and KV caching
+- agents
+- multimodality and diffusion
+
+Architecturally, the most important signals in that issue are:
+
+- **request and discovery plane decoupling**: `NATS` and `etcd` become
+  optional in more deployments, with TCP and Kubernetes-native discovery
+  taking over more of the base path
+- **KVBM deepening**: HBM→host→local SSD offload is treated as a core
+  production feature, and comments on the issue explicitly confirm that local
+  SSD offload is the intended meaning
+- **distributed KV direction**: the roadmap calls out P2P mesh plus global
+  object/file storage, and issue comments confirm that cross-node disk-backed
+  storage is in scope
+- **SGLang KVBM support**: comments on the issue confirm that "Support for
+  SGLang" means Dynamo KVBM support for SGLang
+
+### Issue #9208: Toward Dynamo 2.0
+
+Issue
+[#9208](https://github.com/ai-dynamo/dynamo/issues/9208),
+created on **2026-05-06**, shifts the framing from "shipping 1.0" to
+"expanding the system boundary." The stated direction is to cover essentially
+all GPU usage except pre-training.
+
+This changes how to read the panorama:
+
+- **Agents** move from request hints to workflow-aware scheduling and tracing
+- **RL post-training** turns Dynamo into a rollout engine rather than a pure
+  inference layer
+- **Omni** broadens the runtime to multimodal, diffusion, voice, and video
+- **Heterogeneous hardware** stops being a future curiosity and becomes a
+  first-class placement concern
+
+Issue #9208 also explains why `AITune`, `FlexTensor`, and `ModelExpress` are
+placed around the engine and control layers in the diagram. They are not
+incidental side projects; they are part of the path from LLM serving toward a
+broader inference and post-training platform.
+
 ## Surrounding Projects And Their Roles
 
 - **Inference engines**: Dynamo orchestrates engines such as
@@ -222,6 +355,10 @@ flowchart TB
 ## References
 
 - [ai-dynamo/dynamo](https://github.com/ai-dynamo/dynamo)
+- [Dynamo KVBM Design](https://github.com/ai-dynamo/dynamo/blob/main/docs/design-docs/kvbm-design.md)
+- [Dynamo Discovery Plane SVG](https://github.com/ai-dynamo/dynamo/blob/main/docs/assets/img/discovery-plane.svg)
+- [Dynamo Issue #5506: H1 '26 roadmap](https://github.com/ai-dynamo/dynamo/issues/5506)
+- [Dynamo Issue #9208: Toward Dynamo 2.0](https://github.com/ai-dynamo/dynamo/issues/9208)
 - [ai-dynamo/grove](https://github.com/ai-dynamo/grove)
 - [ai-dynamo/aiconfigurator](https://github.com/ai-dynamo/aiconfigurator)
 - [ai-dynamo/modelexpress](https://github.com/ai-dynamo/modelexpress)
