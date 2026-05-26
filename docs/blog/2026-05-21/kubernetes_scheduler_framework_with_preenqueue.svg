@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="860" viewBox="0 0 1900 860" role="img" aria-labelledby="title desc">
+  <title id="title">Kubernetes scheduler framework with PreEnqueue and QueueSort</title>
+  <desc id="desc">A diagram based on the classic scheduling framework flow, extended with the PreEnqueue stage, gated pods, and Sort QueueSort before the scheduling cycle.</desc>
+
+  <defs>
+    <style>
+      .title { font: 700 28px Arial, sans-serif; fill: #f3f3f3; }
+      .subtitle { font: 400 15px Arial, sans-serif; fill: #d2d2d2; }
+      .section { font: 400 22px Arial, sans-serif; fill: #111; }
+      .small { font: 400 16px Arial, sans-serif; fill: #d6d6d6; }
+      .bubble { font: 400 18px Arial, sans-serif; fill: #111; }
+      .axis { font: 400 18px Arial, sans-serif; fill: #111; }
+      .plugin { font: 700 17px Arial, sans-serif; fill: #111; }
+      .legend { font: 400 16px Arial, sans-serif; fill: #e6e6e6; }
+      .stroke { stroke: #2a2a2a; stroke-width: 1.2; }
+      .dashed { stroke: #666; stroke-width: 2; stroke-dasharray: 8 6; }
+    </style>
+
+    <marker id="arrowhead-black" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#151515"/>
+    </marker>
+    <marker id="arrowhead-gray" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6f6f6f"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1900" height="860" fill="#050505"/>
+
+  <text x="950" y="54" text-anchor="middle" class="title">Kubernetes scheduler framework with queue gating</text>
+  <text x="950" y="82" text-anchor="middle" class="subtitle">Adapted from the classic scheduling framework view, extended with PreEnqueue, gated Pods, and Sort (QueueSort).</text>
+
+  <g transform="translate(1190,104)">
+    <polygon points="0,0 110,0 126,18 110,36 0,36" fill="#b7d99e" class="stroke"/>
+    <text x="145" y="24" class="legend">Extensible API</text>
+    <rect x="0" y="50" width="126" height="38" rx="8" ry="8" fill="#ffe89b" class="dashed"/>
+    <text x="145" y="76" class="legend">Internal API</text>
+  </g>
+
+  <g transform="translate(20,210)">
+    <rect x="0" y="0" width="145" height="430" rx="28" ry="28" fill="#c8ebff" stroke="#1976d2" stroke-width="6"/>
+
+    <g transform="translate(26,30)">
+      <polygon points="46,0 92,26 92,78 46,104 0,78 0,26" fill="#1f6fe5" stroke="#1d5fc4" stroke-width="2"/>
+      <polygon points="46,30 66,40 66,62 46,72 26,62 26,40" fill="#f2f5f7"/>
+      <text x="46" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">pod</text>
+    </g>
+    <g transform="translate(26,160)">
+      <polygon points="46,0 92,26 92,78 46,104 0,78 0,26" fill="#1f6fe5" stroke="#1d5fc4" stroke-width="2"/>
+      <polygon points="46,30 66,40 66,62 46,72 26,62 26,40" fill="#f2f5f7"/>
+      <text x="46" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">pod</text>
+    </g>
+    <g transform="translate(26,290)">
+      <polygon points="46,0 92,26 92,78 46,104 0,78 0,26" fill="#1f6fe5" stroke="#1d5fc4" stroke-width="2"/>
+      <polygon points="46,30 66,40 66,62 46,72 26,62 26,40" fill="#f2f5f7"/>
+      <text x="46" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#ffffff">pod</text>
+    </g>
+  </g>
+
+  <rect x="190" y="186" width="290" height="470" rx="28" ry="28" fill="#dad5e8" stroke="#6e6a79" stroke-width="2"/>
+  <text x="335" y="175" text-anchor="middle" class="section" fill="#f3f3f3">Pending Queue Context</text>
+
+  <path d="M 210 392 H 470" stroke="#5a5a5a" stroke-width="16" fill="none" marker-end="url(#arrowhead-gray)"/>
+  <path d="M 210 482 H 298" stroke="#6b6b6b" stroke-width="10" fill="none" marker-end="url(#arrowhead-gray)"/>
+
+  <g transform="translate(248,236)">
+    <path d="M 0 0 H 176 V 110 H 96 L 70 132 L 44 110 H 0 Z" fill="#d7e6f6" class="stroke"/>
+    <text x="18" y="34" class="bubble">
+      <tspan x="18" dy="0">New pods go</tspan>
+      <tspan x="18" dy="23">through</tspan>
+      <tspan x="18" dy="23">PreEnqueue</tspan>
+      <tspan x="18" dy="23">plugins</tspan>
+    </text>
+  </g>
+
+  <polygon points="318,392 366,392 386,414 386,548 298,548 298,414" fill="#ffdca8" class="stroke"/>
+  <text x="342" y="520" text-anchor="middle" class="plugin" transform="rotate(-90 342 520)">PreEnqueue</text>
+
+  <g transform="translate(222,566)">
+    <path d="M 0 52 C 18 18, 42 0, 76 0 L 76 72 L 0 72 Z" fill="#d7e6f6" class="stroke"/>
+    <text x="18" y="46" class="bubble">
+      <tspan x="16" dy="0">New pods</tspan>
+      <tspan x="16" dy="22">gated</tspan>
+    </text>
+  </g>
+
+  <polygon points="520,384 610,384 628,405 610,426 520,426" fill="#9aca7b" class="stroke"/>
+  <text x="565" y="402" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111">Sort</text>
+  <text x="565" y="421" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#111">(QueueSort)</text>
+
+  <text x="942" y="170" text-anchor="middle" class="title" fill="#d9d9d9" font-size="20">Pod Scheduling Context</text>
+  <rect x="640" y="190" width="780" height="440" rx="34" ry="34" fill="#dce9d1" stroke="#b8c5ae" stroke-width="2"/>
+  <rect x="1440" y="190" width="350" height="440" rx="34" ry="34" fill="#fff1c6" stroke="#d8c89c" stroke-width="2"/>
+
+  <path d="M 688 394 H 1748" stroke="#101010" stroke-width="16" fill="none" marker-end="url(#arrowhead-black)"/>
+  <path d="M 688 426 H 980" stroke="#101010" stroke-width="10" fill="none" marker-end="url(#arrowhead-black)"/>
+
+  <g transform="translate(690,232)">
+    <path d="M 0 0 H 208 V 118 H 122 L 90 144 L 58 118 H 0 Z" fill="#cfe0f2" class="stroke"/>
+    <text x="20" y="38" class="bubble">
+      <tspan x="20" dy="0">Pick a Pod from</tspan>
+      <tspan x="20" dy="28">scheduling</tspan>
+      <tspan x="20" dy="28">queue</tspan>
+    </text>
+  </g>
+
+  <polygon points="930,232 1008,232 1008,328 969,366 930,328" fill="#ef9aa0" class="stroke"/>
+  <text x="968" y="286" text-anchor="middle" class="plugin" transform="rotate(90 968 286)">PostFilter</text>
+
+  <g transform="translate(1228,236)">
+    <path d="M 0 0 H 186 V 112 H 124 L 96 144 L 68 112 H 0 Z" fill="#cfe0f2" class="stroke"/>
+    <text x="18" y="36" class="bubble">
+      <tspan x="18" dy="0">Reserve a</tspan>
+      <tspan x="18" dy="28">Node for the</tspan>
+      <tspan x="18" dy="28">Pod in Cache</tspan>
+    </text>
+  </g>
+
+  <g transform="translate(730,444)">
+    <polygon points="0,36 0,132 64,132 64,36 32,0" fill="#9ac57e" class="stroke"/>
+    <text x="32" y="120" text-anchor="middle" class="plugin" transform="rotate(-90 32 120)">PreFilter</text>
+
+    <polygon points="102,36 102,132 166,132 166,36 134,0" fill="#9ac57e" class="stroke"/>
+    <text x="134" y="120" text-anchor="middle" class="plugin" transform="rotate(-90 134 120)">Filter</text>
+
+    <polygon points="274,36 274,132 338,132 338,36 306,0" fill="#9ac57e" class="stroke"/>
+    <text x="306" y="120" text-anchor="middle" class="plugin" transform="rotate(-90 306 120)">PreScore</text>
+
+    <polygon points="376,36 376,132 440,132 440,36 408,0" fill="#9ac57e" class="stroke"/>
+    <text x="408" y="120" text-anchor="middle" class="plugin" transform="rotate(-90 408 120)">Score</text>
+
+    <polygon points="478,36 478,132 542,132 542,36 510,0" fill="#9ac57e" class="stroke"/>
+    <text x="510" y="104" text-anchor="middle" class="plugin" transform="rotate(-90 510 104)">Normalize</text>
+    <text x="510" y="140" text-anchor="middle" class="plugin" transform="rotate(-90 510 140)">Score</text>
+
+    <polygon points="580,36 580,132 644,132 644,36 612,0" fill="#9ac57e" class="stroke"/>
+    <text x="612" y="120" text-anchor="middle" class="plugin" transform="rotate(-90 612 120)">Reserve</text>
+
+    <polygon points="682,36 682,132 746,132 746,36 714,0" fill="#9ac57e" class="stroke"/>
+    <text x="714" y="120" text-anchor="middle" class="plugin" transform="rotate(-90 714 120)">Permit</text>
+  </g>
+
+  <text x="1030" y="596" text-anchor="middle" class="section">Scheduling Cycle</text>
+
+  <g transform="translate(1546,248)">
+    <path d="M 0 0 H 160 V 120 H 98 L 80 148 L 62 120 H 0 Z" fill="#cfe0f2" class="stroke"/>
+    <text x="22" y="42" class="bubble">
+      <tspan x="22" dy="0">Bind Pod to</tspan>
+      <tspan x="22" dy="30">Node</tspan>
+    </text>
+  </g>
+
+  <g transform="translate(1462,450)">
+    <rect x="0" y="0" width="58" height="152" rx="8" ry="8" fill="#ffe89b" class="dashed"/>
+    <text x="29" y="132" text-anchor="middle" class="plugin" transform="rotate(-90 29 132)">WaitOnPermit</text>
+
+    <polygon points="78,36 78,152 144,152 144,36 111,0" fill="#ffd96d" class="stroke"/>
+    <text x="111" y="134" text-anchor="middle" class="plugin" transform="rotate(-90 111 134)">PreBind</text>
+
+    <polygon points="166,36 166,152 232,152 232,36 199,0" fill="#ffd96d" class="stroke"/>
+    <text x="199" y="134" text-anchor="middle" class="plugin" transform="rotate(-90 199 134)">Bind</text>
+
+    <polygon points="254,36 254,152 320,152 320,36 287,0" fill="#ffd96d" class="stroke"/>
+    <text x="287" y="118" text-anchor="middle" class="plugin" transform="rotate(-90 287 118)">PostBind</text>
+  </g>
+
+  <text x="1608" y="596" text-anchor="middle" class="section">Binding Cycle</text>
+
+  <text x="40" y="814" class="small">Notes: Queue gating happens before active scheduling. The diagram keeps the classic framework layout but makes the `PreEnqueue` and `QueueSort` path explicit.</text>
+</svg>

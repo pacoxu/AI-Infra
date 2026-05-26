@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-08
+last_updated: 2026-05-21
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,67 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-05-21: Kubernetes Scheduler 演进主线：从 Predicates/Priorities 到 Scheduling Framework，再到 Workload-Aware Scheduling
+
+- [Kubernetes Scheduler 演进主线：从 Predicates/Priorities 到 Scheduling Framework，再到 Workload-Aware Scheduling (Chinese)](./2026-05-21/2026-05-21-kubernetes-scheduler-framework-evolution_zh.md)
+
+A Chinese architecture-focused retrospective on how `kube-scheduler` evolved
+from built-in predicates/priorities into a plugin framework and then toward
+workload-level scheduling:
+
+- **Three-stage arc**: frames scheduler history as `Predicates/Priorities +
+  Extenders` -> `Scheduling Framework` -> `Workload-Aware Scheduling`.
+- **Framework-centered narrative**: uses `KEP-624` and the classic extension
+  points diagram as the core explanatory device, instead of turning the piece
+  into release-note enumeration.
+- **Why `v1.16-v1.20` matters**: explains why that period works as a practical
+  "framework formation phase" for writing, while still distinguishing that from
+  the official `v1.19` stable milestone.
+- **Why this still matters**: connects `profiles`, queue behavior, and
+  `v1.35/v1.36` workload-aware scheduling back to the original framework
+  design.
+
+## 2026-05-13: 推理编排方案如何选择？AIBrix、Kthena、Dynamo、llm-d、KServe、vLLM Production Stack 与 SGLang/RBG
+
+- [推理编排方案如何选择？AIBrix、Kthena、Dynamo、llm-d、KServe、vLLM Production Stack 与 SGLang/RBG (Chinese)](./2026-05-13/2026-05-13-how-to-choose-inference-orchestration-stacks_zh.md)
+- [How to choose an inference orchestration stack: AIBrix, Kthena, Dynamo, llm-d, KServe, vLLM Production Stack, and SGLang/RBG](./2026-05-13/2026-05-13-how-to-choose-inference-orchestration-stacks.md)
+
+A bilingual update of the earlier inference orchestration theme, reframed
+around stack layers rather than project names:
+
+- **Do not compare unlike layers**: separates runtime, serving stack, control
+  plane, and workload primitive before comparing projects.
+- **Latest public progress**: updates `KServe + llm-d`, `AIBrix`, `Kthena`,
+  `Dynamo/Grove`, `vLLM Production Stack`, and `SGLang/RBG` to reflect their
+  current public positioning as of 2026-05-13.
+- **Infrastructure-first decision guide**: gives a practical selection path for
+  Volcano, KServe, vLLM, NVIDIA, vanilla Kubernetes, and SGLang users.
+- **PD is still conditional**: keeps the warning that prefill/decode
+  disaggregation is a systems tradeoff, not an automatic win.
+
+## 2026-05-11: NVIDIA 推理编排主线拆解：Dynamo、Grove、KAI Scheduler 与 GPU DRA Driver
+
+- [NVIDIA 推理编排主线拆解：Dynamo、Grove、KAI Scheduler 与 GPU DRA Driver (Chinese)](./2026-05-11/2026-05-11-dynamo-grove-kai-dra-ecosystem-zh.md)
+
+A Chinese ecosystem analysis that zooms in from the broader NVIDIA open source
+landscape to the orchestration path around Dynamo:
+
+- **Not four competing projects**: frames `Dynamo -> Grove -> KAI Scheduler -> GPU DRA Driver`
+  as one vertical architecture from serving intent to hardware topology.
+- **Why Grove matters**: explains Grove as the workload abstraction layer for
+  multi-role disaggregated inference, not just another controller.
+- **Why KAI matters**: highlights topology-aware scheduling, hierarchical
+  PodGroups, DRA support, and fairshare as the execution layer for AI clusters.
+- **Why DRA matters now**: connects upstream DRA progress in Kubernetes 1.35/1.36
+  to NVIDIA's `ComputeDomain` and future GPU-sharing semantics.
+- **Where NIXL, NCCL, and AICR fit**: positions `NIXL/NCCL` as the data movement
+  and GPU communication layer, and `AICR/GPU Operator` as cluster baseline and
+  operations support rather than the orchestration core itself.
+- **Where LWS and vLLM fit**: positions `LWS + Volcano` as the official
+  community-native path, and notes `Koordinator` can play a similar scheduling
+  role when teams already standardize on it; `vLLM` remains engine/data-plane
+  rather than the same layer as Grove/KAI/DRA.
 
 ## 2026-04-28: 如何理解 Hugging Face、私有 Hugging Face、MatrixHub、Harbor + Dragonfly + ModelPack 与 ModelExpress
 
