@@ -172,6 +172,67 @@ flowchart TB
     H3 --> H4
 ```
 
+## End-To-End Request Flow
+
+The official
+[dynamo-flow.md](https://github.com/ai-dynamo/dynamo/blob/main/docs/design-docs/dynamo-flow.md)
+adds the dynamic view that the panorama alone does not show: how a single
+disaggregated request moves through the system.
+
+### Request Lifecycle In 9 Steps
+
+1. **Request**: the client sends an HTTP request to the Dynamo Frontend.
+2. **Preprocess**: the Frontend validates, templates, and tokenizes the input.
+3. **Route to prefill**: the PrefillRouter selects a prefill worker using
+   KV-aware routing or load balancing.
+4. **Prefill**: the prefill worker computes prompt KV state.
+5. **Return metadata**: the prefill worker sends back
+   `disaggregated_params`, which contain transfer metadata.
+6. **Route to decode**: the router injects the prefill result into the decode
+   request and selects a decode worker.
+7. **KV transfer**: the decode worker coordinates direct KV movement from the
+   prefill side, typically through NIXL.
+8. **Decode**: the decode worker generates output tokens using the transferred
+   KV cache.
+9. **Response**: tokens stream back through the Frontend to the client.
+
+### Flow Diagram
+
+```mermaid
+flowchart LR
+    C["Client"]
+    F["Frontend"]
+    R["PrefillRouter"]
+    P["Prefill Worker"]
+    PKV["Prefill KV Cache"]
+    D["Decode Worker"]
+    DKV["Decode KV Cache"]
+    X["NIXL Transfer"]
+
+    C -->|"1 request"| F
+    F -->|"2 preprocess"| R
+    R -->|"3 route to prefill"| P
+    P -->|"4 prefill"| PKV
+    P -->|"5 disaggregated_params"| R
+    R -->|"6 route to decode"| D
+    D -->|"7 transfer coordination"| X
+    X -->|"KV handoff"| PKV
+    PKV -->|"KV movement"| DKV
+    D -->|"8 decode"| DKV
+    D -->|"9 stream response"| F
+    F -->|"HTTP response"| C
+```
+
+### How The Flow Maps To The Panorama
+
+| Flow stage | Panorama layer | Why it matters |
+| --- | --- | --- |
+| Request + preprocess | Ingress and API layer | Frontend is the normalization point for OpenAI-compatible traffic |
+| Prefill and decode routing | Dynamo request plane | Router and Global Router decide worker placement and pool selection |
+| KV handoff | State plane and data movement | KVBM, KV metadata, and NIXL keep reuse local and reduce recomputation |
+| Token generation | Backend runtime adapters and engines | vLLM, SGLang, or TRT-LLM do the actual forward passes |
+| Discovery, metrics, autoscaling | Platform services and control plane | worker registration, planner metrics, and scaling run beside the request path |
+
 ## How To Read The Diagram
 
 | Layer | What it owns | Main projects or components |
