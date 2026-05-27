@@ -19,6 +19,8 @@ traffic entry and ending at storage tiers and hardware.
 
 ## Top-Down Panorama
 
+![Dynamo top-down panorama](../../diagrams/dynamo-top-down-panorama.png)
+
 ```mermaid
 flowchart TB
     subgraph L0["Traffic And Application Entry"]
