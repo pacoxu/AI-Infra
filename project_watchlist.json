@@ -9,6 +9,10 @@
       "url": "https://github.com/alibaba/higress"
     },
     {
+      "repo": "agent-substrate/substrate",
+      "url": "https://github.com/agent-substrate/substrate"
+    },
+    {
       "repo": "axolotl-ai-cloud/axolotl",
       "url": "https://github.com/axolotl-ai-cloud/axolotl"
     },
