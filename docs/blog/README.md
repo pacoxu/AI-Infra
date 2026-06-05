@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-21
+last_updated: 2026-06-05
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -88,6 +88,26 @@ runtime weight transfer into a single model distribution view:
   right answer.
 - **One-stack diagram**: provides a Mermaid overview covering Hugging Face,
   ModelScope, MatrixHub, Harbor, Dragonfly, ModelPack, and ModelExpress.
+
+## 2026-04-25: DeepSeek V4 对推理方向的影响：长上下文、Agent Runtime 与非 CUDA 内核生态
+
+- [DeepSeek V4 对推理方向的影响：长上下文、Agent Runtime 与非 CUDA 内核生态 (Chinese)](./2026-04-25/2026-04-25-deepseek-v4-inference-impact_zh.md)
+
+A Chinese AI-infra analysis of how DeepSeek V4 reshapes inference priorities
+across long-context serving, agent runtime behavior, MoE communication, and
+kernel portability:
+
+- **Long context becomes default**: argues that `1M context` pushes optimization
+  focus from pure decode speed toward attention variants, KV hierarchy, and
+  prefill organization.
+- **Agent runtime enters the hot path**: explains why session locality,
+  tool-use workflows, and end-to-end task latency matter more than single-turn
+  token throughput alone.
+- **MoE stays communication-bound**: frames expert dispatch/combine and
+  topology-aware networking as the main bottlenecks rather than local GEMM.
+- **TileLang and Ascend matter strategically**: uses the DeepSeek-related
+  kernel ecosystem to argue that DSL/codegen routes can shorten non-CUDA
+  backend catch-up time.
 
 ## 2026-04-23: Kubernetes v1.36 DRA 整体设计
 
