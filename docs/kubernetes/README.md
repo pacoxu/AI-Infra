@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-09
+last_updated: 2026-06-05
 tags: kubernetes, ai-infrastructure, scheduling, resource-management
 canonical_path: docs/kubernetes/README.md
 ---
@@ -34,8 +34,8 @@ workload isolation.
 
 - **[Scheduling Optimization](./scheduling-optimization.md)**: Comprehensive
   guide covering high-throughput scheduling, multi-scheduler patterns,
-  gang scheduling, topology-aware scheduling, load balancing, and
-  descheduling strategies
+  native workload-aware scheduling, gang scheduling, topology-aware
+  scheduling, load balancing, and descheduling strategies
 - **[Swap Memory Management](./swap-memory-management.md)**: Practical guide to
   kubelet swap behaviors (`NoSwap`/`LimitedSwap`), observability, and memory
   pressure tuning in Kubernetes
