@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-06-05
+last_updated: 2026-05-21
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,28 +11,6 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
-
-## 2026-06-05: 如何理解 Workload-Aware Scheduling 与 Gang Scheduling：Volcano、kube-scheduler 与 Grove 三条路线
-
-- [如何理解 Workload-Aware Scheduling 与 Gang Scheduling：Volcano、kube-scheduler 与 Grove 三条路线 (Chinese)](./2026-06-05/2026-06-05-gang-scheduling-workload-aware-scheduling_zh.md)
-
-A Chinese architecture article that puts native Kubernetes workload-aware
-scheduling, Volcano, and Grove on the same map instead of treating them as
-interchangeable gang schedulers:
-
-- **Different layers, same problem**: separates upstream `kube-scheduler WAS`,
-  `Volcano` as a scheduling platform, and `Grove + KAI` as inference
-  orchestration plus AI-aware scheduling.
-- **Native Kubernetes path**: explains the `v1.35` to `v1.36` progression from
-  Pod-based gang scheduling toward `PodGroup scheduling cycle`,
-  `placementGenerate`, `placementScore`, topology-aware scheduling, and
-  workload-aware preemption.
-- **Production cluster path**: frames `Volcano` around `PodGroup + queue +
-  fairness + preemption + topology`, instead of reducing it to a single gang
-  scheduling feature.
-- **Inference-specific path**: clarifies that `Grove` is not the generic
-  scheduler itself, but the orchestration layer for multi-role inference
-  systems, commonly paired with `KAI Scheduler`.
 
 ## 2026-05-21: Kubernetes Scheduler 演进主线：从 Predicates/Priorities 到 Scheduling Framework，再到 Workload-Aware Scheduling
 
