@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-26
+last_updated: 2026-06-18
 tags: ai-agents, agentic-workflow, kubernetes, mcp, agent-platforms
 canonical_path: agent-infra/README.md
 ---
@@ -328,6 +328,53 @@ community), the current sandbox/runtime ecosystem can be summarized as:
 These projects indicate a convergence path: **standardized CRD control plane +
 durable actor/session runtime + pluggable sandbox runtime backends + warm pool
 or snapshot-based latency control**.
+
+#### Kubernetes Dynamic Containers Watch (2026-06-18)
+
+[kubernetes/enhancements#6169](https://github.com/kubernetes/enhancements/pull/6169)
+adds the first KEP draft for
+[KEP-5972: Dynamic Containers](https://github.com/kubernetes/enhancements/issues/5972).
+As of this snapshot, the PR is still open, labeled `do-not-merge/hold`, and
+under active API / SIG-Auth review, so it should be tracked as an upstream
+design signal rather than a consumable Kubernetes API.
+
+The important AI infra signal is that Kubernetes core is discussing whether a
+running Pod can become a mutable execution envelope for agentic and
+high-churn workloads:
+
+- **Warm pools for agents**: pre-create Pods that have already paid scheduling,
+  sandbox, CNI, volume, and device setup cost, then add short-lived main
+  containers later for low-latency tool execution.
+- **Hierarchical scheduling**: let Kubernetes allocate the coarse Pod resource
+  budget while Ray, Slurm, or agent runtimes perform fine-grained local
+  container placement inside that envelope.
+- **Restore / migration fast path**: schedule a shell Pod first, then restore
+  or migrate workload state into it.
+- **In-place sidecar or daemon changes**: swap supporting containers with less
+  disruption than full Pod replacement.
+
+The latest design update moved new Pod mutability behind a dedicated
+`pods/dynamic` subresource instead of broadening default Pod update rules. That
+subresource is not intended to be granted by the default `edit` ClusterRole.
+The draft also adds a read-only `pods/allocated` view for the kubelet-allocated
+Pod spec and gates the feature through `DynamicContainers` on
+`kube-apiserver` and `kubelet`.
+
+The active review concern is admission and policy compatibility. After the
+SIG-Auth discussion, the proposed direction is:
+
+- provide a static cluster-level opt-out, likely as an API server flag;
+- treat the new subresource as the future extension point for broader Pod
+  mutability, while still limiting the first alpha scope;
+- require admission webhooks and policies that cover Pod create or update to
+  also cover `pods/dynamic`; otherwise requests through the new subresource
+  should be rejected instead of bypassing legacy policy.
+
+For this repository, the practical takeaway is to keep agent sandbox
+architecture decoupled from this KEP for now: design warm pools and sandbox
+APIs around existing CRDs/runtime backends, but watch `pods/dynamic` because it
+could eventually collapse some custom fast-start paths back into core
+Kubernetes.
 
 #### Agent Sandbox Selection Update (2026-04-22)
 
