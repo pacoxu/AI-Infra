@@ -7,6 +7,9 @@ canonical_path: docs/blog/2026-06-15/2026-06-15-kep-766-disaggregatedset-ai-work
 source_urls:
   - https://github.com/kubernetes-sigs/lws/blob/main/keps/766-DisaggregatedSet/README.md
   - https://github.com/kubernetes-sigs/lws/blob/main/keps/766-DisaggregatedSet/kep.yaml
+  - https://github.com/kubernetes-sigs/lws/blob/main/api/disaggregatedset/v1/groupversion_info.go
+  - https://github.com/kubernetes-sigs/lws/blob/main/api/disaggregatedset/v1/disaggregatedset_types.go
+  - https://github.com/kubernetes-sigs/lws/blob/main/config/samples/disaggregatedset_v1_disaggregatedset.yaml
   - https://github.com/kubernetes-sigs/lws/pull/767
   - https://github.com/kubernetes-sigs/lws/pull/773
   - https://github.com/kubernetes-sigs/lws/pull/815
@@ -116,10 +119,13 @@ flowchart TB
 
 ## 2. API 设计：一个对象描述多个 role
 
-从当前上游实现看，`DisaggregatedSet` 使用独立 API group：
+从当前上游实现看，`DisaggregatedSet` 使用独立 API group。这个值来自
+`api/disaggregatedset/v1/groupversion_info.go` 里的 `GroupVersion`，上游 sample
+也已经使用同一个 group/version：
 
 ```yaml
-apiVersion: disaggregatedset.x-k8s.io/v1
+# config/samples/disaggregatedset_v1_disaggregatedset.yaml
+apiVersion: disaggregatedset.x-k8s.io/v1 # current upstream GroupVersion
 kind: DisaggregatedSet
 metadata:
   name: disaggregatedset-sample
@@ -154,11 +160,12 @@ API 里有几个约束值得注意：
 - role 内部 LWS 的 rollout 不能再设置 partition，因为跨 role rollout 由
   `DisaggregatedSet` controller 统一负责
 
-上游定义的关键 label 也说明了它的设计重心：
+上游定义的关键 label 也说明了它的设计重心。当前实现里，这些常量定义在
+`api/disaggregatedset/v1/disaggregatedset_types.go`：
 
-- `disaggregatedset.x-k8s.io/name`
-- `disaggregatedset.x-k8s.io/role`
-- `disaggregatedset.x-k8s.io/revision`
+- `disaggregatedset.x-k8s.io/name` (`SetNameLabelKey`)
+- `disaggregatedset.x-k8s.io/role` (`RoleLabelKey`)
+- `disaggregatedset.x-k8s.io/revision` (`RevisionLabelKey`)
 
 这三个 label 把“属于哪个 DisaggregatedSet”“属于哪个 role”“属于哪个 revision”明确落到
 子资源上。对运维和路由来说，这比在一堆 LWS 名字里猜版本状态可靠得多。
@@ -303,13 +310,16 @@ LWS，但日常判断不再需要从一组无关对象里还原拓扑。
 | Controller PR | [`kubernetes-sigs/lws#836`](https://github.com/kubernetes-sigs/lws/pull/836)，`2026-05-31` 合并 |
 | Helm chart PR | [`kubernetes-sigs/lws#871`](https://github.com/kubernetes-sigs/lws/pull/871)，`2026-06-03` 合并 |
 | LWS release | [`v0.9.0`](https://github.com/kubernetes-sigs/lws/releases/tag/v0.9.0)，`2026-06-17` 发布 |
-| 当前 API group | `disaggregatedset.x-k8s.io/v1` |
+| 当前 API group/version | `disaggregatedset.x-k8s.io/v1`，见 `api/disaggregatedset/v1/groupversion_info.go` |
 | 当前明确边界 | 不覆盖 HPA/VPA、多集群、非 LWS backend、service mesh/ingress 流量切分 |
 
 ## 参考资料
 
 - [KEP-766: DisaggregatedSet](https://github.com/kubernetes-sigs/lws/blob/main/keps/766-DisaggregatedSet/README.md)
 - [KEP-766 metadata](https://github.com/kubernetes-sigs/lws/blob/main/keps/766-DisaggregatedSet/kep.yaml)
+- [DisaggregatedSet group/version definition](https://github.com/kubernetes-sigs/lws/blob/main/api/disaggregatedset/v1/groupversion_info.go)
+- [DisaggregatedSet type and label constants](https://github.com/kubernetes-sigs/lws/blob/main/api/disaggregatedset/v1/disaggregatedset_types.go)
+- [DisaggregatedSet sample YAML](https://github.com/kubernetes-sigs/lws/blob/main/config/samples/disaggregatedset_v1_disaggregatedset.yaml)
 - [KEP-766 proposal PR](https://github.com/kubernetes-sigs/lws/pull/767)
 - [DisaggregatedSet implementation PR](https://github.com/kubernetes-sigs/lws/pull/773)
 - [DisaggregatedSet API types PR](https://github.com/kubernetes-sigs/lws/pull/815)
