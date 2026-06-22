@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-21
+last_updated: 2026-06-15
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,27 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-06-15: KEP-766 DisaggregatedSet 深入解读：为何对 AI 工作负载重要
+
+- [KEP-766 DisaggregatedSet 深入解读：为何对 AI 工作负载重要 (Chinese)](./2026-06-15/2026-06-15-kep-766-disaggregatedset-ai-workloads_zh.md)
+
+A Chinese architecture-focused analysis of `KEP-766 DisaggregatedSet`, updated
+with the post-issue upstream reality that LWS `v0.9.0` already includes the
+proposal, implementation, controller, and Helm integration work:
+
+- **Problem definition**: explains why manually coordinating multiple
+  `LeaderWorkerSet` resources becomes fragile for prefill/decode and other
+  multi-role inference services.
+- **API and rollout model**: breaks down `spec.roles`,
+  `LeaderWorkerSetTemplateSpec`, role/revision labels, and the N-dimensional
+  rolling update algorithm.
+- **AI workload impact**: connects coordinated revision management,
+  per-revision headless Services, and role-level resource differences back to
+  production inference operations.
+- **Scope boundaries**: separates `DisaggregatedSet` from higher-level
+  platforms such as `KServe + llm-d`, `AIBrix`, `Kthena`, `Dynamo/Grove`, and
+  broader role APIs such as `RBG`.
 
 ## 2026-05-21: Kubernetes Scheduler 演进主线：从 Predicates/Priorities 到 Scheduling Framework，再到 Workload-Aware Scheduling
 
