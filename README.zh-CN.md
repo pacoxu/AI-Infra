@@ -264,8 +264,8 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
     - [`Kubernetes SIG Agent Sandbox`](https://github.com/kubernetes-sigs/agent-sandbox):
       AI 智能体的安全沙箱
     - [`Agent Substrate`](https://github.com/agent-substrate/substrate):
-      面向有状态智能体会话的高密度 Kubernetes 运行时，支持 suspend/resume
-      与实时流量路由
+      面向有状态智能体会话的核心系统和高密度 Kubernetes 运行时，支持
+      suspend/resume 与实时流量路由
     - [`Agent Infra Sandbox`](https://github.com/agent-infra/sandbox): 社区
       沙箱基础设施
     - [`OpenKruise Agents`](https://github.com/openkruise/agents): 应用

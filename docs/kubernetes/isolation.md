@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-22
+last_updated: 2026-07-09
 tags: kubernetes, isolation, security, multi-tenancy
 canonical_path: docs/kubernetes/isolation.md
 ---
@@ -497,6 +497,7 @@ designs, the most important decision is where each project sits in the stack:
 | Layer | Projects | Fit for Kubernetes Isolation |
 | ----- | -------- | ---------------------------- |
 | Kubernetes lifecycle API | [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox), [agent-sandbox/agent-sandbox](https://github.com/agent-sandbox/agent-sandbox), [volcano-sh/agentcube](https://github.com/volcano-sh/agentcube) | Use for `Sandbox` CRDs, warm pools, stable identity, and scheduler integration. This layer still needs a runtime boundary underneath. |
+| Agent runtime substrate | [agent-substrate/substrate](https://github.com/agent-substrate/substrate) | Use when the problem is not only isolation, but running large fleets of mostly idle agents through invocation-based wake-up, suspension/resume, and shared worker pools. |
 | Agent sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | Use for SDK/API, templates, command/file/browser execution, and self-hosted service operations. Validate licensing and deployment model before embedding. |
 | Runtime boundary | [gVisor](https://github.com/google/gvisor), [Kata Containers](https://github.com/kata-containers/kata-containers), [containerd/nerdbox](https://github.com/containerd/nerdbox), [Firecracker](https://github.com/firecracker-microvm/firecracker), [Kuasar](https://github.com/kuasar-io/kuasar) | Use as the actual isolation boundary: gVisor for density, Kata for VM-level isolation, Firecracker for custom microVM control planes, Kuasar for multi-sandbox containerd integration. |
 | Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime) | Evaluate separately for developer workstations, where repo-scoped egress, host-side credentials, and post-run diff review matter more than K8s CRDs. |
@@ -511,6 +512,14 @@ Recommended Kubernetes shape:
    for compliance-heavy workloads.
 4. Keep sandboxes zero-secret and short-lived; route LLM, storage, and
    external API credentials through a control-plane proxy.
+
+The July 2026 CNCF article
+<a href="https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough/">
+Why sandboxing your agent is not enough</a> frames the distinction clearly:
+`agent-sandbox` makes agent execution secure and Kubernetes-native, while
+`agent-substrate` targets density, efficiency, and operational scalability by
+letting agents wake on invocation, run in shared worker pods, suspend when
+idle, and resume later.
 
 #### Container-based Sandboxing
 
@@ -631,6 +640,25 @@ agents and autonomous workloads.
 - Dynamic model deployment and testing
 - Safe execution of user-provided inference code
 
+### Agent Substrate
+
+<a href="https://github.com/agent-substrate/substrate">Agent Substrate</a>
+is a standalone Kubernetes-based runtime substrate for secure, efficient,
+on-demand agent execution. It is not a sandbox boundary by itself; instead,
+it complements projects such as Agent Sandbox and runtime technologies such
+as gVisor or Kata Containers by decoupling the logical agent actor from the
+worker pod that executes it.
+
+#### Key Features
+
+- **Invocation-based wake-up**: Agents do not need dedicated always-on pods.
+- **Shared worker pools**: Many idle agents can share a smaller pool of
+  execution workers.
+- **Suspend and resume lifecycle**: Agents can pause when idle and resume on
+  available capacity.
+- **Sandbox-compatible execution**: Worker pods can still use Kubernetes
+  sandbox runtimes such as gVisor or Kata Containers.
+
 ### GKE Agent Sandbox
 
 <a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">
@@ -663,6 +691,9 @@ capabilities.
 
 - <a href="https://github.com/kubernetes-sigs/agent-sandbox">Kubernetes SIG
   Agent Sandbox</a>
+- <a href="https://github.com/agent-substrate/substrate">Agent Substrate</a>:
+  Core runtime system for secure, efficient, on-demand agent execution on
+  Kubernetes
 - <a href="https://github.com/alibaba/OpenSandbox">OpenSandbox</a>: General
   self-hosted sandbox API/SDK with Docker, Kubernetes, and secure runtime
   backends
@@ -683,6 +714,8 @@ capabilities.
   and change review
 - <a href="https://unikraft.org/">Unikraft</a>: Unikernel framework with
   multi-process support (v0.19+)
+- <a href="https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough/">
+  CNCF: Why sandboxing your agent is not enough</a>
 - <a href="https://github.com/pydantic/monty">monty</a>: WASM Python-subset
   interpreter for ultra-fast cold starts
 - <a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">

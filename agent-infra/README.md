@@ -267,6 +267,8 @@ ready workers and keeps the Kubernetes control plane out of the hot path.
 - Platforms that want Kubernetes primitives underneath but lower latency than
   Pod-per-session orchestration
 
+See also: [CNCF: Why sandboxing your agent is not enough](https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough/)
+
 ### Agent Infra Sandbox
 
 <a href="https://github.com/agent-infra/sandbox">`agent-infra/sandbox`</a>
@@ -326,9 +328,9 @@ community), the current sandbox/runtime ecosystem can be summarized as:
 
 - **K8s standard layer — `kubernetes-sigs/agent-sandbox`**: SIG Apps official
   project with `Sandbox` CRD, `SandboxWarmPool`, and deep GKE integration.
-- **Google `Agent Substrate`**: Low-opinion runtime that multiplexes many
-  agent actors onto a smaller worker pool with suspend/resume and real-time
-  routing.
+- **Agent runtime substrate — `agent-substrate/substrate`**: Core runtime
+  system for invocation-based agent wake-up, suspend/resume, and shared
+  worker pools on Kubernetes.
 - **Alibaba `OpenSandbox`**: Four sandbox types (`Coding`, `GUI`, `Exec`,
   `RL`) plus a three-tier isolation design for heterogeneous agent workloads.
 - **OpenKruise AIO Sandbox**: Lifecycle management, E2B protocol compatibility,
@@ -389,7 +391,7 @@ APIs around existing CRDs/runtime backends, but watch `pods/dynamic` because it
 could eventually collapse some custom fast-start paths back into core
 Kubernetes.
 
-#### Agent Sandbox Selection Update (2026-04-22)
+#### Agent Sandbox Selection Update (2026-07-09)
 
 Recent agent sandbox projects should be compared by layer, not as direct
 one-for-one replacements. A practical platform usually combines an
@@ -400,6 +402,7 @@ runtimes:
 | ----- | ------------------ | ------------ | --------------- |
 | Agent-facing sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | SDK/API, sandbox lifecycle, command/file/browser execution, templates | Use OpenSandbox as the broad self-hosted default; evaluate CubeSandbox for high-density E2B-compatible microVM pools; check Daytona's AGPLv3 impact before embedding. |
 | Kubernetes lifecycle API | [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox), [agent-sandbox/agent-sandbox](https://github.com/agent-sandbox/agent-sandbox), [volcano-sh/agentcube](https://github.com/volcano-sh/agentcube) | CRD/controller, warm pools, stable sandbox identity, scheduling hooks | `kubernetes-sigs/agent-sandbox` is the neutral K8s API layer; `agent-sandbox/agent-sandbox` adds REST/MCP and E2B compatibility; AgentCube is still proposal/early design. |
+| Agent runtime substrate | [agent-substrate/substrate](https://github.com/agent-substrate/substrate) | Invocation routing, worker pools, agent actor lifecycle, suspend/resume | Use when agent fleets are mostly idle and dedicated pods would waste resources; pair it with Agent Sandbox or runtime sandboxing for the isolation boundary. |
 | Isolation runtime | [gVisor](https://github.com/google/gvisor), [Kata Containers](https://github.com/kata-containers/kata-containers), [containerd/nerdbox](https://github.com/containerd/nerdbox), [Firecracker](https://github.com/firecracker-microvm/firecracker), [Kuasar](https://github.com/kuasar-io/kuasar) | Runtime boundary for untrusted code | Start with gVisor for density and operational simplicity; use Kata for VM-level tenant boundaries and GPU paths; treat Firecracker as a low-level primitive unless the team owns the control plane. |
 | Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime) | Developer-machine isolation, repo policy, credential proxy, diff review | Prefer Cleanroom/Brood Box when the threat model is coding-agent access to a repo; use microsandbox/BoxLite for embeddable local microVM APIs; use sandbox-runtime for OS policy guardrails without VM isolation. |
 | Watch / avoid for now | [BinSquare/ERA](https://github.com/BinSquare/ERA), [autohandai/sandbox-core](https://github.com/autohandai/sandbox-core), [SmolVM](https://github.com/CelestoAI/SmolVM), [Gondolin](https://github.com/earendil-works/gondolin), [Pyro](https://github.com/danievanzyl/pyro), `opencapsule/opencapsule` | Early-stage or unclear availability | ERA is archived/deprecated; `opencapsule/opencapsule` was not publicly resolvable on GitHub when checked; the remaining projects are useful to track or borrow ideas from but need deeper maturity validation. |
@@ -422,9 +425,11 @@ Default stack recommendation:
 1. **Agent API**: OpenSandbox as the broad self-hosted API/SDK surface.
 2. **Kubernetes lifecycle**: `kubernetes-sigs/agent-sandbox` for `Sandbox`,
    `SandboxTemplate`, `SandboxClaim`, and `SandboxWarmPool`.
-3. **Default runtime**: gVisor for CPU-only untrusted code with high density.
-4. **High-risk runtime**: Kata or CubeSandbox for stronger microVM boundaries.
-5. **Local development**: Cleanroom or Brood Box for repo-scoped egress,
+3. **Runtime substrate**: `agent-substrate/substrate` when idle-agent density,
+   invocation-based wake-up, and suspend/resume matter.
+4. **Default runtime**: gVisor for CPU-only untrusted code with high density.
+5. **High-risk runtime**: Kata or CubeSandbox for stronger microVM boundaries.
+6. **Local development**: Cleanroom or Brood Box for repo-scoped egress,
    host-side credentials, and post-run change review.
 
 ## Agent Development Frameworks
@@ -688,16 +693,19 @@ without first deciding the layer boundary:
    Sandbox0 based on self-hosting, protocol compatibility, and licensing.
 2. **Kubernetes API**: use `kubernetes-sigs/agent-sandbox` when the platform
    needs declarative lifecycle, warm pools, and stable sandbox identity.
-3. **Runtime boundary**: map risk level to `RuntimeClass` or VM pools:
+3. **Runtime substrate**: use `agent-substrate/substrate` when many agents
+   should exist dormantly and wake on invocation without one pod per agent.
+4. **Runtime boundary**: map risk level to `RuntimeClass` or VM pools:
    gVisor for density, Kata for VM isolation, and dedicated VM/microVM pools
    for regulated tenants.
-4. **Developer workstation**: evaluate Cleanroom or Brood Box separately from
+5. **Developer workstation**: evaluate Cleanroom or Brood Box separately from
    cluster sandboxes because local coding agents need repo diff review,
    credential forwarding, and deny-by-default egress policy.
 
 The useful decision rule is: **OpenSandbox or CubeSandbox is a platform
-choice; Agent Sandbox is a Kubernetes lifecycle choice; gVisor, Kata,
-nerdbox, and Firecracker are runtime choices**.
+choice; Agent Sandbox is a Kubernetes lifecycle choice; Agent Substrate is a
+runtime-density choice; gVisor, Kata, nerdbox, and Firecracker are runtime
+boundary choices**.
 
 ### References
 
@@ -982,6 +990,7 @@ Major AI model providers are making agents central to their platforms:
 - [WG AI Integration Charter](https://github.com/kubernetes/community/blob/master/wg-ai-integration/charter.md)
 - [CNCF Tech Radar 2025](https://radar.cncf.io/)
 - [Agent Evolution Theory - WeChat Article](https://mp.weixin.qq.com/s/NUx4n5j0ftxzZ0Sz29RjOQ)
+- [CNCF: Why sandboxing your agent is not enough](https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough/)
 - [Browser Use: Building Secure, Scalable Agent Sandbox Infrastructure](https://browser-use.com/posts/two-ways-to-sandbox-agents)
 - [高策: Agent sandbox 可能的选型以及 unikernel 的机会](https://gaocegege.com/Blog/genai/unikernel-agent)
 
