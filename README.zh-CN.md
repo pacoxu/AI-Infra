@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-26
+last_updated: 2026-07-09
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -99,6 +99,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 #### AI 智能体
 
 - [AI 智能体平台与框架](./agent-infra/README.md)
+- [生产级 Agent Infra：9 层 + 4 横切能力](./agent-infra/ai-agent-infra-9-layers-zh.md)
 
 #### 博客
 
@@ -317,7 +318,8 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
 
 **参见 [AI 智能体平台指南](./agent-infra/README.md)**，全面了解智能体平台、
 框架、MCP 协议、智能体基础设施组件，以及在 Kubernetes 上构建和部署
-AI 智能体的详细学习路径。
+AI 智能体的详细学习路径。生产级分层架构请参见
+[Agent Infra 9 层 + 4 横切能力](./agent-infra/ai-agent-infra-9-layers-zh.md)。
 
 ---
 
