@@ -249,7 +249,7 @@ Agent Framework 和 Workflow Engine 要分清：
 
 - [Agent Sandbox Infrastructure](./README.md#agent-sandbox-infrastructure)
 - [Runtime Benchmark: runc vs gVisor vs Kata vs VM](./runtime-benchmark.md)
-- [kube-agentic-networking](../docs/inference/kube-agentic-networking.md)
+- [kube-agentic-networking](https://github.com/kubernetes-sigs/kube-agentic-networking)
 
 ## L6：状态与记忆层
 
