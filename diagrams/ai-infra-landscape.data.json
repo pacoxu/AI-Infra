@@ -2,7 +2,7 @@
   "meta": {
     "title": "AI Infra Landscape",
     "version": "2026-03",
-    "last_updated": "2026-04-22",
+    "last_updated": "2026-07-09",
     "note": "Regenerate diagrams/ai-infra-landscape.svg with node scripts/generate-landscape-svg.js"
   },
   "axes": {
@@ -168,7 +168,17 @@
       "y": 96,
       "group": "workflow",
       "stage": "early",
-      "logo": "AS"
+      "logo": "AS",
+      "url": "https://github.com/kubernetes-sigs/agent-sandbox"
+    },
+    {
+      "name": "Agent Substrate",
+      "x": 10,
+      "y": 78,
+      "group": "workflow",
+      "stage": "early",
+      "logo": "SU",
+      "url": "https://github.com/agent-substrate/substrate"
     },
     {
       "name": "OpenSandbox",

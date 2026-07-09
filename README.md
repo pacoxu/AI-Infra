@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-26
+last_updated: 2026-07-09
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -273,7 +273,7 @@ can perceive, reason, and act.
     - [`Kubernetes SIG Agent Sandbox`](https://github.com/kubernetes-sigs/agent-sandbox):
       Secure sandbox for AI agents
     - [`Agent Substrate`](https://github.com/agent-substrate/substrate):
-      High-density Kubernetes runtime for stateful agent actors with
+      Core system and high-density Kubernetes runtime for stateful agent actors with
       suspend/resume and real-time routing
     - [`Agent Infra Sandbox`](https://github.com/agent-infra/sandbox): Community
       sandbox infrastructure
