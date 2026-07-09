@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-26
+last_updated: 2026-07-09
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -102,6 +102,7 @@ where to focus their learning.
 #### AI Agents
 
 - [AI Agent Platforms and Frameworks](./agent-infra/README.md)
+- [Production Agent Infra: 9 Layers + 4 Cross-Cutting Capabilities](./agent-infra/ai-agent-infra-9-layers-zh.md)
 
 #### Blog
 
@@ -332,7 +333,8 @@ can perceive, reason, and act.
 **See [AI Agent Platforms Guide](./agent-infra/README.md)** for comprehensive
 coverage of agent platforms, frameworks, MCP protocol, agent infrastructure
 components, and detailed learning paths for building and deploying AI agents
-on Kubernetes.
+on Kubernetes. For the production layered architecture, see
+[Agent Infra 9 Layers + 4 Cross-Cutting Capabilities](./agent-infra/ai-agent-infra-9-layers-zh.md).
 
 ---
 

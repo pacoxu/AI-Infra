@@ -114,6 +114,9 @@ Directory/file counts evolve frequently; avoid hard-coded totals.
 
 - `README.md` - Overview of agent platforms, MCP protocol, Kubernetes-native
   solutions, and ecosystem snapshots
+- `ai-agent-infra-9-layers-zh.md` - Production Agent Infra layered architecture
+  view: 9 layers plus security, release, FinOps, and DevEx cross-cutting
+  capabilities
 - `runtime-benchmark.md` - Runtime benchmark and reproducibility guide
 
 **Cross-references**: Links to `../docs/kubernetes/isolation.md` for

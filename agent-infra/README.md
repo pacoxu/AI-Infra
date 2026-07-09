@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-06-18
+last_updated: 2026-07-09
 tags: ai-agents, agentic-workflow, kubernetes, mcp, agent-platforms
 canonical_path: agent-infra/README.md
 ---
@@ -17,6 +17,7 @@ Language Models (LLMs) as their core reasoning engine.
 ## Table of Contents
 
 - [Overview](#overview)
+- [Production Agent Infra: 9 Layers + 4 Cross-Cutting Capabilities](#production-agent-infra-9-layers--4-cross-cutting-capabilities)
 - [Native AI Agent Kits](#native-ai-agent-kits)
 - [Kubernetes-Native Agent Platforms](#kubernetes-native-agent-platforms)
 - [Agent Infra Ecosystem Snapshot (2026)](#agent-infra-ecosystem-snapshot-2026)
@@ -92,6 +93,18 @@ The AI Agent landscape includes:
 3. **Development Frameworks**: Libraries and SDKs for building agents
    (e.g., AgentScope, LangChain)
 4. **Infrastructure Components**: Sandboxes, gateways, MCP servers
+
+## Production Agent Infra: 9 Layers + 4 Cross-Cutting Capabilities
+
+For a production-oriented architecture view, see
+[AI Infra 全景图：Agent Framework、调度、编排、沙箱、记忆管理、Tracing 分层拆解](./ai-agent-infra-9-layers-zh.md).
+
+This companion document maps the runtime path from **L0 基础资源层** to
+**L8 可观测与运营层**, and explains how **security governance**,
+**CI/CD and release governance**, **FinOps**, and **developer experience**
+cut across every layer. It is a useful complement to this index-style
+ecosystem guide because it focuses on how production Agent systems are
+assembled, debugged, evaluated, governed, and operated end to end.
 
 ## Native AI Agent Kits
 
@@ -977,6 +990,7 @@ Major AI model providers are making agents central to their platforms:
 - [AI Gateway & Agentic Workflow](../README.md#-3-ai-gateway--agentic-workflow)
 - [Agent Sandbox and Isolation](../docs/kubernetes/isolation.md#6-agent-sandbox)
 - [Runtime Benchmark: runc vs gVisor vs Kata vs VM](./runtime-benchmark.md)
+- [Production Agent Infra: 9 Layers + 4 Cross-Cutting Capabilities](./ai-agent-infra-9-layers-zh.md)
 - [Memory and Context Management](../docs/inference/memory-context-db.md)
 - [LLM Inference Platforms](../docs/inference/README.md) - For model deployment
   platforms like Kaito, AIBrix, and OME that provide the inference backend
