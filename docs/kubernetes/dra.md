@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-09
+last_updated: 2026-07-10
 tags: kubernetes, dra, resource-allocation, device-management, topology
 canonical_path: docs/kubernetes/dra.md
 ---
@@ -11,6 +11,9 @@ canonical_path: docs/kubernetes/dra.md
 [DRA](https://github.com/kubernetes/dynamic-resource-allocation/) is Dynamic
 Resource Allocation for Kubernetes, enabling flexible device allocation with
 structured parameters and topology awareness.
+
+For GPU-specific sharing choices across HAMi, MIG, MPS, vGPU, and DRA, see
+[HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md).
 
 ## Overview
 
@@ -70,7 +73,8 @@ Requirements:
 [Scheduling Optimization Guide](./scheduling-optimization.md#26-topology-aware-scheduling)
 for DRA usage in production scenarios, and
 [HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md) for how DRA partitionable
-devices relate to MIG, HAMi, and fractional GPU pools.
+devices relate to MIG, HAMi, fractional GPU pools, and GPU isolation
+mechanisms.
 
 ## KEPs and Roadmap
 
