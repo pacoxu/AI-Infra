@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-09
+last_updated: 2026-07-10
 tags: kubernetes, ai-infrastructure, scheduling, resource-management
 canonical_path: docs/kubernetes/README.md
 ---
@@ -47,6 +47,9 @@ workload isolation.
 - **[NVIDIA GPU Operator](./nvidia-gpu-operator.md)**: Automated GPU driver
   installation, device plugin deployment, DRA driver integration, and GPU
   monitoring with DCGM
+- **[HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md)**: Systematic guide to
+  GPU partition, time-sharing, and isolation — HAMi, MIG, MPS, vGPU, DRA
+  selection matrices, dynamic MIG trade-offs, and queue integration
 - **[NVIDIA AI Cluster Runtime (AICR)](./nvidia-aicr.md)**: CLI tooling for
   generating optimized, validated, and reproducible GPU-accelerated Kubernetes
   cluster recipes across EKS, GKE, and self-managed clusters
@@ -81,8 +84,8 @@ workload isolation.
 
 1. Start with [Scheduling Optimization](./scheduling-optimization.md) for
    production patterns
-2. Review [DRA](./dra.md) and [NVIDIA GPU Operator](./nvidia-gpu-operator.md)
-   for GPU resource management
+2. Review [DRA](./dra.md), [NVIDIA GPU Operator](./nvidia-gpu-operator.md),
+   and [HAMi / GPU Sharing](./hami-gpu-sharing.md) for GPU resource management
 3. Explore [NRI](./nri.md) for fine-grained container control
 4. Understand [Pod Lifecycle](./pod-lifecycle.md) for debugging
 5. Use [Swap Memory Management](./swap-memory-management.md) when tuning
@@ -109,6 +112,8 @@ workload isolation.
    reliability and automated recovery
 5. Study [Isolation Guide](./isolation.md) for checkpoint/restore
 6. Understand [DRA](./dra.md) for complex device requirements
+7. Read [HAMi / GPU Sharing](./hami-gpu-sharing.md) for fractional GPU and MIG
+   selection
 
 ## Related Topics
 
