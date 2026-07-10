@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-26
+last_updated: 2026-07-10
 tags: inference, llm, vllm, serving, optimization
 canonical_path: docs/inference/README.md
 ---
@@ -295,6 +295,7 @@ Run multiple workloads on a single GPU to increase utilization:
 | **Time-slicing** | CUDA time-multiplexing between pods | Small models, dev/test |
 | **MIG (Multi-Instance GPU)** | Hardware GPU partitioning (A100/H100) | Isolated, predictable workloads |
 | **MPS (Multi-Process Service)** | CUDA context sharing with memory isolation | Batch inference, high throughput |
+| **HAMi** | Software GPU memory/core quotas and scheduling | Flexible fractions, heterogeneous accelerators |
 | **vGPU** | Virtualized GPU with memory limits | Enterprise multi-tenancy |
 
 **MIG configuration via NVIDIA GPU Operator:**
@@ -305,7 +306,9 @@ Run multiple workloads on a single GPU to increase utilization:
 kubectl label node <node> nvidia.com/mig.config=all-1g.10gb
 ```
 
-See [NVIDIA GPU Operator](../kubernetes/nvidia-gpu-operator.md) for MIG setup.
+See [NVIDIA GPU Operator](../kubernetes/nvidia-gpu-operator.md) for MIG setup,
+and [HAMi / MIG / GPU Sharing](../kubernetes/hami-gpu-sharing.md) for
+platform-level tradeoffs.
 
 ### Spot / Preemptible Instances
 

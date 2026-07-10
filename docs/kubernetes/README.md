@@ -106,14 +106,14 @@ workload isolation.
    GPU workloads
 2. Review [NVIDIA GPU Operator](./nvidia-gpu-operator.md) for GPU setup and
    monitoring
-3. Use [NVIDIA AICR](./nvidia-aicr.md) for validated, reproducible cluster
+3. Use [HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md) when choosing between
+   full GPUs, MIG, time-slicing, MPS, vGPU, HAMi, and DRA-backed devices
+4. Use [NVIDIA AICR](./nvidia-aicr.md) for validated, reproducible cluster
    recipes on EKS, GKE, or self-managed clusters
-4. Study [GPU Fault Detection](./gpu-fault-detection.md) for production
+5. Study [GPU Fault Detection](./gpu-fault-detection.md) for production
    reliability and automated recovery
-5. Study [Isolation Guide](./isolation.md) for checkpoint/restore
-6. Understand [DRA](./dra.md) for complex device requirements
-7. Read [HAMi / GPU Sharing](./hami-gpu-sharing.md) for fractional GPU and MIG
-   selection
+6. Study [Isolation Guide](./isolation.md) for checkpoint/restore
+7. Understand [DRA](./dra.md) for complex device requirements
 
 ## Related Topics
 

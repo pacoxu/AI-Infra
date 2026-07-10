@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-07-09
+last_updated: 2026-07-10
 tags: kubernetes, isolation, security, multi-tenancy
 canonical_path: docs/kubernetes/isolation.md
 ---
@@ -336,6 +336,11 @@ Agent sandboxes provide secure execution environments for AI agents that can
 execute arbitrary code, access tools, and interact with external systems.
 Unlike traditional workload isolation, agent sandboxes must handle untrusted
 LLM-generated code while supporting fast startup and high concurrency.
+
+When agent workloads also need GPUs, combine this isolation model with the
+GPU sharing decision guide in [HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md).
+GPU sharing controls capacity; it does not replace a runtime boundary for
+untrusted code.
 
 ### Core Requirements
 
@@ -960,6 +965,7 @@ Match isolation strength to threat model:
 | Trusted Internal Training | Standard | cgroups + SecurityContext |
 | Multi-Tenant Inference | Enhanced | + User namespaces |
 | External User Code | Strong | Kata Containers + Agent Sandbox |
+| GPU-Accelerated Agent Code | Strong | Kata/KubeVirt boundary + full GPU, MIG, or vGPU |
 | Sensitive Data Processing | Maximum | Kata + Encryption + Net Policy |
 
 ### Performance vs Security Trade-offs

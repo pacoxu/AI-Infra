@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-31
+last_updated: 2026-07-10
 tags: kubernetes, nvidia, gpu, dra, device-plugin, gpu-operator
 canonical_path: docs/kubernetes/nvidia-gpu-operator.md
 ---
@@ -21,6 +21,9 @@ NVIDIA software components required to run GPU-accelerated workloads. It
 eliminates the need to manually install and configure GPU drivers and CUDA
 libraries on each node.
 
+For a platform-level decision guide across full GPUs, MIG, time-slicing, MPS,
+vGPU, HAMi, and DRA, see [HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md).
+
 ### Key Features
 
 - Automated GPU driver installation and upgrades
@@ -28,7 +31,7 @@ libraries on each node.
 - Device plugin deployment for GPU resource management
 - GPU monitoring and telemetry (DCGM Exporter)
 - Support for multiple GPU architectures and configurations
-- Dynamic Resource Allocation (DRA) integration (upcoming)
+- MIG, time-slicing, vGPU, and Dynamic Resource Allocation (DRA) integration
 
 ## Core Components
 
@@ -325,6 +328,8 @@ allowing operators to choose based on their requirements.
 
 - **[Dynamic Resource Allocation (DRA)](./dra.md)**: Understanding DRA
   concepts and architecture
+- **[HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md)**: Choosing between
+  GPU partitioning, time sharing, virtual GPUs, software quotas, and DRA
 - **[Scheduling Optimization](./scheduling-optimization.md)**: GPU scheduling
   strategies and best practices
 - **[Node Resource Interface (NRI)](./nri.md)**: Fine-grained container

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-24
+last_updated: 2026-07-10
 tags: kubernetes, scheduling, optimization, large-scale
 canonical_path: docs/kubernetes/scheduling-optimization.md
 ---
@@ -623,13 +623,16 @@ are becoming tightly coupled platform concerns. For platform teams, this means
 GPU should be treated as a schedulable resource layer, not only a node-level
 device flag.
 
+For the full platform decision matrix across HAMi, MIG, time-slicing, MPS,
+vGPU, and DRA, see [HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md).
+
 | Option | Best For | Main Trade-offs |
 | --- | --- | --- |
 | MIG (hardware partitioning) | Strong isolation and predictable slices | Static partitioning, lower elasticity for mixed workloads |
 | Time-slicing / MPS | Higher utilization for bursty inference | Weaker isolation and noisy-neighbor risk |
-| HAMI | Multi-tenant sharing with scheduler-visible GPU fractions | Extra control-plane complexity and compatibility validation |
+| HAMi | Multi-tenant sharing with scheduler-visible GPU fractions | Extra control-plane complexity and compatibility validation |
 
-**When HAMI is worth evaluating:**
+**When HAMi is worth evaluating:**
 
 - You need multi-tenant GPU sharing beyond basic MIG partitioning
 - You need scheduler-visible sharing ratios/quotas for mixed workloads
@@ -637,7 +640,7 @@ device flag.
 
 **Guardrails (keep adoption pragmatic):**
 
-- Treat HAMI as an optional implementation, not a mandatory architecture layer
+- Treat HAMi as an optional implementation, not a mandatory architecture layer
 - Validate compatibility matrix in staging first: Kubernetes version, driver,
   container runtime, CUDA stack, and observability pipeline
 - Benchmark against your baseline (`MIG + native scheduler` or
@@ -907,8 +910,8 @@ SLA-based scheduling complements other optimization strategies:
   Dynamic Resource Allocation for Kubernetes
 - <a href="https://github.com/containerd/nri">`NRI`</a>: Node Resource
   Interface for containerd
-- <a href="https://github.com/Project-HAMi/HAMi">`HAMI`</a>: CNCF Sandbox,
-  GPU sharing
+- <a href="https://github.com/Project-HAMi/HAMi">`HAMi`</a>: GPU sharing and
+  accelerator virtualization
 
 **Monitoring:**
 
