@@ -89,7 +89,9 @@ DRA driver will be integrated into GPU Operator in future releases, providing
 a migration path from device plugin to DRA-based resource management.
 
 **See also:** [Dynamic Resource Allocation (DRA)](./dra.md) for comprehensive
-coverage of DRA concepts and usage patterns.
+coverage of DRA concepts and usage patterns, and
+[HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md) for MIG, time-slicing, vGPU,
+and HAMi selection alongside the GPU Operator stack.
 
 ### 3. Driver Manager
 

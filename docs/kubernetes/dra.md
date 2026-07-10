@@ -68,7 +68,9 @@ Requirements:
 
 **See also:**
 [Scheduling Optimization Guide](./scheduling-optimization.md#26-topology-aware-scheduling)
-for DRA usage in production scenarios.
+for DRA usage in production scenarios, and
+[HAMi / MIG / GPU Sharing](./hami-gpu-sharing.md) for how DRA partitionable
+devices relate to MIG, HAMi, and fractional GPU pools.
 
 ## KEPs and Roadmap
 
