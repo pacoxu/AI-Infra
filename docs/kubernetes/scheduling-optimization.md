@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-24
+last_updated: 2026-06-05
 tags: kubernetes, scheduling, optimization, large-scale
 canonical_path: docs/kubernetes/scheduling-optimization.md
 ---
@@ -367,11 +367,16 @@ preemptionPolicy: PreemptLowerPriority
 - <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Preemption
   within cohorts and borrowing limits
 
-### 2.5 Gang Scheduling
+### 2.5 Gang Scheduling and Workload-Aware Scheduling
 
 **Concept**: All-or-nothing scheduling for distributed workloads. Either all
 pods in a group are scheduled or none are, preventing partial scheduling and
 deadlocks.
+
+For AI and large batch workloads, gang scheduling is now best understood as
+part of a broader **workload-aware scheduling** problem. The scheduler is no
+longer deciding only "where should this Pod go?" but also "can this whole
+group run together, and which topology or queue policy should govern it?"
 
 **Use Cases:**
 
@@ -386,16 +391,42 @@ deadlocks.
 3. **Binding**: Schedule all pods simultaneously
 4. **Timeout**: Release resources if gang cannot be scheduled within timeout
 
-**Implementation:**
+**Key implementation routes:**
 
-- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: PodGroup CRD
-  with minMember field for gang scheduling
-- <a href="https://github.com/ai-dynamo/grove">`NVIDIA Grove`</a>: Gang
-  scheduling optimized for NVIDIA GPUs
+- **Native `kube-scheduler` Workload-Aware Scheduling**: Kubernetes `v1.35`
+  introduced the upstream workload-aware scheduling direction, and `v1.36`
+  extended it toward `PodGroup` scheduling cycles, topology-aware scheduling,
+  and workload-aware preemption.
+- <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: Production
+  scheduling platform centered on `PodGroup`, queueing, fairness, preemption,
+  reclaim, and topology-aware placement for batch and AI clusters.
+- <a href="https://github.com/NVIDIA/grove">`NVIDIA Grove`</a> +
+  <a href="https://github.com/kai-scheduler/KAI-Scheduler">`KAI Scheduler`</a>:
+  Inference-oriented route for hierarchical gangs, startup ordering,
+  topology-aware placement, and multi-role serving systems.
 - <a href="https://github.com/kubernetes-sigs/kueue">`Kueue`</a>: Workload
-  admission control with gang scheduling
+  admission control and queueing, often paired with native scheduler behavior
+  or other placement systems.
 - <a href="https://github.com/kubernetes-sigs/lws">`LeaderWorkerSet (LWS)`</a>:
-  Kubernetes SIG Project with gang scheduling support
+  Kubernetes SIG workload abstraction commonly combined with `Volcano` or
+  other schedulers for distributed training and inference patterns.
+
+**How to interpret the major routes:**
+
+| Route | Layer | What it mainly solves | Best fit |
+| --- | --- | --- | --- |
+| Native `kube-scheduler` WAS | Upstream scheduler evolution | Bring `PodGroup` / workload semantics, placement cycles, and workload-aware preemption into Kubernetes itself | Teams prioritizing upstream-native APIs and future convergence |
+| `Volcano` | Unified scheduling platform | Combine gangs with queueing, quota, fairness, reclaim, and topology-aware scheduling | Shared AI clusters, batch + training + mixed tenancy |
+| `Grove + KAI` | Inference orchestration + AI-aware scheduling | Express and place multi-role inference systems with hierarchical gangs and topology sensitivity | Disaggregated or multinode inference systems |
+
+**Why this distinction matters:**
+
+- Native Kubernetes is answering how workload semantics become part of the
+  default scheduler.
+- `Volcano` is answering how shared clusters run gangs together with queue and
+  fairness policy.
+- `Grove` is not just "another gang scheduler"; it is the orchestration layer
+  for inference systems and typically depends on a stronger scheduling backend.
 
 **Example (Volcano PodGroup):**
 
@@ -419,6 +450,9 @@ spec:
 - Use elastic gang scheduling (minMember < maxMember) when possible
 - Combine with coscheduling plugins for topology-aware placement
 - Monitor gang scheduling failures and adjust resource quotas
+- Choose the scheduling layer deliberately: native Kubernetes for upstream
+  convergence, `Volcano` for production queue/fairness control, and
+  `Grove + KAI` for inference-system orchestration
 
 ### 2.6 Topology-Aware Scheduling
 
@@ -464,7 +498,7 @@ topology can degrade performance by 30-50% or more:
   scheduling with node labels
 - <a href="https://github.com/volcano-sh/volcano">`Volcano`</a>: Gang scheduling
   with topology plugin
-- <a href="https://github.com/NVIDIA/KAI-Scheduler">`NVIDIA KAI Scheduler`</a>:
+- <a href="https://github.com/kai-scheduler/KAI-Scheduler">`NVIDIA KAI Scheduler`</a>:
   GPU-optimized topology-aware scheduling
 - **Kubernetes Topology Manager**: NUMA-aware pod placement
 
