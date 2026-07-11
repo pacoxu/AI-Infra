@@ -1,8 +1,8 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-31
-tags: training, kubernetes, fault-tolerance, distributed-training
+last_updated: 2026-07-11
+tags: training, kubernetes, fault-tolerance, distributed-training, jobset, kueue, kuberay
 canonical_path: docs/training/README.md
 ---
 
@@ -29,6 +29,8 @@ More details about specific topics:
 - [Kubeflow Training Operator and Trainer V2](./kubeflow.md)
 - [ArgoCD for GitOps Workflows](./argocd.md)
 - [MLOps: Machine Learning Operations Lifecycle](./mlops.md)
+- [AI 训练作业管理：JobSet、Kueue、Ray 与 Gang
+  Scheduling](../blog/2026-04-13/2026-04-13-ai-training-job-management-jobset-kueue-ray-gang_zh.md)
 
 ### Key Challenges at Scale
 

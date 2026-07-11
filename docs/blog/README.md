@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-06-15
+last_updated: 2026-07-11
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -155,6 +155,22 @@ training backup and recovery:
   repeated full-volume transfers.
 - **Production rollout framing**: includes driver capability checks, phased
   adoption, and restore-first validation guidance.
+
+## 2026-04-13: AI 训练作业管理：JobSet、Kueue、Ray 与 Gang Scheduling
+
+- [AI 训练作业管理：JobSet、Kueue、Ray 与 Gang Scheduling (Chinese)](./2026-04-13/2026-04-13-ai-training-job-management-jobset-kueue-ray-gang_zh.md)
+
+A Chinese architecture note that separates training job orchestration into
+workload topology, queue admission, runtime execution, and gang scheduling:
+
+- **Boundary-first comparison**: explains why `JobSet`, `Kueue`, `KubeRay`, and
+  `Gang Scheduling` are complementary layers rather than direct alternatives.
+- **Reference architecture**: shows how a multi-team platform can submit
+  `JobSet`, `RayJob`, or other training CRDs through Kueue before Pod creation.
+- **Practical guidance**: recommends `JobSet + Kueue` for static distributed
+  training and `KubeRay + Kueue` for Ray Train/Tune/RL workloads.
+- **Fact check**: records current release versions and KEP-4671 stage/milestone
+  information as of 2026-07-11.
 
 ## 2026-04-06: GPU Pod 冷启动优化：AI 工作负载的性能突破
 
