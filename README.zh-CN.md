@@ -56,6 +56,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 - [Pod 启动速度](./docs/kubernetes/pod-startup-speed.md)
 - [GPU Pod 冷启动](./docs/kubernetes/gpu-pod-cold-start.md)
 - [调度优化](./docs/kubernetes/scheduling-optimization.md)
+- [TAS 验证报告](./docs/kubernetes/tas-validation.md)
 - [工作负载隔离](./docs/kubernetes/isolation.md)
 - [动态资源分配 (DRA)](./docs/kubernetes/dra.md)
 - [DRA 性能测试](./docs/kubernetes/dra-performance-testing.md)

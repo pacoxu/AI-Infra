@@ -58,6 +58,7 @@ where to focus their learning.
 - [Pod Startup Speed](./docs/kubernetes/pod-startup-speed.md)
 - [GPU Pod Cold Start](./docs/kubernetes/gpu-pod-cold-start.md)
 - [Scheduling Optimization](./docs/kubernetes/scheduling-optimization.md)
+- [TAS Validation Report](./docs/kubernetes/tas-validation.md)
 - [Workload Isolation](./docs/kubernetes/isolation.md)
 - [Dynamic Resource Allocation (DRA)](./docs/kubernetes/dra.md)
 - [DRA Performance Testing](./docs/kubernetes/dra-performance-testing.md)
