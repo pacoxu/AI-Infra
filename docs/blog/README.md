@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-07-11
+last_updated: 2026-07-13
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -93,6 +93,25 @@ landscape to the orchestration path around Dynamo:
   community-native path, and notes `Koordinator` can play a similar scheduling
   role when teams already standardize on it; `vLLM` remains engine/data-plane
   rather than the same layer as Grove/KAI/DRA.
+
+## 2026-05-04: 大规模 GPU 调度：拓扑、队列、公平性的系统化实践
+
+- [大规模 GPU 调度：拓扑、队列、公平性的系统化实践 (Chinese)](./2026-05-04/2026-05-04-large-scale-gpu-scheduling-topology-queue-fairness_zh.md)
+
+A Chinese platform-oriented draft that connects topology-aware GPU placement
+with queue admission, quota, fair sharing, preemption, DRA, HAMi, and
+fault-aware scheduling:
+
+- **Workload-first framing**: explains why large-scale GPU scheduling should
+  start from workload admission and queue fairness rather than single-Pod
+  placement.
+- **Single-cluster baseline**: recommends `Kueue + kube-scheduler + DRA/HAMi`
+  before introducing a replacement scheduler or deeper scheduler customization.
+- **Project role split**: compares Kueue, DRA, HAMi, Volcano, KAI Scheduler,
+  and Koordinator by scheduling responsibility and operating boundary.
+- **Decision matrix**: gives platform signals for when to stay simple and when
+  topology, fairshare, gang, preemption, or colocation pressure justifies a
+  more complex scheduling path.
 
 ## 2026-04-28: 如何理解 Hugging Face、私有 Hugging Face、MatrixHub、Harbor + Dragonfly + ModelPack 与 ModelExpress
 
