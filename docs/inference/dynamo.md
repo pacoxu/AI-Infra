@@ -1,8 +1,8 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-05-26
-tags: inference, dynamo, architecture, kv-cache, routing, grove, nixl, ai-dynamo
+last_updated: 2026-07-16
+tags: inference, dynamo, architecture, kv-cache, routing, grove, nixl, modelexpress, model-streamer, ai-dynamo
 canonical_path: docs/inference/dynamo.md
 ---
 
@@ -67,7 +67,8 @@ flowchart TB
         C4["Global Planner"]
         C5["Dynamo Operator<br/>DGDR / DGD CRDs"]
         C6["Grove<br/>topology-aware gang scheduling"]
-        C7["ModelExpress<br/>fast weight loading / restart acceleration"]
+        C7["ModelExpress<br/>source discovery / P2P weight distribution"]
+        C8["Run:ai Model Streamer<br/>storage-to-GPU tensor streaming"]
     end
 
     subgraph L6["Platform Services"]
@@ -135,8 +136,9 @@ flowchart TB
     C4 --> C5
     C5 --> C6
     C7 --> B1
-    C7 --> B2
     C7 --> B3
+    C8 --> C7
+    M4 --> C8
 
     F1 --> S1
     R1 --> S1
@@ -248,6 +250,32 @@ flowchart LR
 | Platform services | Transport, discovery, observability | TCP/NATS request plane, Kubernetes or etcd discovery, NATS/ZMQ event plane |
 | Storage tiers | Memory hierarchy for KV and weights | HBM, host DRAM, local SSD, object or file storage |
 | Hardware | Physical execution substrate | GPU nodes, NVLink, RDMA fabrics, heterogeneous accelerators |
+
+## Model Loading Plane: Model Streamer And ModelExpress
+
+Dynamo's model-loading path has two complementary acceleration points:
+
+- **Run:ai Model Streamer** concurrently reads SafeTensors from local files,
+  S3, GCS, or Azure Blob and streams tensors through a bounded CPU buffer
+  toward GPU memory. In vLLM this is exposed through the
+  `runai_streamer`/`runai_streamer_sharded` loaders.
+- **ModelExpress** coordinates model sources inside the cluster. When a
+  compatible worker already holds the weights, a new worker can receive them
+  over NIXL/RDMA rather than reading the full model from storage again.
+
+The combined path is therefore:
+
+```text
+object storage -> Model Streamer -> first/source worker
+               -> ModelExpress + NIXL/RDMA -> later workers
+```
+
+ModelExpress is not a model registry or a KV-cache manager, and Model Streamer
+does not remove engine initialization, JIT compilation, CUDA Graph capture, or
+warm-up from the cold-start critical path. See
+[Cache Offload 深入：Run:ai Model Streamer、Dynamo ModelExpress 与大模型加载加速](../blog/2026-05-18/2026-05-18-model-streamer-modelexpress-model-loading-zh.md)
+for the vLLM/Dynamo configuration, comparison matrix, and production
+guardrails.
 
 ## KVBM: The Center Of Dynamo's State Plane
 
