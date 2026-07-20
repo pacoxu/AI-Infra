@@ -53,6 +53,25 @@ workload-level scheduling:
   `v1.35/v1.36` workload-aware scheduling back to the original framework
   design.
 
+## 2026-05-18: Cache Offload 深入：Run:ai Model Streamer、Dynamo ModelExpress 与大模型加载加速
+
+- [Cache Offload 深入：Run:ai Model Streamer、Dynamo ModelExpress 与大模型加载加速 (Chinese)](./2026-05-18/2026-05-18-model-streamer-modelexpress-model-loading-zh.md)
+
+A Chinese production-oriented analysis of the model-weight loading path behind
+LLM cold starts:
+
+- **Separates weights from KV cache**: clarifies why model loading and runtime
+  KV-cache offload have different lifecycle and failure semantics.
+- **Three-path comparison**: compares prefetch/hierarchical caching, Run:ai
+  Model Streamer, and Dynamo ModelExpress by data path and operating boundary.
+- **First replica plus fleet scale-out**: positions Model Streamer for
+  object-storage-to-GPU loading and ModelExpress for NIXL/RDMA reuse from an
+  existing worker.
+- **vLLM and Dynamo examples**: includes current `runai_streamer`, sharded
+  loading, and unified `mx` configuration paths.
+- **Production guardrails**: covers readiness, identity, immutable model
+  versions, compatibility, fallback paths, and cold/warm/scale-out benchmarks.
+
 ## 2026-05-13: 推理编排方案如何选择？AIBrix、Kthena、Dynamo、llm-d、KServe、vLLM Production Stack 与 SGLang/RBG
 
 - [推理编排方案如何选择？AIBrix、Kthena、Dynamo、llm-d、KServe、vLLM Production Stack 与 SGLang/RBG (Chinese)](./2026-05-13/2026-05-13-how-to-choose-inference-orchestration-stacks_zh.md)
