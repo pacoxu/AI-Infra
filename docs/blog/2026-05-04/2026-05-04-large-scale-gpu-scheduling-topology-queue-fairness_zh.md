@@ -2,7 +2,7 @@
 status: Draft
 maintainer: pacoxu
 date: 2026-05-04
-last_updated: 2026-07-13
+last_updated: 2026-07-24
 tags: kubernetes, gpu, scheduling, dra, kueue, volcano, koordinator, hami
 canonical_path: docs/blog/2026-05-04/2026-05-04-large-scale-gpu-scheduling-topology-queue-fairness_zh.md
 source_urls:
@@ -15,7 +15,9 @@ source_urls:
   - https://kueue.sigs.k8s.io/docs/overview/
   - https://kueue.sigs.k8s.io/docs/tasks/run/dra/
   - https://kueue.sigs.k8s.io/docs/concepts/multikueue/
+  - https://github.com/kubernetes-sigs/kueue/releases/tag/v0.19.0
   - https://github.com/kai-scheduler/KAI-Scheduler
+  - https://github.com/kai-scheduler/KAI-Scheduler/releases/tag/v0.16.6
   - https://github.com/volcano-sh/volcano/releases/tag/v1.15.0
   - https://github.com/koordinator-sh/koordinator/releases/tag/v1.8.0
   - https://github.com/Project-HAMi/HAMi/releases/tag/v2.9.0
@@ -136,12 +138,15 @@ sequenceDiagram
 
 ## 事实校对
 
-校对时间：2026-07-13。
+校对时间：2026-07-24。
 
 - Kubernetes DRA：官方文档标记为 v1.35 stable；v1.36 继续加入 prioritized list stable、AdminAccess stable，以及分区设备、device taints、ResourceHealth、扩展资源兼容等 beta/alpha 能力。
 - Kubernetes workload-aware scheduling：PodGroup、Gang Scheduling、Topology-Aware Workload Scheduling、Workload-Aware Preemption 在 v1.35/v1.36 仍以 alpha 为主，生产使用需要关注 feature gate 和 API 变化。
-- Kueue：latest release 为 v0.18.3，文档覆盖 Fair Sharing、Cohort、preemption、DRA quota、MultiKueue、Topology-Aware Scheduling 等能力；Kueue 不替换底层调度器。
-- KAI Scheduler：latest release 为 v0.16.4，项目定位是面向大规模 AI/GPU 集群的 Kubernetes native scheduler，强调 hierarchical queues、fairness、DRA、topology-aware scheduling 和 GPU sharing。
+- Kueue：latest release 为 v0.19.0，文档覆盖 Fair Sharing、Cohort、preemption、
+  DRA quota、MultiKueue、Topology-Aware Scheduling 等能力；Kueue 不替换底层调度器。
+- KAI Scheduler：latest release 为 v0.16.6，项目定位是面向大规模 AI/GPU 集群的
+  Kubernetes native scheduler，强调 hierarchical queues、fairness、DRA、
+  topology-aware scheduling 和 GPU sharing。
 - Volcano：latest release 为 v1.15.0，包含 gang-aware preemption、资源回收、DRA queue quota、multi-sharding、Kubernetes 1.35 支持等调度增强。
 - Koordinator：latest release 为 v1.8.0，关注混部、资源画像、DeviceShare、Coscheduling、NUMA/topology、reservation、preemption 和调度诊断。
 - HAMi：latest release 为 v2.9.0，继续推进 HAMi-core、HAMi-DRA、Volcano vGPU device plugin、Ascend 910C 支持、quota webhook 和 metrics。

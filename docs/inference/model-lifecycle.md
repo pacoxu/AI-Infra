@@ -505,7 +505,8 @@ multi-model lifecycle management:
 Kubernetes-based platforms for model lifecycle management:
 
 - **Kthena**: Volcano-based LLM inference platform with ModelServing revision
-  control, rolling updates, and plugin framework (v0.3.0+)
+  control, role-level rolling updates, coordinated P/D autoscaling, and
+  session-aware routing (v1.0.0+)
 - **Kubeflow**: Comprehensive ML platform with model serving
 
 ---

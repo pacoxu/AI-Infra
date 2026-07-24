@@ -152,8 +152,8 @@ For detailed information, see
 inference platform that transforms how organizations deploy and manage Large
 Language Models in production. Kthena is part of the Volcano ecosystem and
 provides comprehensive infrastructure for scalable LLM inference. **Latest
-release: v0.3.0** introduces LeaderWorkerSet support, network topology-aware
-scheduling, and enhanced observability.
+release: v1.0.0** adds coordinated role-level P/D autoscaling, session-aware
+routing, safer role-level rolling updates, and richer cache-aware observability.
 
 **Key highlights:**
 
@@ -166,6 +166,9 @@ scheduling, and enhanced observability.
 - **Router Observability**: Comprehensive metrics, debug port, and E2E testing
   for production reliability
 - **Enhanced Rolling Updates**: Configurable maxUnavailable for faster rollouts
+- **Coordinated P/D Autoscaling**: Independent role metrics with optional
+  prefill/decode replica-ratio constraints
+- **Session Boost**: Prioritizes follow-up requests to improve warm KV-cache reuse
 - **Plugin Framework**: Extensible architecture for custom configuration logic
 - **vLLM Data Parallel**: Support for vLLM data parallel deployment modes
 

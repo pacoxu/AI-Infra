@@ -515,9 +515,9 @@ management and multi-tenancy support.
 Kubernetes-native LLM inference platform that provides comprehensive
 infrastructure for deploying and managing Large Language Models in production
 environments. As part of the Volcano ecosystem, Kthena brings enterprise-grade
-capabilities to LLM inference workloads. **Latest release: v0.3.0** establishes
-Kthena as a robust and scalable platform for AI inference with significant
-enhancements for P/D disaggregation.
+capabilities to LLM inference workloads. **Latest release: v1.0.0** strengthens
+production P/D disaggregation with coordinated role-level autoscaling,
+session-aware routing, and safer rolling updates.
 
 **Key Capabilities:**
 
@@ -530,7 +530,7 @@ enhancements for P/D disaggregation.
 - **Workload Orchestration**: Comprehensive lifecycle management for inference
   workloads including scaling and failure handling
 
-**v0.3.0 New Features for P/D Disaggregation:**
+**P/D Disaggregation Features:**
 
 - **LeaderWorkerSet Support**: Native integration with LeaderWorkerSet (LWS)
   API enables sophisticated management of distributed inference workloads with
@@ -548,6 +548,11 @@ enhancements for P/D disaggregation.
 - **Router Observability**: Comprehensive observability framework with debug
   port (default 15000), detailed metrics for monitoring latency/throughput,
   and E2E test suite for production reliability
+- **Coordinated P/D Autoscaling**: `AutoscalingPolicy.spec.disaggregatedTarget`
+  lets prefill and decode roles scale from separate metrics while optional
+  ratio constraints keep the deployment balanced
+- **Session Boost**: Prioritizes follow-up requests from recent sessions to
+  improve the chance of reusing warm KV cache
 
 **Integration with P/D Disaggregation:**
 
@@ -564,7 +569,7 @@ Kthena provides infrastructure support for P/D disaggregation through:
 
 **Production Advantages:**
 
-With v0.3.0, Kthena is particularly well-suited for organizations building
+With v1.0.0, Kthena is particularly well-suited for organizations building
 production LLM inference platforms with P/D disaggregation requirements:
 
 - Network topology awareness significantly reduces communication overhead
@@ -572,6 +577,11 @@ production LLM inference platforms with P/D disaggregation requirements:
 - Role-level gang scheduling ensures atomic deployment of distributed workloads
 - Comprehensive observability enables production monitoring and debugging
 - Native revision control supports safe canary deployments and rollbacks
+
+The v1.0.0 autoscaling API is not backward compatible:
+`AutoscalingPolicyBinding` was removed. Existing targets must move into
+`AutoscalingPolicy.spec.homogeneousTarget`, `heterogeneousTarget`, or
+`disaggregatedTarget` before upgrading.
 
 ### llm-d
 

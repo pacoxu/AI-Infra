@@ -2,7 +2,7 @@
 status: Active
 maintainer: pacoxu
 date: 2026-05-18
-last_updated: 2026-07-16
+last_updated: 2026-07-24
 tags: model-loading, cold-start, runai-model-streamer, modelexpress, dynamo, vllm, kubernetes
 canonical_path: docs/blog/2026-05-18/2026-05-18-model-streamer-modelexpress-model-loading-zh.md
 source_urls:
@@ -10,6 +10,7 @@ source_urls:
   - https://github.com/run-ai/runai-model-streamer
   - https://docs.vllm.ai/en/stable/models/extensions/runai_model_streamer/
   - https://github.com/ai-dynamo/modelexpress
+  - https://github.com/ai-dynamo/dynamo/releases/tag/v1.3.0
   - https://docs.nvidia.com/dynamo/latest/kubernetes-deployment/model-loading/model-express
   - https://cloud.google.com/blog/products/containers-kubernetes/nvidia-runai-model-streamer-supports-cloud-storage
 ---
@@ -148,7 +149,8 @@ ModelExpress 并不是模型 registry，也不是 KV Cache 管理器。它解决
 “谁已经有这份权重、下一副本从哪里拿最快”。没有 source 时仍要回退到存储；这正是
 它与 Model Streamer 可以组合的原因。
 
-Dynamo 当前文档推荐在较新的 ModelExpress/runtime 镜像中使用统一的 `mx` loader：
+Dynamo `v1.3.0` release notes 已把 vLLM 的 ModelExpress 入口统一到插件维护的
+`modelexpress` loader：
 
 ```yaml
 services:
@@ -161,7 +163,7 @@ services:
           - --model
           - meta-llama/Llama-3.1-70B-Instruct
           - --load-format
-          - mx
+          - modelexpress
         env:
           - name: VLLM_PLUGINS
             value: modelexpress
@@ -171,20 +173,22 @@ services:
             value: "8"
 ```
 
-平台安装时可通过 Dynamo Operator 的 `modelExpressURL` 配置把
-`MODEL_EXPRESS_URL` 注入 worker。旧镜像可能仍暴露 `mx-source`/`mx-target`，因此升级
-时必须以 runtime image 与 ModelExpress 版本的实际支持矩阵为准。
+Dynamo `v1.3.0` 同时移除了旧的 `--model-express-url` / `MODEL_EXPRESS_URL`
+配置，ModelExpress server 的发现由插件路径处理。需要注意，发布后在线文档仍有页面展示
+`mx`、`modelExpressURL` 和 `MODEL_EXPRESS_URL`，与 `v1.3.0` release notes 存在时间差；
+部署时应以 runtime image 内的插件版本和 `--help` 输出为最终依据。旧镜像还可能暴露
+`mx`、`mx-source` 或 `mx-target`，不能跨版本直接复用配置。
 
 如果 ModelExpress server 使用 RWO PVC、与 worker 不共享文件系统，或集群没有可用的
 RDMA fabric，可设置 `MODEL_EXPRESS_NO_SHARED_STORAGE=1`，让客户端从 server 通过 gRPC
 流式读取。这提供了回退路径，但官方文档也明确指出，共享文件系统可用时通常更快。
 
-### 版本与特性阶段（校对至 2026-07-16）
+### 版本与特性阶段（校对至 2026-07-24）
 
 - Run:ai Model Streamer 仓库的最新 release 是 `v0.16.1`（2026-07-13）。
-- NVIDIA Dynamo 在线文档当前标记的 latest 版本是 `v1.2.1`。
-- ModelExpress `v0.3+` 文档使用统一的 `mx` loader；旧 runtime image 可能仍使用
-  `mx-source`/`mx-target`。
+- NVIDIA Dynamo 当前 latest release 与在线文档版本均为 `v1.3.0`（2026-07-22）。
+- Dynamo `v1.3.0` release notes 使用 `modelexpress` loader 并移除旧 URL 配置；
+  部分在线页面仍展示 `mx`，升级时需要按实际 runtime image 校验。
 - vLLM stable 文档已列出 `runai_streamer` 与 `runai_streamer_sharded`，但具体对象存储
   SDK、设备与分布式加载能力仍应以部署镜像内的实际依赖版本为准。
 
