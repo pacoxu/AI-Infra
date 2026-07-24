@@ -2,12 +2,12 @@
 status: Active
 maintainer: pacoxu
 date: 2026-04-13
-last_updated: 2026-07-11
+last_updated: 2026-07-24
 tags: kubernetes, training, jobset, kueue, kuberay, gang-scheduling, workload-aware-scheduling
 canonical_path: docs/blog/2026-04-13/2026-04-13-ai-training-job-management-jobset-kueue-ray-gang_zh.md
 source_urls:
   - https://api.github.com/repos/pacoxu/AI-Infra/issues/300
-  - https://api.github.com/repos/kubernetes-sigs/kueue/releases/tags/v0.18.3
+  - https://api.github.com/repos/kubernetes-sigs/kueue/releases/tags/v0.19.0
   - https://api.github.com/repos/kubernetes-sigs/jobset/releases/tags/v0.12.0
   - https://api.github.com/repos/ray-project/kuberay/releases/tags/v1.6.2
   - https://raw.githubusercontent.com/kubernetes/enhancements/master/keps/sig-scheduling/4671-gang-scheduling/kep.yaml
@@ -31,7 +31,7 @@ source_urls:
 它们不是四个互斥选择，而是一组可以组合的控制面能力。
 
 本文原计划发布日是 **2026-04-13**。版本、发布日期和特性阶段按
-**2026-07-11** 的公开信息重新核对。
+**2026-07-24** 的公开信息重新核对。
 
 ## 先说结论
 
@@ -104,6 +104,14 @@ checkpoint 和失败恢复策略。
 Kueue 负责 RayCluster/RayJob 进入集群前的资源准入。这样既保留 Ray 的编程模型，
 也避免 Ray 集群绕过平台配额。
 
+升级到 Kueue `v0.19.0` 时，Ray 集成需要重新核算 head PodSet 配额：
+启用 autoscaling 的 RayCluster 会额外计入 autoscaler sidecar，使用
+`submissionMode: SidecarMode` 的 RayJob 会计入 submitter sidecar。
+`WaitForPodsReady` 也已默认启用；未显式配置的集群会采用 30 分钟 timeout 与
+30 分钟 recovery timeout。自研 job framework integration 还需要为
+`RestorePodSetsInfo` 传入 Kubernetes context，并把 API 中对 `GroupVersion` 的引用迁移到
+`SchemeGroupVersion`。
+
 对正在跟进 upstream Kubernetes 的团队，可以把 KEP-4671 的 gang scheduling 视为未来
 原生收敛方向。它引入 workload-level API 思路，包括 `Workload` 与 `PodGroup` 这样的抽象。
 但需要注意，KEP 明确不把 fairness、多队列治理做进 `kube-scheduler`；
@@ -152,9 +160,9 @@ sequenceDiagram
 
 ## 事实校对
 
-截至 **2026-07-11**：
+截至 **2026-07-24**：
 
-- `Kueue` 最新 release 为 `v0.18.3`，发布时间为 `2026-07-10`。
+- `Kueue` 最新 release 为 `v0.19.0`，发布时间为 `2026-07-22`。
 - `JobSet` 最新 release 为 `v0.12.0`，发布时间为 `2026-05-08`。
 - `KubeRay` 最新 release 为 `v1.6.2`，发布时间为 `2026-06-18`。
 - `KEP-4671 Gang Scheduling` 状态为 `implementable`，stage 标记为 `beta`。

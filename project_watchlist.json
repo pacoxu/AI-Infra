@@ -5,6 +5,10 @@
       "url": "https://github.com/ai-dynamo/dynamo"
     },
     {
+      "repo": "ai-dynamo/modelexpress",
+      "url": "https://github.com/ai-dynamo/modelexpress"
+    },
+    {
       "repo": "agent-substrate/substrate",
       "url": "https://github.com/agent-substrate/substrate"
     },
@@ -105,6 +109,10 @@
       "url": "https://github.com/kagent-dev/kagent"
     },
     {
+      "repo": "kai-scheduler/KAI-Scheduler",
+      "url": "https://github.com/kai-scheduler/KAI-Scheduler"
+    },
+    {
       "repo": "kaito-project/kaito",
       "url": "https://github.com/kaito-project/kaito"
     },
@@ -115,6 +123,10 @@
     {
       "repo": "kong/kong",
       "url": "https://github.com/kong/kong"
+    },
+    {
+      "repo": "koordinator-sh/koordinator",
+      "url": "https://github.com/koordinator-sh/koordinator"
     },
     {
       "repo": "kserve/kserve",
@@ -139,6 +151,14 @@
     {
       "repo": "kubernetes-sigs/inference-perf",
       "url": "https://github.com/kubernetes-sigs/inference-perf"
+    },
+    {
+      "repo": "kubernetes-sigs/jobset",
+      "url": "https://github.com/kubernetes-sigs/jobset"
+    },
+    {
+      "repo": "kubernetes-sigs/kueue",
+      "url": "https://github.com/kubernetes-sigs/kueue"
     },
     {
       "repo": "kvcache-ai/mooncake",
@@ -209,6 +229,10 @@
       "url": "https://github.com/polyaxon/polyaxon"
     },
     {
+      "repo": "Project-HAMi/HAMi",
+      "url": "https://github.com/Project-HAMi/HAMi"
+    },
+    {
       "repo": "pytorch/pytorch",
       "url": "https://github.com/pytorch/pytorch"
     },
@@ -217,8 +241,16 @@
       "url": "https://github.com/qdrant/qdrant"
     },
     {
+      "repo": "ray-project/kuberay",
+      "url": "https://github.com/ray-project/kuberay"
+    },
+    {
       "repo": "ray-project/ray",
       "url": "https://github.com/ray-project/ray"
+    },
+    {
+      "repo": "run-ai/runai-model-streamer",
+      "url": "https://github.com/run-ai/runai-model-streamer"
     },
     {
       "repo": "seldonio/seldon-core",
@@ -263,6 +295,14 @@
     {
       "repo": "vllm-project/vllm",
       "url": "https://github.com/vllm-project/vllm"
+    },
+    {
+      "repo": "volcano-sh/kthena",
+      "url": "https://github.com/volcano-sh/kthena"
+    },
+    {
+      "repo": "volcano-sh/volcano",
+      "url": "https://github.com/volcano-sh/volcano"
     },
     {
       "repo": "volcengine/verl",

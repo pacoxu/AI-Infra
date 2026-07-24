@@ -2,6 +2,7 @@
 status: Active
 maintainer: pacoxu
 date: 2026-05-13
+last_updated: 2026-07-24
 tags: inference, orchestration, kubernetes, llm, pd-disaggregation, llm-d, kserve, dynamo, aibrix, kthena, sglang, rbg, vllm
 canonical_path: docs/blog/2026-05-13/2026-05-13-how-to-choose-inference-orchestration-stacks_zh.md
 source_urls:
@@ -11,17 +12,20 @@ source_urls:
   - https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d
   - https://github.com/llm-d/llm-d
   - https://github.com/llm-d/llm-d/releases
+  - https://github.com/llm-d/llm-d/releases/tag/v0.8.1
   - https://llm-d.ai/docs/architecture/architecture
   - https://github.com/vllm-project/production-stack
   - https://github.com/vllm-project/production-stack/releases
   - https://docs.vllm.ai/en/latest/deployment/integrations/production-stack.html
   - https://github.com/vllm-project/aibrix
   - https://github.com/vllm-project/aibrix/releases
+  - https://github.com/vllm-project/aibrix/releases/tag/v0.7.0
   - https://aibrix.readthedocs.io/latest/getting_started/installation/installation.html
   - https://aibrix.readthedocs.io/latest/designs/aibrix-stormservice.html
   - https://aibrix.readthedocs.io/latest/designs/aibrix-router.html
   - https://aibrix.readthedocs.io/latest/features/autoscaling/metric-based-autoscaling.html
   - https://kthena.volcano.sh/docs/intro
+  - https://github.com/volcano-sh/kthena/releases/tag/v1.0.0
   - https://kthena.volcano.sh/docs/v0.2.0/architecture
   - https://github.com/volcano-sh/kthena/blob/main/docs/proposal/modelserving-role-support-leaderworkerset.md
   - https://github.com/volcano-sh/kthena/pull/767
@@ -115,7 +119,7 @@ source_urls:
 
 `llm-d` 当前更接近 **Kubernetes-native distributed inference serving stack**，而不是通用平台，也不是单纯的 `vLLM` 部署模板。
 
-截至 `2026-05-12` 发布的 `v0.7.0`，公开材料显示它的主线已经比较完整：
+截至 `2026-06-26` 发布的 `v0.8.1`，公开材料显示它的主线已经比较完整：
 
 - Router / Scheduler 作为一等组件
 - KV cache aware routing
@@ -215,7 +219,7 @@ SGLang 当前同时覆盖 runtime 与 gateway。
 
 `AIBrix` 当前呈现为模块化平台设计，而不是单一 CRD。
 
-截至 `2026-03-03` 的 `v0.6.0` 与最新文档，公开信号包括：
+截至 `2026-06-18` 的 `v0.7.0` 与最新文档，公开信号包括：
 
 - vanilla Kubernetes 是一条明确路径
 - `Envoy Gateway` 是前置依赖
@@ -247,8 +251,7 @@ Kthena 当前已经明确把自己定位成 **Kubernetes-native AI serving platf
 - `ModelRoute`
 - `ModelServer`
 - `ModelServing`
-- `AutoScalingPolicy`
-- `AutoScalingPolicyBinding`
+- `AutoscalingPolicy`
 
 从当前文档与官方博客看，Kthena 的几个特点比较稳定：
 
@@ -257,7 +260,12 @@ Kthena 当前已经明确把自己定位成 **Kubernetes-native AI serving platf
 - request-level intelligent routing
 - token-based rate limit、canary、failover
 - role-aware PD routing
-- 多指标、成本驱动 autoscaling
+- 支持可选副本比例约束的 P/D role-level 协同 autoscaling
+- 面向多轮会话的 session boost 与 cache-aware router 指标
+
+Kthena `v1.0.0` 已移除 `AutoscalingPolicyBinding`；升级前需要把目标配置迁移到
+`AutoscalingPolicy.spec.homogeneousTarget`、`heterogeneousTarget` 或
+`disaggregatedTarget`。
 
 同时，公开 proposal 与后续 PR 也显示，Kthena 正在探索 **LWS API compatibility**。因此，LWS 在其中更接近兼容的 northbound 接口，而不是唯一底层 primitive。
 

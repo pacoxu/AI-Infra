@@ -2,6 +2,7 @@
 status: Active
 maintainer: pacoxu
 date: 2026-05-13
+last_updated: 2026-07-24
 tags: inference, orchestration, kubernetes, llm, pd-disaggregation, llm-d, kserve, dynamo, aibrix, kthena, sglang, rbg, vllm
 canonical_path: docs/blog/2026-05-13/2026-05-13-how-to-choose-inference-orchestration-stacks.md
 source_urls:
@@ -11,17 +12,20 @@ source_urls:
   - https://kserve.github.io/website/blog/cloud-native-ai-inference-kserve-llm-d
   - https://github.com/llm-d/llm-d
   - https://github.com/llm-d/llm-d/releases
+  - https://github.com/llm-d/llm-d/releases/tag/v0.8.1
   - https://llm-d.ai/docs/architecture/architecture
   - https://github.com/vllm-project/production-stack
   - https://github.com/vllm-project/production-stack/releases
   - https://docs.vllm.ai/en/latest/deployment/integrations/production-stack.html
   - https://github.com/vllm-project/aibrix
   - https://github.com/vllm-project/aibrix/releases
+  - https://github.com/vllm-project/aibrix/releases/tag/v0.7.0
   - https://aibrix.readthedocs.io/latest/getting_started/installation/installation.html
   - https://aibrix.readthedocs.io/latest/designs/aibrix-stormservice.html
   - https://aibrix.readthedocs.io/latest/designs/aibrix-router.html
   - https://aibrix.readthedocs.io/latest/features/autoscaling/metric-based-autoscaling.html
   - https://kthena.volcano.sh/docs/intro
+  - https://github.com/volcano-sh/kthena/releases/tag/v1.0.0
   - https://kthena.volcano.sh/docs/v0.2.0/architecture
   - https://github.com/volcano-sh/kthena/blob/main/docs/proposal/modelserving-role-support-leaderworkerset.md
   - https://github.com/volcano-sh/kthena/pull/767
@@ -115,7 +119,7 @@ This combination aligns with environments already centered on standard Kubernete
 
 `llm-d` is currently best understood as a **Kubernetes-native distributed inference serving stack**, not as a general platform and not merely as a `vLLM` deployment template.
 
-As of `v0.7.0` on **2026-05-12**, the public release notes and architecture docs show a fairly complete direction:
+As of `v0.8.1` on **2026-06-26**, the public release notes and architecture docs show a fairly complete direction:
 
 - Router and Scheduler as first-class components
 - KV cache aware routing
@@ -213,7 +217,7 @@ Placed next to `RBG`, the difference is fairly clear:
 
 `AIBrix` presents a modular platform rather than a single-CRD design.
 
-As of `v0.6.0` on **2026-03-03** and the latest public docs, the main signals are:
+As of `v0.7.0` on **2026-06-18** and the latest public docs, the main signals are:
 
 - vanilla Kubernetes is a first-class path
 - `Envoy Gateway` is a required entry layer
@@ -245,8 +249,7 @@ Its main value is not support for one specific workload shape, but rather the wa
 - `ModelRoute`
 - `ModelServer`
 - `ModelServing`
-- `AutoScalingPolicy`
-- `AutoScalingPolicyBinding`
+- `AutoscalingPolicy`
 
 From the current docs and official blog, several characteristics are stable:
 
@@ -255,7 +258,12 @@ From the current docs and official blog, several characteristics are stable:
 - request-level intelligent routing
 - token-based rate limiting, canary, and failover
 - role-aware PD routing
-- multi-metric, cost-driven autoscaling
+- coordinated role-level P/D autoscaling with optional replica-ratio constraints
+- session boost for multi-turn workloads and cache-aware router metrics
+
+Kthena v1.0.0 removed `AutoscalingPolicyBinding`; existing autoscaling targets
+must move into `AutoscalingPolicy.spec.homogeneousTarget`,
+`heterogeneousTarget`, or `disaggregatedTarget` before upgrading.
 
 At the same time, public proposals and follow-up PRs show ongoing exploration of **LWS API compatibility**. That places LWS more as a compatible northbound interface than as the only internal primitive.
 
