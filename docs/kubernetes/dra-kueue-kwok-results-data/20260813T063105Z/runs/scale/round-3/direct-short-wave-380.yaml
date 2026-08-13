@@ -1,0 +1,839 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000380
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000380
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000380
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000381
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000381
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000381
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000382
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000382
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000382
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000383
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000383
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000383
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000384
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000384
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000384
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000385
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000385
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000385
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000386
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000386
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000386
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000387
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000387
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000387
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000388
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000388
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000388
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000389
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000389
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000389
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000390
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000390
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000390
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000391
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000391
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000391
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000392
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000392
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000392
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000393
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000393
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000393
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000394
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000394
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000394
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000395
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000395
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000395
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000396
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000396
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000396
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000397
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000397
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000397
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000398
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000398
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000398
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: direct-short-000399
+  namespace: dra-kueue-direct
+  labels:
+    benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+    benchmark.aiinfra.dev/profile: scale
+    benchmark.aiinfra.dev/round: "3"
+    benchmark.aiinfra.dev/scenario: short
+    benchmark.aiinfra.dev/workload: direct-short-000399
+    benchmark.aiinfra.dev/path: direct
+spec:
+  suspend: false
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: scale-r3-20260813T072823Z
+        benchmark.aiinfra.dev/profile: scale
+        benchmark.aiinfra.dev/round: "3"
+        benchmark.aiinfra.dev/scenario: short
+        benchmark.aiinfra.dev/workload: direct-short-000399
+        benchmark.aiinfra.dev/path: direct
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu

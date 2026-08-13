@@ -1,0 +1,71 @@
+apiVersion: config.kueue.x-k8s.io/v1beta2
+kind: Configuration
+namespace: kueue-system
+health:
+  healthProbeBindAddress: :8081
+metrics:
+  bindAddress: :8443
+  enableClusterQueueResources: true
+webhook:
+  port: 9443
+controller:
+  groupKindConcurrency:
+    Job.batch: 5
+    Pod: 5
+    Workload.kueue.x-k8s.io: 10
+    LocalQueue.kueue.x-k8s.io: 5
+    Cohort.kueue.x-k8s.io: 1
+    ClusterQueue.kueue.x-k8s.io: 5
+    ResourceFlavor.kueue.x-k8s.io: 1
+clientConnection:
+  qps: 300
+  burst: 500
+manageJobsWithoutQueueName: false
+managedJobsNamespaceSelector:
+  matchExpressions:
+  - key: kubernetes.io/metadata.name
+    operator: In
+    values:
+    - dra-kueue-tenant-a
+    - dra-kueue-tenant-b
+    - dra-kueue-failures
+internalCertManagement:
+  enable: false
+waitForPodsReady:
+  timeout: 60s
+  recoveryTimeout: 30s
+  blockAdmission: false
+  requeuingStrategy:
+    timestamp: Eviction
+    backoffLimitCount: 2
+    backoffBaseSeconds: 5
+    backoffMaxSeconds: 20
+integrations:
+  frameworks:
+  - batch/job
+  - deployment
+  - pod
+  labelKeysToCopy:
+  - benchmark.aiinfra.dev/run
+  - benchmark.aiinfra.dev/profile
+  - benchmark.aiinfra.dev/round
+  - benchmark.aiinfra.dev/scenario
+  - benchmark.aiinfra.dev/workload
+  - benchmark.aiinfra.dev/path
+resources:
+  deviceClassMappings:
+  - name: kwok.aiinfra.dev/gpu
+    deviceClassNames:
+    - gpu.kwok.aiinfra.dev
+  - name: kwok.aiinfra.dev/empty-gpu
+    deviceClassNames:
+    - empty-gpu.kwok.aiinfra.dev
+featureGates:
+  KueueDRAIntegration: true
+  KueueDRAIntegrationExtendedResource: true
+  UnadmittedWorkloadsObservability: true
+  UnadmittedWorkloadsExplicitStatus: true
+fairSharing:
+  preemptionStrategies:
+  - LessThanOrEqualToFinalShare
+  - LessThanInitialShare

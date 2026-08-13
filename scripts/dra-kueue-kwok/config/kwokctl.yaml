@@ -1,0 +1,22 @@
+apiVersion: config.kwok.x-k8s.io/v1alpha1
+kind: KwokctlConfiguration
+metadata:
+  name: dra-kueue-285
+options:
+  runtime: docker
+  kwokVersion: v0.8.0
+  kubeVersion: v1.36.3
+  kueueVersion: v0.19.0
+  kueueImage: registry.k8s.io/kueue/kueue:v0.19.0
+  kubeSchedulerPort: 10259
+  kueueManifests:
+  - __KUEUE_MANIFEST__
+  kwokControllerImage: registry.k8s.io/kwok/kwok:v0.8.0
+  kubeApiserverImage: registry.k8s.io/kube-apiserver:v1.36.3
+  kubeControllerManagerImage: registry.k8s.io/kube-controller-manager:v1.36.3
+  kubeSchedulerImage: registry.k8s.io/kube-scheduler:v1.36.3
+  kubeRuntimeConfig: resource.k8s.io/v1=true
+  kubeFeatureGates: DRAExtendedResource=true
+  disableQPSLimits: true
+  enable:
+  - kueue

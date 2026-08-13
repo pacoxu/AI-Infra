@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-07-31
+last_updated: 2026-08-13
 tags: kubernetes, ai-infrastructure, scheduling, resource-management, topology-aware-scheduling
 canonical_path: docs/kubernetes/README.md
 ---
@@ -47,6 +47,12 @@ workload isolation.
 - **[DRA Driver Feature Matrix](./dra-driver-feature-matrix.md)**: Public DRA
   implementation ecosystem mapped to explicit Beta / GA feature signals,
   active WIP, and current public gaps
+- **[DRA + Kueue KWOK-only PoC](./dra-kueue-kwok-poc.md)**: Reproducible
+  Kubernetes 1.36 control-plane baseline for DRA allocation, Kueue admission,
+  borrowing, reclaim, failure recovery, and scale
+- **[DRA + Kueue KWOK-only Results](./dra-kueue-kwok-results.md)**: Three-round
+  acceptance contract, result status, failure attribution, and MultiKueue
+  consumer boundary
 - **[NVIDIA GPU Operator](./nvidia-gpu-operator.md)**: Automated GPU driver
   installation, device plugin deployment, DRA driver integration, and GPU
   monitoring with DCGM

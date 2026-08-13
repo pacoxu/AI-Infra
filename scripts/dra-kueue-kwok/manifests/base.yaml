@@ -1,0 +1,56 @@
+apiVersion: resource.k8s.io/v1
+kind: DeviceClass
+metadata:
+  name: gpu.kwok.aiinfra.dev
+spec:
+  selectors:
+  - cel:
+      expression: device.driver == "gpu.kwok.aiinfra.dev"
+---
+apiVersion: resource.k8s.io/v1
+kind: DeviceClass
+metadata:
+  name: empty-gpu.kwok.aiinfra.dev
+spec:
+  selectors:
+  - cel:
+      expression: device.driver == "empty-gpu.kwok.aiinfra.dev"
+---
+apiVersion: resource.k8s.io/v1
+kind: DeviceClass
+metadata:
+  name: extended-gpu.kwok.aiinfra.dev
+spec:
+  extendedResourceName: kwok.aiinfra.dev/extended-gpu
+  selectors:
+  - cel:
+      expression: device.driver == "gpu.kwok.aiinfra.dev"
+---
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: ResourceFlavor
+metadata:
+  name: kwok-gpu
+spec:
+  nodeLabels:
+    type: kwok
+---
+apiVersion: kueue.x-k8s.io/v1beta2
+kind: Cohort
+metadata:
+  name: dra-kueue-kwok
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: dra-kueue-low
+value: -100
+globalDefault: false
+description: Low-priority borrowing workload for the DRA and Kueue PoC.
+---
+apiVersion: scheduling.k8s.io/v1
+kind: PriorityClass
+metadata:
+  name: dra-kueue-high
+value: 1000
+globalDefault: false
+description: High-priority owner workload for cohort reclaim validation.
