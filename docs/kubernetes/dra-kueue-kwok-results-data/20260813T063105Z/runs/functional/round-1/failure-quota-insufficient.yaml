@@ -1,0 +1,58 @@
+apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+metadata:
+  name: too-many-gpus
+  namespace: dra-kueue-failures
+spec:
+  spec:
+    devices:
+      requests:
+        - name: gpu
+          exactly:
+            deviceClassName: gpu.kwok.aiinfra.dev
+            allocationMode: ExactCount
+            count: 81
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: failure-quota-insufficient
+  namespace: dra-kueue-failures
+  labels:
+    benchmark.aiinfra.dev/run: functional-r1-20260813T063134Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "1"
+    benchmark.aiinfra.dev/scenario: quota-insufficient
+    benchmark.aiinfra.dev/workload: failure-quota-insufficient
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  suspend: true
+  parallelism: 1
+  completions: 1
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r1-20260813T063134Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "1"
+        benchmark.aiinfra.dev/scenario: quota-insufficient
+        benchmark.aiinfra.dev/workload: failure-quota-insufficient
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Never
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: too-many-gpus

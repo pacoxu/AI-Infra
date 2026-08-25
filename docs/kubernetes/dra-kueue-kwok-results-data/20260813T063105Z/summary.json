@@ -1,0 +1,514 @@
+{
+  "failures": [],
+  "generated_at": "2026-08-13T07:52:12.770566Z",
+  "passed": true,
+  "profiles": [
+    {
+      "acceptance_cv": {
+        "admission_p95": 0.0,
+        "kueue_end_to_end_p95": 0.0
+      },
+      "critical_cv": {
+        "admission_p95": 0.0,
+        "claim_allocate_p95": 0.0942918885618217,
+        "claim_create_p95": 0.0,
+        "claim_reclaim_p95": 0.0,
+        "kueue_end_to_end_p95": 0.0,
+        "pod_schedule_p95": 1.0417330666478806,
+        "queue_wait_p95": 0.0,
+        "simulated_ready_p95": 1.4142135623730951
+      },
+      "expected_workloads_per_round": 100,
+      "passed": true,
+      "profile": "functional",
+      "records": 495,
+      "rounds": [
+        {
+          "direct_end_to_end": {
+            "count": 60,
+            "p50_seconds": 0.0,
+            "p95_seconds": 0.0,
+            "p99_seconds": 0.0
+          },
+          "evictions": 2,
+          "failure_reasons": {
+            "admitted-unschedulable": "Unschedulable: 0/10 nodes are available: 10 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/10 nodes are available: 10 Preemption is not helpful for scheduling.",
+            "no-matching-slice": "WaitForStart: Not all pods are ready or succeeded",
+            "quota-insufficient": "WaitForStart: Not all pods are ready or succeeded",
+            "wait-for-pods-ready": "Unschedulable: 0/10 nodes are available: 10 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/10 nodes are available: 10 Preemption is not helpful for scheduling."
+          },
+          "idle_fraction_while_admitted_pending": 0.015538674033149171,
+          "kueue_end_to_end": {
+            "count": 60,
+            "p50_seconds": 1.0,
+            "p95_seconds": 1.0,
+            "p99_seconds": 1.0
+          },
+          "lifecycle": {
+            "admission": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            },
+            "claim_allocate": {
+              "count": 100,
+              "p50_seconds": 0.71722,
+              "p95_seconds": 1.6488469499999998,
+              "p99_seconds": 1.719735
+            },
+            "claim_create": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            },
+            "claim_reclaim": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.0,
+              "p99_seconds": 0.0
+            },
+            "pod_schedule": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.007192699999999591,
+              "p99_seconds": 0.2006650700000004
+            },
+            "queue_wait": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            },
+            "simulated_ready": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.0,
+              "p99_seconds": 1.0
+            }
+          },
+          "main_count": 100,
+          "p95_overhead_limit_seconds": 3.0,
+          "p95_overhead_seconds": 1.0,
+          "preemptions": 6,
+          "requeues": 1,
+          "round": 1,
+          "success_rate": 1.0,
+          "weighted_share_max": {
+            "dra-kueue-tenant-a": 125.0,
+            "dra-kueue-tenant-b": 125.0
+          }
+        },
+        {
+          "direct_end_to_end": {
+            "count": 60,
+            "p50_seconds": 0.0,
+            "p95_seconds": 1.0,
+            "p99_seconds": 1.0
+          },
+          "evictions": 2,
+          "failure_reasons": {
+            "admitted-unschedulable": "Unschedulable: 0/10 nodes are available: 10 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/10 nodes are available: 10 Preemption is not helpful for scheduling.",
+            "no-matching-slice": "Unschedulable: 0/10 nodes are available: 10 cannot allocate all claims. still not schedulable, preemption: 0/10 nodes are available: 10 Preemption is not helpful for scheduling.",
+            "quota-insufficient": "WaitForStart: Not all pods are ready or succeeded",
+            "wait-for-pods-ready": "Unschedulable: 0/10 nodes are available: 10 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/10 nodes are available: 10 Preemption is not helpful for scheduling."
+          },
+          "idle_fraction_while_admitted_pending": 0.015831043956043955,
+          "kueue_end_to_end": {
+            "count": 60,
+            "p50_seconds": 0.0,
+            "p95_seconds": 1.0,
+            "p99_seconds": 1.0
+          },
+          "lifecycle": {
+            "admission": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            },
+            "claim_allocate": {
+              "count": 100,
+              "p50_seconds": 1.024562,
+              "p95_seconds": 2.061693,
+              "p99_seconds": 2.061693
+            },
+            "claim_create": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            },
+            "claim_reclaim": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.0,
+              "p99_seconds": 0.0
+            },
+            "pod_schedule": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.116451,
+              "p99_seconds": 0.116451
+            },
+            "queue_wait": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            },
+            "simulated_ready": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.0,
+              "p99_seconds": 1.0
+            }
+          },
+          "main_count": 100,
+          "p95_overhead_limit_seconds": 3.0,
+          "p95_overhead_seconds": 0.0,
+          "preemptions": 4,
+          "requeues": 0,
+          "round": 2,
+          "success_rate": 1.0,
+          "weighted_share_max": {
+            "dra-kueue-tenant-a": 125.0,
+            "dra-kueue-tenant-b": 125.0
+          }
+        },
+        {
+          "direct_end_to_end": {
+            "count": 60,
+            "p50_seconds": 0.0,
+            "p95_seconds": 1.0,
+            "p99_seconds": 1.0
+          },
+          "evictions": 1,
+          "failure_reasons": {
+            "admitted-unschedulable": "Unschedulable: 0/10 nodes are available: 10 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/10 nodes are available: 10 Preemption is not helpful for scheduling.",
+            "no-matching-slice": "Unschedulable: 0/10 nodes are available: 10 cannot allocate all claims. still not schedulable, preemption: 0/10 nodes are available: 10 Preemption is not helpful for scheduling.",
+            "quota-insufficient": "WaitForStart: Not all pods are ready or succeeded",
+            "wait-for-pods-ready": "Unschedulable: 0/10 nodes are available: 10 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/10 nodes are available: 10 Preemption is not helpful for scheduling."
+          },
+          "idle_fraction_while_admitted_pending": 0.016304347826086956,
+          "kueue_end_to_end": {
+            "count": 60,
+            "p50_seconds": 0.0,
+            "p95_seconds": 1.0,
+            "p99_seconds": 1.0
+          },
+          "lifecycle": {
+            "admission": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            },
+            "claim_allocate": {
+              "count": 100,
+              "p50_seconds": 0.967769,
+              "p95_seconds": 1.982805,
+              "p99_seconds": 2.429966
+            },
+            "claim_create": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            },
+            "claim_reclaim": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.0,
+              "p99_seconds": 0.0
+            },
+            "pod_schedule": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.017946799999999957,
+              "p99_seconds": 0.032231
+            },
+            "queue_wait": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            },
+            "simulated_ready": {
+              "count": 100,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            }
+          },
+          "main_count": 100,
+          "p95_overhead_limit_seconds": 3.0,
+          "p95_overhead_seconds": 0.0,
+          "preemptions": 6,
+          "requeues": 1,
+          "round": 3,
+          "success_rate": 1.0,
+          "weighted_share_max": {
+            "dra-kueue-tenant-a": 125.0,
+            "dra-kueue-tenant-b": 125.0
+          }
+        }
+      ]
+    },
+    {
+      "acceptance_cv": {
+        "admission_p95": 0.1761261143705422,
+        "kueue_end_to_end_p95": 0.282842712474619
+      },
+      "critical_cv": {
+        "admission_p95": 0.1761261143705422,
+        "claim_allocate_p95": 0.3118785028351379,
+        "claim_create_p95": 0.5027922035990613,
+        "claim_reclaim_p95": 0.0,
+        "kueue_end_to_end_p95": 0.282842712474619,
+        "pod_schedule_p95": 0.10863591021491056,
+        "queue_wait_p95": 0.1761261143705422,
+        "simulated_ready_p95": 0.0
+      },
+      "expected_workloads_per_round": 1000,
+      "passed": true,
+      "profile": "scale",
+      "records": 4815,
+      "rounds": [
+        {
+          "direct_end_to_end": {
+            "count": 600,
+            "p50_seconds": 0.0,
+            "p95_seconds": 1.0,
+            "p99_seconds": 1.0
+          },
+          "evictions": 4,
+          "failure_reasons": {
+            "admitted-unschedulable": "Unschedulable: 0/100 nodes are available: 100 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/100 nodes are available: 100 Preemption is not helpful for scheduling.",
+            "no-matching-slice": "Unschedulable: 0/100 nodes are available: 100 cannot allocate all claims. still not schedulable, preemption: 0/100 nodes are available: 100 Preemption is not helpful for scheduling.",
+            "quota-insufficient": "WaitForStart: Not all pods are ready or succeeded",
+            "wait-for-pods-ready": "Unschedulable: 0/100 nodes are available: 100 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/100 nodes are available: 100 Preemption is not helpful for scheduling."
+          },
+          "idle_fraction_while_admitted_pending": 0.016565533980582525,
+          "kueue_end_to_end": {
+            "count": 600,
+            "p50_seconds": 1.0,
+            "p95_seconds": 1.0,
+            "p99_seconds": 1.0
+          },
+          "lifecycle": {
+            "admission": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 12.0,
+              "p99_seconds": 15.0
+            },
+            "claim_allocate": {
+              "count": 1000,
+              "p50_seconds": 0.897984,
+              "p95_seconds": 18.894431,
+              "p99_seconds": 20.814124
+            },
+            "claim_create": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 7.0,
+              "p99_seconds": 8.0
+            },
+            "claim_reclaim": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.0,
+              "p99_seconds": 4.3732
+            },
+            "pod_schedule": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.917855,
+              "p99_seconds": 1.244501
+            },
+            "queue_wait": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 12.0,
+              "p99_seconds": 15.0
+            },
+            "simulated_ready": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            }
+          },
+          "main_count": 1000,
+          "p95_overhead_limit_seconds": 3.0,
+          "p95_overhead_seconds": 0.0,
+          "preemptions": 8,
+          "requeues": 1,
+          "round": 1,
+          "success_rate": 1.0,
+          "weighted_share_max": {
+            "dra-kueue-tenant-a": 125.0,
+            "dra-kueue-tenant-b": 125.0
+          }
+        },
+        {
+          "direct_end_to_end": {
+            "count": 600,
+            "p50_seconds": 0.0,
+            "p95_seconds": 1.0,
+            "p99_seconds": 1.0
+          },
+          "evictions": 6,
+          "failure_reasons": {
+            "admitted-unschedulable": "Unschedulable: 0/100 nodes are available: 100 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/100 nodes are available: 100 Preemption is not helpful for scheduling.",
+            "no-matching-slice": "Unschedulable: 0/100 nodes are available: 100 cannot allocate all claims. still not schedulable, preemption: 0/100 nodes are available: 100 Preemption is not helpful for scheduling.",
+            "quota-insufficient": "WaitForStart: Not all pods are ready or succeeded",
+            "wait-for-pods-ready": "Unschedulable: 0/100 nodes are available: 100 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/100 nodes are available: 100 Preemption is not helpful for scheduling."
+          },
+          "idle_fraction_while_admitted_pending": 0.021229411764705886,
+          "kueue_end_to_end": {
+            "count": 600,
+            "p50_seconds": 1.0,
+            "p95_seconds": 2.0,
+            "p99_seconds": 2.0
+          },
+          "lifecycle": {
+            "admission": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 14.0,
+              "p99_seconds": 17.0
+            },
+            "claim_allocate": {
+              "count": 1000,
+              "p50_seconds": 1.043994,
+              "p95_seconds": 26.371751,
+              "p99_seconds": 27.371751
+            },
+            "claim_create": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 14.0,
+              "p99_seconds": 15.0
+            },
+            "claim_reclaim": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.0,
+              "p99_seconds": 2.773986
+            },
+            "pod_schedule": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.1689701999999915,
+              "p99_seconds": 1.890718
+            },
+            "queue_wait": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 14.0,
+              "p99_seconds": 17.0
+            },
+            "simulated_ready": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 4.0
+            }
+          },
+          "main_count": 1000,
+          "p95_overhead_limit_seconds": 3.0,
+          "p95_overhead_seconds": 1.0,
+          "preemptions": 10,
+          "requeues": 1,
+          "round": 2,
+          "success_rate": 1.0,
+          "weighted_share_max": {
+            "dra-kueue-tenant-a": 125.0,
+            "dra-kueue-tenant-b": 125.0
+          }
+        },
+        {
+          "direct_end_to_end": {
+            "count": 600,
+            "p50_seconds": 0.0,
+            "p95_seconds": 1.0,
+            "p99_seconds": 1.0
+          },
+          "evictions": 5,
+          "failure_reasons": {
+            "admitted-unschedulable": "Unschedulable: 0/100 nodes are available: 100 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/100 nodes are available: 100 Preemption is not helpful for scheduling.",
+            "no-matching-slice": "WaitForStart: Not all pods are ready or succeeded",
+            "quota-insufficient": "WaitForStart: Not all pods are ready or succeeded",
+            "wait-for-pods-ready": "Unschedulable: 0/100 nodes are available: 100 node(s) didn't match Pod's node affinity/selector. still not schedulable, preemption: 0/100 nodes are available: 100 Preemption is not helpful for scheduling."
+          },
+          "idle_fraction_while_admitted_pending": 0.016473970944309926,
+          "kueue_end_to_end": {
+            "count": 600,
+            "p50_seconds": 1.0,
+            "p95_seconds": 2.0,
+            "p99_seconds": 2.009999999999991
+          },
+          "lifecycle": {
+            "admission": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 9.0,
+              "p99_seconds": 10.0
+            },
+            "claim_allocate": {
+              "count": 1000,
+              "p50_seconds": 0.816469,
+              "p95_seconds": 11.833447,
+              "p99_seconds": 13.695425
+            },
+            "claim_create": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 4.0,
+              "p99_seconds": 5.0
+            },
+            "claim_reclaim": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 0.0,
+              "p99_seconds": 3.766267
+            },
+            "pod_schedule": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.166553,
+              "p99_seconds": 1.420022
+            },
+            "queue_wait": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 9.0,
+              "p99_seconds": 10.0
+            },
+            "simulated_ready": {
+              "count": 1000,
+              "p50_seconds": 0.0,
+              "p95_seconds": 1.0,
+              "p99_seconds": 1.0
+            }
+          },
+          "main_count": 1000,
+          "p95_overhead_limit_seconds": 3.0,
+          "p95_overhead_seconds": 1.0,
+          "preemptions": 12,
+          "requeues": 1,
+          "round": 3,
+          "success_rate": 1.0,
+          "weighted_share_max": {
+            "dra-kueue-tenant-a": 125.0,
+            "dra-kueue-tenant-b": 125.0
+          }
+        }
+      ]
+    }
+  ],
+  "schema": "dra-kueue-kwok-summary/v1"
+}

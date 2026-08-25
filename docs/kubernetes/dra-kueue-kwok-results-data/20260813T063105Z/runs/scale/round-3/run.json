@@ -1,0 +1,12 @@
+{
+  "run": "scale-r3-20260813T072823Z",
+  "profile": "scale",
+  "round": 3,
+  "nodes": 100,
+  "logicalWorkloads": 1000,
+  "versions": {
+    "kubernetes": "v1.36.3",
+    "kwok": "v0.8.0",
+    "kueue": "v0.19.0"
+  }
+}

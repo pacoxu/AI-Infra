@@ -18,6 +18,7 @@ node_modules/
 # Temporary files
 *.tmp
 *.temp
+collector.stop
 
 # Backup files
 *~

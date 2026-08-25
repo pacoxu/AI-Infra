@@ -1,0 +1,449 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000000
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000000
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000000
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000000
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000001
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000001
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000001
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000001
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000002
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000002
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000002
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000002
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000003
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000003
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000003
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000003
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000004
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000004
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000004
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000004
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000005
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000005
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000005
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000005
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000006
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000006
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000006
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000006
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000007
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000007
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000007
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000007
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000008
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000008
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000008
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000008
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kueue-mixed-low-000009
+  namespace: dra-kueue-tenant-a
+  labels:
+    benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+    benchmark.aiinfra.dev/profile: functional
+    benchmark.aiinfra.dev/round: "2"
+    benchmark.aiinfra.dev/scenario: mixed
+    benchmark.aiinfra.dev/workload: kueue-mixed-low-000009
+    benchmark.aiinfra.dev/path: kueue
+    kueue.x-k8s.io/queue-name: gpu
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      benchmark.aiinfra.dev/workload: kueue-mixed-low-000009
+  template:
+    metadata:
+      labels:
+        benchmark.aiinfra.dev/run: functional-r2-20260813T063845Z
+        benchmark.aiinfra.dev/profile: functional
+        benchmark.aiinfra.dev/round: "2"
+        benchmark.aiinfra.dev/scenario: mixed
+        benchmark.aiinfra.dev/workload: kueue-mixed-low-000009
+        benchmark.aiinfra.dev/path: kueue
+        kueue.x-k8s.io/queue-name: gpu
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 0
+      containers:
+        - name: workload
+          image: "registry.k8s.io/pause:3.10.1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            claims:
+              - name: gpu
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: kwok-gpu
+      priorityClassName: dra-kueue-low

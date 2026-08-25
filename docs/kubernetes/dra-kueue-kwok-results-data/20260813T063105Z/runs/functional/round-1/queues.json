@@ -1,0 +1,347 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "kueue.x-k8s.io/v1beta2",
+            "kind": "ClusterQueue",
+            "metadata": {
+                "creationTimestamp": "2026-08-13T06:31:33Z",
+                "finalizers": [
+                    "kueue.x-k8s.io/resource-in-use"
+                ],
+                "generation": 1,
+                "labels": {
+                    "benchmark.aiinfra.dev/suite": "dra-kueue-kwok"
+                },
+                "name": "dra-kueue-tenant-a",
+                "resourceVersion": "7378",
+                "uid": "9e4fa1df-10bc-4661-a7d4-30bcfdcac90f"
+            },
+            "spec": {
+                "cohortName": "dra-kueue-kwok",
+                "fairSharing": {
+                    "weight": "1"
+                },
+                "flavorFungibility": {
+                    "whenCanBorrow": "MayStopSearch",
+                    "whenCanPreempt": "TryNextFlavor"
+                },
+                "namespaceSelector": {
+                    "matchLabels": {
+                        "benchmark.aiinfra.dev/tenant": "a"
+                    }
+                },
+                "preemption": {
+                    "borrowWithinCohort": {
+                        "policy": "Never"
+                    },
+                    "reclaimWithinCohort": "Any",
+                    "withinClusterQueue": "LowerPriority"
+                },
+                "queueingStrategy": "BestEffortFIFO",
+                "resourceGroups": [
+                    {
+                        "coveredResources": [
+                            "cpu",
+                            "memory",
+                            "kwok.aiinfra.dev/gpu",
+                            "kwok.aiinfra.dev/empty-gpu",
+                            "kwok.aiinfra.dev/extended-gpu"
+                        ],
+                        "flavors": [
+                            {
+                                "name": "kwok-gpu",
+                                "resources": [
+                                    {
+                                        "name": "cpu",
+                                        "nominalQuota": "320"
+                                    },
+                                    {
+                                        "name": "memory",
+                                        "nominalQuota": "2560Gi"
+                                    },
+                                    {
+                                        "name": "kwok.aiinfra.dev/gpu",
+                                        "nominalQuota": "40"
+                                    },
+                                    {
+                                        "name": "kwok.aiinfra.dev/empty-gpu",
+                                        "nominalQuota": "80"
+                                    },
+                                    {
+                                        "name": "kwok.aiinfra.dev/extended-gpu",
+                                        "nominalQuota": "40"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "stopPolicy": "None"
+            },
+            "status": {
+                "admittedWorkloads": 0,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-08-13T06:31:33Z",
+                        "message": "Can admit new workloads",
+                        "observedGeneration": 1,
+                        "reason": "Ready",
+                        "status": "True",
+                        "type": "Active"
+                    }
+                ],
+                "fairSharing": {
+                    "weightedShare": 0
+                },
+                "flavorsReservation": [
+                    {
+                        "name": "kwok-gpu",
+                        "resources": [
+                            {
+                                "borrowed": "0",
+                                "name": "cpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/empty-gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/extended-gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "memory",
+                                "total": "0"
+                            }
+                        ]
+                    }
+                ],
+                "flavorsUsage": [
+                    {
+                        "name": "kwok-gpu",
+                        "resources": [
+                            {
+                                "borrowed": "0",
+                                "name": "cpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/empty-gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/extended-gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "memory",
+                                "total": "0"
+                            }
+                        ]
+                    }
+                ],
+                "pendingWorkloads": 0,
+                "reservingWorkloads": 0
+            }
+        },
+        {
+            "apiVersion": "kueue.x-k8s.io/v1beta2",
+            "kind": "ClusterQueue",
+            "metadata": {
+                "creationTimestamp": "2026-08-13T06:31:33Z",
+                "finalizers": [
+                    "kueue.x-k8s.io/resource-in-use"
+                ],
+                "generation": 1,
+                "labels": {
+                    "benchmark.aiinfra.dev/suite": "dra-kueue-kwok"
+                },
+                "name": "dra-kueue-tenant-b",
+                "resourceVersion": "8444",
+                "uid": "4ddce301-462a-42bf-9ff8-39ea7169c0b4"
+            },
+            "spec": {
+                "cohortName": "dra-kueue-kwok",
+                "fairSharing": {
+                    "weight": "1"
+                },
+                "flavorFungibility": {
+                    "whenCanBorrow": "MayStopSearch",
+                    "whenCanPreempt": "TryNextFlavor"
+                },
+                "namespaceSelector": {
+                    "matchLabels": {
+                        "benchmark.aiinfra.dev/tenant": "b"
+                    }
+                },
+                "preemption": {
+                    "borrowWithinCohort": {
+                        "policy": "Never"
+                    },
+                    "reclaimWithinCohort": "Any",
+                    "withinClusterQueue": "LowerPriority"
+                },
+                "queueingStrategy": "BestEffortFIFO",
+                "resourceGroups": [
+                    {
+                        "coveredResources": [
+                            "cpu",
+                            "memory",
+                            "kwok.aiinfra.dev/gpu",
+                            "kwok.aiinfra.dev/empty-gpu",
+                            "kwok.aiinfra.dev/extended-gpu"
+                        ],
+                        "flavors": [
+                            {
+                                "name": "kwok-gpu",
+                                "resources": [
+                                    {
+                                        "name": "cpu",
+                                        "nominalQuota": "320"
+                                    },
+                                    {
+                                        "name": "memory",
+                                        "nominalQuota": "2560Gi"
+                                    },
+                                    {
+                                        "name": "kwok.aiinfra.dev/gpu",
+                                        "nominalQuota": "40"
+                                    },
+                                    {
+                                        "name": "kwok.aiinfra.dev/empty-gpu",
+                                        "nominalQuota": "80"
+                                    },
+                                    {
+                                        "name": "kwok.aiinfra.dev/extended-gpu",
+                                        "nominalQuota": "40"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "stopPolicy": "None"
+            },
+            "status": {
+                "admittedWorkloads": 0,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-08-13T06:31:33Z",
+                        "message": "Can admit new workloads",
+                        "observedGeneration": 1,
+                        "reason": "Ready",
+                        "status": "True",
+                        "type": "Active"
+                    }
+                ],
+                "fairSharing": {
+                    "weightedShare": 0
+                },
+                "flavorsReservation": [
+                    {
+                        "name": "kwok-gpu",
+                        "resources": [
+                            {
+                                "borrowed": "0",
+                                "name": "cpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/empty-gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/extended-gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "memory",
+                                "total": "0"
+                            }
+                        ]
+                    }
+                ],
+                "flavorsUsage": [
+                    {
+                        "name": "kwok-gpu",
+                        "resources": [
+                            {
+                                "borrowed": "0",
+                                "name": "cpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/empty-gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/extended-gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "kwok.aiinfra.dev/gpu",
+                                "total": "0"
+                            },
+                            {
+                                "borrowed": "0",
+                                "name": "memory",
+                                "total": "0"
+                            }
+                        ]
+                    }
+                ],
+                "pendingWorkloads": 0,
+                "reservingWorkloads": 0
+            }
+        },
+        {
+            "apiVersion": "kueue.x-k8s.io/v1beta2",
+            "kind": "Cohort",
+            "metadata": {
+                "creationTimestamp": "2026-08-13T06:31:33Z",
+                "generation": 1,
+                "name": "dra-kueue-kwok",
+                "resourceVersion": "347",
+                "uid": "e807c77b-02c1-48f4-82bc-9a88dce4f443"
+            },
+            "status": {
+                "fairSharing": {
+                    "weightedShare": 0
+                }
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}
