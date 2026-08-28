@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-11-04
+last_updated: 2026-08-28
 tags: observability, monitoring, metrics, gpu, llm, inference
 canonical_path: docs/observability/README.md
 ---
@@ -21,6 +21,7 @@ AI workload observability spans multiple layers:
 2. **Inference Layer**: Request latency, throughput, token metrics
 3. **Scheduler Layer**: Queue depth, scheduling latency, resource allocation
 4. **Application Layer**: LLM request traces, prompt performance, model quality
+5. **FinOps Layer**: Per-tenant GPU allocation, usage, pricing, and chargeback
 
 ## Infrastructure-Side Observability
 
@@ -295,6 +296,31 @@ For shared AI infrastructure:
 - **Fair-share enforcement**: Monitor and alert on quota violations
 - **Noisy neighbor detection**: Identify workloads impacting others
 - **Chargeback/Showback**: Accurate usage attribution for cost allocation
+
+### 6. GPU Cost Attribution and Chargeback
+
+[`OpenCost`](https://github.com/opencost/opencost) is directly relevant to a
+shared AI platform because it turns Kubernetes allocations and pricing into
+workload costs. Its GPU-facing metrics include `container_gpu_allocation`,
+`node_gpu_count`, and `node_gpu_hourly_cost`, and its allocation API can group
+results by Kubernetes dimensions such as namespace and labels.
+
+A production GPU cost pipeline needs four inputs:
+
+1. **Allocation**: GPU requests or allocated devices attributed to a Pod and
+   workload owner.
+2. **Usage**: DCGM metrics for utilization and activity; allocation cost and
+   utilization efficiency are related but different measures.
+3. **Price**: Cloud list price or an on-premises amortized GPU-hour rate,
+   including an explicit policy for idle capacity.
+4. **Tenant identity**: Stable tenant, cluster, namespace, workload and cost
+   center labels carried through the metrics pipeline.
+
+For MIG, HAMi, time-slicing, or another shared-GPU implementation, validate
+how a fraction maps to allocation units and price before publishing bills.
+Do not assume a whole-GPU request model produces correct fractional
+chargeback automatically. OpenCost supplies the allocation model; platform
+owners still define pricing, idle-cost policy, and tenant-label governance.
 
 ## Integration with Cloud-Native Ecosystem
 

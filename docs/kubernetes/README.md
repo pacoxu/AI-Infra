@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-08-13
+last_updated: 2026-08-28
 tags: kubernetes, ai-infrastructure, scheduling, resource-management, topology-aware-scheduling
 canonical_path: docs/kubernetes/README.md
 ---
@@ -72,9 +72,20 @@ workload isolation.
 #### Workload Isolation
 
 - **[Isolation Guide](./isolation.md)**: Comprehensive coverage of workload
-  isolation techniques including cgroups, security contexts, user namespaces,
-  VM-based isolation (Kata Containers, gVisor), and checkpoint/restore for
-  AI workloads
+  isolation techniques including tenant clusters (vCluster), cgroups,
+  security contexts, user namespaces, VM-based isolation (Kata Containers,
+  gVisor), and checkpoint/restore for AI workloads
+
+#### GPU Networking and Data Path
+
+- [`Multus CNI`](https://github.com/k8snetworkplumbingwg/multus-cni) is a
+  high-relevance AI infrastructure component when training or disaggregated
+  inference pods need both a normal Kubernetes service network and a separate
+  SR-IOV / RDMA data-plane interface.
+- Keep the roles separate: the primary CNI handles cluster connectivity and
+  NetworkPolicy; Multus attaches additional interfaces; SR-IOV, RDMA, RoCE or
+  InfiniBand provide the fast path. Multus alone neither configures RDMA nor
+  creates a tenant security boundary.
 
 #### Scalability and Large-Scale Clusters
 
@@ -83,6 +94,33 @@ workload isolation.
   nodes), including Consistent Reads from Cache (KEP-2340), Snapshottable
   API Server Cache (KEP-4988), DRANET, Spanner, and Lustre distributed
   file system
+
+#### Adjacent AI Factory Platform Dependencies
+
+These components matter to a complete AI factory but are not central learning
+tracks for GPU scheduling or model execution, so they are kept as a concise
+integration checklist:
+
+- **Bare-metal capacity lifecycle**:
+  [Metal3](https://github.com/metal3-io/baremetal-operator) /
+  [Ironic](https://docs.openstack.org/ironic/latest/),
+  [Tinkerbell](https://github.com/tinkerbell/tinkerbell), and
+  [NetBox](https://github.com/netbox-community/netbox) cover provisioning,
+  hardware workflows, inventory, and IPAM.
+  [vMetal](https://www.vcluster.com/docs) is a vCluster product-stack
+  integration in this space, not a separate core Kubernetes primitive.
+- **Storage**: [Rook](https://github.com/rook/rook) can operate Ceph-backed
+  storage for datasets and checkpoints; keep parallel filesystem and object
+  storage selection workload-driven.
+- **Secrets and supply chain**: [OpenBao](https://github.com/openbao/openbao),
+  [External Secrets Operator](https://github.com/external-secrets/external-secrets),
+  and [Trivy](https://github.com/aquasecurity/trivy) are general platform
+  security dependencies rather than AI-specific runtimes.
+- **Logs and self-service**:
+  [VictoriaLogs](https://github.com/VictoriaMetrics/VictoriaLogs) is one
+  replaceable log backend, while [OpenTofu](https://github.com/opentofu/opentofu)
+  can participate in API-driven infrastructure provisioning. Neither belongs
+  in the inference-engine landscape.
 
 ## Quick Reference
 
@@ -109,6 +147,8 @@ workload isolation.
    optimization
 3. Implement [Isolation techniques](./isolation.md) for security and
    multi-tenancy
+4. Use Multus with SR-IOV / RDMA only when workloads require a separate GPU
+   data path; keep the service network and tenant policy path explicit
 
 ### For AI/ML Engineers
 

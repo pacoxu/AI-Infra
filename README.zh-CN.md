@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-08-21
+last_updated: 2026-08-28
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -122,6 +122,7 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 #### 博客
 
 - [博客概述](./docs/blog/README.md)
+- [最新：在 Kubernetes 上构建 AI Factory](./docs/blog/2026-08-27/2026-08-27-building-an-ai-factory-on-kubernetes_zh.md)
 - [最新：Dynamo / Grove / KAI / GPU DRA 主线拆解](./docs/blog/2026-05-11/2026-05-11-dynamo-grove-kai-dra-ecosystem-zh.md)
 - [最新：vLLM v0.18.0 发布解读（中文）](./docs/blog/2026-03-24/2026-03-24-vllm-v0.18.0-ai-infra-highlights_zh.md)
 - [最新：NVIDIA AICR 中文介绍](./docs/blog/2026-03-13/2026-03-13-nvidia-aicr-introduction_zh.md)
@@ -165,8 +166,8 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 
 - **关键组件:**
   - **核心**: Kubernetes, CRI, containerd, KubeVirt
-  - **网络**: CNI（重点：RDMA，专用设备）
-  - **存储**: CSI（重点：检查点、模型缓存、数据管理）
+  - **网络**: CNI（Cilium + Multus，重点：SR-IOV / RDMA 专用数据面）
+  - **存储**: CSI（Rook / Ceph，重点：检查点、模型缓存、数据管理）
   - **工具**: KWOK（GPU 节点模拟）, Helm（包管理）
 
 - **学习主题:**
@@ -190,6 +191,8 @@ Kubernetes 集群中 AI 工作负载的高级调度、工作负载编排和设�
     NVIDIA AICR
   - **工作负载管理**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling,
     WAS（Workload Aware Scheduling）
+  - **Slurm / HPC 互操作**: Slinky（配合 Pyxis / Enroot 承接既有 Slurm 工作流）
+  - **租户控制面**: vCluster（仍需独立设计数据面、设备和运行时隔离）
   - **设备管理**: DRA, NRI
     ([Kubernetes WG Device Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md))
   - **检查点/恢复**: GPU 检查点/恢复用于容错和迁移（NVIDIA cuda-checkpoint,
@@ -354,14 +357,16 @@ AI 智能体的详细学习路径。生产级分层架构请参见
   - GPU 错误检测和恢复
   - 训练效率指标（ETTR, MFU）
   - 训练管理的 GitOps 工作流
+  - **Slurm / HPC 互操作**: Slinky、Pyxis、Enroot
   - 检查点的存储优化
   - **预训练大型语言模型（MoE, DeepseekV3, Llama4）**
   - **扩展实验和集群设置（AMD MI325）**
   - **MLOps: 可重复、可审计、可回滚的机器学习生命周期**
 
 **详细内容请参见 [训练指南](./docs/training/README.md)**，
-包含训练算子（Kubeflow, Volcano, Kueue）、ML 平台（Kubeflow Pipelines,
-Argo Workflows）、GitOps（ArgoCD）、容错策略、字节跳动的训练优化框架以及行业最佳实践的全面介绍。
+包含训练算子（Kubeflow, Volcano, Kueue）、Slurm / HPC 互操作（Slinky、Pyxis、Enroot）、
+ML 平台（Kubeflow Pipelines, Argo Workflows）、GitOps（ArgoCD）、容错策略、
+字节跳动的训练优化框架以及行业最佳实践的全面介绍。
 详细指南：[Transformers](./docs/training/transformers.md) |
 [PyTorch 生态系统](./docs/training/pytorch-ecosystem.md) |
 [预训练](./docs/training/pre-training.md) |
@@ -381,7 +386,7 @@ Argo Workflows）、GitOps（ArgoCD）、容错策略、字节跳动的训练优
   - **推理指标**: TTFT, TPOT, ITL, 吞吐量, 请求延迟
   - **调度器可观测性**: 队列深度、调度延迟、资源分配
   - **LLM 应用追踪**: 请求追踪、提示词性能、模型质量
-  - **成本优化**: 资源利用率分析和合理配置
+  - **成本优化与计费**: OpenCost、DCGM GPU 使用指标、按租户 chargeback
   - **多租户监控**: 每租户指标和公平共享执行
 
 **详细内容请参见 [可观测性指南](./docs/observability/README.md)**，

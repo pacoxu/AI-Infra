@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-08-21
+last_updated: 2026-08-28
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -125,6 +125,7 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 #### Blog
 
 - [Blog List](./BLOG.md)
+- [Latest: Building an AI Factory on Kubernetes (Chinese)](./docs/blog/2026-08-27/2026-08-27-building-an-ai-factory-on-kubernetes_zh.md)
 
 ## 📊 AI-Infra Landscape (2026 March)
 
@@ -169,8 +170,8 @@ section if using managed Kubernetes services.
 
 - **Key Components:**
   - **Core**: Kubernetes, CRI, containerd, KubeVirt
-  - **Networking**: CNI (focus: RDMA, specialized devices)
-  - **Storage**: CSI (focus: checkpointing, model caching, data management)
+  - **Networking**: CNI (Cilium + Multus; focus on SR-IOV / RDMA data paths)
+  - **Storage**: CSI (Rook / Ceph; focus on checkpoints, model caches, and data)
   - **Tools**: KWOK (GPU node mocking), Helm (package management)
 
 - **Learning Topics:**
@@ -195,6 +196,10 @@ workloads in Kubernetes clusters.
     NVIDIA AICR
   - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling,
     WAS (Workload Aware Scheduling)
+  - **Slurm / HPC Interoperability**: Slinky with Pyxis / Enroot for existing
+    Slurm workflows
+  - **Tenant Control Planes**: vCluster, with separate data-plane, device, and
+    runtime isolation design
   - **Device Management**: DRA, NRI
     ([Kubernetes WG Device Management](https://github.com/kubernetes/community/blob/master/wg-device-management/README.md))
   - **Checkpoint/Restore**: GPU checkpoint/restore for fault tolerance and
@@ -371,14 +376,16 @@ gang scheduling, and efficient resource management.
   - GPU error detection and recovery
   - Training efficiency metrics (ETTR, MFU)
   - GitOps workflows for training management
+  - **Slurm / HPC interoperability**: Slinky, Pyxis, and Enroot
   - Storage optimization for checkpoints
   - **Pre-training large language models (MoE, DeepseekV3, Llama4)**
   - **Scaling experiments and cluster setup (AMD MI325)**
   - **MLOps: Repeatable, auditable, and rollback-capable ML lifecycle**
 
 **See [Training Guide](./docs/training/README.md)** for comprehensive coverage of
-training operators (Kubeflow, Volcano, Kueue), ML platforms (Kubeflow
-Pipelines, Argo Workflows), GitOps (ArgoCD), fault tolerance strategies,
+training operators (Kubeflow, Volcano, Kueue), Slurm / HPC interoperability
+(Slinky, Pyxis, Enroot), ML platforms (Kubeflow Pipelines, Argo Workflows),
+GitOps (ArgoCD), fault tolerance strategies,
 ByteDance's training optimization framework, and industry best practices.
 Detailed guides: [Transformers](./docs/training/transformers.md) |
 [PyTorch Ecosystem](./docs/training/pytorch-ecosystem.md) |
@@ -403,7 +410,8 @@ infrastructure stack for production operations.
     allocation
   - **LLM application tracing**: Request traces, prompt performance, model
     quality
-  - **Cost optimization**: Resource utilization analysis and right-sizing
+  - **Cost optimization and chargeback**: OpenCost, DCGM GPU usage metrics,
+    and per-tenant allocation
   - **Multi-tenant monitoring**: Per-tenant metrics and fair-share enforcement
 
 **See [Observability Guide](./docs/observability/README.md)** for comprehensive

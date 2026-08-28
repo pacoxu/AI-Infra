@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-07-11
+last_updated: 2026-08-28
 tags: training, kubernetes, fault-tolerance, distributed-training, jobset, kueue, kuberay
 canonical_path: docs/training/README.md
 ---
@@ -31,6 +31,7 @@ More details about specific topics:
 - [MLOps: Machine Learning Operations Lifecycle](./mlops.md)
 - [AI 训练作业管理：JobSet、Kueue、Ray 与 Gang
   Scheduling](../blog/2026-04-13/2026-04-13-ai-training-job-management-jobset-kueue-ray-gang_zh.md)
+- [Slurm / HPC Interoperability](#slurm--hpc-interoperability)
 
 ### Key Challenges at Scale
 
@@ -133,6 +134,30 @@ Key components of their framework:
 - [`KubeRay`](https://github.com/ray-project/kuberay):
   Kubernetes operator for Ray clusters; enables Ray-based distributed
   training and serving (Ray Train, Ray Tune) on Kubernetes.
+
+### Slurm / HPC Interoperability
+
+[`Slinky`](https://github.com/SlinkyProject/slurm-operator) is directly
+relevant when an AI platform must preserve existing Slurm workflows while
+using Kubernetes as the infrastructure and lifecycle layer. Its Slurm
+operator models the controller, LoginSets, and worker NodeSets with Kubernetes
+CRDs; GPU NodeSets can request devices through a vendor device plugin or DRA.
+
+The surrounding runtime path usually includes:
+
+- [`Pyxis`](https://github.com/NVIDIA/pyxis): A Slurm SPANK plugin that lets
+  users launch containerized jobs through familiar `srun` and `sbatch`
+  workflows.
+- [`Enroot`](https://github.com/NVIDIA/enroot): The unprivileged container
+  runtime commonly used underneath Pyxis on GPU and HPC systems.
+- **GPU Operator / DRA / SR-IOV**: Kubernetes remains responsible for making
+  GPU and high-performance network devices available to Slinky NodeSets.
+
+Treat Slinky as an interoperability layer, not as another generic Kubernetes
+batch scheduler. Define one owner for admission and capacity at each boundary:
+Kubernetes allocates the NodeSet resources, while Slurm schedules jobs inside
+the capacity assigned to that Slurm cluster. Avoid advertising the same GPU
+simultaneously to unrelated Kubernetes and Slurm scheduling domains.
 
 ### Core Training Frameworks
 

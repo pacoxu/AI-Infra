@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-07-10
+last_updated: 2026-08-28
 tags: kubernetes, isolation, security, multi-tenancy
 canonical_path: docs/kubernetes/isolation.md
 ---
@@ -24,6 +24,37 @@ AI workloads present unique isolation challenges:
   or confidential information
 - **Cost Optimization**: Preventing noisy neighbors and ensuring fair resource
   sharing
+
+## 0. Tenant Clusters: Control Plane vs Data Plane Isolation
+
+[`vCluster`](https://github.com/loft-sh/vcluster) is directly relevant to AI
+clouds that need a Kubernetes API, CRDs, admission configuration, versions,
+and RBAC per tenant without operating one physical management cluster for
+every team. It adds a tenant control-plane boundary; it does not install GPU
+drivers, partition accelerators, or replace device plugins and DRA drivers.
+
+Choose the worker-node model from the trust boundary, not from desired
+density:
+
+| Model | Appropriate use | Isolation boundary |
+| --- | --- | --- |
+| Shared nodes | Trusted internal teams, development and CI | Separate tenant API and namespace; tenants still share the host kernel and devices |
+| Dedicated node pool | Predictable placement for trusted tenants | Reserved labels and taints improve placement, but are not a new kernel boundary |
+| Private nodes / separate cluster | External, regulated or mutually untrusted tenants | Dedicated compute, CNI and CSI; preferred baseline for hard GPU tenancy |
+
+The data plane still needs an explicit combination of NetworkPolicy, storage
+isolation, Pod Security, ResourceQuota, RuntimeClass, device-class scoping,
+and admission policy. In particular, node selectors and taints are placement
+controls, not security boundaries, and a tenant-visible `DeviceClass` only
+limits which device pool can be requested; the underlying DRA driver still
+selects and prepares the device.
+
+[`vNode`](https://www.vcluster.com/docs) can be evaluated as an additional
+vCluster product-stack runtime boundary based on Linux user namespaces and
+seccomp. Keep it in the product-evaluation column alongside established
+runtime alternatives such as gVisor and Kata Containers, and validate its
+licensing, kernel support, GPU path, and operational limitations before
+adoption.
 
 ## 1. Control Groups (cgroups) Filesystem
 

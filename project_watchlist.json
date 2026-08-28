@@ -121,6 +121,10 @@
       "url": "https://github.com/kgateway-dev/kgateway"
     },
     {
+      "repo": "k8snetworkplumbingwg/multus-cni",
+      "url": "https://github.com/k8snetworkplumbingwg/multus-cni"
+    },
+    {
       "repo": "kong/kong",
       "url": "https://github.com/kong/kong"
     },
@@ -185,6 +189,10 @@
       "url": "https://github.com/lmcache/lmcache"
     },
     {
+      "repo": "loft-sh/vcluster",
+      "url": "https://github.com/loft-sh/vcluster"
+    },
+    {
       "repo": "milvus-io/milvus",
       "url": "https://github.com/milvus-io/milvus"
     },
@@ -201,6 +209,14 @@
       "url": "https://github.com/netflix/metaflow"
     },
     {
+      "repo": "nvidia/enroot",
+      "url": "https://github.com/NVIDIA/enroot"
+    },
+    {
+      "repo": "nvidia/pyxis",
+      "url": "https://github.com/NVIDIA/pyxis"
+    },
+    {
       "repo": "ollama/ollama",
       "url": "https://github.com/ollama/ollama"
     },
@@ -211,6 +227,10 @@
     {
       "repo": "openlit/openlit",
       "url": "https://github.com/openlit/openlit"
+    },
+    {
+      "repo": "opencost/opencost",
+      "url": "https://github.com/opencost/opencost"
     },
     {
       "repo": "openvinotoolkit/openvino",
@@ -267,6 +287,10 @@
     {
       "repo": "sgl-project/sglang",
       "url": "https://github.com/sgl-project/sglang"
+    },
+    {
+      "repo": "slinkyproject/slurm-operator",
+      "url": "https://github.com/SlinkyProject/slurm-operator"
     },
     {
       "repo": "thudm/slime",

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-07-13
+last_updated: 2026-08-28
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,23 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-08-27: 在 Kubernetes 上构建 AI Factory：从 GPU 集群走向多租户 AI 云
+
+- [在 Kubernetes 上构建 AI Factory：从 GPU 集群走向多租户 AI 云 (Chinese)](./2026-08-27/2026-08-27-building-an-ai-factory-on-kubernetes_zh.md)
+
+An architecture-focused Chinese synthesis of the CNCF article, plus a
+repository coverage audit:
+
+- Reframes an AI factory around GPU density, tenant isolation, and chargeback
+  rather than model serving alone
+- Maps the stack from bare-metal validation through tenant clusters,
+  scheduling, Slurm, networking, security, remediation, and FinOps
+- Separates control-plane isolation from data-plane and hardware boundaries
+- Identifies 16 projects or products that had no repository mention before
+  this update, plus five that only appeared in peripheral or archived content
+- Applies a relevance-tiered inclusion policy: core AI infrastructure projects
+  enter the learning path while adjacent platform dependencies stay concise
 
 ## 2026-06-15: KEP-766 DisaggregatedSet 深入解读：为何对 AI 工作负载重要
 
