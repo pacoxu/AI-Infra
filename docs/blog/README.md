@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-09-10
+last_updated: 2026-09-16
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,24 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-09-16: Agent Substrate 为 GKE 带来高密度、可扩展的可信基础设施
+
+- [Agent Substrate 为 GKE 带来高密度、可扩展的可信基础设施 (Chinese)](./2026-09-16/2026-09-16-agent-substrate-available-on-gke_zh.md)
+
+A Chinese translation of Google Cloud's announcement that Agent Substrate is
+available on GKE, with original product and documentation links restored:
+
+- **Agent-native runtime**: open-source, secure-by-default execution layer for
+  millions of sandboxes, targeting 10x density versus standard containers.
+- **Suspend/resume economics**: sub-500ms resume at 500+ activations per
+  second, packing 1,000+ dormant agents per host by snapshotting idle state.
+- **Kernel and network isolation**: Cloud Hypervisor microVMs or gVisor, plus
+  an integrated gateway for egress/ingress control.
+- **GKE optimization**: custom ComputeClasses, Google Axion, and optional
+  Filestore agent volumes for millisecond NFS attach/detach with RWX locking.
+- **Availability**: open source for any Kubernetes cluster; GKE customers can
+  use it for non-production now, with production GA on an allowlist.
 
 ## 2026-09-10: 从 DRA 到集群升级：AI Infra 交流中的七个工程问题
 
