@@ -208,11 +208,25 @@ Agent Substrate 开源，并向所有 GKE 客户开放用于非生产工作负�
 
 ## 参考
 
-- Google Cloud Blog:
-  [Agent Substrate brings high-density, scalable, trusted infrastructure to GKE](https://cloud.google.com/blog/products/containers-kubernetes/agent-substrate-available-on-gke)
-- Google Cloud Docs:
-  [About GKE Agent Substrate](https://docs.cloud.google.com/kubernetes-engine/ai-ml/about-agent-substrate)
-- Open Source:
-  [agent-substrate/substrate](https://github.com/agent-substrate/substrate)
-- Related:
-  [Agent Sandbox on GKE and Agent Substrate](https://cloud.google.com/blog/products/containers-kubernetes/bringing-you-agent-sandbox-on-gke-and-agent-substrate)
+- [Agent Substrate brings high-density, scalable, trusted infrastructure to GKE](https://cloud.google.com/blog/products/containers-kubernetes/agent-substrate-available-on-gke)：Google Cloud 原文，宣布 Agent Substrate 在 GKE 上可用。
+- [About GKE Agent Substrate](https://docs.cloud.google.com/kubernetes-engine/ai-ml/about-agent-substrate)：GKE 官方概念文档，说明 Actor/Worker 模型、快照恢复路径和当前限制。
+- [agent-substrate/substrate](https://github.com/agent-substrate/substrate)：Agent Substrate 开源仓库，包含控制面、数据面和 GKE Quickstart。
+- [Agent Substrate architecture](https://github.com/agent-substrate/substrate/blob/main/docs/architecture.md)：项目架构说明，解释如何把 Kubernetes 控制面移出热路径。
+- [Google Kubernetes Engine](https://cloud.google.com/kubernetes-engine)：GKE 产品页，Agent Substrate 优化运行的托管 Kubernetes 平台。
+- [About GKE Agent Sandbox](https://docs.cloud.google.com/kubernetes-engine/docs/concepts/machine-learning/agent-sandbox)：GKE Agent Sandbox 概念文档，介绍隔离、Warm Pool 和 Claim 模型。
+- [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox)：Kubernetes SIG 的 Agent Sandbox 开源项目，提供 Sandbox CRD 和安全执行环境。
+- [Bringing you Agent Sandbox on GKE and Agent Substrate](https://cloud.google.com/blog/products/containers-kubernetes/bringing-you-agent-sandbox-on-gke-and-agent-substrate)：前序公告，介绍 Agent Sandbox 在 GKE 上 GA，以及 Agent Substrate 首次公开。
+- [gVisor](https://gvisor.dev)：用户态内核沙箱运行时，Agent Substrate 的低开销内核隔离选项之一。
+- [cloud-hypervisor/cloud-hypervisor](https://github.com/cloud-hypervisor/cloud-hypervisor)：硬件隔离 microVM hypervisor，提供完整 Linux 内核兼容性。
+- [Google Cloud Storage](https://cloud.google.com/storage)：对象存储服务，用于持久保存 Agent 挂起快照。
+- [About custom ComputeClasses](https://cloud.google.com/kubernetes-engine/docs/concepts/about-custom-compute-classes)：GKE 自定义 ComputeClass 文档，用于跨机型和 Spot/按需池动态管理机器。
+- [Google Axion](https://cloud.google.com/products/axion)：Google 自研 Arm 处理器，文档称对沙箱工作负载有更高性价比。
+- [Filestore](https://cloud.google.com/filestore)：托管 NFS 文件存储，可与 Agent Substrate 的有状态工作区集成。
+- [Access Filestore instances with the Filestore CSI driver](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/filestore-csi-driver)：在 GKE 上通过 CSI 动态挂载 Filestore 卷的操作文档。
+- [Nous Research](https://nousresearch.com)：Hermes Agent 背后的研究团队，也是 Agent Substrate 的早期设计伙伴。
+- [nousresearch/hermes-agent](https://github.com/nousresearch/hermes-agent)：Hermes Agent 开源仓库，文中作为正在 Agent Substrate 上构建的领先 Agent。
+- [OpenRouter](https://openrouter.ai)：模型路由与用量排行平台，原文用它说明 Hermes 的全球用量排名。
+- [Google Antigravity](https://antigravity.google)：Google 的 Agent 开发平台/harness，文中列为常见本地 Agent 运行方式之一。
+- [Claude Code](https://code.claude.com)：Anthropic 的编码 Agent，可在本地 harness 中运行，也可对接 Agent Substrate。
+- [OpenAI Codex](https://openai.com/codex)：OpenAI 的编码 Agent/harness，同样属于文中提到的本地开发入口。
+- [OpenClaw](https://openclaw.ai)：开源个人/团队 Agent harness，可在本地运行，也是 Agent Substrate 兼容的框架之一。
