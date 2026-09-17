@@ -16,245 +16,293 @@ source_urls:
   - https://kubernetes.io/blog/2025/12/19/kubernetes-v1-35-in-place-pod-resize-ga/
 ---
 
-# KEP-5972 Dynamic Containers：让 Pod 在运行时增删主容器（草案解读）
+# KEP-5972 Dynamic Containers：运行中增删 Pod 主容器（草案）
 
-> **合并前快照。** 本文按 **2026-09-17** 排期写作，KEP 正文核对到
-> [tallclair/k8s-enhancements@`d53aad1c`][kep-snapshot]
-> （[kubernetes/enhancements#6169](https://github.com/kubernetes/enhancements/pull/6169)
-> 仍 open，带 `do-not-merge/hold`）。KEP 尚未正式合入
-> `kubernetes/enhancements`，功能也还未发布。后续请以合并版本和发行说明为准。
+> **合并前快照。** 本文按 **2026-09-17** 排期，KEP 正文核对到
+> [tallclair/k8s-enhancements@`d53aad1c`][kep-snapshot]。
+> [kubernetes/enhancements#6169](https://github.com/kubernetes/enhancements/pull/6169)
+> 仍 open，带 `do-not-merge/hold`。功能未发布；合入后以合并正文和发行说明为准。
 
-## 先说结论
+## 结论
 
-`KEP-5972 Dynamic Containers` 讨论的是 Kubernetes 的一个核心行为变化：
-运行中的 Pod 可以通过 `pods/dynamic` 增删 **main container**。
+运行中的 Pod 可通过 `pods/dynamic` 增删 **main container**。`.spec.containers`
+在 CREATE 之后不再是闭集。
 
-本文关心四件事：
+- 增删入口是 `pods/dynamic`；`pods/allocated` 只读，展示 kubelet 已分配规格
+- allocation 复用 In-Place Pod Resize；一次请求里的增删全部可分配才提交
+- 默认 `edit` 无 `/dynamic` 权限；admission **fail-closed**
+- 1.37 未过 enhancements freeze；2026-09-08 起瞄准 **v1.38**
 
-1. 新增和删除主容器通过 `pods/dynamic`；`pods/allocated` 只读，展示 kubelet
-   侧已分配（allocated）的视图。
-2. allocation 复用 In-Place Pod Resize 的路径；一次请求里的增删是原子生效。
-3. 安全边界默认收紧：`pods/dynamic` 默认 RBAC 不授权，admission 按
-   fail-closed 处理。
-4. 这项能力在 1.37 没过 enhancements freeze；目前讨论目标转向 v1.38。
+3 月 issue 标题仍是 *Optimistic Execution*（Kubelet 本地先注入，再异步回写
+API）。当前草案把「绕过 kube-apiserver」写成 Non-Goal。改的是 Pod 可变性，
+admission 仍走控制面。
 
-## 1. KEP 做了什么
+## 1. 机制
 
-### 1.1 核心机制
+### 1.1 范围
 
-Dynamic Containers 允许在 Pod 已经 `Running` 后增删主容器。
+Pod 进入 `Running` 后，可增删主容器。调度、sandbox、CNI、卷、设备和
+InitContainer 可以预先做完，再注入短生命周期 workload。目标是高频 churn，以及
+「请求到开始执行」逼近 **sub-100ms**。
 
-这里的“动态”不是新增一个容器类型，也不是绕过 apiserver。它是把
-`.spec.containers` 的可变更入口放到新 subresource `pods/dynamic`。
-
-KEP 目标很集中：
-
-- 把 Pod 创建/调度/初始化与 workload 执行解耦
-- 支持高频增删容器
-- 服务 warm pool、节点内二级调度（L2）这类低延迟场景
-
-KEP 同时写了非目标：
+本阶段只改 **Pod update**：
 
 - 不改 Pod 创建路径
-- 不引入绕过 kube-apiserver 的旁路 mutation
-- 不在本阶段做动态卷管理
-- 不在本阶段做 running Pod 上的 mutable ResourceClaim
-- 不新增 Pod phase/state
+- 不绕过 kube-apiserver
+- 不做动态卷（只能挂已经挂上的卷）
+- 不做 running Pod 上的 mutable ResourceClaim
+- 不新增 Pod phase / state
 
-### 1.2 为什么现在提
+后续更大的可变性（例如动态卷）计划仍挂在同一个 `/dynamic` 上。
 
-面向对象主要是 AI/HPC 的延迟敏感 workload，不是通用微服务。
+### 1.2 动机与四个场景
 
-典型做法是先把这些重步骤完成：调度、`RunPodSandbox`、CNI、卷挂载、
-设备初始化、InitContainer。之后再把短生命周期容器注入到已预热的 Pod。
+面向 AI/HPC 低延迟，两条线并行：
 
-官方 user story 包括：
+**L1/L2 调度。** kube-scheduler / PodGroup 做放置和配额；Raylet / Slurmlet /
+Agent runtime 在已分配的资源边界内切 CPU/Memory、管 sub-cgroup、拉起短任务，
+不必每次 spawn 再走 kube-scheduler。
 
-- Ray/Slurm 这类框架在节点内做二级调度
-- Agent warm pool
-- restore/migration 快路径
-- sidecar/daemon 原地替换
+**解耦初始化。** 先付掉调度、`RunPodSandbox`、CNI、卷、设备、InitContainer，
+再往热好的 Pod 里加 worker。普通 Pod 启动再快几个百分点，也付不掉这些跨 Pod
+很难协调的成本。
 
-### 1.3 API 与权限边界
+| 场景 | 做法 | KEP 写的价值 |
+| --- | --- | --- |
+| Ray / Slurm | 框架控制面当 Local Pod Controller | 低延迟 spawn，不回调 kube-scheduler |
+| Agent warm pool | 预分配 Pod，再注入短命工具沙箱 | 绕过创建、调度、初始化 |
+| Restore / migration | 目标节点先放 shell Pod，再 restore | 恢复到秒级以下 |
+| Sidecar / daemon 原地升级 | 抽换辅助容器 | 少中断；部分情况可蓝绿 |
 
-草案不加新顶层字段，主要变化在两个 subresource：
+扩大 `.spec.ephemeralContainers` 被明确否掉：那是 `kubectl debug` 语义——可在
+init 完成前启动、不计入 `keepCount`、不参与 phase/readiness/QoS，RBAC 也是给人
+排障用的。生产 workload 走 `pods/dynamic`。
 
-1. **`pods/dynamic`**（读写入口）
-   - 在已有可变更范围外，允许增删 `.spec.containers`
-   - 一次请求可同时新增和删除多个容器
-2. **`pods/allocated`**（只读视图）
-   - 展示 kubelet 侧 allocation 成功后的规格
-   - 不在 apiserver/etcd 额外持久化一份新对象
+### 1.3 API
 
-`pods/dynamic` 不进入默认 `edit` ClusterRole，需要 cluster-admin
-显式授权。
+草案不加新顶层字段，只加两个 subresource：
 
-与 In-Place Resize 一样，desired spec 与 allocated spec 可能短时或长时不一致。
-`pods/allocated` 的作用就是把“当前已分配状态”明确暴露出来。
+1. **`pods/dynamic`**：在主资源已允许的变更（镜像、grace period 等）和
+   `/resize` 之外，增删 `.spec.containers`。一次请求可同时加、删多个容器。
+2. **`pods/allocated`**：只读。按需从 kubelet `/allocatedPods` 取已分配 spec，
+   不在 apiserver 再存一份对象。
 
-### 1.4 增删容器的执行路径
+权限不进默认 `edit` ClusterRole，需 cluster-admin 显式授予。标准 Pod
+validation 仍然生效，再叠加 Alpha 限制。容器名必须在所有 container **以及所有
+container status** 里唯一；`.spec.containers` 不能删空；
+`DeletionTimestamp` 一旦打上，就不能再改容器集合。
 
-新增容器的 allocation 与 In-Place Pod Resize 走同一套分配逻辑。
-给新容器配置资源，本质上仍是 resize/allocate 问题，所以会出现
-`Deferred` 或 `Infeasible`。
+`/resize` 保留：只许改资源、不许改正在跑的代码。集群可用
+`--disable-pod-subresources` 关掉这类 subresource。
 
-语义上有两点要抓住：
+desired spec（etcd）和 allocated spec（kubelet 本地）可以长时间分叉。
+In-Place Resize 当年把已分配资源镜像进 Pod status；这次可变面更大，镜像进
+status 会撑爆对象，再复制一份 `AllocatedPod` 会打爆对象数量。所以 allocated
+视图由 kubelet 现场提供。
 
-- 一次 `/dynamic` 请求中的新增、删除（以及同次请求内相关变更）是**原子**的：
-  全部可分配才提交
-- allocation checkpoint 记录完整容器规格，kubelet 按 checkpoint 驱动后续 sync
+### 1.4 增删路径
 
-状态变化（Alpha 草案）大致是：
+给新容器加资源，就是一次 Pod resize，可能 `Deferred` 或 `Infeasible`。一次
+`/dynamic` 请求里的加、删及相关变更必须 **全部能分配才生效**。allocation
+checkpoint **完整 container spec**。
 
-- 容器已加入 spec 但未分配：`ContainerStatus=Waiting`，`reason=Unallocated`
-- 分配成功：下次 pod sync 时由 allocation 更新，kubelet 拉起新容器
-- 容器从 allocation 中删除但进程仍在跑：保持 `Running`，之后按
-  `killContainer` 与 grace period 退出
-- 已移除容器状态会暂存，再按现有 GC 机制清理
+- 已加入、未分配：`Waiting` / `Unallocated`
+- 已分配：下次 pod sync 里 `UpdatePodFromAllocation` 改 spec，kubelet 拉起
+- 已从 allocation 拿掉、进程仍在：保持 `Running`，再 `killContainer`（尊重
+  grace period）
+- 终止后 status 暂留，最多约 10 条已移除记录，再跟现有 container GC 清日志
 
-镜像更新也会被纳入同一次原子 allocation。也就是说，当分配还在
-`Deferred` 时，镜像更新不会先单独落地。
+镜像更新也进同一次原子 allocation：resize 还在 `Deferred` 时，新镜像不会先
+单独落地。这是对现有「镜像更新与 resize 脱钩」的修正。
 
-### 1.5 Alpha 限制与安全默认值
+Probe 从「Pod 创建时一次性装」改成「容器启动时装、终止时拆」。新容器带
+readiness probe，会先把整个 Pod 打成 unready。
 
-当前 Alpha 限制包括：
+内置 admission 要接 `/dynamic`，至少包括 `PodSecurityAdmission`、
+`PodResizeValidator`、`LimitRanger`、`NodeDeclaredFeatures`、`ResourceQuota`。
 
-- 只支持 main container，不能改 init container
-- Pod 必须已 `Running` 且 init 全部完成
-- 不支持通用 container mutation（同名容器需先完整移除再新增）
-- 不改变 Pod QoS
-- 新容器只能使用 Pod 里已存在的 volume/ResourceClaim
-- 能力受 in-place resize 约束（如 Windows、启用 swap 的 Pod 不支持）
-- 不能新增 privileged 容器
-- 新容器不能使用 HostPort
-- `.spec.containers` 至少保留一个 main container
-- Pod 进入 terminating 后不再做 allocation
+### 1.5 Alpha 限制与 fail-closed
 
-admission 策略是 **fail-closed**：
+- 只动 main container，不动 init
+- Pod 必须已 `Running`，且 init 全部完成
+- 不做通用 container mutation：同名容器必须先彻底移除再加回来
+- 不能改变 Pod QoS；BestEffort 上新容器不能带 resource requirements
+- 新容器只能挂已有 volume / ResourceClaim
+- 资源类型受 in-place resize 约束；Windows、开了 swap 的 Pod 不行
+- 不能加 privileged 容器，新容器不能用 HostPort
+- 至少保留一个 main container
+- 进入 terminating 后停止 allocation
 
-- 若某 webhook/policy 会拦截 `pods` 的 CREATE/UPDATE
-- 但没有覆盖 `pods/dynamic`
-- 则 `/dynamic` 请求直接拒绝
+**fail-closed：** 若 webhook / policy 会拦 `pods` 的 CREATE 或 UPDATE，却没有
+覆盖 `pods/dynamic`，则 `/dynamic` 直接拒绝。Selector 计入匹配，
+`MatchConditions` 不算。旧策略没升级，就不能从新入口绕过。
 
-这条规则的目标很直接：避免旧策略因为新入口出现绕过。
+## 2. 影响
 
-## 2. 主要影响
+### 2.1 `.spec.containers` 变成可变集合
 
-### 2.1 生态默认假设会变化
+镜像可变、ephemeral container 可变、资源可 `/resize`，主容器集合此前不行。
+只看 CREATE 缓存的 controller、mesh injector、日志 sidecar、按 container name
+抓指标的 HPA/VPA，可能漏掉新容器、索引越界，或来不及注入。
 
-过去生态里有个常见假设：主容器集合在 Pod 创建后不变。
+约束默认行为的四层：
 
-Dynamic Containers 改的是这个集合本身，不只是镜像或资源字段。
-因此依赖“只看 CREATE 事件”的 controller、注入器、监控索引、
-按容器名聚合指标的组件，都需要检查 UPDATE 路径是否健壮。
+- feature gate `DynamicContainers`
+- 只走 `pods/dynamic`
+- 默认 `edit` 无权限
+- fail-closed admission
 
-草案当前的风险控制手段是：
-
-- feature gate `DynamicContainers` 默认不打开
-- 变更入口限制在 `pods/dynamic`
-- `pods/dynamic` 默认 RBAC 不授权
-- admission fail-closed
-
-### 2.2 调度分层会更清晰
-
-这项能力强化了一个实践模型：
+### 2.2 L1 守边界，L2 在节点上 churn
 
 ```text
-L1: kube-scheduler / PodGroup     负责放置、配额、隔离边界
-L2: Ray/Slurm/Agent runtime       在节点内增删容器、细粒度调度
+L1  kube-scheduler / PodGroup     放信封、守配额和隔离
+L2  Ray / Slurm / Agent runtime   在信封内增删容器、切 sub-cgroup
 ```
 
-重点不是让 Kubernetes 放弃控制面，而是避免“每次短任务都创建新 Pod
-并再次走完整初始化链路”。
+变更仍经 apiserver。省掉的是每次短任务都创建新 Pod、再调度、再初始化。
 
-### 2.3 安全边界从“主资源 UPDATE”转到“专用 subresource”
+### 2.3 安全入口落在 `/dynamic`
 
-1.37 讨论里，一个关键转向是从“直接扩展 Pod UPDATE”改为“新建
-`pods/dynamic`”。
+1.37 期间，API / Node reviewer 反对扩大标准 Pod UPDATE。作者把新 mutability
+收到 `/dynamic`。SIG Auth 进一步要求：若要打破 Pod 可变性假设，只破一次——
+`/dynamic` 把 **任意 Pod 字段的未来 mutation** 划进范围（alpha 并未全开），
+政策控制器必须把该请求当完整 Pod 重新评估。
 
-这个转向配合默认不授权和 fail-closed，目的是把影响面收敛到显式启用的集群，
-而不是一次性改变所有现有 Pod UPDATE 行为。
+Dawn 在 exception 信里写过「创建时显式声明可变 intent」。**当前草案没有这个
+字段。** Beta graduation 才决定要不要加；Alternatives 里作者更倾向 RBAC +
+ValidatingAdmissionPolicy。`@deads2k` 2026-09-15 仍在问
+（[review](https://github.com/kubernetes/enhancements/pull/6169#discussion_r4018821540)）。
 
-需要强调状态：当前草案**还没有**创建时 dynamic opt-in 字段。是否引入、
-何时引入、用什么形态引入，都还没有收口。`@deads2k` 在 2026-09 的 review
-里仍在追问这一点（见
-[review comment](https://github.com/kubernetes/enhancements/pull/6169#discussion_r4018821540)）。
+### 2.4 规模与指标
 
-### 2.4 性能与可扩展性影响
+- 短生命周期容器放大 Pod status PATCH，打 kubelet status manager、apiserver、
+  etcd；本 KEP 不直接解决，只提到 1.37 已在探索 init container status coalescing
+- HPA/VPA 按容器名取数时，目标可能被动态删掉
+- Cluster Autoscaler / Karpenter 看聚合资源，应与 in-place resize 同类
 
-KEP 提到的实际压力点包括：
+Alpha SLO：资源足够且不计拉镜像时，动态加容器到 `Running` 的额外开销
+**< 500ms**。动机里的 sub-100ms 是端到端交互目标，两套数字不要混
+（[KEP 正文][kep-snapshot]）。
 
-- 短生命周期容器会放大 status PATCH 频率
-- HPA/VPA 按容器名取指标时，目标容器可能动态消失
-- Autoscaler 关注聚合资源，理论上应与 in-place resize 行为对齐
+## 3. 铺垫与 1.37 讨论
 
-Alpha 性能目标写的是：在资源足够且不计拉镜像时，动态加容器到
-`Running` 的额外开销 `< 500ms`。这与“端到端 sub-100ms 交互目标”
-不是同一个指标（定义见 [KEP 快照正文][kep-snapshot]）。
+### 3.1 前置能力
 
-## 3. 准备工作与 1.37 讨论时间线
+Issue [#5972](https://github.com/kubernetes/enhancements/issues/5972) 于
+**2026-03-23** 由 Dawn Chen 打开，写在 `go/k8s-for-batch` 上。地基：
 
-### 3.1 这不是临时起意
+- [KEP-1287 In-Place Pod Resize][ippr-ga]（1.35 GA）：`/resize` 与本次
+  allocation 同路
+- [KEP-2837 Pod-level resources](https://github.com/kubernetes/enhancements/issues/2837)：
+  信封做成统一预算
+- [KEP-5474 Writable cgroups](https://kep.k8s.io/5474)：L2 写自己的 cgroup 子树
+- [DRA CPU driver](https://github.com/kubernetes-sigs/dra-driver-cpu)：CPU 从
+  CPUManager 挪到 DRA
 
-Issue [#5972](https://github.com/kubernetes/enhancements/issues/5972)
-在 **2026-03-23** 打开。相关背景能力包括：
-
-- [KEP-1287 In-Place Pod Resize][ippr-ga]（1.35 GA）
-- [KEP-2837 Pod-level resources](https://github.com/kubernetes/enhancements/issues/2837)
-- [KEP-5474 Writable cgroups](https://kep.k8s.io/5474)
-- [DRA CPU driver](https://github.com/kubernetes-sigs/dra-driver-cpu)
-
-这些能力共同支持“先分配资源与运行边界，再在边界内调整执行体”。
-
-公开里程碑如下：
+`kep.yaml` 的 `see-also` 目前只链 1287。SIG Arch 邮件把这四条写成同一多年线：
+先让资源可调、cgroup 可写、CPU 可 DRA 化，再打开容器集合。
 
 | 日期 | 事件 |
 | --- | --- |
-| 2026-03-23 | Issue [#5972](https://github.com/kubernetes/enhancements/issues/5972) 打开，标题仍是 Optimistic Execution |
-| 2026-04-30 | 设计文档进入 SIG Node 评审 |
+| 2026-03-23 | Issue [#5972](https://github.com/kubernetes/enhancements/issues/5972) 打开，标题 Optimistic Execution |
+| 2026-04-30 | 设计文档进 SIG Node；Red Hat、Intel、NVIDIA、Uber 等维护者参与 |
 | 2026-06-07 / 06-08 | `kep.yaml` 创建；[PR #6169](https://github.com/kubernetes/enhancements/pull/6169) 提交 |
-| 2026-06-09 | PRR freeze 通过问卷，但仍是 *At risk for enhancements freeze* |
-| 2026-06-12 | Tim Allclair 发起 SIG Architecture 邮件讨论 |
-| 2026-06-13 | 出现 admission 边界与评审节奏争议 |
-| 2026-06-15 | 设计转向 `pods/dynamic`，默认 `edit` 不授权 |
-| 2026-06-16 | `@enj` 与 `@deads2k` 在 PR `/hold` |
+| 2026-06-09 | PRR 问卷过了，仍 *At risk for enhancements freeze* |
+| 2026-06-12 | Tim Allclair 把 KEP 提到 SIG Arch；下一次 SIG Arch 会在 freeze 之后 |
+| 2026-06-13 | Taufen 问 admission 缺口；deads2k 反对催合入；Dawn 揽 timing、争 Alpha |
+| 2026-06-15 | mutability 收到 `/dynamic`；默认 `edit` 不授权 |
+| 2026-06-16 | `@enj`、`@deads2k` 在 PR `/hold` |
 | 2026-06-16 AoE / 06-17 UTC | 1.37 enhancements freeze |
-| 2026-06-17 | Enhancements 团队确认未达标；后续讨论引入 fail-closed |
-| 2026-09-08 | `@haircommander` `/milestone v1.38`，重新 lead-opted-in |
+| 2026-06-17 | 未达标；SIG Auth 补上 fail-closed |
+| 2026-09-08 | `@haircommander` `/milestone v1.38` |
 
-### 3.2 1.37 讨论的核心分歧
+### 3.2 SIG Arch 邮件（6 月 12–13 日，6 封）再接到 freeze
 
-讨论主要发生在两处：
+先发到已弃用的 `kubernetes-sig-architecture@googlegroups.com`，John Belamaric
+要求改到 `sig-architecture@kubernetes.io`。
 
-- **6 月 12–13 日**：SIG Architecture 邮件列表线程
-- **6 月 15–17 日**：KEP PR 上关于 `/dynamic`、`/hold`、freeze 的讨论
+**6 月 12 日 Tim：** 主容器列表要在运行时可变；净代码量主要复用 in-place
+resize；生态假定容器永不变化，作为 Beta outreach。随后一句被抓住：
 
-争议重点不是“方向是否有价值”，而是“是否给了足够的跨 SIG 评审窗口”。
+> The next SIG-Arch meeting isn't until after KEP freeze, so please comment on
+> the KEP or respond here with any questions or concerns.
 
-- 支持侧：Alpha 默认关闭，先进入周期拿真实反馈
-- 反对侧：改动触及长期 API/生态假设，评审窗口不应压缩到几天
+**Michael Taufen：** CREATE-only 安全策略在 UPDATE 上会不会出现缺口。Tim 当时
+只承诺三件事：第一方（如 PodSecurityAdmission）补覆盖；动态容器不能 escalate
+SecurityContext（当时还有 *No SecurityContext Escalations*）；发公告。并写明
+**没法强迫第三方 webhook**。fail-closed 是 6 月 17 日 SIG Auth 才反过来的。
+deads2k 后来说「过去五天设计还在大改」，指的是这条边界。
 
-随后设计继续收敛：
+**6 月 13 日 David Eads：** 没赶上 SIG Arch 会，不能当成把超大架构变更塞进本
+周期的理由。「开晚了，请把讨论限制在这封邮件并优先合入」不符合过去十年的共识
+建设。SIG 会两周一次，这种量级至少该留 **一个月**，不是五个工作日。Beta 必须
+要求主流生态能容忍这个变化，才能默认打开。
 
-- 写入独立 subresource `pods/dynamic`
-- 默认 RBAC 不授权
-- SIG Auth 讨论补上 fail-closed
+Tim 回复：Beta 已有
+“Ecosystem research & outreach for static container assumptions”；与 Derek
+Carr 在谈 RBAC subresource opt-in；流程问题交给 Dawn。
 
-最终结果是：**1.37 未进入，继续评审并转向 v1.38 节奏**。
+**Dawn 第一封（6 月 13 日 06:40）：** 揽 timing——是她让 Tim 用默认关闭的
+Alpha 抢这个周期，和 SIG Arch 的沟通缺口在她。方向判断写在同一封：
 
-### 3.3 设计收敛后，代码铺垫已开始
+> With the current explosion of new AI-native and Agentic infrastructure, the
+> community is facing an immediate choice: we must adapt the Kubernetes
+> execution envelope to support these ultra-low-latency workloads now, or risk
+> the industry building around us.
 
-在 #6169 讨论期，已有配套 PR：
+他们已单独找过 SIG Auth、SIG Node 和若干 API reviewer；Scheduling 影响在
+in-place resize 里讨论过。Derek 的方案会写进本 milestone：不要扩大标准 Pod
+UPDATE，收到需要 RBAC opt-in 的专用 subresource。Alpha 默认关，KEP 批了也能在
+1.37 停发。她要用即将到来的双周 SIG Arch 会打磨 graduation，同时保住动量。
+
+**6 月 15 日：** Tim 把 mutability 收到 `/dynamic`，默认 `edit` 不授权。兑现
+给 Derek 和 Dawn 第一封信的承诺。
+
+**6 月 16 日 PR `/hold`：** `@enj` 认为这种量级该用 1.37 周期征求反馈，不是
+所有问题都该由 core Kubernetes 解决。`@deads2k`：KEP 出现在 freeze 前一周，
+改十年行为，牵动安全、admission 和 SIG Apps；第一刀形状不稳，按会议节奏至少
+再留四周。实验可以在 branch 上做，不必先改 `main`。
+
+#6169 未合并，1.37 轨道被摘。exception 窗口里 Dawn 写了 **第二封信**：回避
+自己做最终 SIG 签字，交给 Derek Carr、Mrunal Patel、Peter Hunt：
+
+> The Timeline: This KEP was opened 9 days prior to the freeze, not 5. It is
+> the direct output of a comprehensive design specification introduced and
+> reviewed within SIG Node a month and a half ago with active participation
+> from maintainers across multiple companies (including Red Hat, Intel, Nvidia,
+> and Uber etc.). This work represents the logical culmination of a multi-year
+> effort to adapt node primitives for modern AI/HPC infrastructure (including
+> In-Place Pod Resizing, writable cgroups, and DRA CPU drivers) that has been
+> actively socialized across multiple KubeCon cycles.
+>
+> The Design State: ... When senior API and Node reviewers raised critical
+> concerns regarding the standard Pod UPDATE boundary, the authors actively
+> collaborated to pivot the design to a dedicated API subresource requiring
+> explicit mutability intent at Pod creation time. This community-driven pivot
+> fundamentally bounds the blast radius by default, ensuring zero behavioral
+> impact on standard ecosystem controllers.
+
+3 天延期是为了赶上下一次双周 SIG Arch 会，把 subresource 写进 KEP。6 月 17 日
+SIG Auth 补上 fail-closed，回答了 Taufen 的问题。
+
+作者侧主张：Alpha 默认关，进 1.37 换真实反馈。Arch / Auth 侧主张：改十年假设
+必须先有足够长的跨 SIG 评论窗。1.37 没有给 alpha 门票。设计带着 `/dynamic`、
+fail-closed、`/allocated` 继续评，改瞄准 1.38。
+
+### 3.3 配套代码
+
+#6169 讨论期已有：
 
 - [`kubernetes/kubernetes#140659`](https://github.com/kubernetes/kubernetes/pull/140659)：
-  Pod `/allocated` subresource
+  Pod `/allocated`
 - [`kubernetes/kubernetes#140856`](https://github.com/kubernetes/kubernetes/pull/140856)：
   kubelet `/allocatedPods`
 - [`kubernetes/kubernetes#141039`](https://github.com/kubernetes/kubernetes/pull/141039)：
-  allocation checkpoint 记录完整 PodSpec
+  allocation checkpoint 改存完整 PodSpec
 
-这些实现方向与 KEP 一致：默认 gate 关闭时不改变现有 Pod 行为；
-只有显式走 `/dynamic` 的请求才触发新语义。
+gate 关闭时现有 Pod 行为不变；关掉 gate 则拒绝新的结构变更，kubelet 继续跑
+最后一份 spec。Checkpoint 升版本，字段名避开旧 schema。Kubelet 经
+NodeDeclaredFeatures 声明能力，update 按节点能力门控。
 
 ## 事实校对
 
@@ -269,8 +317,8 @@ Issue [#5972](https://github.com/kubernetes/enhancements/issues/5972)
 | 参与 SIG | apps、architecture、auth；issue 上还有 scheduling |
 | Feature gate | `DynamicContainers`（`kube-apiserver` + `kubelet`） |
 | 1.37 | PRR 问卷过了，enhancements freeze 未合并，milestone 被摘掉 |
-| 当前瞄准 | 2026-09-08 起 `latest-milestone` 讨论转向 **v1.38**；`kep.yaml` 快照仍写着 v1.37 |
-| 仍开放的设计点 | 创建时 dynamic opt-in 字段；Kubelet / Scheduler resize race 的 Beta 策略 |
+| 当前瞄准 | 2026-09-08 起讨论转向 **v1.38**；`kep.yaml` 快照仍写 v1.37 |
+| 仍开放 | 创建时 dynamic opt-in 字段；Kubelet / Scheduler resize race 的 Beta 策略 |
 
 ## 参考资料
 
