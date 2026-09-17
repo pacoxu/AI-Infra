@@ -12,6 +12,15 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2026-09-17: containerd v2.4.0
+
+- [containerd v2.4.0 (Chinese)](./2026-09-17/2026-09-17-containerd-2.4-lts-cleanup-window_zh.md)
+
+A Chinese translation of the
+[containerd v2.4.0](https://github.com/containerd/containerd/releases/tag/v2.4.0)
+release notes, with a short note on the 2.3 LTS support window and the
+upstream contributor list.
+
 ## 2026-09-17: KEP-5972 Dynamic Containers（合并前快照）
 
 - [KEP-5972 Dynamic Containers：把十年不变的 Pod 容器列表改成动态执行信封 (Chinese)](./2026-09-17/2026-09-17-kep-5972-dynamic-containers_zh.md)
