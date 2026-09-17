@@ -17,6 +17,7 @@ This page is the public entry point for blog posts in `AI-Infra`.
 ## Recent Posts
 
 - [containerd 2.4：LTS 之后的清理窗口，升级前先消掉废弃警告](./docs/blog/2026-09-17/2026-09-17-containerd-2.4-lts-cleanup-window_zh.md)
+- [KEP-5972 Dynamic Containers：把十年不变的 Pod 容器列表改成动态执行信封](./docs/blog/2026-09-17/2026-09-17-kep-5972-dynamic-containers_zh.md)
 - [Agent Substrate 为 GKE 带来高密度、可扩展的可信基础设施](./docs/blog/2026-09-16/2026-09-16-agent-substrate-available-on-gke_zh.md)
 - [KEP-766 DisaggregatedSet 深入解读：为何对 AI 工作负载重要](./docs/blog/2026-06-15/2026-06-15-kep-766-disaggregatedset-ai-workloads_zh.md)
 - [Kubernetes Scheduler 演进主线：从 Predicates/Priorities 到 Scheduling Framework，再到 Workload-Aware Scheduling](./docs/blog/2026-05-21/2026-05-21-kubernetes-scheduler-framework-evolution_zh.md)
