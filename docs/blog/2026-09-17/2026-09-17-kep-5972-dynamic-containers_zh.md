@@ -177,7 +177,8 @@ L2: Ray/Slurm/Agent runtime       在节点内增删容器、细粒度调度
 
 需要强调状态：当前草案**还没有**创建时 dynamic opt-in 字段。是否引入、
 何时引入、用什么形态引入，都还没有收口。`@deads2k` 在 2026-09 的 review
-里仍在追问这一点（见 [#6169](https://github.com/kubernetes/enhancements/pull/6169)）。
+里仍在追问这一点（见
+[review comment](https://github.com/kubernetes/enhancements/pull/6169#discussion_r4018821540)）。
 
 ### 2.4 性能与可扩展性影响
 
