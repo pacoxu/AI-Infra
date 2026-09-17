@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-09-16
+last_updated: 2026-09-17
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,28 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-09-17: KEP-5972 Dynamic Containers（合并前快照）
+
+- [KEP-5972 Dynamic Containers：把十年不变的 Pod 容器列表改成动态执行信封 (Chinese)](./2026-09-17/2026-09-17-kep-5972-dynamic-containers_zh.md)
+
+A Chinese KEP briefing drafted against the still-open upstream proposal. Publish
+only after [kubernetes/enhancements#6169](https://github.com/kubernetes/enhancements/pull/6169)
+merges; until then treat the API details as a snapshot of
+`d53aad1c`:
+
+- **What it does**: lets running Pods add and remove main containers through
+  `pods/dynamic`, turning the Pod into a resource envelope instead of a static
+  container list.
+- **The break**: `.spec.containers` is no longer an immutable CREATE-time set;
+  Kubernetes keeps L1 placement while Ray, Slurm, or agent runtimes do L2
+  container churn inside the envelope.
+- **Safety pivot**: mutability is not a default Pod UPDATE; it is an explicit
+  subresource with fail-closed admission and no grant in the default `edit`
+  role.
+- **1.37 freeze anecdote**: the fight started on the SIG Architecture list
+  (June 12-13), not on the PR hold. Dawn first argued for an off-by-default
+  Alpha, then recused from the exception sign-off; the target moved toward 1.38.
 
 ## 2026-09-16: Agent Substrate 为 GKE 带来高密度、可扩展的可信基础设施
 
