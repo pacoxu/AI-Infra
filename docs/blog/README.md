@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-09-16
+last_updated: 2026-09-17
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,23 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-09-17: containerd 2.4：LTS 之后的清理窗口，升级前先消掉废弃警告
+
+- [containerd 2.4：LTS 之后的清理窗口，升级前先消掉废弃警告 (Chinese)](./2026-09-17/2026-09-17-containerd-2.4-lts-cleanup-window_zh.md)
+
+A Chinese release briefing for containerd `v2.4.0`, framed around the post-LTS
+cleanup window rather than a feature dump:
+
+- **Release strategy**: 2.4 is a regular 8-month release after the 2.3 LTS;
+  stay on 2.3 if the priority is stability and a two-year support window.
+- **Breaking removals**: `enable_cdi`, `bin_dir`, OTLP/tracing config fields,
+  and CRI `CreateContainer` restore are gone; registry config removal slipped
+  to 2.7.
+- **AI-Infra deltas**: EROFS warm cache and metrics, NRI image name/digest,
+  CRI image mounts via the mount manager, and CDI always-on.
+- **Upgrade order**: clear deprecation warnings on 2.3 first, then grey 2.4 on
+  nodes that actually need the new snapshotter or NRI fields.
 
 ## 2026-09-16: Agent Substrate 为 GKE 带来高密度、可扩展的可信基础设施
 
