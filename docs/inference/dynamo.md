@@ -248,13 +248,16 @@ flowchart LR
 | State plane | KV lifecycle, reuse, and transfer | KVBM, KV events, NIXL, sticky-session metadata |
 | Control plane | Profiling, planning, deployment, and scaling | Profiler, AIConfigurator, Planner, Operator, Grove |
 | Platform services | Transport, discovery, observability | TCP/NATS request plane, Kubernetes or etcd discovery, NATS/ZMQ event plane |
-| Storage tiers | Memory hierarchy for KV and weights | HBM, host DRAM, local SSD, object or file storage |
+| Model and storage sources | Model registry plus memory hierarchy for KV and weights | MatrixHub, HBM, host DRAM, local SSD, object or file storage |
 | Hardware | Physical execution substrate | GPU nodes, NVLink, RDMA fabrics, heterogeneous accelerators |
 
-## Model Loading Plane: Model Streamer And ModelExpress
+## Model Loading Plane: MatrixHub, Model Streamer, And ModelExpress
 
-Dynamo's model-loading path has two complementary acceleration points:
+Dynamo's model-loading path has three complementary layers:
 
+- **MatrixHub** provides a self-hosted, Hugging Face-compatible model registry.
+  Dynamo workers can point `HF_ENDPOINT` at an in-cluster MatrixHub service and
+  download a pre-cached model without contacting public Hugging Face directly.
 - **Run:ai Model Streamer** concurrently reads SafeTensors from local files,
   S3, GCS, or Azure Blob and streams tensors through a bounded CPU buffer
   toward GPU memory. In vLLM this is exposed through the
@@ -266,13 +269,18 @@ Dynamo's model-loading path has two complementary acceleration points:
 The combined path is therefore:
 
 ```text
-object storage -> Model Streamer -> first/source worker
-               -> ModelExpress + NIXL/RDMA -> later workers
+Hugging Face / private model -> MatrixHub -> HF-compatible download -> first worker
+object / file storage ---------------------> Model Streamer ---------> GPU memory
+source worker -----------------------------> ModelExpress + NIXL ---> later workers
 ```
 
-ModelExpress is not a model registry or a KV-cache manager, and Model Streamer
-does not remove engine initialization, JIT compilation, CUDA Graph capture, or
-warm-up from the cold-start critical path. See
+MatrixHub owns the governed model source and download path; it is not a KV-cache
+manager or a replacement for runtime loading. ModelExpress is not a model
+registry, and Model Streamer does not remove engine initialization, JIT
+compilation, CUDA Graph capture, or warm-up from the cold-start critical path.
+See the official
+[MatrixHub model-loading guide](https://docs.nvidia.com/dynamo/dev/kubernetes/model-deployment/model-loading/matrix-hub)
+for the `HF_ENDPOINT` deployment pattern, and see
 [Cache Offload 深入：Run:ai Model Streamer、Dynamo ModelExpress 与大模型加载加速](../blog/2026-05-18/2026-05-18-model-streamer-modelexpress-model-loading-zh.md)
 for the vLLM/Dynamo configuration, comparison matrix, and production
 guardrails.
@@ -445,9 +453,11 @@ broader inference and post-training platform.
   [AIConfigurator](https://github.com/ai-dynamo/aiconfigurator) explores
   deployment candidates offline, while Planner and Global Planner apply
   scaling decisions online.
-- **Model startup and memory**:
+- **Model distribution, startup, and memory**:
+  [MatrixHub](https://github.com/matrixhub-ai/matrixhub) supplies an
+  HF-compatible private model source,
   [ModelExpress](https://github.com/ai-dynamo/modelexpress) reduces model
-  startup latency, and
+  startup latency inside the cluster, and
   [FlexTensor](https://github.com/ai-dynamo/flextensor) extends model fit by
   streaming tensors between host and GPU memory.
 - **KV cache runtime**:
@@ -475,6 +485,8 @@ broader inference and post-training platform.
 - [Dynamo KVBM README](https://github.com/ai-dynamo/dynamo/blob/main/lib/bindings/kvbm/README.md)
 - [ai-dynamo/kvcr](https://github.com/ai-dynamo/kvcr)
 - [KVCR Design Overview](https://github.com/ai-dynamo/kvcr/blob/main/docs/design_overview.md)
+- [matrixhub-ai/matrixhub](https://github.com/matrixhub-ai/matrixhub)
+- [Dynamo: Load Models from MatrixHub](https://docs.nvidia.com/dynamo/dev/kubernetes/model-deployment/model-loading/matrix-hub)
 - [Dynamo Discovery Plane SVG](https://github.com/ai-dynamo/dynamo/blob/main/docs/fern/assets/img/discovery-plane.svg)
 - [Dynamo Issue #5506: H1 '26 roadmap](https://github.com/ai-dynamo/dynamo/issues/5506)
 - [Dynamo Issue #9208: Toward Dynamo 2.0](https://github.com/ai-dynamo/dynamo/issues/9208)

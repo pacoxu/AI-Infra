@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-28
+last_updated: 2026-09-02
 tags: inference, model-distribution, registry, huggingface, oci
 canonical_path: docs/inference/model-distribution-stack.md
 ---
@@ -397,6 +397,7 @@ keeps versions and access policies consistent.
 ## References
 
 - [MatrixHub](https://github.com/matrixhub-ai/matrixhub)
+- [Dynamo: Load Models from MatrixHub](https://docs.nvidia.com/dynamo/dev/kubernetes/model-deployment/model-loading/matrix-hub)
 - [ModelExpress](https://github.com/ai-dynamo/modelexpress)
 - [Harbor](https://goharbor.io/)
 - [Dragonfly](https://d7y.io/)
