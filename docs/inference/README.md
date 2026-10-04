@@ -27,6 +27,7 @@ More details about specific platforms and techniques:
 - [Model Lifecycle Management (Cold-Start, Sleep Mode, Offloading)](./model-lifecycle.md)
 - [One Diagram for Model Distribution (HF, MatrixHub, Harbor, Dragonfly, ModelPack, ModelExpress)](./model-distribution-stack.md)
 - [Performance Testing & Benchmark Tools](./performance-testing.md)
+- [Inference Conformance and Preflight Gate](./inference-conformance.md)
 
 ## Inference Platform Landscape
 
