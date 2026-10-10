@@ -470,7 +470,9 @@ hugepages 等传统 node allocatable 资源。
 对 AI/HPC 集群来说，设备调度最难的部分往往不是“节点上还有几张卡”，而是“哪些设备能
 一起高效工作”。在 GPU + RDMA 训练集群和 supernode 这类高密度系统里，任务如果落在错误的
 NUMA node、PCIe root、NVLink/NVSwitch 域或 fabric domain 上，带宽、延迟和扩展效率会
-直接下降。
+直接下降。Vera Rubin NVL72 又在卡内加了一层 CUDA locality domain，国产侧 Shanghai Cube
+则把 128 张曦云 C550 收成一个液冷柜。这些机柜级系统见
+[超节点（SuperNode）](../../hardware/supernode.md)。
 
 这也是 DRA 与传统 Device Plugin 路线最大的区别之一。Device Plugin 可以暴露设备，也能
 带出少量拓扑提示，但这些关系往往仍然散落在节点标签、命名约定、厂商调度器或外部控制器

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-03
+last_updated: 2026-10-10
 tags: roadmap, planning, future-work, ai-native
 ---
 
@@ -193,11 +193,18 @@ for distributed training and inference.
 
 ### Hardware & Infrastructure
 
-- **SuperNode architectures**: Coverage of large-scale AI hardware systems:
+- **SuperNode architectures**: Rack-scale scale-up systems, and the software
+  that has to see those domains. Chapter:
+  [超节点（SuperNode）](./docs/hardware/supernode.md)
   - Huawei CloudMatrix 384 (UnifiedBus)
-  - NVIDIA GB200 NVL72 (36 Grace CPUs + 72 Blackwell GPUs in rack-scale,
-    liquid-cooled design)
-  - 沐曦耀龙S8000 G2超节点 (Moffett YaoLong S8000 G2 SuperNode)
+  - NVIDIA GB200 NVL72 (36 Grace CPUs + 72 Blackwell GPUs in a liquid-cooled
+    rack) and GB300 NVL72 (Blackwell Ultra)
+  - NVIDIA Vera Rubin NVL72: NVLink 6, HBM4, and the 2026-10-09 vLLM /
+    SGLang / Miles bring-up (locality-domain MoE, Kimi K3 kernels, tray-local
+    RL and Vera CPU sandboxes)
+  - 沐曦耀龙 S8000 G2（MetaX, 64x 曦云 C550, 3D Mesh）
+  - Shanghai Cube（ShanghaiCube）: DaoCloud SuperNode case, 128x 曦云 C550
+    liquid-cooled cabinet, DaoCloud OS and dense-GPU scheduling
 
 ### Observability
 

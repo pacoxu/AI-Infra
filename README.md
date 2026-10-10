@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-08-25
+last_updated: 2026-10-10
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -84,6 +84,10 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [GPU Fault Detection and Self-Healing](./docs/kubernetes/gpu-fault-detection.md)
 - [Node Resource Interface (NRI)](./docs/kubernetes/nri.md)
 - [Large-Scale Clusters (130K+ Nodes)](./docs/kubernetes/large-scale-clusters.md)
+
+#### Hardware
+
+- [SuperNode architectures (Vera Rubin NVL72, Shanghai Cube)](./docs/hardware/supernode.md)
 
 #### Inference
 

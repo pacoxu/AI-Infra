@@ -171,3 +171,19 @@ flowchart TB
 
 - [knoway-dev/knoway](https://github.com/knoway-dev/knoway)
 - [kdoctor-io/kdoctor](https://github.com/kdoctor-io/kdoctor)
+
+## 超节点案例：Shanghai Cube
+
+Shanghai Cube（ShanghaiCube）是 DaoCloud 参与的国产高密度超节点整柜，不是一个
+开源仓库。2025-03-21 由上海模合信息科技联合沐曦、云合智网、道客云、立讯精密等发布。
+
+- **硬件**：单柜 128 张沐曦曦云 C550，液冷。产品站写 4 组 TP32。
+- **DaoCloud 的部分**：定制国产操作系统，以及面向高密度国产算力的调度管理。
+- **已公开的工作负载**：DeepSeek 671B 满血版推理，以及其他主流模型的训练和微调。
+  首套样机在复旦大学上海张江校区。
+
+细节、和 Vera Rubin / 耀龙 S8000 G2 的对照，见
+[超节点（SuperNode）](../docs/hardware/supernode.md)。
+公开来源：
+[Shanghai Cube 发布](https://d.run/news/i80bp6njjsg0yhxat1rgbvb7)、
+[异构 GPU 优化实践](https://github.com/DaoCloud/DaoCloud-docs/blob/main/docs/zh/docs/blogs/2026/optimize-gpu.md)。
