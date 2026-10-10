@@ -28,6 +28,7 @@ More details about specific platforms and techniques:
 - [One Diagram for Model Distribution (HF, MatrixHub, Harbor, Dragonfly, ModelPack, ModelExpress)](./model-distribution-stack.md)
 - [Performance Testing & Benchmark Tools](./performance-testing.md)
 - [SuperNode architectures（Vera Rubin NVL72、Shanghai Cube）](../hardware/supernode.md)
+- [Inference Conformance and Preflight Gate](./inference-conformance.md)
 
 ## Inference Platform Landscape
 

@@ -22,6 +22,10 @@ AI workload observability spans multiple layers:
 3. **Scheduler Layer**: Queue depth, scheduling latency, resource allocation
 4. **Application Layer**: LLM request traces, prompt performance, model quality
 
+For agent-to-tool-to-sandbox trace correlation, event fields, queries, and
+dashboard recommendations, see [Agent, Tool, and Sandbox
+Observability](agent-otel-genai.md).
+
 ## Infrastructure-Side Observability
 
 ### GPU Monitoring
