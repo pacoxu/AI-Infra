@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-07-10
+last_updated: 2026-10-10
 tags: inference, llm, vllm, serving, optimization
 canonical_path: docs/inference/README.md
 ---
@@ -27,6 +27,7 @@ More details about specific platforms and techniques:
 - [Model Lifecycle Management (Cold-Start, Sleep Mode, Offloading)](./model-lifecycle.md)
 - [One Diagram for Model Distribution (HF, MatrixHub, Harbor, Dragonfly, ModelPack, ModelExpress)](./model-distribution-stack.md)
 - [Performance Testing & Benchmark Tools](./performance-testing.md)
+- [SuperNode architectures（Vera Rubin NVL72、Shanghai Cube）](../hardware/supernode.md)
 
 ## Inference Platform Landscape
 

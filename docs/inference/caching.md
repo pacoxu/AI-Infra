@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-09-02
+last_updated: 2026-10-10
 tags: inference, caching, kv-cache, prefix-caching, kvcr, llm-optimization
 canonical_path: docs/inference/caching.md
 ---
@@ -199,6 +199,8 @@ hardware capabilities to overcome network bottlenecks:
   with low latency
 - **Lingqiao SuperNode Shared Memory**: Hardware-accelerated shared memory
   across nodes
+- **Rack-scale SuperNodes**: NVLink / Mesh domains such as Vera Rubin NVL72
+  and Shanghai Cube. See [SuperNode architectures](../hardware/supernode.md)
 
 These hardware advancements are highly compatible with distributed KV cache
 management requirements, providing:
@@ -413,7 +415,9 @@ Higher bandwidth interconnects enable:
 ### Lingqiao SuperNode Shared Memory
 
 Lingqiao SuperNode technology provides hardware-accelerated shared memory
-across physically distributed nodes, creating a unified memory space.
+across physically distributed nodes, creating a unified memory space. Rack-scale
+systems such as Vera Rubin NVL72 and Shanghai Cube are covered separately in
+[SuperNode architectures](../hardware/supernode.md).
 
 **Key Features:**
 
