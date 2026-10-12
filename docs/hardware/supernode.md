@@ -7,6 +7,8 @@ canonical_path: docs/hardware/supernode.md
 source_urls:
   - https://vllm.ai/blog/2026-10-09-vera-rubin-preview
   - https://www.lmsys.org/blog/2026-10-09-vera-rubin/
+  - https://www.nvidia.com/en-us/data-center/vera-rubin-nvl72/
+  - https://www.nvidia.com/en-us/data-center/gb300-nvl72/
   - https://d.run/news/i80bp6njjsg0yhxat1rgbvb7
   - https://github.com/DaoCloud/DaoCloud-docs/blob/main/docs/zh/docs/blogs/2026/optimize-gpu.md
   - https://www.shanghaicube.com/index.html
@@ -30,7 +32,7 @@ All2All 和 Expert Parallel 会先打在带宽上。
 | Huawei CloudMatrix 384 | 384 卡级机柜 | UnifiedBus | 路线图中的华为超节点条目，规格不在本章展开 |
 | NVIDIA GB200 NVL72 | 36 颗 Grace CPU + 72 颗 Blackwell GPU，液冷机柜 | 机柜级 NVLink | Vera Rubin 文章里的上一代对照 |
 | NVIDIA GB300 NVL72 | Blackwell Ultra 机柜 | NVL72 | Vera Rubin 文章里的近一代对照 |
-| NVIDIA Vera Rubin NVL72 | Rubin GPU 机柜，面向 agentic inference | 第六代 NVLink，双向带宽约 1.7x GB200 | vLLM `cu134-nightly`；SGLang / Miles 早期适配 |
+| NVIDIA Vera Rubin NVL72 | 72 Rubin GPU + 36 Vera CPU；单卡 288 GB HBM4、19.2 TB/s | NVLink 6，单卡带宽 3 TB/s | vLLM `cu134-nightly`；SGLang / Miles 早期适配 |
 | 沐曦耀龙 S8000 G2 | 64 张曦云 C550 | 3D Mesh | 沐曦公开材料：已覆盖 DeepSeek、Qwen、Kimi-K2 |
 | Shanghai Cube | 单柜 128 张曦云 C550，液冷 | 产品站写 4 组 TP32；集成材料写 2 个 20U 超节点群组 | DaoCloud 定制操作系统与高密度调度 |
 <!-- markdownlint-enable MD013 -->
@@ -42,22 +44,41 @@ All2All 和 Expert Parallel 会先打在带宽上。
 ## NVIDIA Vera Rubin NVL72
 
 2026-10-09，vLLM 与 SGLang / Miles 同一天公开了 Vera Rubin 上的早期结果。两篇都强调：
-这是 bring-up 阶段的数字，不是最终性能。
+这是 bring-up 阶段的数字，不是最终性能。LMSYS 把 Vera Rubin 放在 Blackwell Ultra
+（GB300 NVL72）之后。平台面向 agentic inference，机柜级组件除了 Vera Rubin NVL72，
+还有 Vera CPU rack、Groq 3 LPX、Spectrum-6 SPX 和 BlueField-4 STX Storage。
 
-LMSYS 把 Vera Rubin 放在 Blackwell Ultra（GB300 NVL72）之后。做 kernel 时，他们标出的
-硬件变化是：每个 CTA 的 shared memory 从 Hopper / Blackwell 的 227 KiB 提到 327 KiB，
-节点上有 212 个 SM，互联换成 NVLink 6。
+纸面规格提升不会自动变成 Token 吞吐。算力、显存带宽和 NVLink 要经过推理引擎重新安排
+计算、权重布局和通信，才会出现在服务指标里。下面把规格和实测分开写，避免把不同基线
+的倍数当成同一个「上一代」。
 
-vLLM 文章给出的单卡对照（相对 GB200 NVL72）是：
+### 规格：相对 GB300 的单卡纸面
 
-- NVFP4 推理算力约 5x
-- HBM 带宽约 2.4x，显存从 HBM3e 换到 HBM4
+NVIDIA 规格页上，Rubin 单卡 FP8/FP6 Training 标的是 dense，17.5 PFLOPS；NVFP4
+Inference 另标为 sparse。GB300 NVL72 的 Tensor Core 数字默认 with sparsity，机柜
+FP8/FP6 为 720 PFLOPS，按稀疏约为稠密的两倍折到单卡，稠密 FP8 约为 5 PFLOPS。
+
+<!-- markdownlint-disable MD013 -->
+| 单卡 | GB300（Blackwell Ultra） | Vera Rubin | 比值 |
+| --- | --- | --- | --- |
+| FP8 稠密算力 | 约 5 PFLOPS | 17.5 PFLOPS（FP8/FP6 Training，dense） | 约 3.5x |
+| 显存 | 288 GB HBM3e，带宽 8 TB/s | 288 GB HBM4，带宽 19.2 TB/s | 容量同级，带宽 2.4x |
+| NVLink | 第五代，每 GPU 1.8 TB/s | 第六代，规格页单卡 3 TB/s | 约 1.7x |
+<!-- markdownlint-enable MD013 -->
+
+容量没有跟着带宽一起涨：两边都是约 288 GB，变的是 HBM3e 到 HBM4。NVLink 的 1.7 倍
+是 3 / 1.8。vLLM 博客把同一量级写成相对 GB200 的双向带宽 1.7x；GB200 也是第五代
+NVLink。不要和二手材料里的 3.6 TB/s 混用。
+
+vLLM 博客另外给了一组相对 GB200、偏推理的倍数，和上表不是同一组数：
+
+- NVFP4 推理算力约 5x（不是上表的 FP8 稠密 3.5x）
+- HBM 带宽约 2.4x
 - NVLink 双向带宽约 1.7x
-- softmax 用的指数吞吐提高：相对 GB200，FP32 约 2x，BF16/FP16 约 4x
+- softmax 的指数吞吐：相对 GB200，FP32 约 2x，BF16/FP16 约 4x
 
-机柜不再只有 GPU。vLLM 文章列出的 Vera Rubin 平台有五套机柜级系统：Vera Rubin NVL72、
-Vera CPU rack、Groq 3 LPX、Spectrum-6 SPX、BlueField-4 STX Storage。对平台工程，
-这意味着 scale-up GPU 域、Arm CPU 沙盒、横向交换和存储节点会同时出现在一个集群里。
+做 kernel 时，LMSYS 标出的微架构变化是：每个 CTA 的 shared memory 从 Hopper /
+Blackwell 的 227 KiB 提到 327 KiB，测试节点上有 212 个 SM。
 
 ### vLLM：Blackwell 内核先能跑
 
@@ -84,14 +105,18 @@ NVFP4 / MXFP4 GEMM、NVFP4 MoE、FP8 attention、FP8 MSA prefill。
 - MiniMax M3 的 FP8 MSA prefill：同样需要 FP8 KV，并设置
   `--attention-config.minimax_m3_msa_decode_backend=cutlass`。
 
-早期性能（vLLM 文章，作者写明还会继续涨）：
+早期性能要连基线一起读。7.84 倍不是「相对上一代 GB300」，也不是 SGLang 的整机结果：
 
 <!-- markdownlint-disable MD013 -->
-| 基准 | 模型与系统 | 公开结果 |
-| --- | --- | --- |
-| SemiAnalysis AgentX | vLLM 跑 MiniMax M3 | 匹配交互性时，每 GPU 吞吐最高是 GB200 的 7.84x；150 TPS 约束下是 5.18x |
-| MLPerf Inference v6.1 VLM | vLLM 做后端、Dynamo 做前端路由，模型 Qwen3-VL-235B-A22B | 相对 GB300 NVL72，offline / server / interactive 最高约 3.7x |
+| 基准 | 模型与系统 | 对照 | 公开结果 |
+| --- | --- | --- | --- |
+| SemiAnalysis AgentX | vLLM，MiniMax M3 | GB200 NVL72 | 匹配交互性时，每 GPU Token 吞吐最高 7.84x；150 TPS 约束下 5.18x |
+| MLPerf Inference v6.1 VLM | vLLM 后端 + Dynamo 路由，Qwen3-VL-235B-A22B | GB300 NVL72 | offline / server / interactive 最高约 3.7x |
 <!-- markdownlint-enable MD013 -->
+
+vLLM 写的是 matched interactivity，没有写 P90。150 TPS 是博客里的约束条件，没有
+进一步写成「每用户」。对服务容量的读法是：交互速度守住的同时，每张 GPU 产出的
+Token 更多。这是早期成绩，作者写明还会继续涨。
 
 接下来他们列的 Rubin 工作包括：把 FlashInfer MegaMoE（`sm107`）接进 vLLM、把
 locality domain 铺满 MoE、用 PDL 和 Lamport Sync 找层间重叠、为低延迟做 mega
@@ -106,9 +131,11 @@ Context 和 CUDA stream，可以每个域启动一份 kernel。这主要加速�
 vLLM 拿 MoE decode 做了第一刀。
 
 做法是 split-N：FC1 和 FC2 的权重按列切成两半，每半放进一个 locality domain，
-该域的 SM 只读自己的那一半。decode 时 activation 很小，输入 X 和输出 C 继续跨域，
-开销有限。SM 数不一定能等分。默认创建域时会丢掉无法配平的 SM，他们测到的是两个域
-合计 200 个 SM；打开 `cudaDevSmResourceGroupBackfill` 后才能用满 212 个 SM。
+该域的 SM 只读自己的那一半。可以把它想成卡内的 Tensor Parallel：专家权重切进两个
+内存域里并行算，而不是切到两张 GPU。decode 时 activation 很小，输入 X 和输出 C
+继续跨域，开销有限。SM 数不一定能等分。默认创建域时会丢掉无法配平的 SM，他们测到
+的是两个域合计 200 个 SM；打开 `cudaDevSmResourceGroupBackfill` 后才能用满 212 个
+SM。
 
 以 MiniMax M3 的 MoE shape 为例，locality domain 打开后，小 token 前向的
 FC1+FC2 平均约 1.2x，TP2 / TP4 / EP2 / EP4 趋势接近。只用 200 个 SM 的默认模式
@@ -117,17 +144,20 @@ FC1+FC2 平均约 1.2x，TP2 / TP4 / EP2 / EP4 趋势接近。只用 200 个 SM 
 
 ### SGLang：Kimi K3 NVFP4
 
-LMSYS 的早期机器是两台 Vera Rubin、共 8 张 GPU。推理侧把 SGLang 调到 Kimi K3 的
-NVFP4 checkpoint 上。K3 是 2.8T 混合模型，上下文 1M。93 层 attention 里，69 层是
-KDA 线性 attention，24 层是 MLA，每层输出按 block 做 Attention Residuals。FFN 是
-LatentMoE：896 个 expert、top-16、3584 维 latent。服务方式是 RadixArk DSpark 的
-block speculative decoding，每步先 draft 再 verify。
+LMSYS 的早期机器是两台 Vera Rubin node，一共 8 张 GPU。Miles 后来把 4 GPU 叫做一个
+tray，所以这 8 卡也可以说成两个 4 卡 tray，但原文用的是 node，而且这不是 NVL72
+整柜。推理侧把 SGLang 调到 Kimi K3 的 NVFP4 checkpoint 上。K3 是 2.8T 混合模型，
+上下文 1M。93 层 attention 里，69 层是 KDA 线性 attention，24 层是 MLA，每层输出按
+block 做 Attention Residuals。FFN 是 LatentMoE：896 个 expert、top-16、3584 维
+latent。服务方式是 RadixArk DSpark 的 block speculative decoding，每步先 draft
+再 verify。
 
 Attention 上的改动，都是把 Blackwell 时代的 kernel 按新上限重调：
 
 - MLA decode 主要在等 HBM 上的 KV。Blackwell 的 FP8 kernel 用 227 KiB shared
-  memory 排了 3 级 K、2 级 V。327 KiB 刚好多一级 K、多两级 V。batch 16、128k
-  上下文时 MLA 快 16%，输出 bit-identical。
+  memory 排了 3 级 K、2 级 V。327 KiB 刚好多一级 K、再多两级 V，也就是 4 级 K 和
+  4 级 V。batch 16、128k 上下文时 MLA 内核快 16%，输出 bit-identical。这是内核
+  加速，不是端到端 16%。
 - 低并发时一份请求的 KV 被拆到很多 CTA，第二个 kernel 做归约。原先逐段 load、
   逐段等。改成先把 load 全部发出去，再在寄存器里累加。batch 1、128k 时完整 FP8
   MLA 快 20%。
@@ -239,9 +269,15 @@ DaoCloud 自己的异构 GPU 文章把 Shanghai Cube 写成从「硬件可用」
 
 软件跟进也分成两条：
 
-- NVIDIA 路径目前是「Blackwell 内核先跑，Rubin 内核再换」。`sm100f` 的 vLLM
-  kernel 能在 Rubin 上启动；要吃到 HBM4、NVLink 6 和 327 KiB shared memory，
-  需要 CUDA 13.4 的 nightly 镜像和 FlashInfer / SGLang 里那些 Rubin 专用 kernel。
+- NVIDIA 路径目前是「Blackwell 内核先跑，Rubin 内核再换」。vLLM 的 day-0 是
+  `sm100f` 内核直接在 `sm107` 上跑，镜像为 `vllm/vllm-openai:cu134-nightly`，
+  已覆盖 DeepSeek、Kimi、GLM、MiniMax。SGLang 这一轮是 8 卡早期适配，不是和
+  vLLM 同一句「Day-0 支持整柜」。要吃到 HBM4、NVLink 6 和 327 KiB shared memory，
+  还要 FlashInfer / SGLang 里那些 Rubin 专用 kernel。
+- 分布式这一层，vLLM 的 MLPerf 数字已经带上 Dynamo 做路由。DaoCloud 公开的投入
+  方向与此衔接：一边参与 vLLM 上游，一边用 Dynamo、Kubernetes，以及 LWS /
+  DisaggregatedSet 做工作负载感知和成组调度。规格变成 Token 产能，引擎和编排都要
+  跟上。
 - 国产路径以 Shanghai Cube 为例：操作系统和调度先把 128 卡液冷柜收成可交付单元，
   再靠 MXMACA 和 vLLM 插件把模型性能补上。拓扑感知仍然是没做完的部分。
 
@@ -251,6 +287,8 @@ DaoCloud 自己的异构 GPU 文章把 Shanghai Cube 写成从「硬件可用」
   （2026-10-09）
 - [SGLang and Miles on NVIDIA Vera Rubin](https://www.lmsys.org/blog/2026-10-09-vera-rubin/)
   （2026-10-09）
+- [NVIDIA Vera Rubin NVL72 规格](https://www.nvidia.com/en-us/data-center/vera-rubin-nvl72/)
+- [NVIDIA GB300 NVL72 规格](https://www.nvidia.com/en-us/data-center/gb300-nvl72/)
 - [Shanghai Cube 发布](https://d.run/news/i80bp6njjsg0yhxat1rgbvb7)（DaoCloud，2025-03-21）
 - [异构 GPU 优化实践](https://github.com/DaoCloud/DaoCloud-docs/blob/main/docs/zh/docs/blogs/2026/optimize-gpu.md)
 - [Shanghai Cube 产品站](https://www.shanghaicube.com/index.html)

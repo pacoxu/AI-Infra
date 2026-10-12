@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-09-17
+last_updated: 2026-10-09
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,29 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-09-30: Agent 沙盒十个月：从 agent-sandbox 1.0 到 Dynamic Containers
+
+- [Agent 沙盒十个月：从 agent-sandbox 1.0 到 Dynamic Containers (Chinese)](./2026-09-30/2026-09-30-agent-sandbox-k8s-ecosystem-update_zh.md)
+
+Follow-up to the 2025-11-28 agent-sandbox article, rewritten around four beats:
+
+1. **agent-sandbox 1.0** as the lifecycle-API milestone (`v1beta1`, no conversion webhooks)
+2. **GKE stack**: Agent Substrate + google/ax + gVisor/microVM, with overseas counterparts (NVIDIA OpenShell, Azure Container Apps Sandboxes)
+3. **China scene**: Kata + Agent Sandbox at KubeCon/OpenInfra, plus 火山 VCI / 腾讯 CubeSandbox / 阿里 OpenSandbox
+4. **KEP-5972 Dynamic Containers**: merged, **1.38 alpha** — breaks static main-container assumptions and invites co-evolution with sandbox projects
+
+## 2026-09-28: LWS v0.11.0 与 KEP-666 Gang Scheduling
+
+- [LWS v0.11.0：KEP-666 原生 Gang Scheduling 落地 (Chinese)](./2026-09-28/2026-09-28-lws-v0.11.0-kep-666-gang-scheduling_zh.md)
+
+A short Chinese release note focused on LWS `v0.11.0` and KEP-666 Phase 1, with a 2026-10-09 addendum on the planned `v1.0.0`:
+
+- **Why**: all-or-nothing admission for leader-worker replicas on Kubernetes 1.37 WAS
+- **What shipped**: alpha `spec.scheduling`, default-off `WorkloadAwareScheduling`, flat Workload + PodGroups
+- **Default shape**: `spec.scheduling: {}` → one PodGroup per replica with `minCount = size`
+- **PRs**: KEP [#979](https://github.com/kubernetes-sigs/lws/pull/979), Phase 1 [#982](https://github.com/kubernetes-sigs/lws/pull/982), Hash [#1072](https://github.com/kubernetes-sigs/lws/pull/1072)
+- **v1.0.0**: maintainers are targeting the project release in a couple of weeks (858 stars on 2026-10-09, community goal 1,000). This is not a new CRD group, and KEP-666 stays Alpha. Pre-slices DisaggregatedSets must finish one rollout on v0.10/v0.11 before that upgrade.
 
 ## 2026-09-17: KEP-5972 Dynamic Containers（合并前快照）
 
