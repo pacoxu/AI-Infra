@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-31
+last_updated: 2026-10-15
 tags: kubernetes, gpu, cold-start, optimization, ai-workloads
 canonical_path: docs/kubernetes/gpu-pod-cold-start.md
 ---
@@ -1178,8 +1178,11 @@ Cost Metrics:
 
 - [GPU Pod 冷启动优化：AI 工作负载的性能突破 (Chinese blog)](../blog/2026-04-06/2026-04-06-gpu-pod-cold-start-optimization_zh.md)
 - [Pod Startup Speed Optimization](./pod-startup-speed.md)
-- [Model Lifecycle Management](../inference/model-lifecycle.md)
-- [Workload Isolation](./isolation.md)
+- [Model Lifecycle Management](../inference/model-lifecycle.md) —
+  llm-d FMA (sleep/wake + dual-pods) and
+  [Dynamo Snapshot](../inference/model-lifecycle.md#dynamo-snapshot-checkpoint--restore)
+  for skipping engine-init cold starts
+- [Workload Isolation — Checkpoint/Restore](./isolation.md#7-checkpoint-and-restore)
 - [Dynamic Resource Allocation](./dra.md)
 
 ### Additional Resources
