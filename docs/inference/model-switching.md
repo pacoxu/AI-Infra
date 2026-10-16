@@ -1,8 +1,8 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-11-20
-tags: inference, model-switching, aegaeon, vllm, sleep-mode, optimization
+last_updated: 2026-10-15
+tags: inference, model-switching, aegaeon, vllm, sleep-mode, optimization, fma, dynamo
 canonical_path: docs/inference/model-switching.md
 ---
 
@@ -283,17 +283,18 @@ engine_args = EngineArgs(
 
 ## Comparison of Model Switching Approaches
 
-| Feature               | Traditional | Aegaeon     | vLLM Sleep Mode     |
-|-----------------------|-------------|-------------|---------------------|
-| **Switching Latency** | 30-100s     | <1s         | 0.1-5.4s            |
-| **Overhead Reduction**| Baseline    | 97%         | 18-203x speedup     |
-| **Granularity**       | Request     | Token-level | Process-level       |
-| **GPU Memory**        | Full release| Optimized   | Full release        |
-| **State Preservation**| None        | Selective   | Full process state  |
-| **CUDA Graph Reuse**  | No          | Yes         | Yes                 |
-| **Kernel Cache**      | No          | Yes         | Yes                 |
-| **KV Cache Handling** | Discard     | Synchronized| Optional preserve   |
-| **Best For**          | Single model| Dynamic QoS | Multi-model dev/test|
+| Feature | Traditional | Aegaeon | vLLM Sleep Mode | llm-d FMA | Dynamo Snapshot |
+| --- | --- | --- | --- | --- | --- |
+| **Switching / warm latency** | 30–100s | <1s | 0.1–5.4s | Hot wake ~seconds | Restore ~10s vs cold ~1min |
+| **Granularity** | Request | Token-level | Engine process | Dual-pods + launcher | Whole-process CRIU |
+| **Skips engine init** | No | Partial | Yes (wake) | Yes (hot/warm) | Yes (restore) |
+| **K8s GPU accounting** | Normal Pod | Framework-specific | Normal Pod | Requester reserves GPUs | Normal worker + privileged agent |
+| **Best for** | Rare swaps | Dynamic QoS | Multi-model on one GPU | Shared pool swap / scale-up | Dynamo replica scale-out |
+
+Orchestration-level FMA and Snapshot details:
+[Model Lifecycle — Fast Model Actuation](./model-lifecycle.md#fast-model-actuation)
+and
+[Dynamo Snapshot](./model-lifecycle.md#dynamo-snapshot-checkpoint--restore).
 
 ### When to Use Each Approach
 
@@ -316,6 +317,18 @@ engine_args = EngineArgs(
 - Development and testing environments
 - Cost-sensitive cloud deployments
 - Models have predictable idle periods
+
+**Use llm-d FMA when:**
+
+- Need Kubernetes-accurate GPU reservation while swapping models on a shared
+  pool (dual-pods)
+- Combining sleep/wake with a persistent launcher for hot/warm actuation
+
+**Use Dynamo Snapshot when:**
+
+- Scaling Dynamo workers and must skip full cold start (download + GPU load +
+  engine init)
+- You can run the privileged snapshot agent and meet preview prerequisites
 
 ---
 
@@ -437,6 +450,8 @@ engine_args = EngineArgs(
 ### Related Documentation
 
 - [Model Lifecycle Management](./model-lifecycle.md)
+- [llm-d Fast Model Actuation](https://github.com/llm-d-incubation/llm-d-fast-model-actuation)
+- [Dynamo Snapshot](./model-lifecycle.md#dynamo-snapshot-checkpoint--restore)
 - [Caching in LLM Inference](./caching.md)
 - [AIBrix Platform](./aibrix.md)
 - [Serverless AI Inference](./serverless.md)

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-11-17
+last_updated: 2026-10-15
 tags: serverless, inference, knative, sagemaker, ai-platforms
 canonical_path: docs/inference/serverless.md
 ---
@@ -193,6 +193,10 @@ strategies:
   paths
 - Use **warm pool patterns** (pre-initialized pods) for latency-critical routes
 - Cache model weights on node-local storage (NVMe) to accelerate cold starts
+- For model swap / shared GPU pools: [llm-d Fast Model Actuation](./model-lifecycle.md#llm-d-fast-model-actuation)
+  (sleep/wake + dual-pods + launcher)
+- For Dynamo replica scale-out: [Dynamo Snapshot](./model-lifecycle.md#dynamo-snapshot-checkpoint--restore)
+  (CRIU/`cuda-checkpoint` warm restore, ~10 s vs ~1 min cold)
 - See [GPU Pod Cold Start](../kubernetes/gpu-pod-cold-start.md) for detailed
   strategies
 

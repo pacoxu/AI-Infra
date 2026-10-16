@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-10
+last_updated: 2026-10-15
 tags: inference, llm, vllm, serving, optimization
 canonical_path: docs/inference/README.md
 ---
@@ -13,6 +13,10 @@ techniques for Kubernetes-native deployments.
 
 More details about specific platforms and techniques:
 
+- [DaoCloud Open Source Inference Sales PPTX (EN)](./DaoCloud-Open-Source-Inference-Sales.pptx)
+- [Import guide → Google Slides](./DaoCloud-Open-Source-Inference-Sales-IMPORT.md)
+- [Multimodal one-pager (vLLM + Omni)](./daocloud-multimodal-onepager.md)
+- [DaoCloud vLLM / llm-d / Dynamo 贡献单页（售前 PPT）](./daocloud-vllm-dynamo-onepager.md)
 - [Model Architectures (Llama, Qwen, DeepSeek, Flux)](./model-architectures.md)
 - [NVIDIA Dynamo: Panorama Architecture](./dynamo.md)
 - [LoRA: Low-Rank Adaptation for Efficient LLM Serving](./lora.md)
@@ -24,7 +28,7 @@ More details about specific platforms and techniques:
 - [Caching in LLM Inference](./caching.md)
 - [Memory, Context, and Database for AI Agents](./memory-context-db.md)
 - [Large Scale Experts (MoE Models)](./large-scale-experts.md)
-- [Model Lifecycle Management (Cold-Start, Sleep Mode, Offloading)](./model-lifecycle.md)
+- [Model Lifecycle Management (Cold-Start, Sleep Mode, FMA, Dynamo Snapshot)](./model-lifecycle.md)
 - [One Diagram for Model Distribution (HF, MatrixHub, Harbor, Dragonfly, ModelPack, ModelExpress)](./model-distribution-stack.md)
 - [Performance Testing & Benchmark Tools](./performance-testing.md)
 - [SuperNode architectures（Vera Rubin NVL72、Shanghai Cube）](../hardware/supernode.md)
@@ -212,6 +216,9 @@ NVIDIA hardware and software stacks.
 - **Smart KV routing**: Intelligent routing based on KV cache locality
 - **NIXL transport**: High-performance KV cache transfer protocol
 - **AIConfigurator**: Data-driven P/D configuration optimization tool
+- **Snapshot (checkpoint/restore)**: CRIU + `cuda-checkpoint` warm start of
+  initialized workers (~10 s vs ~1 min cold); see
+  [model lifecycle](./model-lifecycle.md#dynamo-snapshot-checkpoint--restore)
 - **RBG ecosystem progress**: Companion examples merged in
   [sgl-project/rbg#255](https://github.com/sgl-project/rbg/pull/255), while
   Dynamo-side integration guide is tracked in

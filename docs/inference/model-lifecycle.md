@@ -1,8 +1,8 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-29
-tags: inference, model-lifecycle, cold-start, offloading, optimization
+last_updated: 2026-10-15
+tags: inference, model-lifecycle, cold-start, offloading, optimization, checkpoint-restore
 canonical_path: docs/inference/model-lifecycle.md
 ---
 
@@ -21,6 +21,7 @@ inference systems.
 - [Sleep Mode and Wake-Up](#sleep-mode-and-wake-up)
 - [Model Offloading](#model-offloading)
 - [Fast Model Actuation](#fast-model-actuation)
+- [Dynamo Snapshot (Checkpoint / Restore)](#dynamo-snapshot-checkpoint--restore)
 - [KV Cache Persistence](#kv-cache-persistence)
 - [Production Implementations](#production-implementations)
 - [Best Practices](#best-practices)
@@ -350,35 +351,79 @@ Modern hardware features accelerate model offloading:
 
 ## Fast Model Actuation
 
-Fast model actuation refers to techniques that minimize the time to switch
-between different models or model configurations in an inference system.
+Fast model actuation (FMA) minimizes the time to swap which model a GPU is
+serving, or to bring a new replica online, without changing steady-state
+inference throughput. Value is **actuation speed**, not tokens/sec.
+
+Three complementary paths exist today (choose by *what* you skip on the
+critical path):
+
+| Approach | Project | Mechanism | Typical warm path | Best for |
+| --- | --- | --- | --- | --- |
+| Engine sleep/wake | [vLLM Sleep Mode](https://blog.vllm.ai/2025/10/26/sleep-mode.html) | Park tensors in CPU RAM | 0.1–5 s wake | Multi-model on one process/GPU |
+| App-level FMA + dual-pods | [llm-d FMA](https://github.com/llm-d-incubation/llm-d-fast-model-actuation) | Sleep/wake + launcher + K8s dual-pods | Hot wake ~seconds (e.g. ~3 s for 64 GiB) | Shared GPU pool, model swap / scale-up with accurate scheduling |
+| Process checkpoint/restore | [Dynamo Snapshot](https://github.com/ai-dynamo/dynamo/blob/main/docs/kubernetes/snapshot.md) | CRIU + `cuda-checkpoint` | Warm restore ~10 s vs cold ~1 min | Dynamo scale-out / scale-from-zero skipping engine init |
+
+Weight-streaming paths (Model Streamer / ModelExpress) accelerate *download and
+HBM fill* but still pay engine init and CUDA Graph capture — see
+[dynamo.md](./dynamo.md#model-loading-plane-model-streamer-and-modelexpress).
 
 ### llm-d Fast Model Actuation
 
-The
-[llm-d fast-model-actuation](https://github.com/llm-d-incubation/llm-d-fast-model-actuation)
-project provides mechanisms for rapid model switching in Kubernetes
-environments.
+[llm-d-fast-model-actuation](https://github.com/llm-d-incubation/llm-d-fast-model-actuation)
+(llm-d incubation) fits vLLM sleep/wake and a persistent launcher into
+Kubernetes via a **dual-pods** design. Official overview:
+[Fast Model Actuation \| llm-d](https://llm-d.ai/docs/well-lit-paths/foundations/fast-model-actuation).
 
-**Key Features:**
+**Two techniques:**
 
-- **Preloaded model pool**: Maintain pool of ready-to-use models
-- **Model routing**: Intelligent routing to available model instances
-- **Resource management**: Efficient allocation of GPU resources
-- **Kubernetes integration**: Native support for K8s scheduling
+1. **vLLM level-1 sleep / wake** — park model tensors in CPU memory, free the
+   GPU for another instance, then wake by moving weights back over PCIe
+   (skips reload and CUDA-graph compilation).
+2. **vLLM launcher** — a long-lived process that preloads Python modules and
+   spawns child vLLM instances via a network CRUDL API, shaving import time
+   off each new instance.
 
-**Architecture Components:**
+**Dual-pods (Kubernetes fit):**
 
-1. **Model Pool Manager**: Maintains pool of preloaded models
-2. **Router**: Directs requests to appropriate model instances
-3. **Resource Controller**: Manages GPU allocation and deallocation
-4. **State Manager**: Tracks model states and transitions
+| Pod role | What it does |
+| --- | --- |
+| **Server-requesting** | Reserves GPUs through the scheduler/kubelet (capacity accounting stays correct) but does not run inference |
+| **Server-providing (launcher)** | Requests zero GPUs; FMA controllers set `CUDA_VISIBLE_DEVICES` to the requester’s reserved GPU(s) |
 
-**Actuation Strategies:**
+**Controllers / CRDs:**
 
-- **Static Pool**: Pre-allocate models based on expected usage
-- **Dynamic Pool**: Adjust pool size based on real-time demand
-- **Hybrid Pool**: Combine static base with dynamic expansion
+- **dual-pods controller** — binds requesters ↔ launchers ↔ vLLM instances;
+  orchestrates sleep/wake
+- **launcher-populator** — ensures launcher pods exist per
+  `LauncherConfig` / `LauncherPopulationPolicy`
+- CRDs: `InferenceServerConfig`, `LauncherConfig`, `LauncherPopulationPolicy`
+
+**Actuation paths (fastest first):**
+
+- **Hot start** — wake a sleeping resident instance (sub-second to a few
+  seconds)
+- **Warm start** — existing launcher creates a new instance with preloaded
+  modules (tens of seconds)
+- **Cold start (with launcher)** — create launcher pod then initialize;
+  still cheaper than a no-FMA cold start (extra scheduling + image pull)
+
+Deploy via the unified Helm chart `charts/fma-controllers`. Release
+automation (tag → images → chart) is documented in
+[release-process.md](https://github.com/llm-d-incubation/llm-d-fast-model-actuation/blob/main/docs/release-process.md).
+Publishing a GitHub release runs `publish-release`, which builds:
+
+| Artifact | Example ref |
+| --- | --- |
+| dual-pods-controller | `ghcr.io/llm-d-incubation/llm-d-fast-model-actuation/dual-pods-controller:v0.3.1` |
+| launcher-populator | `…/launcher-populator:v0.3.1` |
+| launcher | `…/launcher:v0.3.1` |
+| requester | `…/requester:v0.3.1` |
+| Helm chart (OCI) | `oci://ghcr.io/llm-d-incubation/llm-d-fast-model-actuation/charts/fma-controllers` |
+
+Roadmap note: Milestone 2 (sleep/wake without launcher) is done; Milestone 3 /
+0.6 (launcher) is essentially finished with patch releases; 0.7 is expected to
+add a TCP reverse-proxy in the requester Pod.
 
 ### Model Switching Techniques
 
@@ -409,6 +454,111 @@ Use Low-Rank Adaptation (LoRA) for fast model switching:
 - Minimal memory overhead per variant
 - Fast switching between model variants
 - Cost-effective multi-tenant serving
+
+---
+
+## Dynamo Snapshot (Checkpoint / Restore)
+
+[Dynamo Snapshot](https://github.com/ai-dynamo/dynamo/blob/main/docs/kubernetes/snapshot.md)
+is NVIDIA Dynamo’s infrastructure for **fast-starting GPU workers** by
+checkpointing an already-initialized process and restoring later pods from that
+artifact — skipping model download, GPU load, engine init, and warm-up on the
+critical path. Compared with llm-d FMA (application sleep/wake inside a live
+process), Snapshot is **process-level** CRIU restore of a fully initialized
+worker into a new Pod.
+
+| Startup type | Order of magnitude | What happens |
+| --- | --- | --- |
+| **Cold start** | ~1 min | Download model, load to GPU, initialize engine |
+| **Warm start (restore)** | ~10 sec | Restore from a ready checkpoint directory |
+
+Restore time still depends on storage bandwidth, GPU model, and same-node vs
+cross-node restore.
+
+### Stack and prerequisites
+
+- **CRIU** (Checkpoint/Restore In Userspace) + NVIDIA
+  [`cuda-checkpoint`](https://github.com/NVIDIA/cuda-checkpoint)
+- Privileged `snapshot-agent` DaemonSet (workload pods need not be privileged)
+- Placeholder worker image that wraps the runtime with `criu` /
+  `cuda-checkpoint` / `nsrestore`
+- x86_64 GPU nodes; NVIDIA driver **580.xx+** (docs cite higher for multi-GPU
+  experiments)
+- Checkpoint storage: namespace-local PVC; **ReadWriteMany** preferred for
+  cross-node / concurrent restore (`podMount` can use suitable RWO for
+  sequential same-node flows)
+
+### Operator / CR flow
+
+1. Enable checkpointing on the Dynamo platform/operator and install the snapshot
+   Helm chart:
+
+   ```yaml
+   dynamo-operator:
+     checkpoint:
+       enabled: true
+   ```
+
+2. Create a standalone `DynamoCheckpoint` (or let a DGD auto-create one) whose
+   Job pod template matches the worker (`main` container + placeholder image).
+   Wait until `status.phase=Ready`.
+3. Deploy a `DynamoGraphDeployment` worker with checkpoint enabled:
+
+| Config | Behavior | Use when |
+| --- | --- | --- |
+| `checkpoint.enabled: true`, no `checkpointRef` | DGD creates/owns one automatic checkpoint per worker generation | Normal DGD-managed capture |
+| `checkpoint.enabled: true` + `checkpointRef: <name>` | Restore from named checkpoint; create none | Pre-warmed / retained checkpoint |
+
+Optional `startupPolicy: WaitForCheckpoint` keeps serving replicas at zero
+until capture completes, then starts from the snapshot. Default `Immediate`
+starts cold workers in parallel with capture; only pods created after the
+artifact is Ready restore.
+
+Conceptual restore-shaped worker:
+
+```yaml
+apiVersion: nvidia.com/v1alpha1
+kind: DynamoGraphDeployment
+metadata:
+  name: vllm-checkpointref-demo
+spec:
+  services:
+    VllmDecodeWorker:
+      componentType: worker
+      replicas: 1
+      checkpoint:
+        enabled: true
+        checkpointRef: qwen3-06b-bf16   # omit for DGD-managed auto capture
+      extraPodSpec:
+        mainContainer:
+          image: registry.example.com/dynamo/vllm-placeholder:1.0.0
+```
+
+### How this differs from FMA and from weight streaming
+
+| Dimension | llm-d FMA | Dynamo Snapshot | Model Streamer / ModelExpress |
+| --- | --- | --- | --- |
+| Granularity | Live process sleep/wake + launcher | Whole-process CRIU dump/restore | Weight I/O / peer transfer |
+| Skips engine init / CUDA Graph | Yes (on hot wake) | Yes (on restore) | No |
+| K8s GPU accounting | Dual-pods (requester reserves GPUs) | Normal worker pods + privileged agent | N/A |
+| Primary use | Model swap on shared pool | Fast replica scale-out | Faster first load / peer fill |
+| Maturity | Incubation; Helm OCI releases | Experimental / preview | Production-oriented loading path |
+
+### Current constraints (preview)
+
+- Primarily **single-GPU** LLM decode/prefill workers (vLLM / SGLang; TRT-LLM
+  limited experimental path)
+- Active TCP connections are not checkpointed
+- Multimodal / embedding / diffusion workers are out of scope today
+- Privileged DaemonSet required; validate security posture and driver match
+  before production
+
+Background:
+[NVIDIA Dynamo Snapshot: Fast Startup for Inference Workloads on Kubernetes](https://developer.nvidia.com/blog/nvidia-dynamo-snapshot-fast-startup-for-inference-workloads-on-kubernetes/).
+Panorama context:
+[NVIDIA Dynamo: Panorama Architecture](./dynamo.md#dynamo-snapshot-fast-worker-startup).
+Generic GPU CRIU background:
+[Workload Isolation — Checkpoint and Restore](../kubernetes/isolation.md#7-checkpoint-and-restore).
 
 ---
 
@@ -507,6 +657,12 @@ Kubernetes-based platforms for model lifecycle management:
 - **Kthena**: Volcano-based LLM inference platform with ModelServing revision
   control, role-level rolling updates, coordinated P/D autoscaling, and
   session-aware routing (v1.0.0+)
+- **llm-d FMA**: Dual-pods + vLLM sleep/wake + launcher for fast model swap and
+  scale-up on shared GPU pools
+  ([repo](https://github.com/llm-d-incubation/llm-d-fast-model-actuation),
+  [release process](https://github.com/llm-d-incubation/llm-d-fast-model-actuation/blob/main/docs/release-process.md))
+- **Dynamo Snapshot**: CRIU/`cuda-checkpoint` warm restore of initialized
+  workers (~10 s vs ~1 min cold)
 - **Kubeflow**: Comprehensive ML platform with model serving
 
 ---
@@ -529,12 +685,19 @@ Kubernetes-based platforms for model lifecycle management:
 - Access patterns are highly variable
 - Infrastructure costs are a primary concern
 
-**Use Fast Model Actuation when:**
+**Use Fast Model Actuation (llm-d) when:**
 
-- Frequent model switching is required
-- Sub-second switching latency is needed
-- Using LoRA or adapter-based models
-- Running in orchestrated environments like Kubernetes
+- Frequent model switching on a shared GPU pool is required
+- You can keep sleeping instances in CPU RAM (hot wake) or warm launchers
+- Running vLLM on Kubernetes and want scheduler-accurate GPU accounting
+  (dual-pods)
+
+**Use Dynamo Snapshot when:**
+
+- Scale-out / scale-from-zero must skip full cold start (download + GPU load +
+  engine init)
+- You can run a privileged snapshot agent and meet driver/backend prerequisites
+- Workloads are (today) single-GPU text LLM workers on Dynamo
 
 **Use KV Cache Persistence when:**
 
@@ -591,9 +754,15 @@ Key metrics to track:
 - [vLLM Sleep Mode Blog Post](https://blog.vllm.ai/2025/10/26/sleep-mode.html)
 - [kvcached Project](https://github.com/ovg-project/kvcached)
 - [llm-d Fast Model Actuation](https://github.com/llm-d-incubation/llm-d-fast-model-actuation)
+- [llm-d FMA release process](https://github.com/llm-d-incubation/llm-d-fast-model-actuation/blob/main/docs/release-process.md)
+- [Fast Model Actuation (llm-d docs)](https://llm-d.ai/docs/well-lit-paths/foundations/fast-model-actuation)
+- [Dynamo Snapshot (Kubernetes)](https://github.com/ai-dynamo/dynamo/blob/main/docs/kubernetes/snapshot.md)
+- [NVIDIA Dynamo Snapshot blog](https://developer.nvidia.com/blog/nvidia-dynamo-snapshot-fast-startup-for-inference-workloads-on-kubernetes/)
+- [NVIDIA cuda-checkpoint](https://github.com/NVIDIA/cuda-checkpoint)
 - [vLLM GitHub Repository](https://github.com/vllm-project/vllm)
 - [AIBrix Introduction](./aibrix.md)
 - [Caching in LLM Inference](./caching.md)
+- [NVIDIA Dynamo: Panorama Architecture](./dynamo.md)
 - [KServe Model Server](https://github.com/kserve/kserve)
 - [Kubernetes Serving WG](https://github.com/kubernetes/community/blob/master/wg-serving/README.md)
 

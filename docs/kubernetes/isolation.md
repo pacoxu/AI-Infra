@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-08-25
+last_updated: 2026-10-15
 tags: kubernetes, isolation, security, multi-tenancy
 canonical_path: docs/kubernetes/isolation.md
 ---
@@ -886,6 +886,15 @@ crictl restore <checkpoint-name> <pod-id>
 - **Fast Warmup**: Pre-warmed model caches and GPU state
 - **Migration**: Move inference workloads across regions
 - **Scaling**: Rapid scale-out with checkpointed replicas
+- **Dynamo Snapshot**: Production-oriented path that wires CRIU +
+  `cuda-checkpoint` into Dynamo’s operator (`DynamoCheckpoint` /
+  `DynamoGraphDeployment.checkpoint`) for ~10 s warm restore vs ~1 min cold
+  start. See
+  [Dynamo Snapshot (Checkpoint / Restore)](../inference/model-lifecycle.md#dynamo-snapshot-checkpoint--restore)
+  and
+  [upstream snapshot docs](https://github.com/ai-dynamo/dynamo/blob/main/docs/kubernetes/snapshot.md).
+  For application-level sleep/wake on shared GPU pools (not process CRIU), see
+  [llm-d Fast Model Actuation](../inference/model-lifecycle.md#llm-d-fast-model-actuation).
 
 ### Implementation Considerations
 
@@ -937,6 +946,10 @@ made it more practical:
   Kubernetes KEP-2008: Forensic Container Checkpointing</a>
 - <a href="https://github.com/NVIDIA/cuda-checkpoint">NVIDIA cuda-checkpoint</a>:
   GPU checkpoint/restore utility for CUDA applications (driver 550+)
+- <a href="https://github.com/ai-dynamo/dynamo/blob/main/docs/kubernetes/snapshot.md">
+  Dynamo Snapshot</a>: CRIU + cuda-checkpoint for fast inference worker restore
+- <a href="https://developer.nvidia.com/blog/nvidia-dynamo-snapshot-fast-startup-for-inference-workloads-on-kubernetes/">
+  NVIDIA Blog: Dynamo Snapshot fast startup</a>
 - <a href="https://github.com/checkpoint-restore/criu/tree/criu-dev/plugins">
   CRIU Plugins</a>: Plugin architecture for CUDA and AMDGPU support
 - <a href="https://developer.nvidia.com/blog/checkpointing-cuda-applications-with-criu/">

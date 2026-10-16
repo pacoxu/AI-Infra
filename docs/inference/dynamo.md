@@ -1,8 +1,8 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-09-02
-tags: inference, dynamo, architecture, kv-cache, routing, grove, nixl, kvcr, modelexpress, model-streamer, ai-dynamo
+last_updated: 2026-10-15
+tags: inference, dynamo, architecture, kv-cache, routing, grove, nixl, kvcr, modelexpress, model-streamer, ai-dynamo, snapshot, checkpoint-restore
 canonical_path: docs/inference/dynamo.md
 ---
 
@@ -277,6 +277,39 @@ warm-up from the cold-start critical path. See
 for the vLLM/Dynamo configuration, comparison matrix, and production
 guardrails.
 
+## Dynamo Snapshot: Fast Worker Startup
+
+Weight streaming shortens *load*; **Dynamo Snapshot** shortens *everything after
+load* on scale-out by checkpointing an initialized GPU worker and restoring
+later pods with CRIU + [`cuda-checkpoint`](https://github.com/NVIDIA/cuda-checkpoint).
+
+| Path | What it accelerates | Typical effect |
+| --- | --- | --- |
+| Model Streamer / ModelExpress | Weight download and HBM fill | Faster first/peer load; engine init remains |
+| **Snapshot** | Full warm start from process checkpoint | ~10 s restore vs ~1 min cold (order of magnitude) |
+
+**Flow:**
+
+1. Start a worker once → capture initialized state (`DynamoCheckpoint` or
+   DGD-managed automatic checkpoint)
+2. Store the artifact on a namespace-local snapshot PVC
+3. Later `DynamoGraphDeployment` workers restore via
+   `checkpoint.enabled: true` and optional `checkpointRef`
+
+**Operational notes:**
+
+- Requires privileged `snapshot-agent`, placeholder runtime image, and recent
+  NVIDIA drivers (docs cite 580.xx+)
+- Prefer ReadWriteMany storage for cross-node restore
+- Preview limits: mainly single-GPU vLLM/SGLang LLM workers; not a substitute
+  for application-level sleep/wake (see llm-d FMA)
+
+Full comparison with llm-d Fast Model Actuation, YAML sketches, and
+constraints:
+[Dynamo Snapshot (Checkpoint / Restore)](./model-lifecycle.md#dynamo-snapshot-checkpoint--restore).
+Upstream:
+[docs/kubernetes/snapshot.md](https://github.com/ai-dynamo/dynamo/blob/main/docs/kubernetes/snapshot.md).
+
 ## KVBM: The Center Of Dynamo's State Plane
 
 The official
@@ -472,6 +505,9 @@ broader inference and post-training platform.
 ## References
 
 - [ai-dynamo/dynamo](https://github.com/ai-dynamo/dynamo)
+- [Dynamo Snapshot (Kubernetes)](https://github.com/ai-dynamo/dynamo/blob/main/docs/kubernetes/snapshot.md)
+- [NVIDIA Dynamo Snapshot blog](https://developer.nvidia.com/blog/nvidia-dynamo-snapshot-fast-startup-for-inference-workloads-on-kubernetes/)
+- [Model Lifecycle — Dynamo Snapshot](./model-lifecycle.md#dynamo-snapshot-checkpoint--restore)
 - [Dynamo KVBM README](https://github.com/ai-dynamo/dynamo/blob/main/lib/bindings/kvbm/README.md)
 - [ai-dynamo/kvcr](https://github.com/ai-dynamo/kvcr)
 - [KVCR Design Overview](https://github.com/ai-dynamo/kvcr/blob/main/docs/design_overview.md)
