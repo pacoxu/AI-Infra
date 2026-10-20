@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-15
+last_updated: 2026-10-20
 tags: inference, llm, vllm, serving, optimization
 canonical_path: docs/inference/README.md
 ---
@@ -18,6 +18,7 @@ More details about specific platforms and techniques:
 - [Multimodal one-pager (vLLM + Omni)](./daocloud-multimodal-onepager.md)
 - [DaoCloud vLLM / llm-d / Dynamo 贡献单页（售前 PPT）](./daocloud-vllm-dynamo-onepager.md)
 - [Model Architectures (Llama, Qwen, DeepSeek, Flux)](./model-architectures.md)
+- [DeepInfer and deepseek-recipe](./deepseek-serving.md)
 - [NVIDIA Dynamo: Panorama Architecture](./dynamo.md)
 - [LoRA: Low-Rank Adaptation for Efficient LLM Serving](./lora.md)
 - [Grove: Kubernetes API for Inference Orchestration](./grove.md)
@@ -55,6 +56,7 @@ The core serving engines that execute LLM inference:
 | [Ollama](https://github.com/ollama/ollama) | Ollama | Developer-friendly, local deployment, model library |
 | [ONNX Runtime](https://github.com/microsoft/onnxruntime) | Microsoft | Cross-platform, multi-framework, hardware acceleration |
 | [OpenVINO](https://github.com/openvinotoolkit/openvino) | Intel | Intel hardware optimized, model optimization toolkit |
+| [DeepInfer](https://github.com/deepseek-ai/DeepInfer) | DeepSeek | Offline inference for DeepSeek-V4.1-Flash; Attention DP / CP, MoE EP, DSpark; SM100 and Ascend 950 |
 
 ### Inference Platforms (推理平台)
 
@@ -88,6 +90,21 @@ Components that handle request routing, load balancing, and P/D disaggregation:
 | Mooncake | [Moonshot AI](https://github.com/kvcache-ai/Mooncake) | KV cache-centric disaggregated inference |
 | RBG | [SGLang](https://github.com/sgl-project/rbg) | RoleBasedGroup CRD for multi-role inference orchestration |
 | SGLang Router | [SGLang](https://github.com/sgl-project/sglang) | Inference routing and load balancing for SGLang |
+
+### Protocol adapters (协议适配)
+
+Libraries that sit between an API gateway and an inference engine. They
+render model-specific prompts and parse output. They do not route traffic or
+run the model.
+
+| Component | Project | Purpose |
+| --- | --- | --- |
+| deepseek-recipe | [DeepSeek](https://github.com/deepseek-ai/deepseek-recipe) | Messages / Chat Completions / Responses ↔ DeepSeek V4 and V4.1 prompts and token ids |
+
+DeepInfer is the engine on the other side of that contract. The open-source
+drop stops at offline inference: a KV cache system, VE / prefill / decode
+disaggregation, and DP replica load balancing stay platform work. See
+[DeepInfer and deepseek-recipe](./deepseek-serving.md).
 
 ## Featured Projects
 
@@ -272,6 +289,10 @@ Low-level GPU kernel libraries that accelerate LLM inference operations:
   memory-efficient attention kernel
 - [`xFormers`](https://github.com/facebookresearch/xformers): Optimized
   transformer building blocks and related kernels (Meta)
+- [`FlashMLA`](https://github.com/deepseek-ai/FlashMLA): MLA decoding kernels
+  used by DeepInfer, and integrated by vLLM and SGLang for DeepSeek models
+- [`DeepSelect`](https://github.com/deepseek-ai/DeepSelect): Top-k selection
+  for DeepSeek sparse attention
 
 ### Math Primitives
 
@@ -279,6 +300,13 @@ Low-level GPU kernel libraries that accelerate LLM inference operations:
   building blocks for CUDA
 - [`DeepGEMM`](https://github.com/deepseek-ai/DeepGEMM): High-performance GEMM
   implementation from DeepSeek
+- [`TileKernels`](https://github.com/deepseek-ai/TileKernels): Tiled kernels
+  consumed by DeepInfer alongside in-tree TileLang ops
+
+### MoE Communication
+
+- [`DeepEP`](https://github.com/deepseek-ai/DeepEP): Expert-parallel dispatch
+  and combine, overlapping MoE communication with compute
 
 ## Quantization (量化与低精度)
 

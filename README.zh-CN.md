@@ -91,6 +91,7 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 
 - [推理概述](./docs/inference/README.md)
 - [模型架构](./docs/inference/model-architectures.md)
+- [DeepInfer 与 deepseek-recipe](./docs/inference/deepseek-serving.md)
 - [LoRA: 低秩适应](./docs/inference/lora.md)
 - [AIBrix 平台](./docs/inference/aibrix.md)
 - [OME 平台](./docs/inference/ome.md)
@@ -244,9 +245,10 @@ LLM 推理引擎、平台和优化技术，用于大规模高效模型服务。
   - [Serving WG](https://github.com/kubernetes/community/blob/master/wg-serving/README.md)
 
 **详细内容请参见 [推理指南](./docs/inference/README.md)**，
-包含引擎（vLLM, SGLang, Triton, TGI）、平台（Dynamo, AIBrix, OME,
+包含引擎（vLLM, SGLang, Triton, TGI, DeepInfer）、平台（Dynamo, AIBrix, OME,
 Kthena, KServe）、无服务器解决方案（Knative, AWS SageMaker）的全面介绍，以及深入主题：
 [模型架构](./docs/inference/model-architectures.md) |
+[DeepInfer 与 deepseek-recipe](./docs/inference/deepseek-serving.md) |
 [AIBrix](./docs/inference/aibrix.md) |
 [无服务器](./docs/inference/serverless.md) |
 [P/D 分离](./docs/inference/pd-disaggregation.md) |

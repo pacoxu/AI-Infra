@@ -93,6 +93,7 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 
 - [Inference Overview](./docs/inference/README.md)
 - [Model Architectures](./docs/inference/model-architectures.md)
+- [DeepInfer and deepseek-recipe](./docs/inference/deepseek-serving.md)
 - [LoRA: Low-Rank Adaptation](./docs/inference/lora.md)
 - [Grove: Kubernetes Inference Orchestration](./docs/inference/grove.md)
 - [AIBrix Platform](./docs/inference/aibrix.md)
@@ -251,9 +252,10 @@ model serving at scale.
   - [Serving WG](https://github.com/kubernetes/community/blob/master/wg-serving/README.md)
 
 **See [Inference Guide](./docs/inference/README.md)** for comprehensive coverage of
-engines (vLLM, SGLang, Triton, TGI), platforms (Dynamo, AIBrix, OME,
+engines (vLLM, SGLang, Triton, TGI, DeepInfer), platforms (Dynamo, AIBrix, OME,
 Kthena, KServe), serverless solutions (Knative, AWS SageMaker), and deep-dive
 topics: [Model Architectures](./docs/inference/model-architectures.md) |
+[DeepInfer and deepseek-recipe](./docs/inference/deepseek-serving.md) |
 [AIBrix](./docs/inference/aibrix.md) |
 [Serverless](./docs/inference/serverless.md) |
 [P/D Disaggregation](./docs/inference/pd-disaggregation.md) |
