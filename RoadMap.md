@@ -148,6 +148,12 @@ generations.
   infrastructure from NVIDIA
 - **[DeepGEMM](https://github.com/deepseek-ai/DeepGEMM)**: High-performance
   GEMM implementations and exploration from DeepSeek
+- **[FlashMLA](https://github.com/deepseek-ai/FlashMLA)**,
+  **[DeepEP](https://github.com/deepseek-ai/DeepEP)**,
+  **[DeepSelect](https://github.com/deepseek-ai/DeepSelect)**,
+  **[TileKernels](https://github.com/deepseek-ai/TileKernels)**: attention,
+  MoE dispatch, and sparse-attention kernels assembled by
+  [DeepInfer](https://github.com/deepseek-ai/DeepInfer)
 
 #### Quantization & Low-Precision
 
@@ -221,6 +227,12 @@ for distributed training and inference.
 - **vLLM + LWS multi-node inference**: Using LeaderWorkerSet (LWS) controller
   for multi-node, multi-GPU inference deployments on Kubernetes — reference:
   [ForceInjection LWS intro](https://github.com/ForceInjection/AI-fundermentals/blob/main/04_cloud_native_ai_platform/k8s/lws_intro.md)
+- **DeepInfer + deepseek-recipe**: DeepSeek's offline engine for
+  DeepSeek-V4.1-Flash, and the Rust/Python adapter that turns Chat
+  Completions, Responses, and Messages into V4 / V4.1 prompts. The release
+  leaves KV cache, VE/prefill/decode disaggregation, and DP load balancing to
+  the platform. Chapter:
+  [DeepInfer and deepseek-recipe](./docs/inference/deepseek-serving.md)
 
 ### RL & Alignment (Post-Training / RLHF)
 
