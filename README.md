@@ -308,7 +308,7 @@ can perceive, reason, and act.
     - [`OpenKruise Agents`](https://github.com/openkruise/agents): Agent Sandbox
       lifecycle plus an in-cluster data plane (L4/L7 policy, credential
       injection, warm-pool autoscaling, pause/resume). v0.6.0 briefing:
-      [中文](./docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)
+      [中文](./agent-infra/sandbox-control-planes-zh.md)
     - [`ArgoCD Agent`](https://github.com/argoproj-labs/argocd-agent): Agent-based
       GitOps deployments
   - Agent Development Frameworks:
@@ -337,13 +337,13 @@ can perceive, reason, and act.
     - [`Microsoft Execution Containers`](https://github.com/microsoft/mxc):
       GA policy sandbox. One JSON policy maps to process, session, WSL, and
       experimental microVM backends. Briefing:
-      [中文](./docs/blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md)
+      [中文](./agent-infra/sandbox-control-planes-zh.md)
     - [`Strands Box`](https://github.com/strands-agents/box): local macOS
       preview. Seatbelt containment plus Dogwood conditional policy
     - **ACK Agent Sandbox 容器版**: Alibaba Cloud identity, egress policy,
       baseline scan, and runtime guardrails on top of the OpenKruise Agents
       data plane. Briefing:
-      [中文](./docs/blog/2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md)
+      [中文](./agent-infra/sandbox-control-planes-zh.md)
     - **Model Context Protocol (MCP)**: Agent-to-agent communication standard
       (CNCF Tech Radar 2025: Adopt)
     - **Agent2Agent (A2A)**: Direct agent communication patterns
