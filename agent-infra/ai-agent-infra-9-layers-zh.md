@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-08-25
+last_updated: 2026-10-21
 tags: ai-agents, agent-infra, llmops, observability, sandbox, memory, governance
 canonical_path: agent-infra/ai-agent-infra-9-layers-zh.md
 ---
@@ -236,8 +236,11 @@ Agent Framework 和 Workflow Engine 要分清：
 | -- | ------ | ---- |
 | Agent-facing API | SDK、文件、命令、浏览器、模板 | OpenSandbox、E2B、CubeSandbox |
 | Kubernetes 生命周期 | CRD、Warm Pool、SandboxClaim、调度 | kubernetes-sigs/agent-sandbox |
+| Kubernetes 沙箱工作负载与流量策略 | SandboxSet、L4/L7、MCP 工具 ACL、凭证注入、预热池弹性、休眠唤醒 | [openkruise/agents](https://github.com/openkruise/agents) v0.6.0，见 [中文简报](../docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md) |
+| 托管沙箱安全面 | 身份与短时凭据、OAuth 委托、基线巡检、护栏与内核证据 | ACK Agent Sandbox 容器版，见 [安全面简报](../docs/blog/2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md) |
 | 一体化 Kubernetes 沙箱发行版 | 集群、Gateway、Warm Pool、网络策略与 Runtime 集成 | K8E |
 | Runtime Boundary | 隔离强度、密度、启动速度、GPU 支持 | runc、gVisor、Kata、Firecracker |
+| 本地策略沙箱 | 工作负载外的条件策略、凭证注入、OS 隔离 | [MXC](https://github.com/microsoft/mxc)（GA）、[Strands Box](https://github.com/strands-agents/box)（macOS 预览），见 [横评](../docs/blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md) |
 | 本地开发沙箱 | 仓库访问、凭据代理、出网控制、Diff Review | Cleanroom、Brood Box、microsandbox |
 
 安全设计三原则：

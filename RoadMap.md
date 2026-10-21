@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-10
+last_updated: 2026-10-21
 tags: roadmap, planning, future-work, ai-native
 ---
 
@@ -182,7 +182,16 @@ for distributed training and inference.
 ### Runtime Evolution
 
 - **Agent Runtime Environments**: Sandboxing and isolation patterns for AI
-  agents (Agent Sandbox)
+  agents (Agent Sandbox). OpenKruise Agents v0.6.0 adds an in-cluster data
+  plane — L4/L7 policy, credential injection, warm-pool autoscaling, and
+  pause/resume. Briefing:
+  [OpenKruise Agents v0.6.0](./docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md).
+  On 2026-10-07 Microsoft MXC reached GA and AWS Strands Box shipped as a
+  macOS preview; comparison:
+  [MXC 与 Strands Box](./docs/blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md).
+  ACK’s container Agent Sandbox adds identity, baseline scan, and runtime
+  detection on that data plane:
+  [安全面](./docs/blog/2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md)
 - **WASM for AI**: WebAssembly use cases in AI inference and edge deployments
 - **Execution Graph Containerization**: Moving beyond process containerization
   to full inference DAG management

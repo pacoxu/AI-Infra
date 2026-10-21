@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-09
+last_updated: 2026-10-21
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,38 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-10-21: ACK Agent Sandbox 容器版安全面
+
+- [不止于沙箱：ACK Agent Sandbox 容器版的安全面 (Chinese)](./2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md)
+
+Alibaba Cloud’s container Agent Sandbox, read as three layers: identity (`ack-agent-identity` / `CredentialProvider` / OAuth delegation), baseline (enhanced TrafficPolicy + SecurityProfile, JWT ingress, `ack-agent-sec-scanner`), and runtime (cloud guardrails, audit, Tetragon).
+
+- **Lineage**: `ack-sandbox-manager` 0.6.8 installs `agents.kruise.io` TrafficPolicy CRDs beside `network.alibabacloud.com`
+- **Gaps**: scanner static rules do not cover ASI07/08/10; NET_ADMIN and a forged Host still bypass a single layer; eBPF collection is privileged
+- **Pair with**: [OpenKruise Agents v0.6.0](./2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md) and [MXC / Strands Box](./2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md)
+
+## 2026-10-21: MXC 与 Strands Box 沙箱横评
+
+- [智能体沙箱换代：MXC 与 Strands Box 同日发布 (Chinese)](./2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md)
+
+Same-day briefing for the 2026-10-07 launches. MXC is GA with a JSON policy mapped onto OS backends. Strands Box is an Apache-2.0 macOS preview: Seatbelt containment plus default-deny Dogwood rules.
+
+- **Split**: device, syscall, and semantic enforcement; Box widens the trusted base and wants a per-session microVM for cloud multi-tenancy
+- **Matrix**: MXC, Strands Box, E2B, Daytona (production closed 2026-06-11; public repo archived at v0.190.0), Cloudflare Sandbox SDK
+- **Claims**: adopter “coming soon” names stay on Microsoft’s list; cold-start ranges are not a single benchmark
+
+## 2026-10-21: OpenKruise Agents v0.6.0
+
+- [OpenKruise Agents v0.6.0：沙箱终于自带数据面 (Chinese)](./2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)
+
+A Chinese briefing of the 2026-10-07 OpenKruise post. v0.6.0 turns the sandbox
+workload layer into a data plane: in-pod L4 deny, gateway L7 inspection, MCP
+tool ACL, and Secret-backed credential injection.
+
+- **Ops**: `CheckpointRestore` keeps rootfs and cannot change the business image; `stateFilter` upgrades paused sandboxes and pauses them again
+- **Cost**: `PoolAutoscaler` rewrites `SandboxSet.spec.replicas` with watermarks and cron; probe-driven pause, scheduled wake, and wake-on-traffic
+- **Claims**: MiniMax / Kimi / Li Auto scale figures stay labeled as vendor-reported; the gateway chart numbers are not transcribed
 
 ## 2026-09-30: Agent 沙盒十个月：从 agent-sandbox 1.0 到 Dynamic Containers
 
@@ -22,6 +54,8 @@ Follow-up to the 2025-11-28 agent-sandbox article, rewritten around four beats:
 2. **GKE stack**: Agent Substrate + google/ax + gVisor/microVM, with overseas counterparts (NVIDIA OpenShell, Azure Container Apps Sandboxes)
 3. **China scene**: Kata + Agent Sandbox at KubeCon/OpenInfra, plus 火山 VCI / 腾讯 CubeSandbox / 阿里 OpenSandbox
 4. **KEP-5972 Dynamic Containers**: merged, **1.38 alpha** — breaks static main-container assumptions and invites co-evolution with sandbox projects
+
+2026-10-21 addendum in the post: OpenKruise Agents v0.6.0 is the missing data-plane row. Full briefing: [OpenKruise Agents v0.6.0](./2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md).
 
 ## 2026-09-28: LWS v0.11.0 与 KEP-666 Gang Scheduling
 

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-10
+last_updated: 2026-10-21
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -305,8 +305,10 @@ can perceive, reason, and act.
       suspend/resume and real-time routing
     - [`Agent Infra Sandbox`](https://github.com/agent-infra/sandbox): Community
       sandbox infrastructure
-    - [`OpenKruise Agents`](https://github.com/openkruise/agents): Application
-      lifecycle agent operations
+    - [`OpenKruise Agents`](https://github.com/openkruise/agents): Agent Sandbox
+      lifecycle plus an in-cluster data plane (L4/L7 policy, credential
+      injection, warm-pool autoscaling, pause/resume). v0.6.0 briefing:
+      [中文](./docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)
     - [`ArgoCD Agent`](https://github.com/argoproj-labs/argocd-agent): Agent-based
       GitOps deployments
   - Agent Development Frameworks:
@@ -332,6 +334,16 @@ can perceive, reason, and act.
     - [`kube-agentic-networking`](https://github.com/kubernetes-sigs/kube-agentic-networking):
       Agentic networking policies and governance for agents and tools in
       Kubernetes
+    - [`Microsoft Execution Containers`](https://github.com/microsoft/mxc):
+      GA policy sandbox. One JSON policy maps to process, session, WSL, and
+      experimental microVM backends. Briefing:
+      [中文](./docs/blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md)
+    - [`Strands Box`](https://github.com/strands-agents/box): local macOS
+      preview. Seatbelt containment plus Dogwood conditional policy
+    - **ACK Agent Sandbox 容器版**: Alibaba Cloud identity, egress policy,
+      baseline scan, and runtime guardrails on top of the OpenKruise Agents
+      data plane. Briefing:
+      [中文](./docs/blog/2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md)
     - **Model Context Protocol (MCP)**: Agent-to-agent communication standard
       (CNCF Tech Radar 2025: Adopt)
     - **Agent2Agent (A2A)**: Direct agent communication patterns

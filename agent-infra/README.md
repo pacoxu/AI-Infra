@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-08-25
+last_updated: 2026-10-21
 tags: ai-agents, agentic-workflow, kubernetes, mcp, agent-platforms
 canonical_path: agent-infra/README.md
 ---
@@ -325,15 +325,37 @@ on security and isolation.
 
 <a href="https://github.com/openkruise/agents">`openkruise/agents`</a>
 
-OpenKruise extension providing agent capabilities for application lifecycle
-management in Kubernetes.
+OpenKruise subproject for running Agent Sandboxes on Kubernetes. It exposes
+both Kubernetes CRDs (`agents.kruise.io`) and an E2B-compatible API, so
+platform teams and agent authors can operate the same sandbox fleet.
 
-**Key Features:**
+**v0.6.0 (announced 2026-10-07)** turns the workload controller into a
+workload layer with its own data plane. Since v0.3.0 the project merged 283
+pull requests and added 27 contributors. The release delivers the network and
+credential promises from the v0.3.0 roadmap:
 
-- Application-aware agent operations
-- Integration with OpenKruise workload controllers
-- Advanced deployment strategies for agent workloads
-- In-place update support for agents
+- **L3/L4 + L7 access control**: `traffic-proxy` drops denied egress in-pod;
+  the egress gateway and Egress Policy Enforcer inspect HTTP, apply MCP
+  `tools/call` ACLs, and inject credentials from a Kubernetes Secret at the
+  proxy. L7 cannot override an L4 deny. Enforcement covers gateway-routed
+  traffic only.
+- **`SandboxUpdateOps`**: `CheckpointRestore` preserves the rootfs writable
+  layer and cannot change the business image (sidecar and non-image fields
+  only). `stateFilter` includes `Paused` sandboxes, then returns them to
+  pause when `spec.paused` is still true.
+- **`PoolAutoscaler`**: rewrites `SandboxSet.spec.replicas` from an available
+  capacity watermark and cron schedules. It does not collect business metrics.
+- **Automatic pause and resume**: exec probes drive idle pause and scheduled
+  wake; the ingress gateway wakes a paused sandbox on an authorized request.
+
+CRDs grew from 6 to 12, adding `PoolAutoscaler`, `TrafficPolicy`,
+`GlobalTrafficPolicy`, `SecurityProfile`, and `GlobalSecurityProfile` on top
+of the existing sandbox, claim, checkpoint, and update types. Real-node probes
+need OpenKruise (`kruise-daemon`) and the `KruiseIntegration` feature gate.
+
+Chinese briefing:
+[OpenKruise Agents v0.6.0](../docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md).
+Docs: <https://openkruise.io/kruiseagents/>.
 
 ### ArgoCD Agent
 
@@ -371,8 +393,11 @@ community), the current sandbox/runtime ecosystem can be summarized as:
   worker pools on Kubernetes.
 - **Alibaba `OpenSandbox`**: Four sandbox types (`Coding`, `GUI`, `Exec`,
   `RL`) plus a three-tier isolation design for heterogeneous agent workloads.
-- **OpenKruise AIO Sandbox**: Lifecycle management, E2B protocol compatibility,
-  and an all-in-one container design to simplify framework integration.
+- **OpenKruise Agents (v0.6.0)**: `SandboxSet` warm pools plus an in-cluster
+  data plane (`traffic-proxy`, `sandbox-gateway`, EPE). L3/L4 allowlists, L7
+  and MCP tool policy, Secret-backed credential injection, `PoolAutoscaler`,
+  and probe-driven pause/resume. E2B-compatible northbound API. See the
+  [v0.6.0 briefing](../docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md).
 - **ByteDance `DeerFlow 2.0`**: Sub-agent orchestration with independent
   sandbox mode for fine-grained isolation and parallel scheduling.
 - **Tencent Cloud Agent Runtime**: Optimized for production throughput with
@@ -435,11 +460,14 @@ runtimes:
 
 | Layer | Candidate Projects | Primary Role | Selection Notes |
 | ----- | ------------------ | ------------ | --------------- |
-| Agent-facing sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | SDK/API, sandbox lifecycle, command/file/browser execution, templates | Use OpenSandbox as the broad self-hosted default; evaluate CubeSandbox for high-density E2B-compatible microVM pools; check Daytona's AGPLv3 impact before embedding. |
+| Agent-facing sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | SDK/API, sandbox lifecycle, command/file/browser execution, templates | Use OpenSandbox as the broad self-hosted default; evaluate CubeSandbox for high-density E2B-compatible microVM pools. Daytona's production code went closed-source on 2026-06-11; the public repo is archived at v0.190.0 and receives no further fixes. |
 | Kubernetes lifecycle API | [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox), [agent-sandbox/agent-sandbox](https://github.com/agent-sandbox/agent-sandbox), [volcano-sh/agentcube](https://github.com/volcano-sh/agentcube) | CRD/controller, warm pools, stable sandbox identity, scheduling hooks | `kubernetes-sigs/agent-sandbox` is the neutral K8s API layer; `agent-sandbox/agent-sandbox` adds REST/MCP and E2B compatibility; AgentCube is still proposal/early design. |
+| Kubernetes sandbox workload with data plane | [openkruise/agents](https://github.com/openkruise/agents) | `SandboxSet` warm pool, E2B API, in-pod L4 deny, gateway L7 / MCP ACL, credential injection, pool autoscaling, pause/resume | v0.6.0 (2026-10-07) ships `traffic-proxy` and `traffic-control-plane`. Parallel to SIG Agent Sandbox: same job (lifecycle plus isolation policy), different API group (`agents.kruise.io`). `CheckpointRestore` keeps rootfs and cannot change the business image. |
+| Managed ACK sandbox security plane | ACK Agent Sandbox 容器版 (`ack-agent-identity`, `ack-agent-sec-scanner`, `ack-sandbox-manager`) | RRSA/STS and API-key injection, OAuth user delegation, enhanced L4/L7, baseline drift scan, cloud guardrails, Tetragon | Productizes the OpenKruise data plane: `ack-sandbox-manager` 0.6.8 installs `agents.kruise.io` TrafficPolicy CRDs. Static scan does not cover ASI07/08/10. See the [security briefing](../docs/blog/2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md). |
 | Integrated Kubernetes sandbox distribution | [K8E](https://github.com/xiaods/k8e) | Single-binary cluster, sandbox gateway, warm pools, network policy, and runtime integration | Evaluate when a self-contained sandbox appliance is preferable to assembling each layer. Treat its sub-500ms warm-pool claim and other performance figures as project-reported until reproduced in your environment. |
 | Agent runtime substrate | [agent-substrate/substrate](https://github.com/agent-substrate/substrate) | Invocation routing, worker pools, agent actor lifecycle, suspend/resume | Use when agent fleets are mostly idle and dedicated pods would waste resources; pair it with Agent Sandbox or runtime sandboxing for the isolation boundary. |
 | Isolation runtime | [gVisor](https://github.com/google/gvisor), [Kata Containers](https://github.com/kata-containers/kata-containers), [containerd/nerdbox](https://github.com/containerd/nerdbox), [Firecracker](https://github.com/firecracker-microvm/firecracker), [Kuasar](https://github.com/kuasar-io/kuasar) | Runtime boundary for untrusted code | Start with gVisor for density and operational simplicity; use Kata for VM-level tenant boundaries and GPU paths; treat Firecracker as a low-level primitive unless the team owns the control plane. |
+| Local policy sandbox | [microsoft/mxc](https://github.com/microsoft/mxc), [strands-agents/box](https://github.com/strands-agents/box) | JSON or Dogwood policy outside the agent, credential injection, OS containment | MXC is GA (2026-10-07) across Windows, macOS, and Linux backends. Strands Box is an Apache-2.0 macOS / Apple silicon preview: Seatbelt plus default-deny Dogwood, including temporal and cross-tool rules. Cloud multi-tenancy still wants a per-session microVM around Box. See the [2026-10-21 briefing](../docs/blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md). |
 | Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime) | Developer-machine isolation, repo policy, credential proxy, diff review | Prefer Cleanroom/Brood Box when the threat model is coding-agent access to a repo; use microsandbox/BoxLite for embeddable local microVM APIs; use sandbox-runtime for OS policy guardrails without VM isolation. |
 | Watch / avoid for now | [BinSquare/ERA](https://github.com/BinSquare/ERA), [autohandai/sandbox-core](https://github.com/autohandai/sandbox-core), [SmolVM](https://github.com/CelestoAI/SmolVM), [Gondolin](https://github.com/earendil-works/gondolin), [Pyro](https://github.com/danievanzyl/pyro), `opencapsule/opencapsule` | Early-stage or unclear availability | ERA is archived/deprecated; `opencapsule/opencapsule` was not publicly resolvable on GitHub when checked; the remaining projects are useful to track or borrow ideas from but need deeper maturity validation. |
 
@@ -460,13 +488,21 @@ Default stack recommendation:
 
 1. **Agent API**: OpenSandbox as the broad self-hosted API/SDK surface.
 2. **Kubernetes lifecycle**: `kubernetes-sigs/agent-sandbox` for `Sandbox`,
-   `SandboxTemplate`, `SandboxClaim`, and `SandboxWarmPool`.
+   `SandboxTemplate`, `SandboxClaim`, and `SandboxWarmPool`. When the platform
+   also needs gateway-enforced egress, MCP tool ACL, Secret-backed credential
+   injection, and declarative warm-pool sizing, evaluate
+   [OpenKruise Agents](https://github.com/openkruise/agents) (`agents.kruise.io`)
+   as a parallel control plane — see the
+   [v0.6.0 briefing](../docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md).
 3. **Runtime substrate**: `agent-substrate/substrate` when idle-agent density,
    invocation-based wake-up, and suspend/resume matter.
 4. **Default runtime**: gVisor for CPU-only untrusted code with high density.
 5. **High-risk runtime**: Kata or CubeSandbox for stronger microVM boundaries.
 6. **Local development**: Cleanroom or Brood Box for repo-scoped egress,
-   host-side credentials, and post-run change review.
+   host-side credentials, and post-run change review. For conditional
+   action policy, evaluate Strands Box on Apple silicon and MXC when the
+   same declaration must run on Windows, macOS, and Linux. Briefing:
+   [MXC 与 Strands Box](../docs/blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md).
 
 Integrated alternative: evaluate K8E when the operational goal is a dedicated,
 self-hosted sandbox cluster with the gateway, warm pool, Cilium policy, and
@@ -949,6 +985,8 @@ Major AI model providers are making agents central to their platforms:
    - Audit logging
    - See [Agent Sandbox Infrastructure](#agent-sandbox-infrastructure) and
      [Isolation Guide](../docs/kubernetes/isolation.md#6-agent-sandbox)
+   - Network policy and credential injection on Kubernetes:
+     [OpenKruise Agents v0.6.0](../docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)
    - Runtime benchmark: [runc vs gVisor vs Kata vs VM](./runtime-benchmark.md)
 
 ### Infrastructure Patterns
@@ -1018,6 +1056,14 @@ Major AI model providers are making agents central to their platforms:
 - [OpenClaw](https://openclawai.github.io/)
 - [OpenClaw Sandboxing](https://openclawai.github.io/docs/deploying/sandboxing/)
 - [Kubernetes SIG Agent Sandbox](https://github.com/kubernetes-sigs/agent-sandbox)
+- [OpenKruise Agents](https://github.com/openkruise/agents) —
+  [v0.6.0 briefing](../docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md),
+  [docs](https://openkruise.io/kruiseagents/)
+- [Microsoft Execution Containers](https://github.com/microsoft/mxc) and
+  [Strands Box](https://github.com/strands-agents/box) —
+  [2026-10-21 comparison](../docs/blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md)
+- [ACK Agent Sandbox 容器版](https://help.aliyun.com/zh/ack/product-overview/ack-agent-identity) —
+  [安全面简报](../docs/blog/2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md)
 - [Agent Substrate](https://github.com/agent-substrate/substrate)
 - [Agent Infra Sandbox](https://github.com/agent-infra/sandbox)
 - [Kube-Agentic-Networking](https://github.com/kubernetes-sigs/kube-agentic-networking)

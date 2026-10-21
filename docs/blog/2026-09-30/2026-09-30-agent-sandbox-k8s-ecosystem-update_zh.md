@@ -2,7 +2,7 @@
 status: Active
 maintainer: pacoxu
 date: 2026-09-30
-last_updated: 2026-09-30
+last_updated: 2026-10-21
 tags: kubernetes, agent-sandbox, agent-substrate, google-ax, gvisor, kata, openshell, azure, opensandbox, cubesandbox, kep-5972, ai-infrastructure
 canonical_path: docs/blog/2026-09-30/2026-09-30-agent-sandbox-k8s-ecosystem-update_zh.md
 source_urls:
@@ -165,6 +165,14 @@ Fast Sandbox 路径上公开了 Firecracker 预热与 pause/resume 数字。更�
 
 国内版图和海外一样在分层，只是产品包装不同：**有人押社区 CRD，有人押自研 VMM，有人
 押协议可插拔。** 共同压力仍是突发创建、有状态、强隔离、空闲成本。
+
+**补记（2026-10-21）：OpenKruise Agents v0.6.0。** 上面这张表写成时，OpenKruise
+Agents 还没有进入「自带数据面」这一档。2026-10-07 的
+[v0.6.0](https://openkruise.io/blog/2026/10/07/agents-v0.6.0) 在 `SandboxSet`
+预热池和 E2B 北向之外，加上了 Pod 内 L4 拒绝、网关 L7 / MCP 工具 ACL、从 Secret
+注入凭证、`PoolAutoscaler` 和探针驱动的休眠唤醒。它和 SIG `agent-sandbox` 是平行
+的生命周期实现，API 组是 `agents.kruise.io`。展开见
+[OpenKruise Agents v0.6.0：沙箱终于自带数据面](../2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)。
 
 ## 四、回到 Kubernetes：KEP-5972 Dynamic Containers
 

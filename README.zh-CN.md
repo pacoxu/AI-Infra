@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-10
+last_updated: 2026-10-21
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -295,8 +295,10 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
       suspend/resume 与实时流量路由
     - [`Agent Infra Sandbox`](https://github.com/agent-infra/sandbox): 社区
       沙箱基础设施
-    - [`OpenKruise Agents`](https://github.com/openkruise/agents): 应用
-      生命周期智能体操作
+    - [`OpenKruise Agents`](https://github.com/openkruise/agents): Agent Sandbox
+      全生命周期，以及集群内数据面（L4/L7 策略、凭证注入、预热池弹性、休眠唤醒）。
+      v0.6.0 专题：
+      [中文简报](./docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)
     - [`ArgoCD Agent`](https://github.com/argoproj-labs/argocd-agent): 基于智能体
       的 GitOps 部署
   - 智能体开发框架:
@@ -318,6 +320,14 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
   - 智能体基础设施:
     - [`kube-agentic-networking`](https://github.com/kubernetes-sigs/kube-agentic-networking):
       Kubernetes 中智能体和工具的网络策略与治理
+    - [`Microsoft Execution Containers`](https://github.com/microsoft/mxc):
+      已 GA 的策略沙箱。一份 JSON 映射到进程、会话、WSL 和实验性微 VM。
+      专题：[中文简报](./docs/blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md)
+    - [`Strands Box`](https://github.com/strands-agents/box): 本地 macOS 预览。
+      Seatbelt 隔离加上 Dogwood 条件策略
+    - **ACK Agent Sandbox 容器版**: 阿里云上的身份、出口策略、基线巡检和运行时
+      防护，叠在 OpenKruise Agents 数据面上。专题：
+      [中文简报](./docs/blog/2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md)
     - **模型上下文协议 (MCP)**: 智能体间通信标准 (CNCF Tech Radar 2025: Adopt)
     - **Agent2Agent (A2A)**: 直接智能体通信模式
     - **ACP (智能体通信协议)**: 多智能体通信标准
