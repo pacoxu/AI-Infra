@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-10
+last_updated: 2026-10-21
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -295,8 +295,10 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
       suspend/resume 与实时流量路由
     - [`Agent Infra Sandbox`](https://github.com/agent-infra/sandbox): 社区
       沙箱基础设施
-    - [`OpenKruise Agents`](https://github.com/openkruise/agents): 应用
-      生命周期智能体操作
+    - [`OpenKruise Agents`](https://github.com/openkruise/agents): Agent Sandbox
+      全生命周期，以及集群内数据面（L4/L7 策略、凭证注入、预热池弹性、休眠唤醒）。
+      v0.6.0 专题：
+      [中文简报](./docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)
     - [`ArgoCD Agent`](https://github.com/argoproj-labs/argocd-agent): 基于智能体
       的 GitOps 部署
   - 智能体开发框架:

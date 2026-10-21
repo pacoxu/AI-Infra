@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-15
+last_updated: 2026-10-21
 tags: kubernetes, isolation, security, multi-tenancy
 canonical_path: docs/kubernetes/isolation.md
 ---
@@ -502,6 +502,7 @@ designs, the most important decision is where each project sits in the stack:
 | Layer | Projects | Fit for Kubernetes Isolation |
 | ----- | -------- | ---------------------------- |
 | Kubernetes lifecycle API | [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox), [agent-sandbox/agent-sandbox](https://github.com/agent-sandbox/agent-sandbox), [volcano-sh/agentcube](https://github.com/volcano-sh/agentcube) | Use for `Sandbox` CRDs, warm pools, stable identity, and scheduler integration. This layer still needs a runtime boundary underneath. |
+| Kubernetes sandbox workload with data plane | [openkruise/agents](https://github.com/openkruise/agents) | v0.6.0 adds in-pod L4 deny, gateway L7 and MCP tool policy, and Secret-backed credential injection on top of `SandboxSet` warm pools. API group is `agents.kruise.io`. Pair it with gVisor or Kata; gateway policy is not a substitute for the runtime boundary. See the [v0.6.0 briefing](../blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md). |
 | Integrated Kubernetes sandbox distribution | [K8E](https://github.com/xiaods/k8e) | Use when a single-binary, self-hosted cluster that bundles a sandbox gateway, warm pools, Cilium policy, and gVisor/Kata/Firecracker integration is preferable to assembling the layers separately. It spans multiple layers and still relies on the selected runtime as the actual isolation boundary. |
 | Agent runtime substrate | [agent-substrate/substrate](https://github.com/agent-substrate/substrate) | Use when the problem is not only isolation, but running large fleets of mostly idle agents through invocation-based wake-up, suspension/resume, and shared worker pools. |
 | Agent sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | Use for SDK/API, templates, command/file/browser execution, and self-hosted service operations. Validate licensing and deployment model before embedding. |
@@ -519,7 +520,9 @@ Recommended Kubernetes shape:
    Kata for high-risk or GPU-capable tenants, and dedicated VM/microVM pools
    for compliance-heavy workloads.
 4. Keep sandboxes zero-secret and short-lived; route LLM, storage, and
-   external API credentials through a control-plane proxy.
+   external API credentials through a control-plane proxy. OpenKruise Agents
+   v0.6.0 implements that proxy path with `tokenTransformation` on the egress
+   gateway, resolving a Kubernetes Secret per request.
 
 The July 2026 CNCF article
 <a href="https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough/">
@@ -695,10 +698,33 @@ capabilities.
 - **Cost Optimization**: Faster startup means more efficient resource
   utilization
 
+### OpenKruise Agents
+
+<a href="https://github.com/openkruise/agents">OpenKruise Agents</a> v0.6.0
+(announced 2026-10-07) is a Kubernetes workload controller for Agent Sandboxes
+that also ships its data plane. `traffic-proxy` enforces L4 egress inside the
+Pod; `sandbox-gateway` plus the Egress Policy Enforcer inspect HTTP, apply MCP
+`tools/call` allowlists, and inject credentials from a Secret as the request
+leaves the cluster. `PoolAutoscaler` sizes the warm pool.
+`SandboxUpdateOps` can checkpoint the rootfs (`CheckpointRestore` does not
+change the business image) and can upgrade paused sandboxes without leaving
+them running. Idle pause, scheduled wake, and wake-on-traffic are configured
+on `SandboxSet`.
+
+Gateway policy covers gateway-routed traffic. Containers running as root or
+with `NET_ADMIN` / `SYS_ADMIN` can bypass the in-pod ACL, so keep a
+NetworkPolicy, host firewall, or cloud security group beside it. Full notes:
+[OpenKruise Agents v0.6.0](../blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md).
+
 ### Projects and Resources
 
 - <a href="https://github.com/kubernetes-sigs/agent-sandbox">Kubernetes SIG
   Agent Sandbox</a>
+- <a href="https://github.com/openkruise/agents">OpenKruise Agents</a>:
+  Sandbox lifecycle, L4/L7 policy, credential injection, warm-pool autoscaling,
+  and pause/resume.
+  <a href="../blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md">v0.6.0
+  briefing</a>
 - <a href="https://github.com/agent-substrate/substrate">Agent Substrate</a>:
   Core runtime system for secure, efficient, on-demand agent execution on
   Kubernetes

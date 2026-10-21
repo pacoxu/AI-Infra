@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-08-25
+last_updated: 2026-10-21
 tags: ai-agents, agent-infra, llmops, observability, sandbox, memory, governance
 canonical_path: agent-infra/ai-agent-infra-9-layers-zh.md
 ---
@@ -236,6 +236,7 @@ Agent Framework 和 Workflow Engine 要分清：
 | -- | ------ | ---- |
 | Agent-facing API | SDK、文件、命令、浏览器、模板 | OpenSandbox、E2B、CubeSandbox |
 | Kubernetes 生命周期 | CRD、Warm Pool、SandboxClaim、调度 | kubernetes-sigs/agent-sandbox |
+| Kubernetes 沙箱工作负载与流量策略 | SandboxSet、L4/L7、MCP 工具 ACL、凭证注入、预热池弹性、休眠唤醒 | [openkruise/agents](https://github.com/openkruise/agents) v0.6.0，见 [中文简报](../docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md) |
 | 一体化 Kubernetes 沙箱发行版 | 集群、Gateway、Warm Pool、网络策略与 Runtime 集成 | K8E |
 | Runtime Boundary | 隔离强度、密度、启动速度、GPU 支持 | runc、gVisor、Kata、Firecracker |
 | 本地开发沙箱 | 仓库访问、凭据代理、出网控制、Diff Review | Cleanroom、Brood Box、microsandbox |

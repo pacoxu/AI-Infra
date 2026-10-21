@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-09
+last_updated: 2026-10-21
 tags: blog, kubernetes, ai-infrastructure
 ---
 
@@ -11,6 +11,18 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
+
+## 2026-10-21: OpenKruise Agents v0.6.0
+
+- [OpenKruise Agents v0.6.0：沙箱终于自带数据面 (Chinese)](./2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)
+
+A Chinese briefing of the 2026-10-07 OpenKruise post. v0.6.0 turns the sandbox
+workload layer into a data plane: in-pod L4 deny, gateway L7 inspection, MCP
+tool ACL, and Secret-backed credential injection.
+
+- **Ops**: `CheckpointRestore` keeps rootfs and cannot change the business image; `stateFilter` upgrades paused sandboxes and pauses them again
+- **Cost**: `PoolAutoscaler` rewrites `SandboxSet.spec.replicas` with watermarks and cron; probe-driven pause, scheduled wake, and wake-on-traffic
+- **Claims**: MiniMax / Kimi / Li Auto scale figures stay labeled as vendor-reported; the gateway chart numbers are not transcribed
 
 ## 2026-09-30: Agent 沙盒十个月：从 agent-sandbox 1.0 到 Dynamic Containers
 
@@ -22,6 +34,8 @@ Follow-up to the 2025-11-28 agent-sandbox article, rewritten around four beats:
 2. **GKE stack**: Agent Substrate + google/ax + gVisor/microVM, with overseas counterparts (NVIDIA OpenShell, Azure Container Apps Sandboxes)
 3. **China scene**: Kata + Agent Sandbox at KubeCon/OpenInfra, plus 火山 VCI / 腾讯 CubeSandbox / 阿里 OpenSandbox
 4. **KEP-5972 Dynamic Containers**: merged, **1.38 alpha** — breaks static main-container assumptions and invites co-evolution with sandbox projects
+
+2026-10-21 addendum in the post: OpenKruise Agents v0.6.0 is the missing data-plane row. Full briefing: [OpenKruise Agents v0.6.0](./2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md).
 
 ## 2026-09-28: LWS v0.11.0 与 KEP-666 Gang Scheduling
 

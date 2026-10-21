@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-10
+last_updated: 2026-10-21
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -305,8 +305,10 @@ can perceive, reason, and act.
       suspend/resume and real-time routing
     - [`Agent Infra Sandbox`](https://github.com/agent-infra/sandbox): Community
       sandbox infrastructure
-    - [`OpenKruise Agents`](https://github.com/openkruise/agents): Application
-      lifecycle agent operations
+    - [`OpenKruise Agents`](https://github.com/openkruise/agents): Agent Sandbox
+      lifecycle plus an in-cluster data plane (L4/L7 policy, credential
+      injection, warm-pool autoscaling, pause/resume). v0.6.0 briefing:
+      [中文](./docs/blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)
     - [`ArgoCD Agent`](https://github.com/argoproj-labs/argocd-agent): Agent-based
       GitOps deployments
   - Agent Development Frameworks:
