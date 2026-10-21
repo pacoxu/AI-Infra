@@ -350,6 +350,12 @@ Sandbox，对象形态一样。自动休眠唤醒把差异做成探针条件，�
 
 ---
 
+同一天，微软 MXC GA、AWS Strands Box 进入 macOS 预览。那两份公告比较的是本机
+策略沙箱，和这里的 Kubernetes 数据面不是同一层。对照见
+[MXC 与 Strands Box](./2026-10-21-mxc-strands-box-sandbox-review_zh.md)。
+阿里云 ACK 容器版把这套数据面产品化，并加上身份、巡检和运行时检测，见
+[ACK Agent Sandbox 安全面](./2026-10-21-ack-agent-sandbox-security-zh.md)。
+
 *整理自 OpenKruise 官方博文、用户手册与中文发布稿。客户规模与网关性能为项目口径，
 未在本仓库复现。API 细节以 [v0.6.0 博文](https://openkruise.io/blog/2026/10/07/agents-v0.6.0)
 和 [文档站](https://openkruise.io/kruiseagents/) 为准。*

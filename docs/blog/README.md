@@ -12,6 +12,26 @@ Older posts have been archived to [docs/archive-blog](../archive-blog/README.md)
 This directory contains blog posts and articles about AI infrastructure,
 Kubernetes scheduling, and related topics.
 
+## 2026-10-21: ACK Agent Sandbox 容器版安全面
+
+- [不止于沙箱：ACK Agent Sandbox 容器版的安全面 (Chinese)](./2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md)
+
+Alibaba Cloud’s container Agent Sandbox, read as three layers: identity (`ack-agent-identity` / `CredentialProvider` / OAuth delegation), baseline (enhanced TrafficPolicy + SecurityProfile, JWT ingress, `ack-agent-sec-scanner`), and runtime (cloud guardrails, audit, Tetragon).
+
+- **Lineage**: `ack-sandbox-manager` 0.6.8 installs `agents.kruise.io` TrafficPolicy CRDs beside `network.alibabacloud.com`
+- **Gaps**: scanner static rules do not cover ASI07/08/10; NET_ADMIN and a forged Host still bypass a single layer; eBPF collection is privileged
+- **Pair with**: [OpenKruise Agents v0.6.0](./2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md) and [MXC / Strands Box](./2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md)
+
+## 2026-10-21: MXC 与 Strands Box 沙箱横评
+
+- [智能体沙箱换代：MXC 与 Strands Box 同日发布 (Chinese)](./2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md)
+
+Same-day briefing for the 2026-10-07 launches. MXC is GA with a JSON policy mapped onto OS backends. Strands Box is an Apache-2.0 macOS preview: Seatbelt containment plus default-deny Dogwood rules.
+
+- **Split**: device, syscall, and semantic enforcement; Box widens the trusted base and wants a per-session microVM for cloud multi-tenancy
+- **Matrix**: MXC, Strands Box, E2B, Daytona (production closed 2026-06-11; public repo archived at v0.190.0), Cloudflare Sandbox SDK
+- **Claims**: adopter “coming soon” names stay on Microsoft’s list; cold-start ranges are not a single benchmark
+
 ## 2026-10-21: OpenKruise Agents v0.6.0
 
 - [OpenKruise Agents v0.6.0：沙箱终于自带数据面 (Chinese)](./2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)
