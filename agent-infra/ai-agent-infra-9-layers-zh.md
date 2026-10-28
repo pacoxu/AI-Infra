@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-21
+last_updated: 2026-10-28
 tags: ai-agents, agent-infra, llmops, observability, sandbox, memory, governance
 canonical_path: agent-infra/ai-agent-infra-9-layers-zh.md
 ---
@@ -241,7 +241,7 @@ Agent Framework 和 Workflow Engine 要分清：
 | 一体化 Kubernetes 沙箱发行版 | 集群、Gateway、Warm Pool、网络策略与 Runtime 集成 | K8E |
 | Runtime Boundary | 隔离强度、密度、启动速度、GPU 支持 | runc、gVisor、Kata、Firecracker |
 | 本地策略沙箱 | 工作负载外的条件策略、凭证注入、OS 隔离 | [MXC](https://github.com/microsoft/mxc)（GA）、[Strands Box](https://github.com/strands-agents/box)（macOS 预览），见 [横评](./sandbox-control-planes-zh.md) |
-| 本地开发沙箱 | 仓库访问、凭据代理、出网控制、Diff Review | Cleanroom、Brood Box、microsandbox |
+| 本地开发沙箱 | 仓库访问、凭据代理、出网控制、Diff Review | Cleanroom、Brood Box、microsandbox、[sandbox-runtime](https://github.com/anthropics/sandbox-runtime) |
 
 安全设计三原则：
 

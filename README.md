@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-21
+last_updated: 2026-10-28
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -340,6 +340,10 @@ can perceive, reason, and act.
       [中文](./agent-infra/sandbox-control-planes-zh.md)
     - [`Strands Box`](https://github.com/strands-agents/box): local macOS
       preview. Seatbelt containment plus Dogwood conditional policy
+    - [`Anthropic Sandbox Runtime`](https://github.com/anthropics/sandbox-runtime):
+      OS-level filesystem and network restrictions for arbitrary processes
+      (`srt`: Seatbelt, bubblewrap, or Windows Filtering Platform), without a
+      container or VM
     - **ACK Agent Sandbox 容器版**: Alibaba Cloud identity, egress policy,
       baseline scan, and runtime guardrails on top of the OpenKruise Agents
       data plane. Briefing:

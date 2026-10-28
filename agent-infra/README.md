@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-21
+last_updated: 2026-10-28
 tags: ai-agents, agentic-workflow, kubernetes, mcp, agent-platforms
 canonical_path: agent-infra/README.md
 ---
@@ -469,7 +469,7 @@ runtimes:
 | Agent runtime substrate | [agent-substrate/substrate](https://github.com/agent-substrate/substrate) | Invocation routing, worker pools, agent actor lifecycle, suspend/resume | Use when agent fleets are mostly idle and dedicated pods would waste resources; pair it with Agent Sandbox or runtime sandboxing for the isolation boundary. |
 | Isolation runtime | [gVisor](https://github.com/google/gvisor), [Kata Containers](https://github.com/kata-containers/kata-containers), [containerd/nerdbox](https://github.com/containerd/nerdbox), [Firecracker](https://github.com/firecracker-microvm/firecracker), [Kuasar](https://github.com/kuasar-io/kuasar) | Runtime boundary for untrusted code | Start with gVisor for density and operational simplicity; use Kata for VM-level tenant boundaries and GPU paths; treat Firecracker as a low-level primitive unless the team owns the control plane. |
 | Local policy sandbox | [microsoft/mxc](https://github.com/microsoft/mxc), [strands-agents/box](https://github.com/strands-agents/box) | JSON or Dogwood policy outside the agent, credential injection, OS containment | MXC is GA (2026-10-07) across Windows, macOS, and Linux backends. Strands Box is an Apache-2.0 macOS / Apple silicon preview: Seatbelt plus default-deny Dogwood, including temporal and cross-tool rules. Cloud multi-tenancy still wants a per-session microVM around Box. See the [2026-10-21 briefing](./sandbox-control-planes-zh.md). |
-| Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime) | Developer-machine isolation, repo policy, credential proxy, diff review | Prefer Cleanroom/Brood Box when the threat model is coding-agent access to a repo; use microsandbox/BoxLite for embeddable local microVM APIs; use sandbox-runtime for OS policy guardrails without VM isolation. |
+| Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropics/sandbox-runtime) | Developer-machine isolation, repo policy, credential proxy, diff review | Prefer Cleanroom/Brood Box when the threat model is coding-agent access to a repo; use microsandbox/BoxLite for embeddable local microVM APIs; use sandbox-runtime for OS policy guardrails without VM isolation. |
 | Watch / avoid for now | [BinSquare/ERA](https://github.com/BinSquare/ERA), [autohandai/sandbox-core](https://github.com/autohandai/sandbox-core), [SmolVM](https://github.com/CelestoAI/SmolVM), [Gondolin](https://github.com/earendil-works/gondolin), [Pyro](https://github.com/danievanzyl/pyro), `opencapsule/opencapsule` | Early-stage or unclear availability | ERA is archived/deprecated; `opencapsule/opencapsule` was not publicly resolvable on GitHub when checked; the remaining projects are useful to track or borrow ideas from but need deeper maturity validation. |
 
 `agent-substrate/substrate` is closest to a **durable agent-session runtime**
@@ -799,6 +799,8 @@ boundary choices**.
 - <a href="https://github.com/buildkite/cleanroom">Cleanroom</a>
 - <a href="https://github.com/stacklok/brood-box">Brood Box</a>
 - <a href="https://github.com/superradcompany/microsandbox">microsandbox</a>
+- <a href="https://github.com/anthropics/sandbox-runtime">Anthropic Sandbox Runtime</a>
+  (`srt`): OS policy guardrails without a container or VM
 - <a href="https://github.com/Katakate/k7">k7 (Kata sandbox)</a>
 - <a href="https://unikraft.org/">Unikraft</a>
 - <a href="../docs/kubernetes/isolation.md#6-agent-sandbox">Detailed implementation

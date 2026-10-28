@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-21
+last_updated: 2026-10-28
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -325,6 +325,9 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
       专题：[中文简报](./agent-infra/sandbox-control-planes-zh.md)
     - [`Strands Box`](https://github.com/strands-agents/box): 本地 macOS 预览。
       Seatbelt 隔离加上 Dogwood 条件策略
+    - [`Anthropic Sandbox Runtime`](https://github.com/anthropics/sandbox-runtime):
+      不依赖容器或虚拟机的操作系统级文件与网络限制（`srt`：macOS Seatbelt、
+      Linux bubblewrap、Windows Filtering Platform）
     - **ACK Agent Sandbox 容器版**: 阿里云上的身份、出口策略、基线巡检和运行时
       防护，叠在 OpenKruise Agents 数据面上。专题：
       [中文简报](./agent-infra/sandbox-control-planes-zh.md)

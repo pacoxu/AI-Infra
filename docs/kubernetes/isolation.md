@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-21
+last_updated: 2026-10-28
 tags: kubernetes, isolation, security, multi-tenancy
 canonical_path: docs/kubernetes/isolation.md
 ---
@@ -509,7 +509,7 @@ designs, the most important decision is where each project sits in the stack:
 | Agent sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | Use for SDK/API, templates, command/file/browser execution, and self-hosted service operations. Validate licensing and deployment model before embedding. |
 | Runtime boundary | [gVisor](https://github.com/google/gvisor), [Kata Containers](https://github.com/kata-containers/kata-containers), [containerd/nerdbox](https://github.com/containerd/nerdbox), [Firecracker](https://github.com/firecracker-microvm/firecracker), [Kuasar](https://github.com/kuasar-io/kuasar) | Use as the actual isolation boundary: gVisor for density, Kata for VM-level isolation, Firecracker for custom microVM control planes, Kuasar for multi-sandbox containerd integration. |
 | Local policy sandbox | [microsoft/mxc](https://github.com/microsoft/mxc), [strands-agents/box](https://github.com/strands-agents/box) | MXC (GA 2026-10-07) maps one JSON policy onto OS backends. Strands Box (macOS preview) adds default-deny Dogwood rules at the shell, Python, MCP, and egress gateway. Neither replaces a RuntimeClass boundary for cluster multi-tenancy. See the [comparison](../../agent-infra/sandbox-control-planes-zh.md). |
-| Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime) | Evaluate separately for developer workstations, where repo-scoped egress, host-side credentials, and post-run diff review matter more than K8s CRDs. |
+| Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropics/sandbox-runtime) | Evaluate separately for developer workstations, where repo-scoped egress, host-side credentials, and post-run diff review matter more than K8s CRDs. |
 
 Recommended Kubernetes shape:
 
@@ -755,6 +755,10 @@ NetworkPolicy, host firewall, or cloud security group beside it. Full notes:
   <a href="https://github.com/stacklok/brood-box">Brood Box</a>: Local
   coding-agent microVM sandboxes focused on repo policy, egress, credentials,
   and change review
+- <a href="https://github.com/anthropics/sandbox-runtime">Anthropic Sandbox
+  Runtime</a> (`srt`): OS-level filesystem and network restrictions for
+  arbitrary processes, using Seatbelt, bubblewrap, or Windows Filtering
+  Platform, without a container or VM
 - <a href="https://unikraft.org/">Unikraft</a>: Unikernel framework with
   multi-process support (v0.19+)
 - <a href="https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough/">
