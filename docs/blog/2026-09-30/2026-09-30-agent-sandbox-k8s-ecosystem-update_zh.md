@@ -172,7 +172,7 @@ Agents 还没有进入「自带数据面」这一档。2026-10-07 的
 预热池和 E2B 北向之外，加上了 Pod 内 L4 拒绝、网关 L7 / MCP 工具 ACL、从 Secret
 注入凭证、`PoolAutoscaler` 和探针驱动的休眠唤醒。它和 SIG `agent-sandbox` 是平行
 的生命周期实现，API 组是 `agents.kruise.io`。展开见
-[OpenKruise Agents v0.6.0：沙箱终于自带数据面](../2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md)。
+[Agent 沙箱控制面](../../../agent-infra/sandbox-control-planes-zh.md)。
 
 ## 四、回到 Kubernetes：KEP-5972 Dynamic Containers
 

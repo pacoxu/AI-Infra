@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-21
+last_updated: 2026-10-28
 tags: kubernetes, isolation, security, multi-tenancy
 canonical_path: docs/kubernetes/isolation.md
 ---
@@ -502,14 +502,14 @@ designs, the most important decision is where each project sits in the stack:
 | Layer | Projects | Fit for Kubernetes Isolation |
 | ----- | -------- | ---------------------------- |
 | Kubernetes lifecycle API | [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox), [agent-sandbox/agent-sandbox](https://github.com/agent-sandbox/agent-sandbox), [volcano-sh/agentcube](https://github.com/volcano-sh/agentcube) | Use for `Sandbox` CRDs, warm pools, stable identity, and scheduler integration. This layer still needs a runtime boundary underneath. |
-| Kubernetes sandbox workload with data plane | [openkruise/agents](https://github.com/openkruise/agents) | v0.6.0 adds in-pod L4 deny, gateway L7 and MCP tool policy, and Secret-backed credential injection on top of `SandboxSet` warm pools. API group is `agents.kruise.io`. Pair it with gVisor or Kata; gateway policy is not a substitute for the runtime boundary. See the [v0.6.0 briefing](../blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md). |
-| Managed sandbox security plane | ACK Agent Sandbox 容器版 | Adds `ack-agent-identity` (RRSA/STS, API keys, OAuth delegation), `ack-agent-sec-scanner`, cloud guardrails, and a privileged Tetragon sidecar on the same traffic CRDs. See the [security briefing](../blog/2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md). |
+| Kubernetes sandbox workload with data plane | [openkruise/agents](https://github.com/openkruise/agents) | v0.6.0 adds in-pod L4 deny, gateway L7 and MCP tool policy, and Secret-backed credential injection on top of `SandboxSet` warm pools. API group is `agents.kruise.io`. Pair it with gVisor or Kata; gateway policy is not a substitute for the runtime boundary. See the [v0.6.0 briefing](../../agent-infra/sandbox-control-planes-zh.md). |
+| Managed sandbox security plane | ACK Agent Sandbox 容器版 | Adds `ack-agent-identity` (RRSA/STS, API keys, OAuth delegation), `ack-agent-sec-scanner`, cloud guardrails, and a privileged Tetragon sidecar on the same traffic CRDs. See the [security briefing](../../agent-infra/sandbox-control-planes-zh.md). |
 | Integrated Kubernetes sandbox distribution | [K8E](https://github.com/xiaods/k8e) | Use when a single-binary, self-hosted cluster that bundles a sandbox gateway, warm pools, Cilium policy, and gVisor/Kata/Firecracker integration is preferable to assembling the layers separately. It spans multiple layers and still relies on the selected runtime as the actual isolation boundary. |
 | Agent runtime substrate | [agent-substrate/substrate](https://github.com/agent-substrate/substrate) | Use when the problem is not only isolation, but running large fleets of mostly idle agents through invocation-based wake-up, suspension/resume, and shared worker pools. |
 | Agent sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | Use for SDK/API, templates, command/file/browser execution, and self-hosted service operations. Validate licensing and deployment model before embedding. |
 | Runtime boundary | [gVisor](https://github.com/google/gvisor), [Kata Containers](https://github.com/kata-containers/kata-containers), [containerd/nerdbox](https://github.com/containerd/nerdbox), [Firecracker](https://github.com/firecracker-microvm/firecracker), [Kuasar](https://github.com/kuasar-io/kuasar) | Use as the actual isolation boundary: gVisor for density, Kata for VM-level isolation, Firecracker for custom microVM control planes, Kuasar for multi-sandbox containerd integration. |
-| Local policy sandbox | [microsoft/mxc](https://github.com/microsoft/mxc), [strands-agents/box](https://github.com/strands-agents/box) | MXC (GA 2026-10-07) maps one JSON policy onto OS backends. Strands Box (macOS preview) adds default-deny Dogwood rules at the shell, Python, MCP, and egress gateway. Neither replaces a RuntimeClass boundary for cluster multi-tenancy. See the [comparison](../blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md). |
-| Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropic-experimental/sandbox-runtime) | Evaluate separately for developer workstations, where repo-scoped egress, host-side credentials, and post-run diff review matter more than K8s CRDs. |
+| Local policy sandbox | [microsoft/mxc](https://github.com/microsoft/mxc), [strands-agents/box](https://github.com/strands-agents/box) | MXC (GA 2026-10-07) maps one JSON policy onto OS backends. Strands Box (macOS preview) adds default-deny Dogwood rules at the shell, Python, MCP, and egress gateway. Neither replaces a RuntimeClass boundary for cluster multi-tenancy. See the [comparison](../../agent-infra/sandbox-control-planes-zh.md). |
+| Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropics/sandbox-runtime) | Evaluate separately for developer workstations, where repo-scoped egress, host-side credentials, and post-run diff review matter more than K8s CRDs. |
 
 Recommended Kubernetes shape:
 
@@ -716,7 +716,7 @@ on `SandboxSet`.
 Gateway policy covers gateway-routed traffic. Containers running as root or
 with `NET_ADMIN` / `SYS_ADMIN` can bypass the in-pod ACL, so keep a
 NetworkPolicy, host firewall, or cloud security group beside it. Full notes:
-[OpenKruise Agents v0.6.0](../blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md).
+[OpenKruise Agents v0.6.0](../../agent-infra/sandbox-control-planes-zh.md).
 
 ### Projects and Resources
 
@@ -725,14 +725,14 @@ NetworkPolicy, host firewall, or cloud security group beside it. Full notes:
 - <a href="https://github.com/openkruise/agents">OpenKruise Agents</a>:
   Sandbox lifecycle, L4/L7 policy, credential injection, warm-pool autoscaling,
   and pause/resume.
-  <a href="../blog/2026-10-21/2026-10-21-openkruise-agents-v0.6.0_zh.md">v0.6.0
+  <a href="../../agent-infra/sandbox-control-planes-zh.md">v0.6.0
   briefing</a>
 - <a href="https://github.com/microsoft/mxc">Microsoft Execution Containers</a>
   and <a href="https://github.com/strands-agents/box">Strands Box</a>:
   local policy sandboxes announced 2026-10-07.
-  <a href="../blog/2026-10-21/2026-10-21-mxc-strands-box-sandbox-review_zh.md">Comparison</a>
+  <a href="../../agent-infra/sandbox-control-planes-zh.md">Comparison</a>
 - ACK Agent Sandbox 容器版:
-  <a href="../blog/2026-10-21/2026-10-21-ack-agent-sandbox-security-zh.md">identity,
+  <a href="../../agent-infra/sandbox-control-planes-zh.md">identity,
   baseline, and runtime briefing</a>
 - <a href="https://github.com/agent-substrate/substrate">Agent Substrate</a>:
   Core runtime system for secure, efficient, on-demand agent execution on
@@ -755,6 +755,10 @@ NetworkPolicy, host firewall, or cloud security group beside it. Full notes:
   <a href="https://github.com/stacklok/brood-box">Brood Box</a>: Local
   coding-agent microVM sandboxes focused on repo policy, egress, credentials,
   and change review
+- <a href="https://github.com/anthropics/sandbox-runtime">Anthropic Sandbox
+  Runtime</a> (`srt`): OS-level filesystem and network restrictions for
+  arbitrary processes, using Seatbelt, bubblewrap, or Windows Filtering
+  Platform, without a container or VM
 - <a href="https://unikraft.org/">Unikraft</a>: Unikernel framework with
   multi-process support (v0.19+)
 - <a href="https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough/">
