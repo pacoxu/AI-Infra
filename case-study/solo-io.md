@@ -1,10 +1,14 @@
-# Solo.io 云原生开源案例（初稿）
+# Solo.io 云原生开源案例（全景版）
+
+## 一句话结论
+
+Solo.io 从 Istio maintainer 级参与出发，把 `Gloo → kgateway` 做成云原生 API / AI Gateway，再延伸到 `kagent` 与 Agent Registry / Gateway / agentevals 的 Agent 运行栈。
 
 ## 关键观察
 
-- Solo.io 在 `Istio` 社区中长期深度参与，并有 maintainer 级别贡献者。
-- `Gloo` 体系已演进为 `kgateway`，是其 API Gateway / AI Gateway 方向的核心项目。
-- 在 Agent 方向，围绕 `kagent` 延伸出 `Agent Registry`、`Agent Gateway`、`agentevals` 等能力。
+- `Istio`：长期 maintainer 级贡献
+- `kgateway`（原 Gloo）：API / AI Gateway 主线
+- `kagent` 生态：Agent Registry、Agent Gateway、agentevals
 
 ## 可编辑开源全景图（Mermaid）
 

@@ -1,0 +1,338 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2400" height="1605" viewBox="0 0 2400 1605" role="img" aria-labelledby="title desc">
+<title id="title">道客开源项目全景图</title><desc id="desc">38个项目，按8个技术领域分行，蓝色自主开源18项、绿色重度参与18项、紫色联合开源2项。HAMi与Piraeus为联合发起。Merbridge已归档（曾 CNCF Sandbox，保留展示）。包含子项目和道客员工发起项目。</desc>
+<style>text{font-family:"Arial","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif}a{cursor:pointer}</style>
+<rect x="0" y="0" width="2400" height="1605" rx="0" fill="#FFFFFF" />
+<rect x="56" y="41" width="7" height="41" rx="2" fill="#E43236" />
+<text x="80" y="76" font-size="48" font-weight="700" fill="#18212F" text-anchor="start" >道客开源项目全景图</text>
+<text x="2344" y="73" font-size="27" font-weight="700" fill="#E43236" text-anchor="end" >DaoCloud 道客</text>
+<text x="80" y="113" font-size="21" font-weight="400" fill="#5A6575" text-anchor="start" >THE PORTFOLIO  ·  从云原生基础设施到 AI 算力与推理</text>
+<text x="2344" y="111" font-size="18" font-weight="400" fill="#657083" text-anchor="end" >资料核对日期  2026.11.03</text>
+<text x="80" y="194" font-size="57" font-weight="700" fill="#18212F" text-anchor="start" >38</text>
+<text x="184" y="181" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >本图收录项目</text>
+<text x="184" y="216" font-size="18" font-weight="400" fill="#657083" text-anchor="start" >含子项目及 1 个归档项目</text>
+<line x1="621" y1="147" x2="621" y2="247" stroke="#DCE1E8" stroke-width="1"/>
+<text x="655" y="194" font-size="57" font-weight="700" fill="#18212F" text-anchor="start" >18</text>
+<text x="759" y="181" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >道客自主开源</text>
+<text x="759" y="216" font-size="18" font-weight="400" fill="#657083" text-anchor="start" >含道客或道客员工发起项目</text>
+<line x1="1196" y1="147" x2="1196" y2="247" stroke="#DCE1E8" stroke-width="1"/>
+<text x="1230" y="194" font-size="57" font-weight="700" fill="#18212F" text-anchor="start" >18</text>
+<text x="1334" y="181" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >道客重度参与</text>
+<text x="1334" y="216" font-size="18" font-weight="400" fill="#657083" text-anchor="start" >维护、Approver 或深度贡献</text>
+<line x1="1771" y1="147" x2="1771" y2="247" stroke="#DCE1E8" stroke-width="1"/>
+<text x="1805" y="194" font-size="57" font-weight="700" fill="#18212F" text-anchor="start" >2</text>
+<text x="1909" y="181" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >道客联合开源</text>
+<text x="1909" y="216" font-size="18" font-weight="400" fill="#657083" text-anchor="start" >HAMi · Piraeus</text>
+<text x="80" y="292" font-size="20" font-weight="600" fill="#202A38" text-anchor="start" >颜色与角标 = 道客参与方式</text>
+<rect x="470" y="271" width="29" height="29" rx="7" fill="#3268CD" />
+<text x="484.5" y="292" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="513" y="293" font-size="20" font-weight="500" fill="#202A38" text-anchor="start" >自主开源</text>
+<rect x="870" y="271" width="29" height="29" rx="7" fill="#218365" />
+<text x="884.5" y="292" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="913" y="293" font-size="20" font-weight="500" fill="#202A38" text-anchor="start" >重度参与</text>
+<rect x="1270" y="271" width="29" height="29" rx="7" fill="#8051C8" />
+<text x="1284.5" y="292" font-size="17" font-weight="600" fill="#FFFFFF" text-anchor="middle" >联</text>
+<text x="1313" y="293" font-size="20" font-weight="500" fill="#202A38" text-anchor="start" >联合开源</text>
+<text x="2344" y="292" font-size="18" font-weight="400" fill="#657083" text-anchor="end" >+ 飞书补充    ·    虚线 已归档</text>
+<rect x="40" y="330" width="2320" height="126" rx="14" fill="#F5F7FA" stroke="#DFE4EB" stroke-width="1" />
+<text x="64" y="381" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >AI 模型与推理</text>
+<text x="64" y="410" font-size="15" font-weight="400" fill="#687487" text-anchor="start" >Models &amp; inference</text>
+<a xlink:href="https://github.com/matrixhub-ai/matrixhub" target="_blank"><title>MatrixHub｜道客自主开源｜AI 模型仓库</title>
+<rect x="340" y="343" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="350" y="353" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="362.5" y="371" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="507" y="387" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >MatrixHub</text>
+<text x="500" y="420" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >AI 模型仓库</text>
+</a>
+<a xlink:href="https://github.com/vllm-project/vllm" target="_blank"><title>vLLM｜道客重度参与｜大模型推理引擎</title>
+<rect x="674" y="343" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="684" y="353" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="696.5" y="371" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="841" y="387" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >vLLM</text>
+<text x="834" y="420" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >大模型推理引擎</text>
+</a>
+<a xlink:href="https://github.com/llm-d/llm-d" target="_blank"><title>llm-d｜道客重度参与｜分布式推理服务</title>
+<rect x="1008" y="343" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1018" y="353" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1030.5" y="371" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1175" y="387" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >llm-d</text>
+<text x="1168" y="420" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >分布式推理服务</text>
+</a>
+<a xlink:href="https://github.com/vllm-project/semantic-router" target="_blank"><title>vLLM Semantic Router｜道客重度参与｜模型语义路由</title>
+<rect x="1342" y="343" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1352" y="353" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1364.5" y="371" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1509" y="376" font-size="22.5" font-weight="500" fill="#202A38" text-anchor="middle" >vLLM Semantic</text>
+<text x="1509" y="401" font-size="22.5" font-weight="500" fill="#202A38" text-anchor="middle" >Router</text>
+<text x="1502" y="426" font-size="16.5" font-weight="400" fill="#536175" text-anchor="middle" >模型语义路由</text>
+</a>
+<a xlink:href="https://github.com/ai-dynamo/dynamo" target="_blank"><title>Dynamo｜道客重度参与｜分布式推理框架</title>
+<rect x="1676" y="343" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1686" y="353" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1698.5" y="371" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1977" y="371" font-size="23" font-weight="600" fill="#218365" text-anchor="end" >+</text>
+<text x="1843" y="387" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Dynamo</text>
+<text x="1836" y="420" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >分布式推理框架</text>
+</a>
+<rect x="40" y="468" width="2320" height="126" rx="14" fill="#F5F7FA" stroke="#DFE4EB" stroke-width="1" />
+<text x="64" y="519" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >GPU 与作业调度</text>
+<text x="64" y="548" font-size="15" font-weight="400" fill="#687487" text-anchor="start" >GPU &amp; scheduling</text>
+<a xlink:href="https://github.com/Project-HAMi/HAMi" target="_blank"><title>HAMi｜道客联合开源｜异构算力共享与虚拟化</title>
+<rect x="340" y="481" width="320" height="100" rx="9" fill="#F2EBFC" stroke="#8051C8" stroke-width="2.4" />
+<rect x="350" y="491" width="25" height="25" rx="12.5" fill="#8051C8" />
+<text x="362.5" y="509" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >联</text>
+<text x="507" y="525" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >HAMi</text>
+<text x="500" y="558" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >异构算力共享与虚拟化</text>
+</a>
+<a xlink:href="https://github.com/kubernetes-sigs/kueue" target="_blank"><title>Kueue｜道客重度参与｜作业排队与配额</title>
+<rect x="674" y="481" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="684" y="491" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="696.5" y="509" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="841" y="525" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Kueue</text>
+<text x="834" y="558" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >作业排队与配额</text>
+</a>
+<a xlink:href="https://github.com/kubernetes-sigs/lws" target="_blank"><title>LWS｜道客重度参与｜多机推理工作负载</title>
+<rect x="1008" y="481" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1018" y="491" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1030.5" y="509" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1175" y="525" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >LWS</text>
+<text x="1168" y="558" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >多机推理工作负载</text>
+</a>
+<a xlink:href="https://github.com/kubernetes-sigs/kube-scheduler-wasm-extension" target="_blank"><title>kube-scheduler-wasm-extension｜道客重度参与｜Wasm 调度扩展</title>
+<rect x="1342" y="481" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1352" y="491" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1364.5" y="509" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1509" y="514" font-size="22.5" font-weight="500" fill="#202A38" text-anchor="middle" >kube-scheduler-</text>
+<text x="1509" y="539" font-size="22.5" font-weight="500" fill="#202A38" text-anchor="middle" >wasm-extension</text>
+<text x="1502" y="564" font-size="16.5" font-weight="400" fill="#536175" text-anchor="middle" >Wasm 调度扩展</text>
+</a>
+<rect x="40" y="606" width="2320" height="126" rx="14" fill="#F5F7FA" stroke="#DFE4EB" stroke-width="1" />
+<text x="64" y="657" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >编排与运行时</text>
+<text x="64" y="686" font-size="15" font-weight="400" fill="#687487" text-anchor="start" >Orchestration &amp; runtime</text>
+<a xlink:href="https://github.com/kubernetes/kubernetes" target="_blank"><title>Kubernetes｜道客重度参与｜容器编排</title>
+<rect x="340" y="619" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="350" y="629" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="362.5" y="647" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="507" y="663" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Kubernetes</text>
+<text x="500" y="696" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >容器编排</text>
+</a>
+<a xlink:href="https://github.com/karmada-io/karmada" target="_blank"><title>Karmada｜道客重度参与｜多云多集群编排</title>
+<rect x="674" y="619" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="684" y="629" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="696.5" y="647" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="841" y="663" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Karmada</text>
+<text x="834" y="696" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >多云多集群编排</text>
+</a>
+<a xlink:href="https://github.com/kubeedge/kubeedge" target="_blank"><title>KubeEdge｜道客重度参与｜云边协同</title>
+<rect x="1008" y="619" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1018" y="629" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1030.5" y="647" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1175" y="663" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >KubeEdge</text>
+<text x="1168" y="696" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >云边协同</text>
+</a>
+<a xlink:href="https://github.com/containerd/containerd" target="_blank"><title>containerd｜道客重度参与｜容器运行时</title>
+<rect x="1342" y="619" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1352" y="629" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1364.5" y="647" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1509" y="663" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >containerd</text>
+<text x="1502" y="696" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >容器运行时</text>
+</a>
+<rect x="40" y="744" width="2320" height="126" rx="14" fill="#F5F7FA" stroke="#DFE4EB" stroke-width="1" />
+<text x="64" y="795" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >生命周期与交付</text>
+<text x="64" y="824" font-size="15" font-weight="400" fill="#687487" text-anchor="start" >Lifecycle &amp; delivery</text>
+<a xlink:href="https://github.com/kubean-io/kubean" target="_blank"><title>Kubean｜道客自主开源｜集群生命周期管理</title>
+<rect x="340" y="757" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="350" y="767" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="362.5" y="785" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="507" y="801" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Kubean</text>
+<text x="500" y="834" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >集群生命周期管理</text>
+</a>
+<a xlink:href="https://github.com/kubernetes-sigs/kubespray" target="_blank"><title>Kubespray｜道客重度参与｜Kubernetes 集群部署</title>
+<rect x="674" y="757" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="684" y="767" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="696.5" y="785" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="841" y="801" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Kubespray</text>
+<text x="834" y="834" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >Kubernetes 集群部署</text>
+</a>
+<a xlink:href="https://github.com/kubernetes/kubeadm" target="_blank"><title>kubeadm｜道客重度参与｜集群引导与升级</title>
+<rect x="1008" y="757" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1018" y="767" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1030.5" y="785" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1175" y="801" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >kubeadm</text>
+<text x="1168" y="834" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >集群引导与升级</text>
+</a>
+<a xlink:href="https://github.com/klts-io/kubernetes-lts" target="_blank"><title>Kubernetes LTS｜道客自主开源｜Kubernetes 旧版本维护</title>
+<rect x="1342" y="757" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="1352" y="767" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="1364.5" y="785" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="1509" y="801" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Kubernetes LTS</text>
+<text x="1502" y="834" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >Kubernetes 旧版本维护</text>
+</a>
+<a xlink:href="https://github.com/argoproj/argo-cd" target="_blank"><title>Argo CD｜道客重度参与｜GitOps 持续交付</title>
+<rect x="1676" y="757" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1686" y="767" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1698.5" y="785" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1977" y="785" font-size="23" font-weight="600" fill="#218365" text-anchor="end" >+</text>
+<text x="1843" y="801" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Argo CD</text>
+<text x="1836" y="834" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >GitOps 持续交付</text>
+</a>
+<rect x="40" y="882" width="2320" height="126" rx="14" fill="#F5F7FA" stroke="#DFE4EB" stroke-width="1" />
+<text x="64" y="933" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >网络与服务网格</text>
+<text x="64" y="962" font-size="15" font-weight="400" fill="#687487" text-anchor="start" >Networking &amp; service mesh</text>
+<a xlink:href="https://github.com/spidernet-io/spiderpool" target="_blank"><title>Spiderpool｜道客自主开源｜Underlay / RDMA 网络</title>
+<rect x="340" y="895" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="350" y="905" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="362.5" y="923" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="507" y="939" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Spiderpool</text>
+<text x="500" y="972" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >Underlay / RDMA 网络</text>
+</a>
+<a xlink:href="https://github.com/spidernet-io/egressgateway" target="_blank"><title>EgressGateway｜道客自主开源｜集群出口网关</title>
+<rect x="674" y="895" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="684" y="905" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="696.5" y="923" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="841" y="939" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >EgressGateway</text>
+<text x="834" y="972" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >集群出口网关</text>
+</a>
+<a xlink:href="https://github.com/istio/istio" target="_blank"><title>Istio｜道客重度参与｜服务网格</title>
+<rect x="1008" y="895" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1018" y="905" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1030.5" y="923" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1175" y="939" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Istio</text>
+<text x="1168" y="972" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >服务网格</text>
+</a>
+<a xlink:href="https://github.com/merbridge/merbridge" target="_blank"><title>Merbridge｜道客自主开源｜eBPF 服务网格加速</title>
+<rect x="1342" y="895" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" stroke-dasharray="8 5"/>
+<rect x="1352" y="905" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="1364.5" y="923" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="1509" y="939" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Merbridge</text>
+<text x="1502" y="972" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >eBPF 服务网格加速</text>
+<text x="1648" y="916" font-size="13" font-weight="500" fill="#3268CD" text-anchor="end" >已归档</text>
+</a>
+<rect x="40" y="1020" width="2320" height="126" rx="14" fill="#F5F7FA" stroke="#DFE4EB" stroke-width="1" />
+<text x="64" y="1071" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >存储与数据</text>
+<text x="64" y="1100" font-size="15" font-weight="400" fill="#687487" text-anchor="start" >Storage &amp; data</text>
+<a xlink:href="https://github.com/hwameistor/hwameistor" target="_blank"><title>HwameiStor｜道客自主开源｜云原生本地存储</title>
+<rect x="340" y="1033" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="350" y="1043" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="362.5" y="1061" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="507" y="1077" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >HwameiStor</text>
+<text x="500" y="1110" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >云原生本地存储</text>
+</a>
+<a xlink:href="https://github.com/piraeusdatastore/piraeus" target="_blank"><title>Piraeus｜道客联合开源｜高可用复制存储</title>
+<rect x="674" y="1033" width="320" height="100" rx="9" fill="#F2EBFC" stroke="#8051C8" stroke-width="2.4" />
+<rect x="684" y="1043" width="25" height="25" rx="12.5" fill="#8051C8" />
+<text x="696.5" y="1061" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >联</text>
+<text x="841" y="1077" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Piraeus</text>
+<text x="834" y="1110" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >高可用复制存储</text>
+</a>
+<a xlink:href="https://github.com/DaoCloud/ContextStore" target="_blank"><title>ContextStore｜道客自主开源｜推理 KV Cache 分层存储</title>
+<rect x="1008" y="1033" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="1018" y="1043" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="1030.5" y="1061" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="1175" y="1077" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >ContextStore</text>
+<text x="1168" y="1110" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >推理 KV Cache 分层存储</text>
+</a>
+<a xlink:href="https://github.com/luskits/luscsi" target="_blank"><title>Lustre CSI｜道客自主开源｜Lustre 存储驱动</title>
+<rect x="1342" y="1033" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="1352" y="1043" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="1364.5" y="1061" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="1509" y="1077" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Lustre CSI</text>
+<text x="1502" y="1110" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >Lustre 存储驱动</text>
+</a>
+<a xlink:href="https://github.com/wzshiming/xet" target="_blank"><title>Xet｜道客自主开源｜Xet 协议 Go 实现</title>
+<rect x="1676" y="1033" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="1686" y="1043" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="1698.5" y="1061" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="1843" y="1077" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Xet</text>
+<text x="1836" y="1110" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >Xet 协议 Go 实现</text>
+</a>
+<rect x="40" y="1158" width="2320" height="126" rx="14" fill="#F5F7FA" stroke="#DFE4EB" stroke-width="1" />
+<text x="64" y="1209" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >可观测与运维</text>
+<text x="64" y="1238" font-size="15" font-weight="400" fill="#687487" text-anchor="start" >Observability &amp; operations</text>
+<a xlink:href="https://github.com/clusterpedia-io/clusterpedia" target="_blank"><title>Clusterpedia｜道客自主开源｜多集群资源检索</title>
+<rect x="340" y="1171" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="350" y="1181" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="362.5" y="1199" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="507" y="1215" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Clusterpedia</text>
+<text x="500" y="1248" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >多集群资源检索</text>
+</a>
+<a xlink:href="https://github.com/apache/skywalking" target="_blank"><title>SkyWalking｜道客重度参与｜应用性能监测</title>
+<rect x="674" y="1171" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="684" y="1181" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="696.5" y="1199" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="841" y="1215" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >SkyWalking</text>
+<text x="834" y="1248" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >应用性能监测</text>
+</a>
+<a xlink:href="https://github.com/open-telemetry" target="_blank"><title>OpenTelemetry｜道客重度参与｜可观测数据采集</title>
+<rect x="1008" y="1171" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1018" y="1181" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1030.5" y="1199" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1309" y="1199" font-size="23" font-weight="600" fill="#218365" text-anchor="end" >+</text>
+<text x="1175" y="1215" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >OpenTelemetry</text>
+<text x="1168" y="1248" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >可观测数据采集</text>
+</a>
+<a xlink:href="https://github.com/apolloconfig/apollo" target="_blank"><title>Apollo｜道客重度参与｜配置管理</title>
+<rect x="1342" y="1171" width="320" height="100" rx="9" fill="#EAF6F1" stroke="#218365" stroke-width="2.4" />
+<rect x="1352" y="1181" width="25" height="25" rx="12.5" fill="#218365" />
+<text x="1364.5" y="1199" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >参</text>
+<text x="1509" y="1215" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Apollo</text>
+<text x="1502" y="1248" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >配置管理</text>
+</a>
+<a xlink:href="https://github.com/cloudtty/cloudtty" target="_blank"><title>CloudTTY｜道客自主开源｜Kubernetes 云终端</title>
+<rect x="1676" y="1171" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="1686" y="1181" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="1698.5" y="1199" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="1843" y="1215" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >CloudTTY</text>
+<text x="1836" y="1248" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >Kubernetes 云终端</text>
+</a>
+<a xlink:href="https://github.com/unifabric-io/unifabric" target="_blank"><title>Unifabric｜道客自主开源｜AI 高速网络可观测</title>
+<rect x="2010" y="1171" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="2020" y="1181" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="2032.5" y="1199" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="2177" y="1215" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Unifabric</text>
+<text x="2170" y="1248" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >AI 高速网络可观测</text>
+</a>
+<rect x="40" y="1296" width="2320" height="126" rx="14" fill="#F5F7FA" stroke="#DFE4EB" stroke-width="1" />
+<text x="64" y="1347" font-size="23" font-weight="600" fill="#202A38" text-anchor="start" >测试与镜像分发</text>
+<text x="64" y="1376" font-size="15" font-weight="400" fill="#687487" text-anchor="start" >Testing &amp; image distribution</text>
+<a xlink:href="https://github.com/kubernetes-sigs/kwok" target="_blank"><title>KWOK｜道客自主开源｜节点与集群模拟</title>
+<rect x="340" y="1309" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="350" y="1319" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="362.5" y="1337" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="507" y="1353" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >KWOK</text>
+<text x="500" y="1386" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >节点与集群模拟</text>
+</a>
+<a xlink:href="https://github.com/kdoctor-io/kdoctor" target="_blank"><title>Kdoctor｜道客自主开源｜数据平面诊断测试</title>
+<rect x="674" y="1309" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="684" y="1319" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="696.5" y="1337" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="841" y="1353" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Kdoctor</text>
+<text x="834" y="1386" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >数据平面诊断测试</text>
+</a>
+<a xlink:href="https://github.com/BaizeAI/kcover" target="_blank"><title>Kcover｜道客自主开源｜故障感知与恢复覆盖</title>
+<rect x="1008" y="1309" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="1018" y="1319" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="1030.5" y="1337" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="1175" y="1353" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >Kcover</text>
+<text x="1168" y="1386" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >故障感知与恢复覆盖</text>
+</a>
+<a xlink:href="https://github.com/DaoCloud/public-image-mirror" target="_blank"><title>public-image-mirror｜道客自主开源｜公共镜像加速</title>
+<rect x="1342" y="1309" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="1352" y="1319" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="1364.5" y="1337" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="1509" y="1342" font-size="22.5" font-weight="500" fill="#202A38" text-anchor="middle" >public-image-</text>
+<text x="1509" y="1367" font-size="22.5" font-weight="500" fill="#202A38" text-anchor="middle" >mirror</text>
+<text x="1502" y="1392" font-size="16.5" font-weight="400" fill="#536175" text-anchor="middle" >公共镜像加速</text>
+</a>
+<a xlink:href="https://github.com/OpenCIDN/OpenCIDN" target="_blank"><title>OpenCIDN｜道客自主开源｜容器镜像分发网络</title>
+<rect x="1676" y="1309" width="320" height="100" rx="9" fill="#EBF2FF" stroke="#3268CD" stroke-width="2.4" />
+<rect x="1686" y="1319" width="25" height="25" rx="12.5" fill="#3268CD" />
+<text x="1698.5" y="1337" font-size="15" font-weight="600" fill="#FFFFFF" text-anchor="middle" >自</text>
+<text x="1843" y="1353" font-size="24" font-weight="500" fill="#202A38" text-anchor="middle" >OpenCIDN</text>
+<text x="1836" y="1386" font-size="17" font-weight="400" fill="#536175" text-anchor="middle" >容器镜像分发网络</text>
+</a>
+<line x1="56" y1="1452" x2="2344" y2="1452" stroke="#DCE1E8" stroke-width="1"/>
+<text x="80" y="1487" font-size="17" font-weight="400" fill="#536175" text-anchor="start" >展示口径：每个项目按主要参与方式归类一次；收录数含工具、Kubernetes 子项目、道客员工发起项目与归档项目，不等同于公司级项目总量。</text>
+<text x="80" y="1517" font-size="17" font-weight="400" fill="#536175" text-anchor="start" >关系口径：自主 = 发起；重度参与 = 维护 / Approver / 深度贡献；联合 = 联合发起。联合发起不表示当前维护者任职归属。</text>
+<text x="80" y="1547" font-size="17" font-weight="400" fill="#536175" text-anchor="start" >补充与修订：+ 标注 Dynamo、Argo CD、OpenTelemetry；KWOK 按飞书“发起”口径归类；Merbridge 为曾 CNCF Sandbox 项目，虽超一年未更新仍保留并标注已归档；已剔除超一年未更新的 Knoway、kasmcloud。</text>
+<text x="80" y="1577" font-size="17" font-weight="400" fill="#536175" text-anchor="start" >技术分行按主要用途编排，不代表依赖关系。</text>
+</svg>

@@ -1,4 +1,8 @@
-# Red Hat 云原生开源案例（初稿）
+# Red Hat 云原生开源案例（全景版）
+
+## 一句话结论
+
+Red Hat 以 **OKD/OpenShift 发行血统 + Operator Framework + KubeVirt + CRI-O + OCM** 构成平台主线，并在 etcd / Knative / KServe / llm-d / vLLM / Istio / Argo / Prometheus 等上游深度参与。
 
 ## 可编辑开源全景图（Mermaid）
 

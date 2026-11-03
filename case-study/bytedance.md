@@ -1,11 +1,15 @@
-# 字节跳动（ByteDance）云原生开源案例（初稿）
+# 字节跳动（ByteDance）云原生开源案例（全景版）
+
+## 一句话结论
+
+字节开源围绕大规模 Kubernetes 控制面改造：`KubeBrain` 换元存储、`Godel` 做混部调度、`Katalyst` 增强节点、`kubeadmiral/podseidon` 管多集群，并外溢到 AIBrix / KubeRay 等 AI 编排。
 
 ## 参考输入
 
-- 你提供的文章链接：https://mp.weixin.qq.com/s/fUK6qqcFzkoNcscHBE9v8A
-- 你提供的分层图（KubeBrain / Godel / Katalyst / kubeadmiral / podseidon / kelemetry 等）
+- 文章：https://mp.weixin.qq.com/s/fUK6qqcFzkoNcscHBE9v8A
+- 分层图（KubeBrain / Godel / Katalyst / kubeadmiral / podseidon / kelemetry 等）
 
-## 分层视角（基于你给的图和字节方案）
+## 分层视角
 
 - 多集群与联邦层：`kubeadmiral`、`podseidon`
 - 入口与治理层：`kubegateway`、`kubezoo`
