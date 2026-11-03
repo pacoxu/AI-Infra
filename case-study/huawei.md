@@ -1,9 +1,13 @@
-# 华为云（Huawei）云原生开源案例（初稿）
+# 华为云（Huawei）云原生开源案例（全景版）
+
+## 一句话结论
+
+华为云原生「三驾马车」是 **Karmada（多集群）+ Volcano（批/AI 调度）+ KubeEdge（边云）**；周围补齐 kmesh / kuasar / Sermant / openGemini，AI 侧有 vLLM Ascend 与 Kthena / AgentCube。
 
 ## 分析基线
 
-- 对照基线：字节分层方案（你提供的链接 + 分层图）
-- 本文聚焦你点名的华为相关项目：`Karmada`、`Volcano`（含 `kthena/agentcube`）、`KubeEdge`、`kmesh`、`kuasar`、`vllm-ascend`、`openGemini`、`Sermant`
+- 对照基线：字节分层方案
+- 聚焦：`Karmada`、`Volcano`（含 `kthena/agentcube`）、`KubeEdge`、`kmesh`、`kuasar`、`vllm-ascend`、`openGemini`、`Sermant`
 
 ## 与字节方案的分层对照（简版）
 

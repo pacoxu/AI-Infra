@@ -1,8 +1,12 @@
 # Google 云原生开源案例（全景版）
 
+## 一句话结论
+
+Google 定义了云原生底座本身：`Kubernetes` + `gVisor` + `cAdvisor` + `Istio/Knative/Tekton/Bazel/Kubeflow/Kueue`，把「统一消费与操作模型」铺到多集群计算池。
+
 ## 参考输入
 
-- 你提供的图片（Consistent Consumption & Operational Model）
+- Consistent Consumption & Operational Model 图
 
 ## 可编辑开源全景图（Mermaid）
 

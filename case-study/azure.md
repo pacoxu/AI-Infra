@@ -1,4 +1,8 @@
-# Azure（Microsoft）云原生开源案例（初稿）
+# Azure（Microsoft）云原生开源案例（全景版）
+
+## 一句话结论
+
+Microsoft 开源重心在 **分布式应用运行时（Dapr）、事件驱动扩缩（KEDA）、多集群 Fleet、AI Operator（Kaito）与 Virtual Kubelet**，并深度参与 Kubernetes / Istio / OPA / Headlamp / Semantic Router。
 
 ## 可编辑开源全景图（Mermaid）
 

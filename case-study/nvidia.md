@@ -1,139 +1,203 @@
-# NVIDIA 云原生开源案例（全景版）
+# NVIDIA 云原生开源案例（GPU-on-Kubernetes 全景版）
 
 ## 参考输入
 
-- 你提供的图片（NVIDIA ❤️ Kubernetes 时间线）
-- 当前仓库 `nvidia` 项目清单
+- [dims @ X：NVIDIA open source for GPUs on Kubernetes](https://x.com/dims/status/2117233275098063066)
+  （KubeCon 相关分享：portfolio / stack map / GPU node life）
+- 当前仓库已有 NVIDIA 相关文档与清单
 
-## 可编辑云原生开源全景图（Mermaid）
+## 一句话结论
+
+NVIDIA 在 Kubernetes 上的开源不是「几个 Operator」，而是一条从裸金属发现、节点准备、GPU 栈安装、调度运行，到观测、故障修复与升级退役的完整栈；公开盘点约 **70** 个组件（`github.com/NVIDIA` 833 个公开仓库中筛出），其中约 **21** 个是 GPU Operator operands。
+
+| 统计 | 数量 |
+| --- | --- |
+| `github.com/NVIDIA` 公开仓库 | 833 |
+| `dsx-ai-factory` 公开仓库 | 22 |
+| 调研命中仓库 | 112 |
+| 本图刻画组件（一格一个） | 70 |
+| GPU Operator operands | 21 |
+
+## Portfolio：九层组件地图
+
+![The portfolio: NVIDIA open source for GPUs on Kubernetes](./assets/nvidia-portfolio.jpg)
+
+### 图例（运行位置 / 形态）
+
+| 颜色 | 含义 |
+| --- | --- |
+| 绿 | 跑在每个 GPU 节点（内核模块、host daemon、runtime、DaemonSet） |
+| 蓝 | 跑在集群内（operator / controller / platform service） |
+| 紫 | 编进其他项目的共享库 |
+| 黄 | 集群外的 tooling / recipes / packaging |
+| 绿点 | 集群级项目，同时下发 per-node 组件 |
+
+| 徽章 | 含义 |
+| --- | --- |
+| K | Kernel module |
+| H | Host daemon / binary |
+| R | Container runtime |
+| D | DaemonSet / kubelet plugin |
+| L | Library |
+| O | Operator / controller |
+| S | Platform service |
+| C | CLI / tooling |
+| P | Packaging / recipes |
+
+虚线边框：归档项目（如 `k8s-kata-manager`）。角注：`dsx-ai-factory`、`moved out`（已迁出 NVIDIA org）、`other org`（Mellanox / kubernetes-sigs 等）。
+
+### 九层清单
+
+| 层 | 代表项目 |
+| --- | --- |
+| Schedulers and platforms | `run-ai`, `nvcf`, `k8s-nim-operator`, `grove`*, `KAI-Scheduler`*, `workload-map`, `model-streamer`, `dynamo`† |
+| Operators and lifecycle | `nodewright-packages`, `nodewright`, `gpu-operator`, `network-operator`†, `topograph`, `cluster-readiness-engine`, `pika`, `maintenance-operator`† |
+| Telemetry, health and recovery | `gpu-usage-monitor`, `dcgm-exporter`, `DCGM`, `NVSentinel`, `fleet-intelligence-agent`, `fleet-intelligence-client`, `health-validation`, `attribution`, `NVIDIA-Recovery` |
+| Kubelet plugins | `k8s-cc-manager`, `sandbox-device-plugin`, `k8s-device-plugin`, `dra-driver-nvidia-gpu`*, `mig-parted`, `vgpu-device-manager`, `kubevirt-gpu-device-plugin`, `node-feature-discovery`†, `gpu-fractioning`† |
+| Container runtime | `nvrc`, `kata-containers`, `nvidia-container-toolkit`, `libnvidia-container`, `k8s-kata-manager`（archived） |
+| Kernel, driver and trust | `open-gpu-kernel-modules`, `gpu-driver-container`, `k8s-driver-manager`, `nvidia-persistenced`, `gdrcopy`, `gds-nvidia-fs`, `attestation-sdk`, `nvtrust` |
+| Shared libraries | `k8s-operator-libs`, `go-gpuallocator`, `go-nvml`, `go-nvlib`, `go-nvfm`, `go-dcgm`, `nv-redfish`, `libredfish`, `nv-telemetry` |
+| Bare metal, networking and cluster engine | `dsx-exchange`, `infra-controller`（NICo）, `cluster-api-provider-nico`, `nvke`, `ovn-kubernetes`†, `doca-platform`, `nv-config-manager` |
+| Tooling, recipes and test substrate | `holodeck`, `k8s-test-infra`（Mokka）, `nvkind`, `nvkr`, `ai-cloud-validation`, `aicr`, `k8s-launch-kit` |
+
+\* moved out　† other org；未标注但属 `dsx-ai-factory` 的多为工厂内部/关联 org 仓库（如 `run-ai`、`topograph`、`fleet-intelligence-*`、`nvke` 等）。
+
+### 可编辑分层图（Mermaid）
+
+```mermaid
+flowchart TB
+  subgraph L1["Schedulers and platforms"]
+    RUN["run-ai"] --- NVCF["nvcf"] --- NIM["k8s-nim-operator"]
+    GROVE["grove"] --- KAI["KAI-Scheduler"] --- WMAP["workload-map"]
+    MSTR["model-streamer"] --- DYN["dynamo"]
+  end
+
+  subgraph L2["Operators and lifecycle"]
+    NWP["nodewright-packages"] --- NW["nodewright"] --- GPO["gpu-operator"]
+    NETO["network-operator"] --- TOPO["topograph"] --- CRE["cluster-readiness-engine"]
+    PIKA["pika"] --- MO["maintenance-operator"]
+  end
+
+  subgraph L3["Telemetry, health and recovery"]
+    GUM["gpu-usage-monitor"] --- DCGMX["dcgm-exporter"] --- DCGM["DCGM"]
+    NVS["NVSentinel"] --- FIA["fleet-intelligence-agent"] --- FIC["fleet-intelligence-client"]
+    HV["health-validation"] --- ATTR["attribution"] --- REC["NVIDIA-Recovery"]
+  end
+
+  subgraph L4["Kubelet plugins"]
+    CCM["k8s-cc-manager"] --- SDP["sandbox-device-plugin"] --- KDP["k8s-device-plugin"]
+    DRA["dra-driver-nvidia-gpu"] --- MIG["mig-parted"] --- VGPU["vgpu-device-manager"]
+    KVGP["kubevirt-gpu-device-plugin"] --- NFD["node-feature-discovery"] --- GFR["gpu-fractioning"]
+  end
+
+  subgraph L5["Container runtime"]
+    NVRC["nvrc"] --- KATA["kata-containers"] --- CTK["nvidia-container-toolkit"]
+    LNC["libnvidia-container"] --- KKM["k8s-kata-manager†archived"]
+  end
+
+  subgraph L6["Kernel, driver and trust"]
+    OGKM["open-gpu-kernel-modules"] --- GDC["gpu-driver-container"] --- KDM["k8s-driver-manager"]
+    NP["nvidia-persistenced"] --- GDR["gdrcopy"] --- GDS["gds-nvidia-fs"]
+    ATT["attestation-sdk"] --- NVT["nvtrust"]
+  end
+
+  subgraph L7["Shared libraries"]
+    KOL["k8s-operator-libs"] --- GPA["go-gpuallocator"] --- NVML["go-nvml"]
+    NVLIB["go-nvlib"] --- NVFM["go-nvfm"] --- GODCGM["go-dcgm"]
+    NVR["nv-redfish"] --- LRF["libredfish"] --- NVTLY["nv-telemetry"]
+  end
+
+  subgraph L8["Bare metal, networking and cluster engine"]
+    DSX["dsx-exchange"] --- IC["infra-controller / NICo"] --- CAPN["cluster-api-provider-nico"]
+    NVKE["nvke"] --- OVN["ovn-kubernetes"] --- DOCA["doca-platform"]
+    NCM["nv-config-manager"]
+  end
+
+  subgraph L9["Tooling, recipes and test substrate"]
+    HOLO["holodeck"] --- MOKKA["k8s-test-infra"] --- NVKIND["nvkind"]
+    NVKR["nvkr"] --- ACV["ai-cloud-validation"] --- AICR["aicr"]
+    L8K["k8s-launch-kit"]
+  end
+
+  L1 --> L2 --> L3 --> L4 --> L5 --> L6
+  L2 -. libs .-> L7
+  L8 --> L2
+  L9 -. pin / render / test .-> L2
+  L9 -. pin / render / test .-> L1
+```
+
+## Stack map：依赖与关键连线
+
+![NVIDIA GPU-on-Kubernetes stack map](./assets/nvidia-stack-map.jpg)
+
+实线：运行时依赖。虚线：打包 / 生命周期关系（不是 runtime call）。黑色标签：由 GPU Operator 以 DaemonSet 下发。虚线边框：fork / vendored submodule。
+
+### 关键连线（图中编号）
+
+1. `k8s-device-plugin` 发布 capacity / GFD 标签，供 `KAI-Scheduler` 调度。
+2. `dra-driver-nvidia-gpu` 发布 `ResourceSlices`，`KAI` 经 DRA 分配。
+3. DRA `ComputeDomains` 让 `Grove` 自动拿到多节点 NVLink。
+4. 同一套 `ComputeDomains` 支撑 `NVCF` 的 NVLink clique placement。
+5. `NVKE` 建出的集群会跑 `nodewright` + `GPU Operator`。
+6. `node-feature-discovery` 是 `GPU Operator` 的 Helm 依赖。
+7. `gpu-fractioning` 的 fractional DaemonSet 落实 `KAI` 调度出的分数 GPU。
+8. `go-dcgm` 坐在 `dcgm-exporter`、`fleet-intelligence-agent`、`health-validation` 之下。
+9. `maintenance-operator` 的 NodeMaintenance API 被 `k8s-operator-libs` 引入，服务 GPU / Network 驱动升级。
+10. `k8s-launch-kit`（IIR）生成并下发 `Network Operator` 资源。
+11. `aicr` recipes 锁定并渲染 `nodewright`、`GPU Operator`、`NVSentinel`、`KAI` 等十余个组件。
+
+### 调度 / DRA / Operator 主链路（精简）
 
 ```mermaid
 flowchart LR
-  subgraph UP["上游基座（深度参与）"]
-    K8S["Kubernetes"]
-    CTD["containerd"]
-  end
-
-  subgraph OPS["GPU 接入与集群运维"]
-    GPO["GPU Operator"]
-    CTK["NVIDIA Container Toolkit"]
-    NVRC["NVRC<br/>microVM PID 1"]
-    KDP["k8s-device-plugin"]
-    DCGM["dcgm-exporter"]
-    AICR["AI Cluster Runtime (AICR)"]
-  end
-
-  subgraph RES["资源建模 / 调度 / 故障治理"]
-    DRA["⭐ GPU DRA Driver"]
-    KAI["⭐ KAI Scheduler"]
-    NVS["NVSentinel"]
-  end
-
-  subgraph ORCH["多角色工作负载抽象"]
-    GROVE["⭐ Grove"]
-    LWS["LWS"]
-  end
-
-  subgraph SERVE["推理控制面 / 服务编排"]
-    DYN["⭐ Dynamo"]
-    LLMD["llm-d"]
-    TRT["TensorRT-LLM"]
-    TRITON["Triton Inference Server"]
-  end
-
-  subgraph STATE["KV 状态面 / 数据搬运"]
-    KVBM["⭐ KVBM<br/>KV Block Manager"]
-    KVCR["KVCR<br/>KV Cache Runner"]
-    NIXL["NIXL"]
-    NCCL["NCCL"]
-  end
-
-  %% foundation
-  K8S --> GPO
-  K8S --> DRA
-  K8S --> KAI
-  K8S --> NVS
-  K8S --> GROVE
-  K8S --> LWS
-  K8S --> DYN
-  CTD --> CTK
-  CTD -. "Kata Containers<br/>microVM 路径" .-> NVRC
-
-  %% ops layer
-  GPO --> CTK
+  KDP["k8s-device-plugin<br/>+ GFD labels"] --> KAI["KAI-Scheduler"]
+  DRA["dra-driver-nvidia-gpu<br/>ResourceSlices / ComputeDomains"] --> KAI
+  DRA --> GROVE["Grove"]
+  DRA --> NVCF["NVCF"]
+  GFR["gpu-fractioning"] -. enforce .-> KAI
+  NVKE["nvke"] -. creates cluster .-> NW["nodewright"]
+  NVKE -. creates cluster .-> GPO["gpu-operator"]
   GPO --> KDP
-  GPO --> DCGM
-  NVRC -. "启动 GPU 管理守护进程" .-> DCGM
-  AICR --> GPO
-  GPO -. "集成入口" .-> DRA
-
-  %% resource / scheduling / remediation
-  KDP -. "从设备暴露走向\n更细粒度资源建模" .-> DRA
-  DRA -. "资源声明 / 共享 / 拓扑信息" .-> KAI
-  DCGM -. "健康信号 / 指标输入" .-> NVS
-
-  %% workload / orchestration
-  DYN --> GROVE
-  GROVE -. "层次化 gang /\n启动顺序 / 拓扑约束" .-> KAI
-  LWS -. "社区原生多角色 workload API" .-> GROVE
-
-  %% serving / state plane
-  DYN --> KVBM
-  DYN -. "KV Router inventory / hints" .-> KVCR
-  DYN --> TRT
-  DYN --> TRITON
-  LLMD -. "社区侧 distributed serving\nPD / KV-aware routing" .-> DYN
-  LLMD -. "双 LWS / 社区路径" .-> LWS
-  KVBM -. "KV block 生命周期 /\n分层 offload" .-> NIXL
-  KVCR -. "跨层 / 跨节点传输" .-> NIXL
-  DYN -. "KV / prefix 传输" .-> NIXL
-  TRT -. "可作为 Triton backend\n也可直接使用" .-> TRITON
-
-  %% comms
-  NIXL -. "分布式 KV / prefix data plane" .-> DYN
-  NIXL -. "远端 KV 可见性 /\n跨节点搬运" .-> KVBM
-  NCCL -. "多 GPU / 多节点通信" .-> TRT
-  NCCL -. "分布式通信基础" .-> DYN
-
-  classDef star fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.4px;
-  classDef normal fill:#eaf2ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
-  classDef base fill:#e8fff1,stroke:#16a34a,color:#14532d,stroke-width:1.2px;
-  classDef bridge fill:#f5f3ff,stroke:#7c3aed,color:#4c1d95,stroke-width:1.1px;
-
-  class KAI,DRA,DYN,GROVE,KVBM star;
-  class GPO,CTK,NVRC,KDP,DCGM,AICR,NVS,TRT,TRITON,KVCR,NIXL,NCCL normal;
-  class LLMD,LWS bridge;
-  class K8S,CTD base;
+  GPO --> DRA
+  GPO -. Helm dep .-> NFD["node-feature-discovery"]
+  AICR["aicr"] -. pin / render .-> NW
+  AICR -. pin / render .-> GPO
+  AICR -. pin / render .-> KAI
+  AICR -. pin / render .-> NVS["NVSentinel"]
 ```
 
-## 发起/主导项目（代表）
+## GPU 节点生命周期（11 步）
 
-- [⭐ ai-dynamo/dynamo](https://github.com/ai-dynamo/dynamo)
-- [⭐ ai-dynamo/grove](https://github.com/ai-dynamo/grove)
-- [ai-dynamo/nixl](https://github.com/ai-dynamo/nixl)
-- [ai-dynamo/kvcr](https://github.com/ai-dynamo/kvcr) — KV Cache Runner（活跃开发中）
-- [⭐ kai-scheduler/KAI-Scheduler](https://github.com/kai-scheduler/KAI-Scheduler)
-- [⭐ kubernetes-sigs/dra-driver-nvidia-gpu](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu)
-- [NVIDIA/gpu-operator](https://github.com/NVIDIA/gpu-operator)
-- [NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)
-- [NVIDIA/dcgm-exporter](https://github.com/NVIDIA/dcgm-exporter)
-- [NVIDIA/nvidia-container-toolkit](https://github.com/NVIDIA/nvidia-container-toolkit)
-- [NVIDIA/nvrc](https://github.com/NVIDIA/nvrc) — NVIDIA Runtime Container Init，
-  Kata Containers GPU microVM 内的最小 PID 1
-- [NVIDIA/NVSentinel](https://github.com/NVIDIA/NVSentinel)
-- [NVIDIA/aicr](https://github.com/NVIDIA/aicr)
-- [NVIDIA/TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)
-- [triton-inference-server/server](https://github.com/triton-inference-server/server)
-- [NVIDIA/nccl](https://github.com/NVIDIA/nccl)
+![A GPU node's life, compact](./assets/nvidia-gpu-node-life.jpg)
 
-## 深度参与项目（代表）
+从发现到退役，把上面九层串成一条时间线。1 / 2 / 11 发生在「Kubernetes 尚未存在于该主机」或「节点已离开集群」阶段。
 
-- [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
-- [containerd/containerd](https://github.com/containerd/containerd)
+| # | 阶段 | 做什么 | 主要组件 |
+| --- | ---: | --- | --- |
+| 1 | Discover and Inventory | NICo discovery OS 启动，经 Redfish 读 BMC，登记机架 / DPU / NIC / 交换机 | `infra-controller`, `nv-redfish`, `libredfish`, `nv-rms`, `nv-config-manager`, `nv-telemetry` |
+| 2 | Provision and Isolate | 对齐固件、给 DPU 装 OS、租户网络隔离，iPXE 拉起 `nvkr` 构建的节点镜像 | `infra-controller`, `cluster-api-provider-nico`, `doca-platform`, `nvkr` |
+| 3 | Join the Cluster | kubeadm 入群，`nvke-agent` 跑在 systemd，OVN-Kubernetes + DPU offload 拉起 Pod 网络 | `nvke`, `ovn-kubernetes`, SPIRE, Temporal |
+| 4 | Prepare the Host | NodeWright 用 taint 挡住节点直到 tuned / kdump / EFA / Kata 就绪；NFD 打硬件标签；Network Operator 拉起 OFED / RDMA / SR-IOV | `nodewright` + `nodewright-packages`, `node-feature-discovery`, `network-operator`, `k8s-launch-kit` |
+| 5 | Install the GPU Stack | GPU Operator 滚动安装 driver / toolkit / device plugin / GFD，再装 MIG / vGPU / sandbox / CC operands，以及 DCGM | `gpu-operator`, `gpu-driver-container`, `k8s-driver-manager`, `nvidia-container-toolkit`, `k8s-device-plugin`, `dra-driver-nvidia-gpu`, `mig-parted`, `vgpu-device-manager`, `sandbox-device-plugin`, `k8s-cc-manager`, `kata-containers` + `nvrc`, `DCGM`, `dcgm-exporter`, … |
+| 6 | Validate and Certify | 节点 one-shot gate、NCCL / 训练作业 readiness、合作云验收套件 | `holodeck`, `k8s-test-infra`, `nvkind`, `health-validation`, `cluster-readiness-engine`, `ai-cloud-validation` |
+| 7 | Schedule and Run | 拓扑标签喂给 KAI；Grove / Run:ai / NVCF / NIM Operator 放置 gang 与模型服务 | `topograph`, `KAI-Scheduler`, `gpu-fractioning`, `grove`, `dynamo`, `workload-map`, `run-ai`, `nvcf`, `k8s-nim-operator`, `model-streamer` |
+| 8 | Observe | DCGM 指标进 Prometheus / Grafana；fleet-int 上报健康与 attestation | `dcgm-exporter`, `gpu-usage-monitor`, `fleet-intelligence-agent` → `fleet-intelligence-client` |
+| 9 | Detect Faults and Repair | NVSentinel cordon / drain / reset / reboot；attribution 诊断失败作业，Recovery 在Slurm / Slinky 侧重启；pika / maintenance-operator 协调维护 | `nvke` lifecycle API, `pika`, `maintenance-operator`, `NVSentinel`, `attribution`, `NVIDIA-Recovery` |
+| 10 | Upgrade | 驱动滚动按节点暂停 operands；NodeWright 原地改主机；aicr / nvkr / nvke 锁定并下发新版本 | `nodewright`, `maintenance-operator`, `aicr`, `nvkr`, `nvke`, `k8s-driver-manager` + `k8s-operator-libs`, `network-operator`, `k8s-test-infra` |
+| 11 | Retire | NICo 清理主机并释放；RMS 给机架下电 | `infra-controller`, `nv-rms` |
+
+```mermaid
+flowchart LR
+  A1["1 Discover"] --> A2["2 Provision"] --> A3["3 Join"] --> A4["4 Prepare host"]
+  A4 --> A5["5 GPU stack"] --> A6["6 Validate"] --> A7["7 Schedule / run"]
+  A7 --> A8["8 Observe"] --> A9["9 Repair"] --> A10["10 Upgrade"] --> A11["11 Retire"]
+  A9 -. loop .-> A7
+  A10 -. loop .-> A5
+```
 
 ## 补充主线：Dynamo / Grove / KAI / KVBM / KVCR
 
-这条线现在更适合理解成：
+Portfolio 把「GPU 节点如何进集群、如何被运维」画全了；推理服务侧仍可用这条更细的控制面主线理解：
 
 ```text
 Dynamo -> Grove -> KAI Scheduler -> GPU DRA Driver
@@ -141,48 +205,63 @@ Dynamo -> Grove -> KAI Scheduler -> GPU DRA Driver
           \-> KV Router -> KVCR -> NIXL
 ```
 
-它们不是一组并列竞争项目，而是从推理系统意图一路落到工作负载抽象、调度策略、
-资源模型和 KV 状态面的主链路。
-
-| 组件 | 在图中的位置 | 主要职责 |
+| 组件 | 位置 | 主要职责 |
 | --- | --- | --- |
-| `Dynamo` | 推理控制面 / 服务编排 | 作为 NVIDIA 的 distributed inference control plane，承接 `DGDR/DGD`、Planner、Router、Profiler 等平台入口 |
-| `Grove` | 多角色工作负载抽象 | 用 `PodCliqueSet / PodGang` 一类 API 把 `prefill / decode / router / worker` 表达成单个 Kubernetes 对象 |
-| `KAI Scheduler` | 调度策略层 | 负责 gang、拓扑感知、层次队列、公平性和 DRA support，把 Grove 的编排意图落成真正的放置决策 |
-| `KVBM` | KV 状态面 | 管理 KV block 生命周期、跨节点复用与 `HBM -> host -> SSD -> remote` 分层 offload，和 `NIXL` 一起构成 Dynamo 的 KV state plane |
-| `KVCR` | KV cache runtime | 根据 KV Router hints 管理本地 DRAM、SSD 和对象存储驻留，通过 NIXL 完成跨层与跨节点传输，并以 KVCR-Guard 提供可选故障恢复能力 |
+| `Dynamo` | Schedulers and platforms | distributed inference control plane（`DGDR/DGD`、Planner、Router、Profiler 等） |
+| `Grove` | Schedulers and platforms | 用 `PodCliqueSet / PodGang` 把 prefill / decode / router / worker 收成单个对象；吃 DRA ComputeDomains |
+| `KAI Scheduler` | Schedulers and platforms | gang、拓扑、层次队列、公平性与 DRA；落 Grove / fractioning 的放置意图 |
+| `KVBM` | Dynamo 内 | KV block 生命周期与分层 offload，和 `NIXL` 构成 KV state plane |
+| `KVCR` | 独立仓库 | 按 Router hints 管理本地 DRAM / SSD / 对象存储驻留与跨节点搬运（活跃开发中） |
 
-这里最容易被漏掉的是 `KVBM`：它不是独立 repo，而是 `Dynamo` 内部非常关键的系统层。
-如果不把它画出来，`Dynamo` 看起来就会像“又一个推理部署器”，而不是一个把 KV 生命周期、
-路由和多节点 serving 一起组织起来的平台。
-
-`KVCR` 则是独立仓库中的新方向：把全局 cache inventory 和路由决策留给 KV-aware router，
-自身聚焦本地 cache policy、驻留与数据搬运。它同时强调 framework/router agnostic，当前仍处于
-活跃开发阶段，官方尚不建议用于生产环境；因此这里先把它与 `KVBM` 并列展示，不直接定义为
-替代关系。
+`KVBM` 不是独立 repo；漏画它会把 `Dynamo` 看成「又一个部署器」。`KVCR` 强调 framework/router agnostic，官方尚不建议生产默认路径。
 
 ## 与 llm-d 的交叉补充
 
-`llm-d` 不属于 NVIDIA 私有主线，但它是理解 NVIDIA 这条路线时非常好的社区对照组。
-更准确地说：
-
-- `Dynamo` 更接近 **performance-first inference platform**
-- `llm-d` 更接近 **Kubernetes-native distributed serving stack**
-- `Grove` 和 `LWS` 处在相近的 workload abstraction 位置，但前者更强意见、后者更社区原生
+`llm-d` 不属于 NVIDIA 私有主线，但是很好的社区对照组：
 
 | 维度 | NVIDIA 主线 | `llm-d` 路线 |
 | --- | --- | --- |
-| 控制面 / serving stack | `Dynamo` | `llm-d` |
-| 多角色 workload API | `Grove` | `LWS`（双 `LeaderWorkerSet` 路径） |
-| 调度与拓扑 | `KAI + GPU DRA Driver`，更强调 GPU / ComputeDomain / fabric 拓扑 | 更偏社区调度生态组合，常与 `KServe`、Gateway API、Kubernetes 原生 workload API 协同 |
-| KV 路径 | `KVBM / KVCR + NIXL`，把 KV 复用、offload、远端传输做成系统级 state plane | 更强调 KV-aware routing、PD serving 和 serving stack 集成 |
-| 硬件姿态 | 更偏 NVIDIA 一体化优化 | 更偏中立，更容易成为跨厂商 distributed serving 基线 |
+| 控制面 / serving | `Dynamo` | `llm-d` |
+| 多角色 workload API | `Grove` | `LWS` |
+| 调度与拓扑 | `KAI + GPU DRA Driver`（ComputeDomain / fabric） | 更偏社区调度组合（常与 KServe / Gateway API） |
+| KV 路径 | `KVBM / KVCR + NIXL` | KV-aware routing、PD serving |
+| 硬件姿态 | NVIDIA 一体化优化 | 更中立的跨厂商基线 |
 
-所以把 `llm-d` 交叉补进 NVIDIA 全景图的价值，不是说它和 `Dynamo` 是同一项目，而是能把
-两条路线的分层关系看得更清楚：
+## 发起 / 主导项目（按层抽样）
 
-- NVIDIA 主线的辨识度在 `Grove + KAI Scheduler + GPU DRA Driver + KVBM / KVCR`
-- 社区主线的辨识度在 `llm-d + LWS + KServe / Gateway API` 这类更上游、更中立的组合
+### Schedulers and platforms
+
+- [⭐ ai-dynamo/dynamo](https://github.com/ai-dynamo/dynamo)
+- [⭐ ai-dynamo/grove](https://github.com/ai-dynamo/grove)
+- [⭐ kai-scheduler/KAI-Scheduler](https://github.com/kai-scheduler/KAI-Scheduler)
+- [NVIDIA/k8s-nim-operator](https://github.com/NVIDIA/k8s-nim-operator)
+- [ai-dynamo/nixl](https://github.com/ai-dynamo/nixl)
+- [ai-dynamo/kvcr](https://github.com/ai-dynamo/kvcr)
+
+### Operators / plugins / runtime / driver
+
+- [NVIDIA/gpu-operator](https://github.com/NVIDIA/gpu-operator)
+- [NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)
+- [⭐ kubernetes-sigs/dra-driver-nvidia-gpu](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu)
+- [NVIDIA/nvidia-container-toolkit](https://github.com/NVIDIA/nvidia-container-toolkit)
+- [NVIDIA/nvrc](https://github.com/NVIDIA/nvrc) — Kata GPU microVM 内最小 PID 1
+- [NVIDIA/dcgm-exporter](https://github.com/NVIDIA/dcgm-exporter)
+- [NVIDIA/NVSentinel](https://github.com/NVIDIA/NVSentinel)
+- [NVIDIA/open-gpu-kernel-modules](https://github.com/NVIDIA/open-gpu-kernel-modules)
+- [Mellanox/network-operator](https://github.com/Mellanox/network-operator)（other org）
+- [kubernetes-sigs/node-feature-discovery](https://github.com/kubernetes-sigs/node-feature-discovery)（other org）
+
+### Tooling / recipes
+
+- [NVIDIA/aicr](https://github.com/NVIDIA/aicr) — 版本锁定 recipe，渲染 nodewright / GPU Operator / NVSentinel / KAI 等
+- [NVIDIA/k8s-test-infra](https://github.com/NVIDIA/k8s-test-infra)
+- [NVIDIA/holodeck](https://github.com/NVIDIA/holodeck)
+
+### 深度参与
+
+- [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
+- [containerd/containerd](https://github.com/containerd/containerd)
+- [ovn-org/ovn-kubernetes](https://github.com/ovn-org/ovn-kubernetes)
 
 ## 生态交叉项目入口
 
@@ -194,5 +273,8 @@ Dynamo -> Grove -> KAI Scheduler -> GPU DRA Driver
 
 - [Dynamo 架构全景](../docs/inference/dynamo.md)
 - [Grove: Kubernetes API for Inference Orchestration](../docs/inference/grove.md)
+- [NVIDIA AI Cluster Runtime (AICR)](../docs/kubernetes/nvidia-aicr.md)
+- [NVIDIA GPU Operator](../docs/kubernetes/nvidia-gpu-operator.md)
 - [NVIDIA 推理编排主线拆解：Dynamo、Grove、KAI Scheduler 与 GPU DRA Driver](../docs/blog/2026-05-11/2026-05-11-dynamo-grove-kai-dra-ecosystem-zh.md)
 - [推理编排方案如何选择？AIBrix、Kthena、Dynamo、llm-d、KServe、vLLM Production Stack 与 SGLang/RBG](../docs/blog/2026-05-13/2026-05-13-how-to-choose-inference-orchestration-stacks_zh.md)
+- [NVIDIA AICR 中文介绍](../docs/blog/2026-03-13/2026-03-13-nvidia-aicr-introduction_zh.md)

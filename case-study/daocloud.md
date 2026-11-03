@@ -1,189 +1,177 @@
-# DaoCloud 云原生开源案例（架构重整版）
+# DaoCloud 云原生开源案例（Portfolio 全景版）
 
 ## 参考输入
 
-- DaoCloud Profile README: https://github.com/DaoCloud/.github/blob/main/profile/README.md
+- 道客开源项目全景图（资料核对日期 2026.11.03）
+- SVG：[`diagrams/daocloud-open-source-portfolio.svg`](../diagrams/daocloud-open-source-portfolio.svg)
+- 架构关系旧图（保留）：[`diagrams/daocloud-open-source-landscape.svg`](../diagrams/daocloud-open-source-landscape.svg)
+- DaoCloud Profile：https://github.com/DaoCloud/.github/blob/main/profile/README.md
 
-## 架构分层视角（你给定的结构）
+## 一句话结论
 
-- 多云组件（位于 Kubernetes 下方）：`Clusterpedia`（并可对接 `Karmada`）
-- Kubernetes 平台层（3 层）：
-  - 1. 调度编排层：`LWS`、`Kueue`（`llm-d` 使用 `LWS`）
-  - 2. 网络存储层：`Spiderpool(CNI)`、`Hwameistor(存储)`、`merbridge(mesh)`
-  - 3. 资源管理层：`HAMi`、`containerd`
-- AI 引擎层：`❤️ vLLM`（并与 `llm-d` 协同）
-- 安装与测试链路：`kubean -> kubespray -> kubeadm`，`kwok` 作为测试组件
-- 核心控制关系：`Scheduler -> API Server`（与 `API Server` 同级/上层表达）
+DaoCloud 开源不是「几个 CNCF 项目」，而是从云原生基础设施一路铺到 AI 算力与推理的 **38** 个组件组合：其中 **18** 项自主开源、**18** 项重度参与、**2** 项联合开源（`HAMi`、`Piraeus`）。
 
-## 可编辑生态图（Mermaid）
+| 统计 | 数量 | 说明 |
+| --- | --- | --- |
+| 本图收录项目 | 38 | 含子项目；含 1 个归档（Merbridge） |
+| 道客自主开源 | 18 | 含道客或道客员工发起 |
+| 道客重度参与 | 18 | Maintainer / Approver / 深度贡献 |
+| 道客联合开源 | 2 | HAMi · Piraeus |
+
+## Portfolio：八层组件地图
+
+![道客开源项目全景图](./assets/daocloud-portfolio.jpg)
+
+矢量版（可点进 GitHub）：
+
+![DaoCloud Open Source Portfolio SVG](../diagrams/daocloud-open-source-portfolio.svg)
+
+### 图例（参与方式）
+
+| 角标 | 含义 |
+| --- | --- |
+| 自（蓝） | 自主开源：道客或道客员工发起 |
+| 参（绿） | 重度参与：维护、Approver 或深度贡献 |
+| 联（紫） | 联合开源：与伙伴共同发起 |
+| 虚线边框 | 已归档（如 Merbridge，曾 CNCF Sandbox） |
+| + | 飞书补充条目 |
+
+项目按主归属只出现一次；Knoway、kasmcloud 等停更超一年的未列入本图。
+
+### 八层清单
+
+| 层 | 项目（角标） |
+| --- | --- |
+| AI 模型与推理 | MatrixHub（自）, vLLM（参）, llm-d（参）, vLLM Semantic Router（参）, Dynamo+（参） |
+| GPU 与作业调度 | HAMi（联）, Kueue（参）, LWS（参）, kube-scheduler-wasm-extension（参） |
+| 编排与运行时 | Kubernetes（参）, Karmada（参）, KubeEdge（参）, containerd（参） |
+| 生命周期与交付 | Kubean（自）, Kubespray（参）, kubeadm（参）, Kubernetes LTS（自）, Argo CD+（参） |
+| 网络与服务网格 | Spiderpool（自）, EgressGateway（自）, Istio（参）, Merbridge（自，归档） |
+| 存储与数据 | HwameiStor（自）, Piraeus（联）, ContextStore（自）, Lustre CSI（自）, Xet（自） |
+| 可观测与运维 | Clusterpedia（自）, SkyWalking（参）, OpenTelemetry+（参）, Apollo（参）, CloudTTY（自）, Unifabric（自） |
+| 测试与镜像分发 | KWOK+（自）, Kdoctor（自）, Kcover（自）, public-image-mirror（自）, OpenCIDN（自） |
+
+### 可编辑分层图（Mermaid）
 
 ```mermaid
 flowchart TB
-  subgraph TOP["AI Serving（上方）"]
-    direction TB
-    subgraph AICP["AI Serving Control Plane"]
-      LLMD["llm-d<br/>分布式推理编排"]
-      AIB["⭐ AIBrix<br/>推理基础设施 / Gateway / KV Cache / Routing"]
-      SR["Semantic Router<br/>语义路由 / MoM"]
-    end
-
-    subgraph ENGINE["AI 引擎层"]
-      VLLM["❤️ ⭐ vLLM<br/>推理引擎"]
-    end
+  subgraph L1["AI 模型与推理"]
+    MH["MatrixHub 自"] --- VLLM["vLLM 参"] --- LLMD["llm-d 参"]
+    SR["Semantic Router 参"] --- DYN["Dynamo 参"]
   end
 
-  subgraph MID["❤️ Kubernetes 平台（中间）"]
-    direction TB
-    subgraph ORCH["Kubernetes 工作负载编排层"]
-      LWS["LWS"]
-      KUEUE["Kueue<br/>Queue / Quota / Admission"]
-    end
-
-    subgraph EXT["Kubernetes 平台扩展层"]
-      SP["⭐ Spiderpool<br/>CNI / IPAM"]
-      HW["Hwameistor<br/>CSI / Storage"]
-      MB["merbridge<br/>Mesh Dataplane Enhance"]
-      HAMI["⭐ HAMi<br/>GPU / 异构资源管理"]
-      ISTIO["Istio"]
-    end
-
-    subgraph CORE["Kubernetes 核心层"]
-      direction TB
-      SCH["Scheduler"]
-      APIS["API Server"]
-      KLET["Kubelet"]
-    end
-
-    subgraph NODE["节点运行时层"]
-      CTD["containerd"]
-    end
-
-    subgraph TOOL["安装与测试工具层"]
-      KWOK["kubernetes-sigs/kwok<br/>集群仿真 / 压测"]
-      MXH["matrixhub-ai/matrixhub<br/>AI 基础设施工具链"]
-    end
+  subgraph L2["GPU 与作业调度"]
+    HAMI["HAMi 联"] --- KUEUE["Kueue 参"] --- LWS["LWS 参"] --- WASM["scheduler-wasm 参"]
   end
 
-  subgraph GLOBAL["全局 / 多集群层（位于 Kubernetes 下方）"]
-    KAR["⭐ Karmada<br/>多集群编排 / 调度"]
-    CP["⭐ Clusterpedia<br/>多集群同步 / 检索 / 统一视图"]
+  subgraph L3["编排与运行时"]
+    K8S["Kubernetes 参"] --- KAR["Karmada 参"] --- KE["KubeEdge 参"] --- CTD["containerd 参"]
   end
 
-  subgraph EDGE["边缘扩展分支（更下方）"]
-    KE["⭐ KubeEdge<br/>Cloud-Edge Extension"]
-    EN["Edge Nodes / Devices"]
+  subgraph L4["生命周期与交付"]
+    KAN["Kubean 自"] --- KSP["Kubespray 参"] --- KADM["kubeadm 参"]
+    KLTS["Kubernetes LTS 自"] --- ARGO["Argo CD 参"]
   end
 
-  %% Global
-  KAR --> APIS
-  CP -. 对接 / 检索 .-> APIS
-  CP -. 可对接 .-> KAR
+  subgraph L5["网络与服务网格"]
+    SP["Spiderpool 自"] --- EG["EgressGateway 自"] --- ISTIO["Istio 参"] --- MB["Merbridge 自†"]
+  end
 
-  %% AI control plane
-  LLMD --> LWS
-  LLMD --> VLLM
-  AIB --> VLLM
-  AIB --> APIS
-  SR --> AIB
-  SR --> VLLM
+  subgraph L6["存储与数据"]
+    HW["HwameiStor 自"] --- PIR["Piraeus 联"] --- CS["ContextStore 自"]
+    LUS["Lustre CSI 自"] --- XET["Xet 自"]
+  end
 
-  %% Orchestration
-  LWS --> APIS
-  KUEUE --> APIS
-  KUEUE -. 与标准调度器协同 .-> SCH
+  subgraph L7["可观测与运维"]
+    CP["Clusterpedia 自"] --- SW["SkyWalking 参"] --- OTEL["OpenTelemetry 参"]
+    APO["Apollo 参"] --- CTY["CloudTTY 自"] --- UF["Unifabric 自"]
+  end
 
-  %% Extensions
-  SP --> KLET
-  HW --> KLET
-  HAMI --> SCH
-  MB --> ISTIO
-  ISTIO --> APIS
+  subgraph L8["测试与镜像分发"]
+    KWOK["KWOK 自"] --- KD["Kdoctor 自"] --- KC["Kcover 自"]
+    PIM["public-image-mirror 自"] --- CIDN["OpenCIDN 自"]
+  end
 
-  %% Core to runtime
-  SCH --> APIS
-  APIS --> KLET
-  KLET --> CTD
-
-  %% Tooling
-  KWOK -. 仿真测试 .-> APIS
-  MXH -. AI Infra 工具链协同 .-> AIB
-
-  %% Edge
-  APIS --> KE
-  KE --> EN
-
-  classDef top fill:#fff2e6,stroke:#d97706,color:#7c2d12,stroke-width:1.2px;
-  classDef mid fill:#eef4ff,stroke:#4f81bd,color:#1b2a41,stroke-width:1px;
-  classDef core fill:#e8fff1,stroke:#16a34a,color:#14532d,stroke-width:1.2px;
-
-  class KAR,AIB,VLLM,KE top;
-  class CP,LLMD,SR,LWS,KUEUE,SP,HW,MB,HAMI,ISTIO,CTD,KWOK,MXH,EN mid;
-  class APIS,SCH,KLET core;
+  L1 --> L2 --> L3
+  L4 --> L3
+  L5 --> L3
+  L6 --> L3
+  L7 --> L3
+  L8 -. test / deliver .-> L3
+  L8 -. test / deliver .-> L1
 ```
 
-## DaoCloud 开源生态全景图（SVG 版）
+## 架构关系图（旧版，保留）
+
+偏「AI Serving × Kubernetes Platform × Multi-cluster × Edge」控制关系，可与 Portfolio 对照阅读：
 
 ![DaoCloud Open Source Landscape](../diagrams/daocloud-open-source-landscape.svg)
 
-## 项目清单（按架构分层）
+## NVIDIA 风格对照图（可选）
 
-### 多云组件（顶层）
+另一聊天按 NVIDIA GPU-on-Kubernetes portfolio 信息图风格做的英文版（按基金会归属分行）：
 
-- [⭐ clusterpedia-io/clusterpedia](https://github.com/clusterpedia-io/clusterpedia)
+![DaoCloud portfolio NVIDIA-style](./assets/daocloud-portfolio-nvidia-style.png)
 
-### AI 引擎层
+## 项目清单（按层 + 参与方式）
 
-- [❤️ ⭐ vllm-project/vllm](https://github.com/vllm-project/vllm)
-- [llm-d/llm-d](https://github.com/llm-d/llm-d)
+### AI 模型与推理
 
-### Kubernetes 平台层
+- [matrixhub-ai/matrixhub](https://github.com/matrixhub-ai/matrixhub)（自）
+- [vllm-project/vllm](https://github.com/vllm-project/vllm)（参）
+- [llm-d/llm-d](https://github.com/llm-d/llm-d)（参）
+- [vllm-project/semantic-router](https://github.com/vllm-project/semantic-router)（参）
+- [ai-dynamo/dynamo](https://github.com/ai-dynamo/dynamo)（参）
 
-#### 调度编排层
+### GPU 与作业调度
 
-- [kubernetes-sigs/lws](https://github.com/kubernetes-sigs/lws)
-- [kubernetes-sigs/kueue](https://github.com/kubernetes-sigs/kueue)
+- [Project-HAMi/HAMi](https://github.com/Project-HAMi/HAMi)（联）
+- [kubernetes-sigs/kueue](https://github.com/kubernetes-sigs/kueue)（参）
+- [kubernetes-sigs/lws](https://github.com/kubernetes-sigs/lws)（参）
+- [kubernetes-sigs/kube-scheduler-wasm-extension](https://github.com/kubernetes-sigs/kube-scheduler-wasm-extension)（参）
 
-#### 网络存储层
+### 编排 / 生命周期 / 网络 / 存储
 
-- [⭐ spidernet-io/spiderpool](https://github.com/spidernet-io/spiderpool)
-- [hwameistor/hwameistor](https://github.com/hwameistor/hwameistor)
-- [merbridge/merbridge](https://github.com/merbridge/merbridge)
-- [istio/istio](https://github.com/istio/istio)
+- [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)（参）
+- [karmada-io/karmada](https://github.com/karmada-io/karmada)（参）
+- [kubeedge/kubeedge](https://github.com/kubeedge/kubeedge)（参）
+- [containerd/containerd](https://github.com/containerd/containerd)（参）
+- [kubean-io/kubean](https://github.com/kubean-io/kubean)（自）
+- [kubernetes-sigs/kubespray](https://github.com/kubernetes-sigs/kubespray)（参）
+- [klts-io/kubernetes-lts](https://github.com/klts-io/kubernetes-lts)（自）
+- [spidernet-io/spiderpool](https://github.com/spidernet-io/spiderpool)（自）
+- [spidernet-io/egressgateway](https://github.com/spidernet-io/egressgateway)（自）
+- [hwameistor/hwameistor](https://github.com/hwameistor/hwameistor)（自）
+- [piraeusdatastore/piraeus](https://github.com/piraeusdatastore/piraeus)（联）
+- [DaoCloud/ContextStore](https://github.com/DaoCloud/ContextStore)（自）
+- [luskits/luscsi](https://github.com/luskits/luscsi)（自 · Lustre CSI）
+- [wzshiming/xet](https://github.com/wzshiming/xet)（自）
+- [merbridge/merbridge](https://github.com/merbridge/merbridge)（自 · 归档）
 
-#### 资源管理层
+### 可观测 / 测试 / 镜像
 
-- [⭐ Project-HAMi/HAMi](https://github.com/Project-HAMi/HAMi)
-- [containerd/containerd](https://github.com/containerd/containerd)
-
-#### 底座
-
-- [❤️ ⭐ kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
-
-### 安装与测试组件
-
-- [⭐ kubean-io/kubean](https://github.com/kubean-io/kubean)
-- [kubernetes-sigs/kubespray](https://github.com/kubernetes-sigs/kubespray)
-- [kubernetes/kubeadm](https://github.com/kubernetes/kubeadm)
-- [kubernetes-sigs/kwok](https://github.com/kubernetes-sigs/kwok)
-- [matrixhub-ai/matrixhub](https://github.com/matrixhub-ai/matrixhub)
-
-### 其他 DaoCloud 相关项目（补充）
-
-- [knoway-dev/knoway](https://github.com/knoway-dev/knoway)
-- [kdoctor-io/kdoctor](https://github.com/kdoctor-io/kdoctor)
+- [clusterpedia-io/clusterpedia](https://github.com/clusterpedia-io/clusterpedia)（自）
+- [cloudtty/cloudtty](https://github.com/cloudtty/cloudtty)（自）
+- [unifabric-io/unifabric](https://github.com/unifabric-io/unifabric)（自）
+- [kubernetes-sigs/kwok](https://github.com/kubernetes-sigs/kwok)（自）
+- [kdoctor-io/kdoctor](https://github.com/kdoctor-io/kdoctor)（自）
+- [BaizeAI/kcover](https://github.com/BaizeAI/kcover)（自）
+- [DaoCloud/public-image-mirror](https://github.com/DaoCloud/public-image-mirror)（自）
+- [OpenCIDN/OpenCIDN](https://github.com/OpenCIDN/OpenCIDN)（自）
+- [apache/skywalking](https://github.com/apache/skywalking)（参）
+- [open-telemetry](https://github.com/open-telemetry)（参）
+- [apolloconfig/apollo](https://github.com/apolloconfig/apollo)（参）
+- [argoproj/argo-cd](https://github.com/argoproj/argo-cd)（参）
+- [istio/istio](https://github.com/istio/istio)（参）
 
 ## 超节点案例：Shanghai Cube
 
-Shanghai Cube（ShanghaiCube）是 DaoCloud 参与的国产高密度超节点整柜，不是一个
-开源仓库。2025-03-21 由上海模合信息科技联合沐曦、云合智网、道客云、立讯精密等发布。
+Shanghai Cube 是 DaoCloud 参与的国产高密度超节点整柜，不是开源仓库。2025-03-21 由上海模合信息科技联合沐曦、云合智网、道客云、立讯精密等发布。
 
-- **硬件**：单柜 128 张沐曦曦云 C550，液冷。产品站写 4 组 TP32。
+- **硬件**：单柜 128 张沐曦曦云 C550，液冷。
 - **DaoCloud 的部分**：定制国产操作系统，以及面向高密度国产算力的调度管理。
-- **已公开的工作负载**：DeepSeek 671B 满血版推理，以及其他主流模型的训练和微调。
-  首套样机在复旦大学上海张江校区。
+- **已公开工作负载**：DeepSeek 671B 满血版推理等。
 
-细节、和 Vera Rubin / 耀龙 S8000 G2 的对照，见
-[超节点（SuperNode）](../docs/hardware/supernode.md)。
-公开来源：
+细节见 [超节点（SuperNode）](../docs/hardware/supernode.md)。公开来源：
 [Shanghai Cube 发布](https://d.run/news/i80bp6njjsg0yhxat1rgbvb7)、
 [异构 GPU 优化实践](https://github.com/DaoCloud/DaoCloud-docs/blob/main/docs/zh/docs/blogs/2026/optimize-gpu.md)。

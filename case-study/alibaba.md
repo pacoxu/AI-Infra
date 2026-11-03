@@ -1,10 +1,14 @@
-# 阿里巴巴（Alibaba）云原生开源案例（初稿）
+# 阿里巴巴（Alibaba）云原生开源案例（全景版）
+
+## 一句话结论
+
+阿里云原生开源横跨 **网关（Higress）、应用交付（KubeVela / OpenKruise）、混部调度（Koordinator）、边缘（OpenYurt）、安全运行时（Kata）与数据分发（Fluid / Dragonfly）**；AI 侧以 SGLang / RBG 补齐推理引擎与批路由。
 
 ## 重点整理
 
-- `Higress`：新晋 CNCF Sandbox（API Gateway 方向）
-- `Kata Containers`：容器隔离与安全运行时领域的重要项目
-- `SGLang / RBG`：补充 AI 推理引擎与请求批处理/路由能力（纳入本图）
+- `Higress`：CNCF Sandbox（API / AI Gateway）
+- `Kata Containers`：轻量 VM 安全运行时
+- `SGLang / RBG`：LLM Serving 与请求批处理 / 路由
 
 ## 可编辑架构分层图（Mermaid）
 
