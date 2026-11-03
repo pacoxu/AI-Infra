@@ -195,6 +195,21 @@ flowchart LR
   A10 -. loop .-> A5
 ```
 
+## MatrixHub：模型仓库与 Dynamo 的衔接
+
+[`MatrixHub`](https://github.com/matrixhub-ai/matrixhub) 是开源、自托管、
+兼容 Hugging Face API 的模型仓库。Dynamo 可以通过 `HF_ENDPOINT` 指向集群内的
+MatrixHub，从预缓存的内部端点下载模型，而不必让每个 worker 重复访问公共
+Hugging Face 服务。
+
+这条路径补充的是模型权重的来源、治理和集群内下载入口，不属于 KV cache 数据面：
+
+```text
+Hugging Face / 私有模型 -> MatrixHub -> Dynamo worker -> inference engine
+```
+
+MatrixHub 负责私有模型仓库、代理缓存和分发入口；Dynamo 继续负责推理编排与运行时。
+
 ## 补充主线：Dynamo / Grove / KAI / KVBM / KVCR
 
 Portfolio 把「GPU 节点如何进集群、如何被运维」画全了；推理服务侧仍可用这条更细的控制面主线理解：
@@ -266,12 +281,15 @@ Dynamo -> Grove -> KAI Scheduler -> GPU DRA Driver
 ## 生态交叉项目入口
 
 - [llm-d/llm-d](https://github.com/llm-d/llm-d)
+- [matrixhub-ai/matrixhub](https://github.com/matrixhub-ai/matrixhub)
+- [Dynamo: Load Models from MatrixHub](https://docs.nvidia.com/dynamo/dev/kubernetes/model-deployment/model-loading/matrix-hub)
 - [Dynamo KVBM README](https://github.com/ai-dynamo/dynamo/blob/main/lib/bindings/kvbm/README.md)
 - [KVCR design overview](https://github.com/ai-dynamo/kvcr/blob/main/docs/design_overview.md)
 
 ## 延伸阅读
 
 - [Dynamo 架构全景](../docs/inference/dynamo.md)
+- [模型分发全景：MatrixHub、Harbor、Dragonfly、ModelPack 与 ModelExpress](../docs/inference/model-distribution-stack.md)
 - [Grove: Kubernetes API for Inference Orchestration](../docs/inference/grove.md)
 - [NVIDIA AI Cluster Runtime (AICR)](../docs/kubernetes/nvidia-aicr.md)
 - [NVIDIA GPU Operator](../docs/kubernetes/nvidia-gpu-operator.md)
