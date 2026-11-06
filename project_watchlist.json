@@ -149,6 +149,10 @@
       "url": "https://github.com/kubeflow/trainer"
     },
     {
+      "repo": "kuberay-project/kuberay",
+      "url": "https://github.com/kuberay-project/kuberay"
+    },
+    {
       "repo": "kubernetes-sigs/agent-sandbox",
       "url": "https://github.com/kubernetes-sigs/agent-sandbox"
     },
@@ -267,10 +271,6 @@
     {
       "repo": "qdrant/qdrant",
       "url": "https://github.com/qdrant/qdrant"
-    },
-    {
-      "repo": "ray-project/kuberay",
-      "url": "https://github.com/ray-project/kuberay"
     },
     {
       "repo": "ray-project/ray",
