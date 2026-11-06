@@ -1,8 +1,16 @@
 {
   "included": [
     {
+      "repo": "agentgateway/agentgateway",
+      "url": "https://github.com/agentgateway/agentgateway"
+    },
+    {
       "repo": "ai-dynamo/dynamo",
       "url": "https://github.com/ai-dynamo/dynamo"
+    },
+    {
+      "repo": "ai-dynamo/grove",
+      "url": "https://github.com/ai-dynamo/grove"
     },
     {
       "repo": "ai-dynamo/modelexpress",
@@ -61,8 +69,28 @@
       "url": "https://github.com/eleutherai/lm-evaluation-harness"
     },
     {
-      "repo": "envoyproxy/ai-gateway",
-      "url": "https://github.com/envoyproxy/ai-gateway"
+      "repo": "kubeflow/trainer",
+      "url": "https://github.com/kubeflow/trainer"
+    },
+    {
+      "repo": "kubernetes-sigs/dra-driver-nvidia-gpu",
+      "url": "https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu"
+    },
+    {
+      "repo": "kubernetes-sigs/dranet",
+      "url": "https://github.com/kubernetes-sigs/dranet"
+    },
+    {
+      "repo": "kubernetes-sigs/lws",
+      "url": "https://github.com/kubernetes-sigs/lws"
+    },
+    {
+      "repo": "llm-d-incubation/llm-d-fast-model-actuation",
+      "url": "https://github.com/llm-d-incubation/llm-d-fast-model-actuation"
+    },
+    {
+      "repo": "nvidia/gpu-operator",
+      "url": "https://github.com/NVIDIA/gpu-operator"
     },
     {
       "repo": "explodinggradients/ragas",
@@ -269,6 +297,10 @@
       "url": "https://github.com/sgl-project/sglang"
     },
     {
+      "repo": "theagentrouter/agent-router",
+      "url": "https://github.com/theagentrouter/agent-router"
+    },
+    {
       "repo": "thudm/slime",
       "url": "https://github.com/thudm/slime"
     },
@@ -295,6 +327,10 @@
     {
       "repo": "vllm-project/vllm",
       "url": "https://github.com/vllm-project/vllm"
+    },
+    {
+      "repo": "volcano-sh/agentcube",
+      "url": "https://github.com/volcano-sh/agentcube"
     },
     {
       "repo": "volcano-sh/kthena",
@@ -329,10 +365,6 @@
     {
       "repo": "agent-field/agentfield",
       "url": "https://github.com/agent-field/agentfield"
-    },
-    {
-      "repo": "agentgateway/agentgateway",
-      "url": "https://github.com/agentgateway/agentgateway"
     },
     {
       "repo": "agentops-ai/agentops",

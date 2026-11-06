@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-07-10
+last_updated: 2026-11-06
 tags: kubernetes, tas, topology-aware-scheduling, kueue, dra, workload-api
 canonical_path: docs/kubernetes/tas-validation.md
 source_urls:
@@ -93,7 +93,7 @@ GPU/NIC 拓扑测试集群，因此本文把交付物拆成两层：
 | 路径 | 当前信号 | 适合验证的问题 | 风险 |
 | --- | --- | --- | --- |
 | Kueue TAS | `TopologyAwareScheduling` beta，默认开启；支持 Topology、ResourceFlavor、PodSet annotations、多层拓扑和 failed node replacement。 | queue / admission / topology 的组合收益。 | Kueue 需要维护全量 Pods / Nodes 拓扑缓存，会增加内存和调度耗时。 |
-| Kubernetes WAS TAS | KEP-5732：v1.36 alpha，v1.37 beta 目标；引入 PodGroup topology constraints 和 placement 插件扩展点。 | 原生 kube-scheduler 是否能承载 Workload-level placement。 | 当前不是 queue / fairness / quota 系统，仍需 Kueue 或上层队列。 |
+| Kubernetes WAS TAS | KEP-5732：v1.36 alpha，v1.37 仍为 alpha（功能更新），v1.38 beta 目标；引入 PodGroup topology constraints 和 placement 插件扩展点。 | 原生 kube-scheduler 是否能承载 Workload-level placement。 | 当前不是 queue / fairness / quota 系统，仍需 Kueue 或上层队列。 |
 | KAI Scheduler | 有 KAI Topology CRD、required / preferred placement、多层拓扑和 segment placement。 | GPU 训练、层级 gang、分段拓扑的能力上限。 | 需要引入 KAI 调度栈和对应 PodGroup / queue 语义。 |
 | Volcano | HyperNode 表达网络拓扑；支持 hard / soft network topology、partitionPolicy 和 HyperNode binpack。 | 网络拓扑与 subgroup partition 的训练场景。 | 第二调度器和 Volcano Job 绑定成本较高。 |
 | Koordinator | 提出 ClusterNetworkTopology、GangGroup、parallel model、job-level preemption 的网络拓扑方案。 | quota、preemption、topology 组合的高级场景。 | 更偏 proposal / 特定生态路径，需额外确认实现成熟度。 |

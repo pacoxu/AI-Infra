@@ -336,7 +336,7 @@ NVIDIA provides official debugging procedures for systematic fault diagnosis:
 
 **DRA Driver Integration:**
 
-- NVIDIA DRA driver issues with DCGM metrics: [k8s-dra-driver-gpu #166](https://github.com/NVIDIA/k8s-dra-driver-gpu/issues/166)
+- NVIDIA DRA driver issues with DCGM metrics: [k8s-dra-driver-gpu #166](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/issues/166)
 
 ## Fault Semantics and Kubernetes Integration
 
@@ -1243,7 +1243,7 @@ data:
 - [GPU Debug Guidelines](https://docs.nvidia.com/deploy/gpu-debug-guidelines/index.html)
 - [GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/)
 - [Data Center Monitoring Blog](https://developer.nvidia.com/blog/making-gpu-clusters-more-efficient-with-nvidia-data-center-monitoring/)
-- [k8s-dra-driver-gpu](https://github.com/NVIDIA/k8s-dra-driver-gpu)
+- [k8s-dra-driver-gpu](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu)
 
 ### Community Resources
 
