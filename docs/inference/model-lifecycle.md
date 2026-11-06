@@ -363,6 +363,7 @@ critical path):
 | Engine sleep/wake | [vLLM Sleep Mode](https://blog.vllm.ai/2025/10/26/sleep-mode.html) | Park tensors in CPU RAM | 0.1–5 s wake | Multi-model on one process/GPU |
 | App-level FMA + dual-pods | [llm-d FMA](https://github.com/llm-d-incubation/llm-d-fast-model-actuation) | Sleep/wake + launcher + K8s dual-pods | Hot wake ~seconds (e.g. ~3 s for 64 GiB) | Shared GPU pool, model swap / scale-up with accurate scheduling |
 | Process checkpoint/restore | [Dynamo Snapshot](https://github.com/ai-dynamo/dynamo/blob/main/docs/kubernetes/snapshot.md) | CRIU + `cuda-checkpoint` | Warm restore ~10 s vs cold ~1 min | Dynamo scale-out / scale-from-zero skipping engine init |
+| Process checkpoint/restore via OCI registry | [warmctl](https://github.com/TensorRails/warmctl) | CRIU + `cuda-checkpoint` + cuInterpose; snapshot is an OCI artifact | GLM-5.3-Flash on 8×H100: 37 s restore vs 650 s cold | Multi-GPU vLLM replicas on any node with the same GPUs and driver branch, with or without Kubernetes |
 
 Weight-streaming paths (Model Streamer / ModelExpress) accelerate *download and
 HBM fill* but still pay engine init and CUDA Graph capture — see
