@@ -58,7 +58,7 @@ resources:
 
 ### 2. DRA Driver for GPUs (Future Direction)
 
-<a href="https://github.com/NVIDIA/k8s-dra-driver-gpu">**NVIDIA DRA Driver for
+<a href="https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu">**NVIDIA DRA Driver for
 GPUs**</a> provides next-generation GPU resource management using Dynamic
 Resource Allocation, offering more flexible and topology-aware scheduling.
 
@@ -66,9 +66,9 @@ Resource Allocation, offering more flexible and topology-aware scheduling.
 
 The DRA driver includes two kubelet plugins:
 
-- <a href="https://github.com/NVIDIA/k8s-dra-driver-gpu/tree/main/cmd/gpu-kubelet-plugin">**gpu-kubelet-plugin**</a>:
+- <a href="https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/tree/main/cmd/gpu-kubelet-plugin">**gpu-kubelet-plugin**</a>:
   Standard GPU resource allocation plugin
-- <a href="https://github.com/NVIDIA/k8s-dra-driver-gpu/tree/main/cmd/compute-domain-kubelet-plugin">**compute-domain-kubelet-plugin**</a>:
+- <a href="https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/tree/main/cmd/compute-domain-kubelet-plugin">**compute-domain-kubelet-plugin**</a>:
   Advanced plugin for compute domain management
 
 **Advanced Capabilities:**
@@ -306,7 +306,7 @@ allowing operators to choose based on their requirements.
   Repository</a>
 - <a href="https://github.com/NVIDIA/k8s-device-plugin">NVIDIA Device Plugin
   Documentation</a>
-- <a href="https://github.com/NVIDIA/k8s-dra-driver-gpu">NVIDIA DRA Driver
+- <a href="https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu">NVIDIA DRA Driver
   Documentation</a>
 
 ### Conference Talks
@@ -352,7 +352,7 @@ For the latest updates, follow:
 
 - <a href="https://github.com/NVIDIA/gpu-operator/issues">GPU Operator
   Issues</a>
-- <a href="https://github.com/NVIDIA/k8s-dra-driver-gpu/issues">DRA Driver
+- <a href="https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/issues">DRA Driver
   Issues</a>
 - <a href="https://github.com/kubernetes/enhancements/issues/?q=is%3Aissue%20DRA%20in%3Atitle">Kubernetes
   DRA KEPs</a>

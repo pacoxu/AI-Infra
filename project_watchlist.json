@@ -1,8 +1,16 @@
 {
   "included": [
     {
+      "repo": "agentgateway/agentgateway",
+      "url": "https://github.com/agentgateway/agentgateway"
+    },
+    {
       "repo": "ai-dynamo/dynamo",
       "url": "https://github.com/ai-dynamo/dynamo"
+    },
+    {
+      "repo": "ai-dynamo/grove",
+      "url": "https://github.com/ai-dynamo/grove"
     },
     {
       "repo": "ai-dynamo/modelexpress",
@@ -59,10 +67,6 @@
     {
       "repo": "eleutherai/lm-evaluation-harness",
       "url": "https://github.com/eleutherai/lm-evaluation-harness"
-    },
-    {
-      "repo": "envoyproxy/ai-gateway",
-      "url": "https://github.com/envoyproxy/ai-gateway"
     },
     {
       "repo": "explodinggradients/ragas",
@@ -141,8 +145,24 @@
       "url": "https://github.com/kubeflow/pipelines"
     },
     {
+      "repo": "kubeflow/trainer",
+      "url": "https://github.com/kubeflow/trainer"
+    },
+    {
+      "repo": "kuberay-project/kuberay",
+      "url": "https://github.com/kuberay-project/kuberay"
+    },
+    {
       "repo": "kubernetes-sigs/agent-sandbox",
       "url": "https://github.com/kubernetes-sigs/agent-sandbox"
+    },
+    {
+      "repo": "kubernetes-sigs/dra-driver-nvidia-gpu",
+      "url": "https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu"
+    },
+    {
+      "repo": "kubernetes-sigs/dranet",
+      "url": "https://github.com/kubernetes-sigs/dranet"
     },
     {
       "repo": "kubernetes-sigs/gateway-api-inference-extension",
@@ -161,6 +181,10 @@
       "url": "https://github.com/kubernetes-sigs/kueue"
     },
     {
+      "repo": "kubernetes-sigs/lws",
+      "url": "https://github.com/kubernetes-sigs/lws"
+    },
+    {
       "repo": "kvcache-ai/mooncake",
       "url": "https://github.com/kvcache-ai/mooncake"
     },
@@ -171,6 +195,10 @@
     {
       "repo": "langgenius/dify",
       "url": "https://github.com/langgenius/dify"
+    },
+    {
+      "repo": "llm-d-incubation/llm-d-fast-model-actuation",
+      "url": "https://github.com/llm-d-incubation/llm-d-fast-model-actuation"
     },
     {
       "repo": "llm-d/llm-d",
@@ -199,6 +227,10 @@
     {
       "repo": "netflix/metaflow",
       "url": "https://github.com/netflix/metaflow"
+    },
+    {
+      "repo": "nvidia/gpu-operator",
+      "url": "https://github.com/NVIDIA/gpu-operator"
     },
     {
       "repo": "ollama/ollama",
@@ -241,10 +273,6 @@
       "url": "https://github.com/qdrant/qdrant"
     },
     {
-      "repo": "ray-project/kuberay",
-      "url": "https://github.com/ray-project/kuberay"
-    },
-    {
       "repo": "ray-project/ray",
       "url": "https://github.com/ray-project/ray"
     },
@@ -267,6 +295,10 @@
     {
       "repo": "sgl-project/sglang",
       "url": "https://github.com/sgl-project/sglang"
+    },
+    {
+      "repo": "theagentrouter/agent-router",
+      "url": "https://github.com/theagentrouter/agent-router"
     },
     {
       "repo": "thudm/slime",
@@ -295,6 +327,10 @@
     {
       "repo": "vllm-project/vllm",
       "url": "https://github.com/vllm-project/vllm"
+    },
+    {
+      "repo": "volcano-sh/agentcube",
+      "url": "https://github.com/volcano-sh/agentcube"
     },
     {
       "repo": "volcano-sh/kthena",
@@ -329,10 +365,6 @@
     {
       "repo": "agent-field/agentfield",
       "url": "https://github.com/agent-field/agentfield"
-    },
-    {
-      "repo": "agentgateway/agentgateway",
-      "url": "https://github.com/agentgateway/agentgateway"
     },
     {
       "repo": "agentops-ai/agentops",

@@ -523,7 +523,7 @@ topology can degrade performance by 30-50% or more:
 - <a href="https://github.com/kubernetes/dynamic-resource-allocation/">`DRA
   (Dynamic Resource Allocation)`</a>: Structured parameters for device
   topology (GA in v1.34)
-- <a href="https://github.com/google/dranet">`DRANET`</a>: Google's DRA
+- <a href="https://github.com/kubernetes-sigs/dranet">`DRANET`</a>: Google's DRA
   implementation for network device topology
 - <a href="https://github.com/containerd/nri">`NRI (Node Resource
   Interface)`</a>: Fine-grained device management at runtime

@@ -8,7 +8,7 @@ source_urls: |-
   https://www.lfopensource.cn/kubecon-cloudnativecon-openinfra-summit-pytorch-conference-china/program/schedule/
   https://github.com/Project-HAMi/HAMi
   https://github.com/NVIDIA/k8s-device-plugin
-  https://github.com/NVIDIA/k8s-dra-driver-gpu
+  https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu
   https://github.com/Project-HAMi/k8s-dra-driver
 ---
 
@@ -365,7 +365,7 @@ resources:
 ### DRA partitionable claim (conceptual)
 
 Workload uses `ResourceClaimTemplate` with `deviceClassName` from
-[NVIDIA](https://github.com/NVIDIA/k8s-dra-driver-gpu) or
+[NVIDIA](https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu) or
 [HAMi](https://github.com/Project-HAMi/k8s-dra-driver) DRA driver; see
 [DRA v1.36 snapshot](./dra.md#v136-feature-snapshot-for-ai-infra).
 
