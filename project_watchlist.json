@@ -69,30 +69,6 @@
       "url": "https://github.com/eleutherai/lm-evaluation-harness"
     },
     {
-      "repo": "kubeflow/trainer",
-      "url": "https://github.com/kubeflow/trainer"
-    },
-    {
-      "repo": "kubernetes-sigs/dra-driver-nvidia-gpu",
-      "url": "https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu"
-    },
-    {
-      "repo": "kubernetes-sigs/dranet",
-      "url": "https://github.com/kubernetes-sigs/dranet"
-    },
-    {
-      "repo": "kubernetes-sigs/lws",
-      "url": "https://github.com/kubernetes-sigs/lws"
-    },
-    {
-      "repo": "llm-d-incubation/llm-d-fast-model-actuation",
-      "url": "https://github.com/llm-d-incubation/llm-d-fast-model-actuation"
-    },
-    {
-      "repo": "nvidia/gpu-operator",
-      "url": "https://github.com/NVIDIA/gpu-operator"
-    },
-    {
       "repo": "explodinggradients/ragas",
       "url": "https://github.com/explodinggradients/ragas"
     },
@@ -169,8 +145,20 @@
       "url": "https://github.com/kubeflow/pipelines"
     },
     {
+      "repo": "kubeflow/trainer",
+      "url": "https://github.com/kubeflow/trainer"
+    },
+    {
       "repo": "kubernetes-sigs/agent-sandbox",
       "url": "https://github.com/kubernetes-sigs/agent-sandbox"
+    },
+    {
+      "repo": "kubernetes-sigs/dra-driver-nvidia-gpu",
+      "url": "https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu"
+    },
+    {
+      "repo": "kubernetes-sigs/dranet",
+      "url": "https://github.com/kubernetes-sigs/dranet"
     },
     {
       "repo": "kubernetes-sigs/gateway-api-inference-extension",
@@ -189,6 +177,10 @@
       "url": "https://github.com/kubernetes-sigs/kueue"
     },
     {
+      "repo": "kubernetes-sigs/lws",
+      "url": "https://github.com/kubernetes-sigs/lws"
+    },
+    {
       "repo": "kvcache-ai/mooncake",
       "url": "https://github.com/kvcache-ai/mooncake"
     },
@@ -199,6 +191,10 @@
     {
       "repo": "langgenius/dify",
       "url": "https://github.com/langgenius/dify"
+    },
+    {
+      "repo": "llm-d-incubation/llm-d-fast-model-actuation",
+      "url": "https://github.com/llm-d-incubation/llm-d-fast-model-actuation"
     },
     {
       "repo": "llm-d/llm-d",
@@ -227,6 +223,10 @@
     {
       "repo": "netflix/metaflow",
       "url": "https://github.com/netflix/metaflow"
+    },
+    {
+      "repo": "nvidia/gpu-operator",
+      "url": "https://github.com/NVIDIA/gpu-operator"
     },
     {
       "repo": "ollama/ollama",
