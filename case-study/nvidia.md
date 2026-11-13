@@ -276,7 +276,7 @@ Dynamo -> Grove -> KAI Scheduler -> GPU DRA Driver
 
 - [kubernetes/kubernetes](https://github.com/kubernetes/kubernetes)
 - [containerd/containerd](https://github.com/containerd/containerd)
-- [ovn-org/ovn-kubernetes](https://github.com/ovn-org/ovn-kubernetes)
+- [ovn-kubernetes/ovn-kubernetes](https://github.com/ovn-kubernetes/ovn-kubernetes)
 
 ## 生态交叉项目入口
 

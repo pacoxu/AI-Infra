@@ -63,9 +63,9 @@ Transformers provides the foundation for major fine-tuning tools:
   Streamlined fine-tuning toolkit
 - <a href="https://github.com/Lightning-AI/pytorch-lightning">`PyTorch
   Lightning`</a>: High-level training framework
-- <a href="https://github.com/hiyouga/LLaMA-Factory">`LLaMA-Factory`</a>:
+- <a href="https://github.com/hiyouga/LlamaFactory">`LLaMA-Factory`</a>:
   Efficient LLM fine-tuning
-- <a href="https://github.com/google/maxtext">`MaxText`</a>: Google's
+- <a href="https://github.com/AI-Hypercomputer/maxtext">`MaxText`</a>: Google's
   high-performance LLM training
 
 ### Inference Engines
@@ -87,7 +87,7 @@ Pre-training frameworks build upon Transformers standards:
 
 - <a href="https://github.com/pytorch/torchtitan">`torchtitan`</a>: PyTorch
   native large-scale pre-training
-- <a href="https://github.com/NVIDIA/NeMo">`NVIDIA NEMO`</a>: End-to-end
+- <a href="https://github.com/NVIDIA-NeMo">`NVIDIA NEMO`</a>: End-to-end
   platform for building and customizing AI models
 - <a href="https://github.com/huggingface/nanotron">`Nanotron`</a>: 3D
   parallelism for pre-training transformers
@@ -96,7 +96,7 @@ Pre-training frameworks build upon Transformers standards:
 
 Local deployment tools leverage Transformers model formats:
 
-- <a href="https://github.com/ggerganov/llama.cpp">`LLaMA.cpp`</a>: Inference
+- <a href="https://github.com/ggml-org/llama.cpp">`LLaMA.cpp`</a>: Inference
   in pure C/C++ with quantization support
 - <a href="https://github.com/ml-explore/mlx">`MLX`</a>: Apple silicon
   optimized ML framework
@@ -532,7 +532,7 @@ Inference: Time Step = N (continues until <EOS>)
   LLM fine-tuning
 - <a href="https://github.com/axolotl-ai-cloud/axolotl">`Axolotl`</a>: Go-to
   solution for LLM fine-tuning
-- <a href="https://github.com/hiyouga/LLaMA-Factory">`LLaMA-Factory`</a>:
+- <a href="https://github.com/hiyouga/LlamaFactory">`LLaMA-Factory`</a>:
   Easy-to-use LLM fine-tuning framework
 
 ### Inference Tools

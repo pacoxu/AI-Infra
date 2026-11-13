@@ -19,7 +19,7 @@ source_urls:
   - https://azure.microsoft.com/en-us/blog/designing-agent-first-platforms-what-changes-when-agents-do-the-work/
   - https://katacontainers.io/blog/kata-containers-openinfra-summit-asia-2026-schedule/
   - https://katacontainers.io/blog/kata-containers-agent-sandbox-integration/
-  - https://github.com/alibaba/OpenSandbox
+  - https://github.com/opensandbox-group/OpenSandbox
   - https://github.com/TencentCloud/CubeSandbox
   - https://www.volcengine.com/docs/6460/144953
   - https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5972-dynamic-containers/README.md
@@ -150,7 +150,7 @@ Kata 社区的叙事很清楚：从云原生安全容器，走到 **Agent 时代
 动机之一，是 Agent 迭代快于基础设施共识，需要开放底座让生态一起试。
 
 **阿里 OpenSandbox**  
-[alibaba/OpenSandbox](https://github.com/alibaba/OpenSandbox) 走 **协议 + 可插拔
+[opensandbox-group/OpenSandbox](https://github.com/opensandbox-group/OpenSandbox) 走 **协议 + 可插拔
 runtime**：Docker / gVisor / Kata / Firecracker 可换；统一沙箱 API、多语言 SDK、MCP；
 Fast Sandbox 路径上公开了 Firecracker 预热与 pause/resume 数字。更像「企业要把沙箱
 嵌进已有 K8s」时的抽象层，而不是绑死一家 hypervisor。

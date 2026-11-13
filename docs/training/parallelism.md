@@ -318,12 +318,12 @@ For a model with M parameters trained on N GPUs:
   TP, PP, and CP.
 - [`Megatron-LM`](https://github.com/NVIDIA/Megatron-LM):
   NVIDIA's framework with advanced parallelism techniques
-- [`DeepSpeed`](https://github.com/microsoft/DeepSpeed):
+- [`DeepSpeed`](https://github.com/deepspeedai/DeepSpeed):
   Microsoft's optimization library with ZeRO (similar to FSDP)
 
 ### Training Operators
 
-- [`Kubeflow Training Operator`](https://github.com/kubeflow/training-operator):
+- [`Kubeflow Training Operator`](https://github.com/kubeflow/trainer):
   Kubernetes-native operator supporting distributed PyTorch training
 - [`Volcano`](https://github.com/volcano-sh/volcano):
   Batch scheduling with gang scheduling for multi-GPU jobs

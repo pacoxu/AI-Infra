@@ -85,7 +85,7 @@ flowchart TB
 
 ## 发起/主导项目（代表）
 
-- [alibaba/higress](https://github.com/alibaba/higress)
+- [higress-group/higress](https://github.com/higress-group/higress)
 - [openyurtio/openyurt](https://github.com/openyurtio/openyurt)
 - [kata-containers/kata-containers](https://github.com/kata-containers/kata-containers)
 - [koordinator-sh/koordinator](https://github.com/koordinator-sh/koordinator)

@@ -91,7 +91,7 @@ ensuring reproducibility and enabling rollback.
 
 **Key Projects:**
 
-- <a href="https://github.com/iterative/dvc">`DVC`</a>: Data versioning and
+- <a href="https://github.com/treeverse/dvc">`DVC`</a>: Data versioning and
   ML experimentation tool providing Git-like version control for data and
   models, enabling "code version" and "data/model version" to be tracked in
   sync. DVC +1
@@ -109,7 +109,7 @@ prevent data drift and ensure model reliability.
 
 **Key Projects:**
 
-- <a href="https://github.com/great-expectations/great_expectations">`Great
+- <a href="https://github.com/fivetran/great_expectations">`Great
   Expectations`</a>: Data validation and documentation framework for data
   quality unit testing ("expectations" as data quality assertions).
   greatexpectations.io +1

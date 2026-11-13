@@ -268,11 +268,11 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
 - **学习项目:**
   - AI 网关:
     - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
-    - [`Envoy AI Gateway`](https://github.com/envoyproxy/ai-gateway)
+    - [`Envoy AI Gateway`](https://github.com/theagentrouter/agent-router)
     - [`Istio`](https://github.com/istio/istio)
     - [`KGateway`](https://github.com/kgateway-dev/kgateway): 前称 Gloo
     - [`DaoCloud knoway`](https://github.com/knoway-dev/knoway)
-    - [`Higress`](https://github.com/alibaba/higress): 阿里巴巴
+    - [`Higress`](https://github.com/higress-group/higress): 阿里巴巴
     - [`Kong`](https://github.com/Kong/kong)
     - [`Semantic Router`](https://github.com/vllm-project/semantic-router): vLLM 项目
   - 原生智能体套件:
@@ -464,7 +464,7 @@ LLM 评估平台（TruLens, Deepchecks）的全面介绍。
 - [Awesome AI Infrastructures](https://github.com/1duo/awesome-ai-infrastructures)
 - [AI Infra Landscape](https://github.com/tensorchord/ai-infra-landscape)
 - [Awesome LLMOps (GitHub)](https://github.com/InftyAI/Awesome-LLMOps)
-- [AI Fundermentals](https://github.com/ForceInjection/AI-fundermentals)
+- [AI Fundermentals](https://github.com/ForceInjection/AI-fundamentals)
 - [CNCF TAG Workloads Foundation](https://github.com/cncf/toc/blob/main/tags/tag-workloads-foundation/README.md)
 - [CNCF TAG Infrastructure](https://github.com/cncf/toc/blob/main/tags/tag-infrastructure/README.md)
 - [CNCF AI Initiative](https://github.com/cncf/toc/issues?q=is%3Aissue%20state%3Aopen%20label%3Akind%2Finitiative)

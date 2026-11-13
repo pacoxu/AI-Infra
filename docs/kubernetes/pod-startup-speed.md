@@ -175,7 +175,7 @@ Basic Pod startup process:
 
 **Image Distribution Solutions:**
 
-- <a href="https://github.com/dragonflyoss/dragonfly2">`Dragonfly`</a>:
+- <a href="https://github.com/dragonflyoss/dragonfly">`Dragonfly`</a>:
   Open source P2P-based file distribution and image acceleration system
 - <a href="https://github.com/dragonflyoss/nydus">`Nydus`</a>: Dragonfly
   Container Image Service for lazy pulling

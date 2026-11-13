@@ -111,4 +111,4 @@ flowchart TB
 - [istio/istio](https://github.com/istio/istio)
 - [etcd-io/etcd](https://github.com/etcd-io/etcd)
 - [vllm-project/aibrix](https://github.com/vllm-project/aibrix)
-- [ray-project/kuberay](https://github.com/ray-project/kuberay)
+- [kuberay-project/kuberay](https://github.com/kuberay-project/kuberay)

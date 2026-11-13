@@ -173,7 +173,7 @@ slirp4netns for networking.
 
 #### Rootless Podman
 
-<a href="https://github.com/containers/podman">Podman</a> provides native
+<a href="https://github.com/podman-container-tools/podman">Podman</a> provides native
 rootless support without requiring a daemon, using fuse-overlayfs for storage.
 
 ### Kubernetes Integration
@@ -506,7 +506,7 @@ designs, the most important decision is where each project sits in the stack:
 | Managed sandbox security plane | ACK Agent Sandbox 容器版 | Adds `ack-agent-identity` (RRSA/STS, API keys, OAuth delegation), `ack-agent-sec-scanner`, cloud guardrails, and a privileged Tetragon sidecar on the same traffic CRDs. See the [security briefing](../../agent-infra/sandbox-control-planes-zh.md). |
 | Integrated Kubernetes sandbox distribution | [K8E](https://github.com/xiaods/k8e) | Use when a single-binary, self-hosted cluster that bundles a sandbox gateway, warm pools, Cilium policy, and gVisor/Kata/Firecracker integration is preferable to assembling the layers separately. It spans multiple layers and still relies on the selected runtime as the actual isolation boundary. |
 | Agent runtime substrate | [agent-substrate/substrate](https://github.com/agent-substrate/substrate) | Use when the problem is not only isolation, but running large fleets of mostly idle agents through invocation-based wake-up, suspension/resume, and shared worker pools. |
-| Agent sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | Use for SDK/API, templates, command/file/browser execution, and self-hosted service operations. Validate licensing and deployment model before embedding. |
+| Agent sandbox platform | [OpenSandbox](https://github.com/opensandbox-group/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | Use for SDK/API, templates, command/file/browser execution, and self-hosted service operations. Validate licensing and deployment model before embedding. |
 | Runtime boundary | [gVisor](https://github.com/google/gvisor), [Kata Containers](https://github.com/kata-containers/kata-containers), [containerd/nerdbox](https://github.com/containerd/nerdbox), [Firecracker](https://github.com/firecracker-microvm/firecracker), [Kuasar](https://github.com/kuasar-io/kuasar) | Use as the actual isolation boundary: gVisor for density, Kata for VM-level isolation, Firecracker for custom microVM control planes, Kuasar for multi-sandbox containerd integration. |
 | Local policy sandbox | [microsoft/mxc](https://github.com/microsoft/mxc), [strands-agents/box](https://github.com/strands-agents/box) | MXC (GA 2026-10-07) maps one JSON policy onto OS backends. Strands Box (macOS preview) adds default-deny Dogwood rules at the shell, Python, MCP, and egress gateway. Neither replaces a RuntimeClass boundary for cluster multi-tenancy. See the [comparison](../../agent-infra/sandbox-control-planes-zh.md). |
 | Local coding-agent sandbox | [Cleanroom](https://github.com/buildkite/cleanroom), [Brood Box](https://github.com/stacklok/brood-box), [microsandbox](https://github.com/superradcompany/microsandbox), [BoxLite](https://github.com/boxlite-ai/boxlite), [Matchlock](https://github.com/jingkaihe/matchlock), [Shuru](https://github.com/superhq-ai/shuru), [sandbox-runtime](https://github.com/anthropics/sandbox-runtime) | Evaluate separately for developer workstations, where repo-scoped egress, host-side credentials, and post-run diff review matter more than K8s CRDs. |
@@ -737,7 +737,7 @@ NetworkPolicy, host firewall, or cloud security group beside it. Full notes:
 - <a href="https://github.com/agent-substrate/substrate">Agent Substrate</a>:
   Core runtime system for secure, efficient, on-demand agent execution on
   Kubernetes
-- <a href="https://github.com/alibaba/OpenSandbox">OpenSandbox</a>: General
+- <a href="https://github.com/opensandbox-group/OpenSandbox">OpenSandbox</a>: General
   self-hosted sandbox API/SDK with Docker, Kubernetes, and secure runtime
   backends
 - <a href="https://github.com/TencentCloud/CubeSandbox">CubeSandbox</a>:

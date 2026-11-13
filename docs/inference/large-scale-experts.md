@@ -1204,7 +1204,7 @@ high-performance MoE inference:
 
 ### DeepSpeed-MoE
 
-[`DeepSpeed-MoE`](https://github.com/microsoft/DeepSpeed) enables
+[`DeepSpeed-MoE`](https://github.com/deepspeedai/DeepSpeed) enables
 training and inference:
 
 - Expert parallelism strategies
@@ -1231,7 +1231,7 @@ training and inference:
 - [vLLM Project](https://github.com/vllm-project/vllm)
 - [SGLang](https://github.com/sgl-project/sglang)
 - [TensorRT-LLM](https://github.com/NVIDIA/TensorRT-LLM)
-- [DeepSpeed-MoE](https://github.com/microsoft/DeepSpeed)
+- [DeepSpeed-MoE](https://github.com/deepspeedai/DeepSpeed)
 - [AIBrix](https://github.com/vllm-project/aibrix)
 - [Mixtral Models](https://huggingface.co/mistralai)
 - [DeepSeek Models](https://huggingface.co/deepseek-ai)
