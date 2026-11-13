@@ -386,9 +386,9 @@ instruction following, factuality, safety, and multilingual capabilities.
 | [AlpacaEval](https://github.com/tatsu-lab/alpaca_eval) | Automated pairwise evaluation for instruction following and dialogue quality |
 | [lighteval](https://github.com/huggingface/lighteval) | Lightweight evaluation framework from Hugging Face, easy to integrate in CI |
 | [EvalPlus](https://github.com/evalplus/evalplus) | Enhanced HumanEval code evaluation with stricter test cases |
-| [SWE-bench](https://github.com/princeton-nlp/SWE-bench) | Real software engineering task benchmark for evaluating code agents |
+| [SWE-bench](https://github.com/SWE-bench/SWE-bench) | Real software engineering task benchmark for evaluating code agents |
 | [FastChat / MT-Bench](https://github.com/lm-sys/FastChat) | Multi-turn dialogue evaluation scripts and benchmarks |
-| [Ragas](https://github.com/explodinggradients/ragas) / [DeepEval](https://github.com/confident-ai/deepeval) | RAG pipeline and application-chain quality evaluation |
+| [Ragas](https://github.com/vibrantlabsai/ragas) / [DeepEval](https://github.com/confident-ai/deepeval) | RAG pipeline and application-chain quality evaluation |
 
 ### Key Benchmark Datasets
 

@@ -365,7 +365,7 @@ Key optimization strategies for Llama4 pre-training:
   NVIDIA's framework for training large transformer models. Supports various
   parallelism strategies and optimizations.
 
-- <a href="https://github.com/microsoft/DeepSpeed">`DeepSpeed`</a>:
+- <a href="https://github.com/deepspeedai/DeepSpeed">`DeepSpeed`</a>:
   Microsoft's deep learning optimization library. Includes ZeRO optimizer
   for memory efficiency.
 
@@ -388,7 +388,7 @@ Key optimization strategies for Llama4 pre-training:
 
 ### AMD-Specific Tools
 
-- <a href="https://github.com/ROCm/rocm">`ROCm`</a>:
+- <a href="https://github.com/ROCm">`ROCm`</a>:
   AMD's open software platform for GPU computing. Required for MI325
   training.
 

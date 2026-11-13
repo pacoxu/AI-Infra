@@ -37,7 +37,7 @@ the complete ML lifecycle:
   ML metadata and artifact tracking
 - <a href="https://github.com/kubeflow/mpi-operator">`MPI Operator`</a>:
   MPI-style distributed training support
-- <a href="https://github.com/kubeflow/training-operator">`Training Operator`</a>:
+- <a href="https://github.com/kubeflow/trainer">`Training Operator`</a>:
   Unified training operator for multiple frameworks
 
 ### Integration Components
@@ -58,10 +58,11 @@ the complete ML lifecycle:
 
 ## Kubeflow Training Operator
 
-The <a href="https://github.com/kubeflow/training-operator">`Training
+The <a href="https://github.com/kubeflow/trainer">`Training
 Operator`</a> (formerly TF Operator, PyTorch Operator, etc.) provides
 Kubernetes-native support for distributed training across multiple ML
-frameworks.
+frameworks. Its repository was renamed from `kubeflow/training-operator` to
+`kubeflow/trainer`, which now hosts Kubeflow Trainer v2.
 
 ### Supported Frameworks
 
@@ -272,7 +273,7 @@ workflows. See [ArgoCD for AI Workloads](./argocd.md) for more details.
   Operator Documentation</a>
 - <a href="https://www.kubeflow.org/docs/components/training/trainer-v2/">Trainer
   V2 Documentation</a>
-- <a href="https://github.com/kubeflow/training-operator/tree/master/examples">Training
+- <a href="https://github.com/kubeflow/trainer/tree/master/examples">Training
   Operator Examples</a>
 
 ### Community Resources
@@ -331,7 +332,7 @@ workflows. See [ArgoCD for AI Workloads](./argocd.md) for more details.
 ## Contributing
 
 Contributions to Kubeflow and the Training Operator are welcome! See the
-<a href="https://github.com/kubeflow/training-operator/blob/master/CONTRIBUTING.md">contributing
+<a href="https://github.com/kubeflow/trainer/blob/master/CONTRIBUTING.md">contributing
 guide</a> for more information.
 
 ---

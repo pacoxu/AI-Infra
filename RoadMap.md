@@ -303,8 +303,9 @@ training checkpoints and model weights.
 Vector database solutions for embedding storage, similarity search, and
 retrieval-augmented generation (RAG) pipelines.
 
-- **[Milvus](https://github.com/milvus-io/milvus)**: CNCF Incubating —
-  open-source vector database built for scalable similarity search
+- **[Milvus](https://github.com/milvus-io/milvus)**: LF AI & Data Foundation
+  graduated project — open-source vector database built for scalable
+  similarity search
 - **[Qdrant](https://github.com/qdrant/qdrant)**: High-performance vector
   similarity search engine written in Rust
 - **[Weaviate](https://github.com/weaviate/weaviate)**: Cloud-native vector

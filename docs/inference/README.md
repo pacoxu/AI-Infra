@@ -64,7 +64,7 @@ Kubernetes-native platforms for orchestrating LLM inference at scale:
 | [Grove](https://github.com/ai-dynamo/grove) | NVIDIA (ai-dynamo) | PodCliqueSet CRDs | Hierarchical gang scheduling, topology-aware, multi-level autoscaling, startup ordering |
 | [Kthena](https://github.com/volcano-sh/kthena) | Volcano (CNCF Sandbox) | Serving Group / LWS | Gang scheduling, topology-aware, revision control |
 | [NVIDIA Dynamo](https://github.com/ai-dynamo/dynamo) | NVIDIA | Grove + Kubernetes integration (LWS / RBG) | NVIDIA-optimized, disaggregated serving, KV routing |
-| [OME](https://github.com/sgl-project/ome) | SGLang Project | Operator pattern | Model management, lifecycle, multi-engine support |
+| [OME](https://github.com/ome-projects/ome) | SGLang Project | Operator pattern | Model management, lifecycle, multi-engine support |
 | [KServe](https://github.com/kserve/kserve) | CNCF Incubating | InferenceService CRD | Multi-framework, canary, explainability, serverless |
 | [llm-d](https://github.com/llm-d/llm-d) | Red Hat / IBM | Dual LWS + KServe | P/D disaggregation reference implementation |
 | [vLLM production-stack](https://github.com/vllm-project/production-stack) | vLLM Project | Helm-based | Router, multi-instance, KV-aware routing |
@@ -315,7 +315,7 @@ Model quantization tools reduce memory footprint and improve inference speed:
 | [AWQ](https://github.com/mit-han-lab/llm-awq) | MIT Han Lab | Activation-aware weight quantization |
 | [AMD Quark](https://quark.docs.amd.com/) | AMD | Model optimization and quantization for AMD ecosystem |
 | [LLM Compressor](https://github.com/vllm-project/llm-compressor) | vLLM Project | LLM compression/quantization toolchain |
-| [NVIDIA ModelOpt](https://github.com/NVIDIA/TensorRT-Model-Optimizer) | NVIDIA | Model optimization and quantization for NVIDIA ecosystem |
+| [NVIDIA ModelOpt](https://github.com/NVIDIA/Model-Optimizer) | NVIDIA | Model optimization and quantization for NVIDIA ecosystem |
 
 ## Cost Optimization
 

@@ -7,7 +7,7 @@ tags: model-loading, cold-start, runai-model-streamer, modelexpress, dynamo, vll
 canonical_path: docs/blog/2026-05-18/2026-05-18-model-streamer-modelexpress-model-loading-zh.md
 source_urls:
   - https://github.com/pacoxu/AI-Infra/issues/305
-  - https://github.com/run-ai/runai-model-streamer
+  - https://github.com/dsx-ai-factory/model-streamer
   - https://docs.vllm.ai/en/stable/models/extensions/runai_model_streamer/
   - https://github.com/ai-dynamo/modelexpress
   - https://github.com/ai-dynamo/dynamo/releases/tag/v1.3.0
@@ -108,7 +108,7 @@ flowchart LR
 
 ### 2. Run:ai Model Streamer：把 tensor 读取变成流水线
 
-[Run:ai Model Streamer](https://github.com/run-ai/runai-model-streamer) 是面向
+[Run:ai Model Streamer](https://github.com/dsx-ai-factory/model-streamer) 是面向
 SafeTensors 的加载库。它并发读取 tensor，并在有限 CPU buffer 的约束下持续向 GPU
 内存推进，而不是要求先把整份 checkpoint 完整下载后再开始 GPU 装载。
 
@@ -271,7 +271,7 @@ YAML。模型 URI 还应绑定不可变版本或 digest，并在 source/target �
 ## 参考资料
 
 - [Issue #305：Cache Offload 深入](https://github.com/pacoxu/AI-Infra/issues/305)
-- [Run:ai Model Streamer](https://github.com/run-ai/runai-model-streamer)
+- [Run:ai Model Streamer](https://github.com/dsx-ai-factory/model-streamer)
 - [vLLM：Loading models with Run:ai Model Streamer](https://docs.vllm.ai/en/stable/models/extensions/runai_model_streamer/)
 - [Dynamo ModelExpress](https://github.com/ai-dynamo/modelexpress)
 - [Dynamo：ModelExpress Kubernetes deployment](https://docs.nvidia.com/dynamo/latest/kubernetes-deployment/model-loading/model-express)

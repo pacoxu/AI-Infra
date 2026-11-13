@@ -1172,7 +1172,7 @@ Cost Metrics:
 - [GKE Agent Sandbox: Strong Guardrails for Agentic AI on Kubernetes](https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke)
 - [Run:ai Model Streamer on GKE](https://docs.cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/run-ai-model-streamer?hl=zh-cn)
 - [vLLM: High-throughput LLM Inference](https://github.com/vllm-project/vllm)
-- [Safetensors: Safe Tensor Serialization](https://github.com/huggingface/safetensors)
+- [Safetensors: Safe Tensor Serialization](https://github.com/safetensors/safetensors)
 
 ### Related Documentation
 

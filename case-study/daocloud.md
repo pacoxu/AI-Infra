@@ -157,7 +157,7 @@ flowchart TB
 - [kdoctor-io/kdoctor](https://github.com/kdoctor-io/kdoctor)（自）
 - [BaizeAI/kcover](https://github.com/BaizeAI/kcover)（自）
 - [DaoCloud/public-image-mirror](https://github.com/DaoCloud/public-image-mirror)（自）
-- [OpenCIDN/OpenCIDN](https://github.com/OpenCIDN/OpenCIDN)（自）
+- [OpenCIDN/ocimirror](https://github.com/OpenCIDN/ocimirror)（自）
 - [apache/skywalking](https://github.com/apache/skywalking)（参）
 - [open-telemetry](https://github.com/open-telemetry)（参）
 - [apolloconfig/apollo](https://github.com/apolloconfig/apollo)（参）

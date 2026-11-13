@@ -9,7 +9,7 @@ source_urls:
   - https://api.github.com/repos/pacoxu/AI-Infra/issues/300
   - https://api.github.com/repos/kubernetes-sigs/kueue/releases/tags/v0.19.0
   - https://api.github.com/repos/kubernetes-sigs/jobset/releases/tags/v0.12.0
-  - https://api.github.com/repos/ray-project/kuberay/releases/tags/v1.6.2
+  - https://api.github.com/repos/kuberay-project/kuberay/releases/tags/v1.6.2
   - https://raw.githubusercontent.com/kubernetes/enhancements/master/keps/sig-scheduling/4671-gang-scheduling/kep.yaml
   - https://kueue.sigs.k8s.io/docs/tasks/run/jobsets/
   - https://kueue.sigs.k8s.io/docs/tasks/run/rayjobs/

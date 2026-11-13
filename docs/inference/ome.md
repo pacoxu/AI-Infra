@@ -16,12 +16,12 @@ deployment patterns.
 
 ## Overview
 
-[`OME`](https://github.com/sgl-project/ome) stands out in the LLM inference
+[`OME`](https://github.com/ome-projects/ome) stands out in the LLM inference
 landscape by treating models as first-class Kubernetes custom resources,
 enabling sophisticated model parsing, automated runtime selection, and
 advanced deployment patterns including prefill-decode disaggregation.
 
-**Note**: [contributors](https://github.com/sgl-project/ome/graphs/contributors) shows this is a one-person project(104/168 commits) until now.
+**Note**: [contributors](https://github.com/ome-projects/ome/graphs/contributors) shows this is a one-person project(104/168 commits) until now.
 
 ## Key Features
 
@@ -78,7 +78,7 @@ OME provides deep integration with
 ### vLLM Support
 
 OME supports [`vLLM`](https://github.com/vllm-project/vllm) as a high-performance
-runtime option with [built-in configurations](https://github.com/sgl-project/ome/tree/main/config/runtimes/vllm)
+runtime option with [built-in configurations](https://github.com/ome-projects/ome/tree/main/config/runtimes/vllm)
 for optimized LLM serving.
 
 ## Kubernetes Ecosystem Integration
@@ -189,7 +189,7 @@ OME distinguishes itself through:
 
 ## References
 
-- [OME GitHub Repository](https://github.com/sgl-project/ome)
+- [OME GitHub Repository](https://github.com/ome-projects/ome)
 - [OME Documentation](https://sgl-project.github.io/ome/docs/)
 - [SGLang Project](https://github.com/sgl-project/sglang)
 - [Installation Guide](https://sgl-project.github.io/ome/docs/installation/)

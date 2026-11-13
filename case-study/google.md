@@ -168,7 +168,7 @@ flowchart TB
 ## 补充：Google 生态重点项目（可纳入全景图）
 
 - [kubernetes-sigs/kueue](https://github.com/kubernetes-sigs/kueue)
-- [google/dranet](https://github.com/google/dranet)
+- [google/dranet](https://github.com/google/dranet)（已归档，项目已迁至下一行的 kubernetes-sigs/dranet）
 - [kubernetes-sigs/dranet](https://github.com/kubernetes-sigs/dranet)
 - [kubeflow/kubeflow](https://github.com/kubeflow/kubeflow)
 - [SchedMD/slurm](https://github.com/SchedMD/slurm)

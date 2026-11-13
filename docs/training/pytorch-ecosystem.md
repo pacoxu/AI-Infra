@@ -47,7 +47,7 @@ allowing frameworks like DeepSpeed and vLLM to leverage different backends:
 
 ### DeepSpeed Accelerator Integration
 
-[`DeepSpeed`](https://github.com/microsoft/DeepSpeed) provides a flexible
+[`DeepSpeed`](https://github.com/deepspeedai/DeepSpeed) provides a flexible
 accelerator abstraction layer that enables training optimization across
 multiple hardware backends.
 
@@ -265,7 +265,7 @@ To add a new accelerator backend to the PyTorch ecosystem:
 
 ### Training Frameworks
 
-- <a href="https://github.com/microsoft/DeepSpeed">`DeepSpeed`</a>:
+- <a href="https://github.com/deepspeedai/DeepSpeed">`DeepSpeed`</a>:
   Microsoft's deep learning optimization library with multi-accelerator
   support.
 - <a href="https://github.com/pytorch/pytorch">`PyTorch`</a>: Core deep
@@ -297,7 +297,7 @@ To add a new accelerator backend to the PyTorch ecosystem:
 - <a href="https://github.com/NVIDIA/nccl">`NCCL`</a>: NVIDIA Collective
   Communication Library for multi-GPU training.
 - **HCCL**: Huawei Collective Communication Library for Ascend NPUs.
-- <a href="https://github.com/intel/oneCCL">`oneCCL`</a>: Intel's
+- <a href="https://github.com/uxlfoundation/oneCCL">`oneCCL`</a>: Intel's
   collective communication library.
 
 ## Learning Topics

@@ -120,7 +120,7 @@ Key components of their framework:
 
 ### Training Operators
 
-- [`Training Operator`](https://github.com/kubeflow/training-operator):
+- [`Training Operator`](https://github.com/kubeflow/trainer):
   Kubernetes-native operators for distributed training (PyTorch, TensorFlow,
   XGBoost, etc.). Part of Kubeflow project. See
   [Kubeflow documentation](./kubeflow.md) for detailed guide on Kubeflow
@@ -130,7 +130,7 @@ Key components of their framework:
   batch workloads.
 - [`Kueue`](https://github.com/kubernetes-sigs/kueue):
   Kubernetes SIG project for job queueing and resource quotas.
-- [`KubeRay`](https://github.com/ray-project/kuberay):
+- [`KubeRay`](https://github.com/kuberay-project/kuberay):
   Kubernetes operator for Ray clusters; enables Ray-based distributed
   training and serving (Ray Train, Ray Tune) on Kubernetes.
 
@@ -138,14 +138,14 @@ Key components of their framework:
 
 - [`PyTorch`](https://github.com/pytorch/pytorch): Primary framework for
   distributed training and the center of the AI/ML ecosystem.
-- [`JAX`](https://github.com/google/jax): Google's high-performance numerical
+- [`JAX`](https://github.com/jax-ml/jax): Google's high-performance numerical
   computing library; commonly used in TPU scenarios and research.
 
 ### Distributed Training Libraries
 
 - [`Megatron-LM`](https://github.com/NVIDIA/Megatron-LM):
   NVIDIA's framework for training large language models (TP/PP parallelism).
-- [`DeepSpeed`](https://github.com/microsoft/DeepSpeed):
+- [`DeepSpeed`](https://github.com/deepspeedai/DeepSpeed):
   Microsoft's deep learning optimization library (ZeRO, offload,
   checkpoint).
 - [`PyTorch FSDP`](https://pytorch.org/docs/stable/fsdp.html): Fully Sharded
@@ -162,15 +162,15 @@ Key components of their framework:
   Fine-Tuning — LoRA, Adapter, and related techniques.
 - [`Axolotl`](https://github.com/axolotl-ai-cloud/axolotl): Opinionated
   engineering pipeline for SFT/LoRA finetuning workflows.
-- [`LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory): Toolbox
+- [`LLaMA-Factory`](https://github.com/hiyouga/LlamaFactory): Toolbox
   supporting SFT, LoRA, DPO and other finetuning recipes for LLaMA and
   other models.
 
 ### Post-training / RLHF (强化学习对齐)
 
-- [`verl`](https://github.com/volcengine/verl): RL training system framework
+- [`verl`](https://github.com/verl-project/verl): RL training system framework
   designed for LLMs (ByteDance/VolcEngine).
-- [`SLIME`](https://github.com/TIGER-AI-Lab/SLIME): RL scaling framework for
+- [`slime`](https://github.com/THUDM/slime): RL scaling framework for
   LLM post-training.
 - [`OpenRLHF`](https://github.com/OpenRLHF/OpenRLHF): Open-source RLHF
   training framework for large language models.
@@ -184,7 +184,7 @@ Key components of their framework:
 - [`Megatron-LM`](https://github.com/NVIDIA/Megatron-LM):
   NVIDIA's framework for training large language models with built-in
   fault tolerance.
-- [`DeepSpeed`](https://github.com/microsoft/DeepSpeed):
+- [`DeepSpeed`](https://github.com/deepspeedai/DeepSpeed):
   Microsoft's deep learning optimization library with checkpointing and
   fault tolerance features.
 
@@ -202,7 +202,7 @@ Key components of their framework:
 - [`3FS`](https://github.com/deepseek-ai/3FS): DeepSeek's high-performance
   distributed file system optimized for AI training (checkpoint IO and
   small-file/metadata-intensive workloads).
-- [`safetensors`](https://github.com/huggingface/safetensors): Hugging Face's
+- [`safetensors`](https://github.com/safetensors/safetensors): Hugging Face's
   safe and fast tensor serialization format for model weights.
 - [`TensorStore`](https://github.com/google/tensorstore): Google's library for
   efficient reading/writing of large sharded arrays and checkpoints.
@@ -330,7 +330,7 @@ Key components of their framework:
 
 ### Training Operator Enhancements
 
-- [Training Operator Issues](https://github.com/kubeflow/training-operator/issues):
+- [Training Operator Issues](https://github.com/kubeflow/trainer/issues):
   Feature requests and enhancements
 - **Automatic Failure Recovery:**
   Self-healing training jobs with intelligent retry logic
