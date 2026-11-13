@@ -2,7 +2,8 @@ name: Roadmap Execution Item
 description: Create an executable issue from the AI-Infra roadmap backlog.
 title: "[Backlog] <ID> <short title>"
 labels:
-  - status/needs-design
+  - backlog
+  - kind/design
 body:
   - type: input
     id: backlog_id

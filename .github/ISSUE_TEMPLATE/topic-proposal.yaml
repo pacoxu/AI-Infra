@@ -2,7 +2,8 @@ name: Topic Proposal
 description: Propose a new AI-Infra topic for roadmap or backlog.
 title: "[Topic] <short title>"
 labels:
-  - status/needs-design
+  - backlog
+  - kind/research
 body:
   - type: input
     id: topic_name
