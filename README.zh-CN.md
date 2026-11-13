@@ -221,7 +221,10 @@ Kubernetes 集群中 AI 工作负载的高级调度、工作负载编排和设�
 - **路线图:**
   - Kubernetes v1.35 WAS 介绍:
     [Introducing Workload Aware Scheduling](https://kubernetes.io/blog/2025/12/29/kubernetes-v1-35-introducing-workload-aware-scheduling/)
-  - Kubernetes 中的 Gang 调度 [#4671](https://github.com/kubernetes/enhancements/pull/4671)
+  - Kubernetes v1.37（2026-08-26 发布）：Gang 调度与工作负载感知抢占进入 Beta，
+    DRA Extended Resource 与设备污点 GA。详见
+    [v1.37 DRA 与 WAS 发布解读](./docs/kubernetes/sig-release/v1.37/release.md)
+  - Kubernetes 中的 Gang 调度 [KEP-4671](https://kep.k8s.io/4671)
   - LWS Gang 调度 [KEP-407](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
 
 ---
