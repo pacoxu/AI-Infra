@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-25
+last_updated: 2026-11-13
 tags: repository, structure, documentation, organization
 ---
 
@@ -28,22 +28,33 @@ AI-Infra/
 ├── README.md                          # Main entry point and learning path (EN)
 ├── README.zh-CN.md                    # Main entry point and learning path (ZH)
 ├── RoadMap.md                         # Future topics and planning
+├── BLOG.md                            # Public blog entry point (recent posts)
 ├── STRUCTURE.md                       # This file - repository organization guide
-├── diagrams/                          # Centralized image storage
+├── project_watchlist.json             # Upstream projects tracked by the repo
+├── diagrams/                          # Centralized image storage + landscape data
 ├── docs/                              # All documentation content
-│   ├── kubernetes/                    # Kubernetes and scheduling topics
+│   ├── kubernetes/                    # Kubernetes, scheduling, DRA, release notes
+│   │   └── sig-release/vX.Y/          # Per-release AI Infra articles
 │   ├── inference/                     # LLM inference and serving topics
 │   ├── training/                      # AI model training topics
 │   ├── observability/                 # Observability content
-│   ├── blog/                          # Blog archive and index
+│   ├── hardware/                      # SuperNode and other hardware topics
+│   ├── planning/                      # Executable backlog (item-level planning)
+│   ├── blog/                          # Active blog posts and full index
 │   └── archive-blog/                  # Historical blog posts archive
 ├── agent-infra/                       # Agent Infra docs and benchmark assets
 │   ├── README.md                      # Agent platforms, sandboxes, and ecosystem
 │   ├── runtime-benchmark.md           # runc/gVisor/Kata/VM benchmark
 │   └── scripts/
 │       └── agent-sandbox-benchmark/   # Reproducible benchmark scripts
-├── scripts/                           # Utility and generation scripts
-└── .github/                           # GitHub automation and instructions
+├── case-study/                        # Per-vendor open source portfolios
+│   └── assets/                        # Images used only by case studies
+├── archive/                           # Retired material (e.g. mcm-radar)
+├── scripts/                           # Utility, generation, and PoC scripts
+│   ├── generate-landscape-svg.js      # Renders diagrams/ai-infra-landscape.svg
+│   ├── conformance/                   # Inference preflight gate
+│   └── dra-kueue-kwok/                # DRA + Kueue KWOK-only PoC
+└── .github/                           # Issue templates and Copilot instructions
 
 Directory/file counts evolve frequently; avoid hard-coded totals.
 ```
@@ -60,20 +71,18 @@ Directory/file counts evolve frequently; avoid hard-coded totals.
 
 ### Domain Categories
 
+Each category's `README.md` is the maintained index of its files. This page
+only names the category, its purpose, and anchor documents; when you add a
+file, update the category README (and the main README) instead of this list.
+
 #### 1. Kubernetes (`docs/kubernetes/`)
 
 **Purpose**: Core Kubernetes concepts and AI workload optimization
 
-**Canonical Files**:
-
-- `README.md` - Navigation hub for Kubernetes topics
-- `learning-plan.md` - 3-phase structured learning path
-- `pod-lifecycle.md` - Detailed pod lifecycle and PLEG
-- `pod-startup-speed.md` - Startup optimization strategies
-- `scheduling-optimization.md` - Large-scale scheduling patterns
-- `isolation.md` - Security and multi-tenancy isolation
-- `dra.md` - Dynamic Resource Allocation API reference
-- `nri.md` - Node Resource Interface reference
+**Index**: `docs/kubernetes/README.md`. Anchor documents include
+`learning-plan.md`, `pod-lifecycle.md`, `scheduling-optimization.md`,
+`dra.md`, `isolation.md`, and the per-release articles under
+`sig-release/vX.Y/release.md`.
 
 **Cross-references**: Links to `../inference/` and `../training/` for related topics
 
@@ -81,16 +90,9 @@ Directory/file counts evolve frequently; avoid hard-coded totals.
 
 **Purpose**: LLM inference engines, serving platforms, and optimization
 
-**Canonical Files**:
-
-- `README.md` - Inference platform landscape (AIBrix, OME, Kthena, KServe, llm-d, Dynamo)
-- `aibrix.md` - AIBrix platform features and architecture
-- `pd-disaggregation.md` - Prefill-Decode disaggregation implementations
-- `caching.md` - KV cache and prefix caching techniques
-- `memory-context-db.md` - Memory management for AI agents
-- `large-scale-experts.md` - MoE architecture and deployment
-- `model-lifecycle.md` - Model lifecycle management strategies
-- `ome.md` - OME Kubernetes operator features
+**Index**: `docs/inference/README.md` (platform landscape: AIBrix, OME,
+Kthena, KServe, llm-d, Dynamo). Anchor documents include
+`pd-disaggregation.md`, `caching.md`, `model-lifecycle.md`, and `dynamo.md`.
 
 **Cross-references**: Links to `../kubernetes/` for infrastructure topics
 
@@ -98,11 +100,8 @@ Directory/file counts evolve frequently; avoid hard-coded totals.
 
 **Purpose**: Distributed training, fault tolerance, and ML pipelines
 
-**Canonical Files**:
-
-- `README.md` - Overview of training challenges and best practices
-- `kubeflow.md` - Kubeflow training operators and Trainer V2
-- `argocd.md` - GitOps workflows for training management
+**Index**: `docs/training/README.md`. Anchor documents include
+`kubeflow.md` (Kubeflow Trainer), `parallelism.md`, and `mlops.md`.
 
 **Cross-references**: Links to `../kubernetes/` for scheduling and resources
 
@@ -130,14 +129,31 @@ sandboxing, `../docs/inference/memory-context-db.md` for agent memory
 
 - `README.md` - Overview of observability approaches and references
 
-#### 6. Blog (`docs/blog/`)
+#### 6. Blog (`docs/blog/`, `docs/archive-blog/`)
 
 **Purpose**: Time-ordered technical blogs and case-study posts
 
 **Canonical Files**:
 
-- `README.md` - Full blog index and maintenance notes
-- `YYYY-MM-DD-topic-name*.md` - Blog posts (flattened, date-prefixed naming)
+- `docs/blog/README.md` - Full blog index (active and archived posts)
+- `BLOG.md` - Public entry point with recent posts
+- `YYYY-MM-DD/YYYY-MM-DD-topic-name(_zh).md` - Blog posts, one folder per
+  date; older posts move to `docs/archive-blog/` with the same layout
+
+#### 7. Hardware (`docs/hardware/`)
+
+**Purpose**: Rack-scale and accelerator hardware that shapes scheduling,
+for example `supernode.md`
+
+#### 8. Planning (`docs/planning/`)
+
+**Purpose**: Item-level execution backlog; `RoadMap.md` keeps the strategic
+direction
+
+#### 9. Case Studies (`case-study/`)
+
+**Purpose**: Per-vendor open source portfolios. `case-study/README.md` is the
+index; vendor-specific images live in `case-study/assets/`
 
 ### Assets (`diagrams/`)
 
@@ -170,6 +186,9 @@ canonical_path: path/from/repo/root.md
 - `last_updated`: Date of last significant update
 - `tags`: Topics covered (for searchability)
 - `canonical_path`: Full path (for stub references)
+
+Blog posts also carry `date:` (publication date) and usually `source_urls:`;
+archived posts may have `date:` without `last_updated`.
 
 ## Content Guidelines
 

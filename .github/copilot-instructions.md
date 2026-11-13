@@ -52,7 +52,7 @@ organized into learning topics.
   markdownlint **/*.md
   ```
 
-  - Fix line length violations (80 character limit)
+  - Fix line length violations (120 characters, see `.markdownlint.json`)
   - Fix trailing spaces and multiple blank lines
   - Address inline HTML warnings where appropriate
 
@@ -70,37 +70,28 @@ organized into learning topics.
 ### Repository Structure
 
 ```text
-/home/runner/work/AI-Infra/AI-Infra/
-├── README.md                          # Main learning path and landscape overview
-├── diagrams/                          # All images centralized
-│   ├── ai-infra-landscape.png        # Visual landscape diagram
-│   └── pod-lifecycle.png             # Pod lifecycle diagram
+AI-Infra/
+├── README.md, README.zh-CN.md   # Learning path + documentation index (EN/ZH)
+├── RoadMap.md, BLOG.md          # Strategic roadmap; blog entry point
+├── STRUCTURE.md                 # Detailed layout and metadata rules
+├── diagrams/                    # Images and landscape source data
 ├── docs/
-│   ├── kubernetes/
-│   │   ├── README.md                 # Kubernetes overview (canonical)
-│   │   ├── learning-plan.md          # Kubernetes learning plan (3-phase approach)
-│   │   ├── pod-lifecycle.md          # Pod lifecycle documentation
-│   │   ├── pod-startup-speed.md      # Pod startup optimization guide
-│   │   ├── scheduling-optimization.md # Scheduling strategies and optimization
-│   │   ├── isolation.md              # Workload isolation techniques
-│   │   ├── dra.md                    # Dynamic Resource Allocation reference
-│   │   └── nri.md                    # Node Resource Interface reference
-│   ├── inference/
-│   │   ├── README.md                 # LLM inference engine comparisons
-│   │   ├── aibrix.md                 # AIBrix platform
-│   │   ├── pd-disaggregation.md      # Prefill-Decode disaggregation
-│   │   ├── caching.md                # Caching strategies
-│   │   ├── memory-context-db.md      # Memory/Context DB
-│   │   ├── large-scale-experts.md    # MoE models
-│   │   ├── model-lifecycle.md        # Model lifecycle
-│   │   └── ome.md                    # OME platform
-│   └── training/
-│       ├── README.md                 # Training on Kubernetes overview
-│       ├── kubeflow.md               # Kubeflow training operators
-│       └── argocd.md                 # GitOps with ArgoCD
-└── .github/
-    └── copilot-instructions.md
+│   ├── kubernetes/              # Scheduling, DRA, NRI, release articles
+│   ├── inference/               # Engines, platforms, caching, lifecycle
+│   ├── training/                # Training on Kubernetes, MLOps
+│   ├── observability/           # Metrics, tracing, agent observability
+│   ├── hardware/                # SuperNode and hardware topics
+│   ├── planning/                # Executable backlog
+│   ├── blog/                    # Active posts + full blog index
+│   └── archive-blog/            # Archived posts
+├── agent-infra/                 # Agent platforms, sandboxes, benchmarks
+├── case-study/                  # Per-vendor open source portfolios
+├── scripts/                     # Landscape generator, PoC, conformance
+└── .github/                     # Issue templates, these instructions
 ```
+
+Each directory's `README.md` is the maintained index of its files; see
+`STRUCTURE.md` for the full layout.
 
 ### Common Development Tasks
 
@@ -110,6 +101,9 @@ organized into learning topics.
    - Scheduling/Workloads content → `docs/kubernetes/`
    - Inference optimization content → `docs/inference/`
    - Training and ML pipelines → `docs/training/`
+   - Observability → `docs/observability/`
+   - Agent platforms and sandboxes → `agent-infra/`
+   - Vendor portfolios → `case-study/`
 
 2. **Always include metadata headers and proper structure:**
 
@@ -158,8 +152,9 @@ organized into learning topics.
 #### Updating the Main README
 
 - **Always update the main learning path when adding new topics**
-- **Maintain the three-tier structure: Scheduling & Workloads, Inference &
-  Runtime, AI Gateway & Agentic Workflow**
+- **Keep the numbered learning-path sections (0. Kernel & Runtime through
+  6. Ecosystem Initiatives) and the "Documentation Files" list in sync in
+  both `README.md` and `README.zh-CN.md`**
 - **Include CNCF project status (Graduated, Incubating, Sandbox) where
   applicable**
 - **Link to detailed documentation in subdirectories using relative paths:
@@ -205,8 +200,10 @@ After making changes, ALWAYS complete these validation steps:
   manual validation is critical
 - **External link reliability:** Conference websites and GitHub asset links
   frequently return Status: 0 errors - these can often be ignored
-- **Image references:** The main landscape image uses GitHub user-attachments
-  URLs which may be unstable
+- **Image references:** The README logo and the AI Infra definition figure
+  use GitHub user-attachments URLs which may be unstable; the landscape itself
+  is `diagrams/ai-infra-landscape.svg`, generated from
+  `diagrams/ai-infra-landscape.data.json`
 - **Content freshness:** Project statuses and links need regular manual
   verification as the AI infrastructure landscape evolves rapidly
 
