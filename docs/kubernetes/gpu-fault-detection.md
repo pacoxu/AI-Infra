@@ -1162,6 +1162,7 @@ data:
 ### Deployment Checklist
 
 **Phase 1: Detection (MVP)**
+
 - [ ] Deploy NVIDIA GPU Operator with DCGM Exporter
 - [ ] Configure Prometheus to scrape DCGM metrics
 - [ ] Create Prometheus alerts for critical XID errors
@@ -1169,6 +1170,7 @@ data:
 - [ ] Set up monitoring dashboards (Grafana)
 
 **Phase 2: Basic Remediation**
+
 - [ ] Deploy Draino for automated node drain on conditions
 - [ ] Configure Node Readiness Controller
 - [ ] Implement manual runbooks for GPU reset/reboot
@@ -1176,6 +1178,7 @@ data:
 - [ ] Define blast radius limits per rack/AZ
 
 **Phase 3: Advanced Remediation**
+
 - [ ] Implement device-level isolation (GPUDevice CRD)
 - [ ] Deploy remediation controller with progressive policies
 - [ ] Add verification loops for all remediation actions
@@ -1183,6 +1186,7 @@ data:
 - [ ] Add workload-aware policies (training vs inference)
 
 **Phase 4: Fault-Aware Scheduling**
+
 - [ ] Implement GPU health scoring scheduler plugin
 - [ ] Integrate health requirements into Kueue/Volcano
 - [ ] Extend DRA driver with health attributes
@@ -1190,6 +1194,7 @@ data:
 - [ ] Implement health-based autoscaling policies
 
 **Phase 5: Attribution and Optimization**
+
 - [ ] Deploy job mapping controller
 - [ ] Enable DCGM HPC job mapping
 - [ ] Implement fault attribution queries
@@ -1199,24 +1204,28 @@ data:
 ### Best Practices
 
 **1. Start Conservative**
+
 - Begin with detection and alerting only (no automation)
 - Gradually enable automation with strict rate limits
 - Validate detection accuracy before enabling remediation
 - Keep humans in the loop for critical decisions
 
 **2. Measure and Iterate**
+
 - Track false positive rate for fault detection
 - Measure MTTR (Mean Time To Recovery) improvements
 - Monitor "collateral damage" from remediation actions
 - Collect feedback from workload owners
 
 **3. Security and Compliance**
+
 - Audit all automated remediation actions
 - Require approval for destructive actions (GPU reset, reboot)
 - Use RBAC to limit remediation controller permissions
 - Implement change notifications via webhooks/Slack
 
 **4. Integration Points**
+
 - Coordinate with cluster autoscaler for node replacement
 - Integrate with incident management systems (PagerDuty, OpsGenie)
 - Feed data to capacity planning tools
