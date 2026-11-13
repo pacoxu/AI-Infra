@@ -75,15 +75,25 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [Pod Startup Speed](./docs/kubernetes/pod-startup-speed.md)
 - [GPU Pod Cold Start](./docs/kubernetes/gpu-pod-cold-start.md)
 - [Scheduling Optimization](./docs/kubernetes/scheduling-optimization.md)
+- [LWS High-Priority KEP Learning Path](./docs/kubernetes/lws-keps-learning-path.md)
 - [TAS Validation Report](./docs/kubernetes/tas-validation.md)
+- [Swap Memory Management](./docs/kubernetes/swap-memory-management.md)
 - [Workload Isolation](./docs/kubernetes/isolation.md)
 - [Dynamic Resource Allocation (DRA)](./docs/kubernetes/dra.md)
+- [DRA Driver Feature Matrix](./docs/kubernetes/dra-driver-feature-matrix.md)
 - [DRA Performance Testing](./docs/kubernetes/dra-performance-testing.md)
+- [DRA + Kueue KWOK-only PoC](./docs/kubernetes/dra-kueue-kwok-poc.md) and
+  [Results](./docs/kubernetes/dra-kueue-kwok-results.md)
 - [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md)
+- [HAMi / MIG / GPU Sharing](./docs/kubernetes/hami-gpu-sharing.md)
 - [NVIDIA AI Cluster Runtime (AICR)](./docs/kubernetes/nvidia-aicr.md)
 - [GPU Fault Detection and Self-Healing](./docs/kubernetes/gpu-fault-detection.md)
 - [Node Resource Interface (NRI)](./docs/kubernetes/nri.md)
 - [Large-Scale Clusters (130K+ Nodes)](./docs/kubernetes/large-scale-clusters.md)
+- Release notes:
+  [v1.37 DRA and WAS (Chinese)](./docs/kubernetes/sig-release/v1.37/release.md) |
+  [v1.36 release (Chinese)](./docs/kubernetes/sig-release/v1.36/release.md) |
+  [v1.36 AI Infra Highlights](./docs/kubernetes/v1.36-ai-infra-highlights.md)
 
 #### Hardware
 
@@ -94,8 +104,10 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [Inference Overview](./docs/inference/README.md)
 - [Model Architectures](./docs/inference/model-architectures.md)
 - [DeepInfer and deepseek-recipe](./docs/inference/deepseek-serving.md)
+- [NVIDIA Dynamo: Panorama Architecture](./docs/inference/dynamo.md)
 - [LoRA: Low-Rank Adaptation](./docs/inference/lora.md)
 - [Grove: Kubernetes Inference Orchestration](./docs/inference/grove.md)
+- [kube-agentic-networking: Agentic Networking Governance](./docs/inference/kube-agentic-networking.md)
 - [AIBrix Platform](./docs/inference/aibrix.md)
 - [OME Platform](./docs/inference/ome.md)
 - [Serverless AI Inference](./docs/inference/serverless.md)
@@ -105,7 +117,9 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [Memory & Context DB](./docs/inference/memory-context-db.md)
 - [Large-Scale MoE Models](./docs/inference/large-scale-experts.md)
 - [Model Lifecycle Management](./docs/inference/model-lifecycle.md)
+- [Model Distribution Stack](./docs/inference/model-distribution-stack.md)
 - [Performance Testing](./docs/inference/performance-testing.md)
+- [Inference Conformance and Preflight Gate](./docs/inference/inference-conformance.md)
 
 #### Training
 
@@ -121,11 +135,25 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 #### Observability
 
 - [Observability Overview](./docs/observability/README.md)
+- [Agent, Tool, and Sandbox Observability (OTel GenAI)](./docs/observability/agent-otel-genai.md)
 
 #### AI Agents
 
 - [AI Agent Platforms and Frameworks](./agent-infra/README.md)
 - [Production Agent Infra: 9 Layers + 4 Cross-Cutting Capabilities](./agent-infra/ai-agent-infra-9-layers-zh.md)
+- [Agent Sandbox Control Planes (Chinese, 2026-10)](./agent-infra/sandbox-control-planes-zh.md)
+- [Agent Sandbox Runtime Benchmark: runc vs gVisor vs Kata vs VM](./agent-infra/runtime-benchmark.md)
+
+#### Case Studies
+
+- [Cloud Native Case Studies by Vendor](./case-study/README.md): NVIDIA,
+  DaoCloud, ByteDance, Huawei, Alibaba, Ant Group, Tencent, Google, Azure, AWS,
+  Red Hat, Solo.io
+
+#### Planning
+
+- [RoadMap](./RoadMap.md)
+- [Executable Backlog (2026 Q2)](./docs/planning/executable-backlog-2026Q2.md)
 
 #### Blog
 

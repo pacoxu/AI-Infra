@@ -27,6 +27,9 @@ workload isolation.
 - **[Pod Startup Speed Optimization](./pod-startup-speed.md)**: Strategies
   for accelerating pod startup including image optimization, scheduling
   improvements, and GPU workload considerations
+- **[GPU Pod Cold Start](./gpu-pod-cold-start.md)**: Strategies to minimize
+  cold-start latency for GPU Pods, with an editable startup critical-path
+  diagram
 
 ### Advanced Topics
 
@@ -50,6 +53,9 @@ workload isolation.
 - **[DRA Driver Feature Matrix](./dra-driver-feature-matrix.md)**: Public DRA
   implementation ecosystem mapped to explicit Beta / GA feature signals,
   active WIP, and current public gaps
+- **[DRA Performance Testing](./dra-performance-testing.md)**: Testing
+  strategies, metrics, and infrastructure used to validate DRA performance and
+  scalability
 - **[DRA + Kueue KWOK-only PoC](./dra-kueue-kwok-poc.md)**: Reproducible
   Kubernetes 1.36 control-plane baseline for DRA allocation, Kueue admission,
   borrowing, reclaim, failure recovery, and scale
@@ -74,6 +80,9 @@ workload isolation.
 - **[Kubernetes v1.37 DRA and WAS Release Notes](./sig-release/v1.37/release.md)**:
   AI-infrastructure-focused review of DRA migration and device management,
   Workload-Aware Scheduling Beta, feature gates, and upgrade risks
+- **[Kubernetes v1.36 Release Article (Chinese)](./sig-release/v1.36/release.md)**:
+  Release-day walkthrough of v1.36 themes, DRA updates, and Workload-Aware
+  Scheduling progress
 - **[Kubernetes v1.36 AI Infra Highlights](./v1.36-ai-infra-highlights.md)**:
   Curated v1.36 release signals focused on AI infrastructure relevance,
   upgrade risks, and recommended actions
