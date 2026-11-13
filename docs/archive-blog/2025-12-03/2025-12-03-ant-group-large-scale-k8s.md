@@ -5,8 +5,7 @@ last_updated: 2025-12-03
 tags: kubernetes, scalability, ant-group, api-server, etcd, large-scale
 ---
 
-# Ant Group Large-Scale Cluster Experience: 50% Memory Reduction at
-20K Nodes
+# Ant Group Large-Scale Cluster Experience: 50% Memory Reduction at 20K Nodes
 
 This article introduces Ant Group's practical experiences in operating
 large-scale Kubernetes clusters, covering Etcd splitting, control plane
@@ -165,8 +164,7 @@ they had to restart 35 times due to hardware, infrastructure,
 or experimental stability issues. The open logs also show that almost the
 entire training process faced continuous restarts and interruptions.
 
-### 2. What Characteristics K8s Services for Digital Intelligence
-Applications Need
+### 2. What Characteristics K8s Services for Digital Intelligence Applications Need
 
 #### Scale Requirements
 
@@ -186,8 +184,7 @@ intelligent computing application computing needs.
 
 ### 3. How to Build a Matching K8s Service
 
-#### How to Make Large-Scale Clusters "Stable" Can Be an Elephant,
-But Cannot Be Bloated
+#### How to Make Large-Scale Clusters "Stable": Can Be an Elephant, But Cannot Be Bloated
 
 **Stability = Standardized Governance + Reasonable Saturation +
 Fault Self-Healing**
@@ -229,8 +226,7 @@ Benefits:
 - **Watch latency P99 < 1s**
 - **Request success rate 99.9%**
 
-#### How to Make Large-Scale Clusters "Stable" Independent Execution
-Environment
+#### How to Make Large-Scale Clusters "Stable": Independent Execution Environment
 
 **Application Cell Management, Independent Execution Without Interference**
 
@@ -385,8 +381,7 @@ Key points:
 
 ![Traffic routing by resource type](https://github.com/user-attachments/assets/5613a03b-fef1-45e3-8c7f-0714739371c9)
 
-#### Technical Solution: Gateway kok (kubernetes on kubernetes) →
-kom (kubernetes on mesh)
+#### Technical Solution: Gateway kok (kubernetes on kubernetes) → kom (kubernetes on mesh)
 
 **kom Gateway Features**:
 

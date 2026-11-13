@@ -169,6 +169,7 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 ![AI-Infra Landscape](./diagrams/ai-infra-landscape.svg)
 
 Maintenance:
+
 - Source data: `./diagrams/ai-infra-landscape.data.json`
 - Generate SVG: `node ./scripts/generate-landscape-svg.js`
 

@@ -99,7 +99,7 @@ flowchart TB
   class U1,U2,U3 base;
 ```
 
-## 可编辑开源全景图（Mermaid）
+## 分层项目全景图（Mermaid）
 
 ```mermaid
 flowchart TB
