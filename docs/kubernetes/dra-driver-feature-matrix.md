@@ -103,14 +103,14 @@ public evidence for the tracked Beta / GA feature set above.
 | Repo | Resource Type | Current read |
 | --- | --- | --- |
 | [`kubernetes-sigs/dra-driver-google-tpu`](https://github.com/kubernetes-sigs/dra-driver-google-tpu) | Google TPU | No strong public signal for `PL/ER/PD/DT/BC/RHS/CC` in this pass. |
-| `Project-HAMi/enflame-dra-driver` | Enflame | Sparse public feature signal in tracked set. |
+| `Project-HAMi/enflame-dra-driver` | Enflame | Sparse public feature signal in tracked set. Repository no longer publicly reachable (checked 2026-11-13). |
 | `kubernetes-sigs/dranet` | network DRA | Strong topology/network positioning, but no high-confidence explicit match in the tracked feature set from this pass. |
 | `ibm-aiu/dra-driver-spyre` | IBM AIU Spyre | Sparse public feature signal in tracked set. |
 | `kubevirt/dra-pci-driver` | PCI passthrough | No high-signal public evidence yet for the tracked set. |
 | `ffromani/dra-driver-cpumem` | combined CPU/memory/hugepages | Likely feature-adjacent to `CC`, but I did not find a strong explicit signal in this pass. |
 | `fabiendupont/dra-driver-hugepages` | hugepages | Sparse public feature signal in tracked set. |
 | `fabiendupont/k8s-dra-driver-time-share` | CPU time-sharing | Conceptually close to `CC`, but no strong explicit `allowMultipleAllocations`-style signal found in this pass. |
-| `justin-oleary/cxl-dra-driver` | CXL pooled memory | Sparse public feature signal in tracked set. |
+| `justin-oleary/cxl-dra-driver` | CXL pooled memory | Sparse public feature signal in tracked set. Repository no longer publicly reachable (checked 2026-11-13). |
 | `abhinavdahiya/k8s-dra-driver-trace-collector` | trace-processing capacity | DRA lifecycle signal exists, but no strong explicit match to the tracked Beta / GA feature list in this pass. |
 | `mewz-project/waiot-dra-driver` | Waiot | Sparse public feature signal in tracked set. |
 

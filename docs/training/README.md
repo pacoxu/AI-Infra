@@ -170,7 +170,7 @@ Key components of their framework:
 
 - [`verl`](https://github.com/verl-project/verl): RL training system framework
   designed for LLMs (ByteDance/VolcEngine).
-- [`SLIME`](https://github.com/TIGER-AI-Lab/SLIME): RL scaling framework for
+- [`slime`](https://github.com/THUDM/slime): RL scaling framework for
   LLM post-training.
 - [`OpenRLHF`](https://github.com/OpenRLHF/OpenRLHF): Open-source RLHF
   training framework for large language models.

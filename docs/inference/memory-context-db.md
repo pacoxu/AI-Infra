@@ -294,7 +294,8 @@ extension adding vector similarity search to Postgres.
 Vector database deployment on Kubernetes is simplified by dedicated operators:
 
 - **Milvus Operator**: [Automates Milvus cluster management](https://github.com/milvus-io/milvus-operator)
-- **Chroma Operator**: [Manages Chroma deployments](https://github.com/chroma-core/chroma-operator) (community-driven, repository is archived)
+- **Chroma Operator**: community-driven operator for Chroma deployments; the
+  `chroma-core/chroma-operator` repository is no longer available (checked 2026-11-13)
 - **Weaviate Operator**: [Handles Weaviate vector database clusters](https://github.com/weaviate/weaviate-operator)
 
 ---
