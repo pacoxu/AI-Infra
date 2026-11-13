@@ -276,11 +276,13 @@ can perceive, reason, and act.
 - **Projects to Learn:**
   - AI Gateway:
     - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
-    - [`Envoy AI Gateway`](https://github.com/theagentrouter/agent-router)
+    - [`Agent Router`](https://github.com/theagentrouter/agent-router): formerly
+      Envoy AI Gateway; an Agentic AI Foundation (AAIF) project since 2026-09
     - [`Istio`](https://github.com/istio/istio)
     - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
     - [`DaoCloud knoway`](https://github.com/knoway-dev/knoway)
-    - [`Higress`](https://github.com/higress-group/higress): Alibaba
+    - [`Higress`](https://github.com/higress-group/higress): Alibaba; CNCF Sandbox
+      since 2026-03
     - [`Kong`](https://github.com/Kong/kong)
     - [`Semantic Router`](https://github.com/vllm-project/semantic-router): vLLM Project
   - Native Agent Kits:
@@ -489,7 +491,7 @@ We welcome contributions to improve this landscape and path! Whether it's a new 
 - [Awesome AI Infrastructures](https://github.com/1duo/awesome-ai-infrastructures)
 - [AI Infra Landscape](https://github.com/tensorchord/ai-infra-landscape)
 - [Awesome LLMOps (GitHub)](https://github.com/InftyAI/Awesome-LLMOps)
-- [AI Fundermentals](https://github.com/ForceInjection/AI-fundamentals)
+- [AI Fundamentals](https://github.com/ForceInjection/AI-fundamentals)
 - [CNCF TAG Workloads Foundation](https://github.com/cncf/toc/blob/main/tags/tag-workloads-foundation/README.md)
 - [CNCF TAG Infrastructure](https://github.com/cncf/toc/blob/main/tags/tag-infrastructure/README.md)
 - [CNCF AI Initiative](https://github.com/cncf/toc/issues?q=is%3Aissue%20state%3Aopen%20label%3Akind%2Finitiative)

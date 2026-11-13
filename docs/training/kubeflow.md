@@ -61,7 +61,8 @@ the complete ML lifecycle:
 The <a href="https://github.com/kubeflow/trainer">`Training
 Operator`</a> (formerly TF Operator, PyTorch Operator, etc.) provides
 Kubernetes-native support for distributed training across multiple ML
-frameworks.
+frameworks. Its repository was renamed from `kubeflow/training-operator` to
+`kubeflow/trainer`, which now hosts Kubeflow Trainer v2.
 
 ### Supported Frameworks
 
