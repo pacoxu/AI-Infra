@@ -507,11 +507,19 @@ For AI Agent projects and developments, see [#30](https://github.com/pacoxu/AI-I
 
 Here are some key conferences in the AI Infra space:
 
-- AI_dev: for instance, [AI_dev EU 2025](https://aideveu2025.sched.com/)
+- Open Source Summit: from 2026 the Linux Foundation runs AI_dev content inside
+  Open Source Summit events instead of a standalone AI_dev summit
+  ([2026 events program](https://www.linuxfoundation.org/press/linux-foundation-reveals-2026-global-events-program-advancing-open-source-ai-and-enabling-community-based-innovation))
 - [PyTorch Conference](https://pytorch.org/pytorchcon/) by PyTorch Foundation
-- KubeCon+CloudNativeCon AI+ML Track, for instance, [KubeCon NA 2025](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/program/schedule-at-a-glance/) and co-located events [Cloud Native + Kubernetes AI Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/cloud-native-kubernetes-ai-day/)
+- KubeCon + CloudNativeCon AI tracks:
+  [KubeCon NA 2026](https://www.cncf.io/announcements/2026/08/10/cncf-reveals-kubecon-cloudnativecon-north-america-2026-schedule-adds-new-ai-inference-agentic-track/)
+  (Salt Lake City, 2026-11-09 to 11-12) added an AI Inference + Agentic track;
+  [KubeCon EU 2027](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/)
+  (Barcelona, 2027-03-15 to 03-18) hosts the co-located
+  [Cloud Native AI + Inference Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/cloud-native-ai-inference-day-europe/)
 - AICon in China by QCon.
-- GOSIM(Global Open-Source Innovation Meetup): for instance, [GOSIM Hangzhou 2025](https://hangzhou2025.gosim.org/)
+- [GOSIM](https://gosim.org/) (Global Open-Source Innovation Meetup): for
+  instance, [GOSIM Paris 2026](https://paris2026.gosim.org/) (2026-05-05 to 05-06)
 
 ## 📜 License
 
