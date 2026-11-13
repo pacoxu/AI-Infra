@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2026-11-03
+tags: case-study, cloud-native, open-source, vendor-portfolio
+canonical_path: case-study/README.md
+---
+
 # Cloud Native Case Study
 
 按厂商整理云原生 / AI Infra 开源全景：发起项目、重度参与、分层关系与可编辑图。

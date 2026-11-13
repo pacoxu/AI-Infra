@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+date: 2025-11-28
+tags: kubernetes, agent-sandbox, sandbox, gvisor, kata, ai-agents
+canonical_path: docs/archive-blog/2025-11-28/2025-11-28-agent-sandbox.md
+---
+
 # Agent Sandbox: Secure AI Agents on Kubernetes
 
 > Agent Sandbox provides a secure, isolated, and efficient execution environment

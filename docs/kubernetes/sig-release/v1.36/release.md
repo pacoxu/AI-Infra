@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2026-04-23
+tags: kubernetes, release, ai-infrastructure, dra, workload-aware-scheduling
+canonical_path: docs/kubernetes/sig-release/v1.36/release.md
+---
+
 # Kubernetes v1.36 正式发布：DRA 加速成熟，WAS 迈向原生工作负载调度
 
 2026 年 4 月 23 日（北京时间周四），Kubernetes v1.36 正式发布。上游官方发布博客统计显示，本版本包含 70 项增强：18 项进入 Stable，25 项进入 Beta，25 项进入 Alpha，另有 2 项弃用或移除。

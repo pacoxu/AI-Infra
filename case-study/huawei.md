@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2026-11-03
+tags: case-study, cloud-native, open-source, huawei
+canonical_path: case-study/huawei.md
+---
+
 # 华为云（Huawei）云原生开源案例（全景版）
 
 ## 一句话结论
