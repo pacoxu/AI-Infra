@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-09-17
+last_updated: 2026-11-13
 tags: blog, ai-infrastructure
 ---
 
@@ -16,8 +16,11 @@ This page is the public entry point for blog posts in `AI-Infra`.
 
 ## Recent Posts
 
+- [Agent 沙盒十个月：从 agent-sandbox 1.0 到 Dynamic Containers](./docs/blog/2026-09-30/2026-09-30-agent-sandbox-k8s-ecosystem-update_zh.md)
+- [LWS v0.11.0：KEP-666 原生 Gang Scheduling 落地](./docs/blog/2026-09-28/2026-09-28-lws-v0.11.0-kep-666-gang-scheduling_zh.md)
 - [KEP-5972 Dynamic Containers：把十年不变的 Pod 容器列表改成动态执行信封](./docs/blog/2026-09-17/2026-09-17-kep-5972-dynamic-containers_zh.md)
 - [Agent Substrate 为 GKE 带来高密度、可扩展的可信基础设施](./docs/blog/2026-09-16/2026-09-16-agent-substrate-available-on-gke_zh.md)
+- [从 DRA 到集群升级：AI Infra 交流中的七个工程问题](./docs/blog/2026-09-10/2026-09-10-workshop-kubecon-ai-infra-takeaways_zh.md)
 - [KEP-766 DisaggregatedSet 深入解读：为何对 AI 工作负载重要](./docs/blog/2026-06-15/2026-06-15-kep-766-disaggregatedset-ai-workloads_zh.md)
 - [Kubernetes Scheduler 演进主线：从 Predicates/Priorities 到 Scheduling Framework，再到 Workload-Aware Scheduling](./docs/blog/2026-05-21/2026-05-21-kubernetes-scheduler-framework-evolution_zh.md)
 - [How to choose an inference orchestration stack: AIBrix, Kthena, Dynamo, llm-d, KServe, vLLM Production Stack, and SGLang/RBG](./docs/blog/2026-05-13/2026-05-13-how-to-choose-inference-orchestration-stacks.md)
