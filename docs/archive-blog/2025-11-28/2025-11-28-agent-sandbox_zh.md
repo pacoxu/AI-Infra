@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+date: 2025-11-28
+tags: kubernetes, agent-sandbox, sandbox, gvisor, kata, ai-agents
+canonical_path: docs/archive-blog/2025-11-28/2025-11-28-agent-sandbox_zh.md
+---
+
 # Agent Sandbox：在 Kubernetes 上安全运行 AI 代理
 
 > Agent Sandbox 为 AI 代理提供安全、隔离和高效的执行环境。本文将探讨该项目、

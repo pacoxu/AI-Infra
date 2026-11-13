@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2026-11-03
+tags: case-study, cloud-native, open-source, nvidia, gpu
+canonical_path: case-study/nvidia.md
+---
+
 # NVIDIA 云原生开源案例（GPU-on-Kubernetes 全景版）
 
 ## 参考输入

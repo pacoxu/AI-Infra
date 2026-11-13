@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2026-11-03
+tags: case-study, cloud-native, open-source, tencent
+canonical_path: case-study/tencent.md
+---
+
 # 腾讯（Tencent）云原生开源案例（全景版）
 
 ## 一句话结论

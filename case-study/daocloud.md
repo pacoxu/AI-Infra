@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2026-11-03
+tags: case-study, cloud-native, open-source, daocloud
+canonical_path: case-study/daocloud.md
+---
+
 # DaoCloud 云原生开源案例（Portfolio 全景版）
 
 ## 参考输入

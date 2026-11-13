@@ -1,3 +1,11 @@
+---
+status: Active
+maintainer: pacoxu
+last_updated: 2026-04-13
+tags: case-study, open-source, huawei, ecosystem
+canonical_path: case-study/huawei-ecosystem.md
+---
+
 # 华为开源生态布局（全栈补充版）
 
 ## 参考输入
