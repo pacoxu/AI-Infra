@@ -367,7 +367,7 @@ critical path):
 
 Weight-streaming paths (Model Streamer / ModelExpress) accelerate *download and
 HBM fill* but still pay engine init and CUDA Graph capture — see
-[dynamo.md](./dynamo.md#model-loading-plane-model-streamer-and-modelexpress).
+[dynamo.md](./dynamo.md#model-loading-plane-matrixhub-model-streamer-and-modelexpress).
 
 ### llm-d Fast Model Actuation
 

@@ -13,10 +13,6 @@ techniques for Kubernetes-native deployments.
 
 More details about specific platforms and techniques:
 
-- [DaoCloud Open Source Inference Sales PPTX (EN)](./DaoCloud-Open-Source-Inference-Sales.pptx)
-- [Import guide → Google Slides](./DaoCloud-Open-Source-Inference-Sales-IMPORT.md)
-- [Multimodal one-pager (vLLM + Omni)](./daocloud-multimodal-onepager.md)
-- [DaoCloud vLLM / llm-d / Dynamo 贡献单页（售前 PPT）](./daocloud-vllm-dynamo-onepager.md)
 - [Model Architectures (Llama, Qwen, DeepSeek, Flux)](./model-architectures.md)
 - [DeepInfer and deepseek-recipe](./deepseek-serving.md)
 - [NVIDIA Dynamo: Panorama Architecture](./dynamo.md)
