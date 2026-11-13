@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2025-10-30
+last_updated: 2026-11-13
 tags: inference, llm, model-architecture, moe, dense, llama, qwen, deepseek, flux
 canonical_path: docs/inference/model-architectures.md
 ---
@@ -125,27 +125,26 @@ For comprehensive details on MoE architectures, see
 
 ### Llama 4
 
-**Note:** Llama 4 is anticipated but not yet released. All specifications
-presented here are hypothetical and based on expected architectural trends
-in MoE evolution from Llama 3. These details should be verified against
-official documentation when the model is released.
+Meta released Llama 4 on 2025-04-05 as its first open-weight, natively
+multimodal model family built on a Mixture-of-Experts architecture
+([Meta AI announcement](https://ai.meta.com/blog/llama-4-multimodal-intelligence/)).
 
-Llama 4 is expected to represent Meta's evolution to Mixture-of-Experts
-architecture, combining the architectural advances of Llama 3 with sparse
-expert activation for improved efficiency and scale.
+| Model | Active params | Experts | Total params | Context window |
+| --- | --- | --- | --- | --- |
+| Llama 4 Scout | 17B | 16 | 109B | 10M tokens |
+| Llama 4 Maverick | 17B | 128 routed + 1 shared | 400B | 1M tokens |
+| Llama 4 Behemoth (announced teacher model; no public weights) | 288B | 16 | ~2T | - |
 
 **Architecture Characteristics:**
 
-- **Model Type:** MoE transformer (decoder-only)
-- **Expert Configuration:** Multiple specialized expert networks
-- **Routing Strategy:** Top-K expert selection per token
-- **Total Parameters:** Significantly larger than Llama 3, but with
-  comparable active parameters per token
-- **Core Features:**
-  - Inherits GQA from Llama 3 architecture
-  - RoPE positional embeddings
-  - SwiGLU activation in expert networks
-  - Load-balanced routing for expert utilization
+- **Model Type:** MoE transformer (decoder-only), natively multimodal
+  (text and image input)
+- **Layer Layout:** Maverick alternates dense and MoE layers; each MoE layer
+  uses 128 routed experts plus a shared expert
+- **Long Context:** Scout's 10M-token window uses interleaved attention
+  layers without positional embeddings (iRoPE)
+- **Footprint:** Meta positions Scout as fitting on a single H100 GPU with
+  Int4 quantization
 
 **MoE Design:**
 
@@ -167,7 +166,8 @@ Output
 
 **Advantages over Dense Llama 3:**
 
-- **Inference Speed:** 2-3x faster inference for similar quality levels
+- **Inference Speed:** Per-token compute tracks the 17B active parameters,
+  not the 109B / 400B total
 - **Memory Efficiency:** Lower active parameter count per token
 - **Scalability:** Can scale to larger total parameter counts
 - **Specialization:** Experts can specialize for different domains/languages
@@ -543,12 +543,13 @@ Based on public benchmarks and production deployments:
 |-------|------|--------------|---------------------|---------------|
 | Llama 3 8B | Dense | 8B | 1.0x | 50ms |
 | Llama 3 70B | Dense | 70B | 0.3x | 180ms |
-| Llama 4 (est.) | MoE | ~10B | 2.5x | 45ms |
+| Llama 4 Scout | MoE | 17B | - | - |
 | Qwen2.5-MoE-A2.7B | MoE | 2.7B | 3.0x | 35ms |
 | DeepSeek-V3 | MoE | 37B | 2.5x | 60ms |
 
 *Note: Throughput and latency are approximate and depend heavily on
-hardware, batch size, and workload characteristics.*
+hardware, batch size, and workload characteristics. The Llama 4 row used to
+carry pre-release estimates; measure Scout / Maverick on your own hardware.*
 
 ---
 
@@ -732,6 +733,7 @@ For detailed implementation guidance, see:
 ### Official Model Documentation
 
 - [Llama 3 Model Card](https://github.com/meta-llama/llama3)
+- [Llama 4 announcement (Meta AI)](https://ai.meta.com/blog/llama-4-multimodal-intelligence/)
 - [Qwen 3 Documentation](https://github.com/QwenLM/Qwen)
 - [DeepSeek-V3 Technical Report](https://github.com/deepseek-ai/DeepSeek-V3)
 - [Flux Model Repository](https://github.com/black-forest-labs/flux)
