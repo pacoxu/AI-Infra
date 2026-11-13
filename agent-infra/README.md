@@ -241,7 +241,7 @@ running AI agents with strong isolation guarantees.
 
 **Status**: Kubernetes SIG project (official)
 
-See also: [Agent Sandbox Documentation](../docs/kubernetes/isolation.md#6-agent-sandbox-kubernetes-sig-project)
+See also: [Agent Sandbox Documentation](../docs/kubernetes/isolation.md#6-agent-sandbox)
 
 ### K8E
 

@@ -327,7 +327,7 @@ For AI agent workloads requiring both fast startup and strong isolation:
 - Production-ready in <a href="https://cloud.google.com/blog/products/containers-kubernetes/agentic-ai-on-kubernetes-and-gke">
   GKE Agent Sandbox</a>
 - Combines gVisor security with snapshot performance
-- See [Workload Isolation Guide](./isolation.md#6-agent-sandbox-kubernetes-sig-project)
+- See [Workload Isolation Guide](./isolation.md#6-agent-sandbox)
   for detailed security architecture
 
 ### General Factors
