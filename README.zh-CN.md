@@ -517,13 +517,19 @@ LLM 评估平台（TruLens, Deepchecks）的全面介绍。
 
 以下是 AI 基础设施领域的一些重要会议：
 
-- AI_dev: 例如，[AI_dev EU 2025](https://aideveu2025.sched.com/)
+- Open Source Summit：自 2026 年起 Linux Foundation 不再单独举办 AI_dev，相关内容并入
+  Open Source Summit 各站
+  （[2026 活动计划](https://www.linuxfoundation.org/press/linux-foundation-reveals-2026-global-events-program-advancing-open-source-ai-and-enabling-community-based-innovation)）
 - [PyTorch Conference](https://pytorch.org/pytorchcon/) by PyTorch Foundation
-- KubeCon+CloudNativeCon AI+ML Track，
-  例如，[KubeCon NA 2025](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/program/schedule-at-a-glance/)
-  和共同举办的活动 [Cloud Native + Kubernetes AI Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/cloud-native-kubernetes-ai-day/)
+- KubeCon + CloudNativeCon 的 AI 方向：
+  [KubeCon NA 2026](https://www.cncf.io/announcements/2026/08/10/cncf-reveals-kubecon-cloudnativecon-north-america-2026-schedule-adds-new-ai-inference-agentic-track/)
+  （盐湖城，2026-11-09 至 11-12）新增 AI Inference + Agentic 专题；
+  [KubeCon EU 2027](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/)
+  （巴塞罗那，2027-03-15 至 03-18）同期举办
+  [Cloud Native AI + Inference Day](https://events.linuxfoundation.org/kubecon-cloudnativecon-europe/co-located-events/cloud-native-ai-inference-day-europe/)
 - AICon in China by QCon
-- GOSIM(全球开源创新峰会): 例如，[GOSIM Hangzhou 2025](https://hangzhou2025.gosim.org/)
+- [GOSIM](https://gosim.org/)（全球开源创新峰会）：例如
+  [GOSIM Paris 2026](https://paris2026.gosim.org/)（2026-05-05 至 05-06）
 
 ## 📜 许可证
 
