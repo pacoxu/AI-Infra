@@ -1,0 +1,50 @@
+name: docs-check
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".markdownlint.json"
+      - "scripts/check-md-links.py"
+      - ".github/workflows/docs-check.yml"
+  push:
+    branches: [main]
+    paths:
+      - "**/*.md"
+      - ".markdownlint.json"
+      - "scripts/check-md-links.py"
+      - ".github/workflows/docs-check.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  internal-links:
+    name: Internal links and anchors
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check relative links, anchors and image paths
+        run: python3 scripts/check-md-links.py .
+
+  markdownlint:
+    name: markdownlint on changed files (advisory)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    # Advisory until the MD013 / MD060 policy is settled; see the lint issue.
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: List changed Markdown files
+        id: changed
+        env:
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}...HEAD" -- '*.md' > changed.txt
+          cat changed.txt
+          echo "count=$(wc -l < changed.txt)" >> "$GITHUB_OUTPUT"
+      - name: Run markdownlint
+        if: steps.changed.outputs.count != '0'
+        run: xargs -a changed.txt npx --yes markdownlint-cli@0.49.0
