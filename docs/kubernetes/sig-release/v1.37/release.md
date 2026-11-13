@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-08-25
+last_updated: 2026-11-13
 tags: kubernetes, release, ai-infrastructure, dra, workload-aware-scheduling
 canonical_path: docs/kubernetes/sig-release/v1.37/release.md
 ---
@@ -9,10 +9,12 @@ canonical_path: docs/kubernetes/sig-release/v1.37/release.md
 # Kubernetes v1.37：DRA 走向平滑迁移，WAS 核心能力进入 Beta
 
 > 本文基于 2026-08-25 的 `release-1.37` 分支、KEP 状态和发布说明草稿整理。
-> Kubernetes v1.37.0 预计于 2026-08-26 发布；正式发布前仍可能出现阶段或默认值调整，
-> 生产升级应以最终 CHANGELOG、特性门控定义和官方发布公告为准。
+> Kubernetes v1.37.0（Garhwal）已于 2026-08-26 正式发布。2026-11-13 已对照
+> [官方发布博客](https://kubernetes.io/blog/2026/08/26/kubernetes-v1-37-release/)和
+> `release-1.37` 的特性门控定义复核本文阶段，唯一出入是 KEP-4680（见下文）。
+> 生产升级仍应以 CHANGELOG 和特性门控定义为准。
 
-Kubernetes v1.37 计划包含 67 项增强：16 项 Stable、23 项 Beta、27 项 Alpha，
+Kubernetes v1.37 包含 67 项增强：16 项 Stable、23 项 Beta、27 项 Alpha，
 以及 1 项弃用或移除。对 AI Infra 团队，最重要的不是增强数量，而是两条开始汇合的主线：
 
 - **Dynamic Resource Allocation（DRA）**继续补齐从 Device Plugin 平滑迁移、设备故障隔离、
@@ -50,8 +52,9 @@ Extended Resource 兼容路径是本次 DRA 最直接的生产信号。平台可
 | [4815](https://kep.k8s.io/4815) Partitionable Devices | Beta | 表达 GPU/TPU 分区、多主机逻辑设备及其拓扑。 |
 | [5007](https://kep.k8s.io/5007) Device Binding Conditions | Beta | 外部设备准备完成后再绑定 Pod；准备失败或超时可重新调度。 |
 
-[KEP-4680](https://kep.k8s.io/4680) Resource Health Status 的最终阶段仍需在正式发布时复核：
-当前 `release-1.37` 代码将其保留为 Beta 且默认启用，但发布公告草稿曾将其列为 Stable。
+[KEP-4680](https://kep.k8s.io/4680) Resource Health Status：正式发布后复核（2026-11-13），
+`release-1.37` 中 `ResourceHealthStatus` 特性门控仍是 Beta（1.36 起默认启用，没有 1.37 GA
+条目），而官方发布博客的 Stable 列表把它列为 Stable。本文以特性门控定义为准，按 **Beta** 处理。
 它关注 Pod/容器状态中的设备健康；不要与已经 GA、用于 driver 回写 claim 设备状态的
 KEP-4817 混为一谈。
 

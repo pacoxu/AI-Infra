@@ -255,7 +255,11 @@ management. Detailed guides:
 - **RoadMap:**
   - Kubernetes v1.35 WAS Intro:
     [Introducing Workload Aware Scheduling](https://kubernetes.io/blog/2025/12/29/kubernetes-v1-35-introducing-workload-aware-scheduling/)
-  - Gang Scheduling in Kubernetes [#4671](https://github.com/kubernetes/enhancements/pull/4671)
+  - Kubernetes v1.37 (2026-08-26): gang scheduling and workload-aware
+    preemption graduate to Beta; DRA extended resources and device taints
+    reach GA. See
+    [v1.37 DRA and WAS release notes (Chinese)](./docs/kubernetes/sig-release/v1.37/release.md)
+  - Gang Scheduling in Kubernetes [KEP-4671](https://kep.k8s.io/4671)
   - LWS Gang Scheduling [KEP-407](https://github.com/kubernetes-sigs/lws/blob/main/keps/407-gang-scheduling/README.md)
 
 ---
