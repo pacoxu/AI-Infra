@@ -73,15 +73,25 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [Pod 启动速度](./docs/kubernetes/pod-startup-speed.md)
 - [GPU Pod 冷启动](./docs/kubernetes/gpu-pod-cold-start.md)
 - [调度优化](./docs/kubernetes/scheduling-optimization.md)
+- [LWS 高优先级 KEP 学习路径](./docs/kubernetes/lws-keps-learning-path.md)
 - [TAS 验证报告](./docs/kubernetes/tas-validation.md)
+- [Swap 内存管理](./docs/kubernetes/swap-memory-management.md)
 - [工作负载隔离](./docs/kubernetes/isolation.md)
 - [动态资源分配 (DRA)](./docs/kubernetes/dra.md)
+- [DRA Driver 特性矩阵](./docs/kubernetes/dra-driver-feature-matrix.md)
 - [DRA 性能测试](./docs/kubernetes/dra-performance-testing.md)
+- [DRA + Kueue KWOK 控制面 PoC](./docs/kubernetes/dra-kueue-kwok-poc.md) 与
+  [结果](./docs/kubernetes/dra-kueue-kwok-results.md)
 - [NVIDIA GPU Operator](./docs/kubernetes/nvidia-gpu-operator.md)
+- [HAMi / MIG / GPU 共享](./docs/kubernetes/hami-gpu-sharing.md)
 - [NVIDIA AI 集群运行时 (AICR)](./docs/kubernetes/nvidia-aicr.md)
 - [GPU 故障检测与自愈](./docs/kubernetes/gpu-fault-detection.md)
 - [节点资源接口 (NRI)](./docs/kubernetes/nri.md)
 - [大规模集群 (130K+ 节点)](./docs/kubernetes/large-scale-clusters.md)
+- 版本解读：
+  [v1.37 DRA 与 WAS](./docs/kubernetes/sig-release/v1.37/release.md) |
+  [v1.36 正式发布](./docs/kubernetes/sig-release/v1.36/release.md) |
+  [v1.36 AI Infra 要点（英文）](./docs/kubernetes/v1.36-ai-infra-highlights.md)
 
 #### 硬件
 
@@ -92,7 +102,10 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [推理概述](./docs/inference/README.md)
 - [模型架构](./docs/inference/model-architectures.md)
 - [DeepInfer 与 deepseek-recipe](./docs/inference/deepseek-serving.md)
+- [NVIDIA Dynamo 全景架构](./docs/inference/dynamo.md)
 - [LoRA: 低秩适应](./docs/inference/lora.md)
+- [Grove：Kubernetes 推理编排](./docs/inference/grove.md)
+- [kube-agentic-networking：智能体网络治理](./docs/inference/kube-agentic-networking.md)
 - [AIBrix 平台](./docs/inference/aibrix.md)
 - [OME 平台](./docs/inference/ome.md)
 - [无服务器 AI 推理](./docs/inference/serverless.md)
@@ -102,7 +115,9 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [内存与上下文数据库](./docs/inference/memory-context-db.md)
 - [大规模 MoE 模型](./docs/inference/large-scale-experts.md)
 - [模型生命周期管理](./docs/inference/model-lifecycle.md)
+- [模型分发全景](./docs/inference/model-distribution-stack.md)
 - [性能测试](./docs/inference/performance-testing.md)
+- [推理 Conformance 与 Preflight 门禁](./docs/inference/inference-conformance.md)
 
 #### 训练
 
@@ -118,19 +133,29 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 #### 可观测性
 
 - [可观测性概述](./docs/observability/README.md)
+- [Agent、Tool 与 Sandbox 可观测性（OTel GenAI）](./docs/observability/agent-otel-genai.md)
 
 #### AI 智能体
 
 - [AI 智能体平台与框架](./agent-infra/README.md)
 - [生产级 Agent Infra：9 层 + 4 横切能力](./agent-infra/ai-agent-infra-9-layers-zh.md)
+- [Agent 沙箱控制面（2026-10）](./agent-infra/sandbox-control-planes-zh.md)
+- [Agent Sandbox 运行时基准：runc / gVisor / Kata / VM](./agent-infra/runtime-benchmark.md)
+
+#### 案例研究
+
+- [按厂商整理的云原生案例](./case-study/README.md)：NVIDIA、DaoCloud、字节跳动、
+  华为、阿里巴巴、蚂蚁集团、腾讯、Google、Azure、AWS、Red Hat、Solo.io
+
+#### 规划
+
+- [路线图](./RoadMap.md)
+- [可执行 Backlog（2026 Q2）](./docs/planning/executable-backlog-2026Q2.md)
 
 #### 博客
 
-- [博客概述](./docs/blog/README.md)
-- [最新：Dynamo / Grove / KAI / GPU DRA 主线拆解](./docs/blog/2026-05-11/2026-05-11-dynamo-grove-kai-dra-ecosystem-zh.md)
-- [最新：vLLM v0.18.0 发布解读（中文）](./docs/blog/2026-03-24/2026-03-24-vllm-v0.18.0-ai-infra-highlights_zh.md)
-- [最新：NVIDIA AICR 中文介绍](./docs/blog/2026-03-13/2026-03-13-nvidia-aicr-introduction_zh.md)
-- [最新：拜耳 15,000 节点 GKE 回顾](./docs/blog/2026-03-13/2026-03-13-bayer-gke-15000-nodes_zh.md)
+- [博客列表（含最近文章）](./BLOG.md)
+- [完整博客索引](./docs/blog/README.md)
 
 ## 📊 AI-Infra 全景图 (2026年3月)
 
@@ -140,6 +165,11 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 > - 右侧标签 = 功能类别
 
 ![AI-Infra 全景图](./diagrams/ai-infra-landscape.svg)
+
+维护方式：
+
+- 数据源：`./diagrams/ai-infra-landscape.data.json`
+- 生成 SVG：`node ./scripts/generate-landscape-svg.js`
 
 ## 🎯 云原生 AI 架构师目标达成图
 
