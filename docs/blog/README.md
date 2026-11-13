@@ -35,16 +35,18 @@ A short Chinese release note focused on LWS `v0.11.0` and KEP-666 Phase 1, with 
 - **What shipped**: alpha `spec.scheduling`, default-off `WorkloadAwareScheduling`, flat Workload + PodGroups
 - **Default shape**: `spec.scheduling: {}` → one PodGroup per replica with `minCount = size`
 - **PRs**: KEP [#979](https://github.com/kubernetes-sigs/lws/pull/979), Phase 1 [#982](https://github.com/kubernetes-sigs/lws/pull/982), Hash [#1072](https://github.com/kubernetes-sigs/lws/pull/1072)
-- **v1.0.0**: maintainers are targeting the project release in a couple of weeks (858 stars on 2026-10-09, community goal 1,000). This is not a new CRD group, and KEP-666 stays Alpha. Pre-slices DisaggregatedSets must finish one rollout on v0.10/v0.11 before that upgrade.
+- **v1.0.0**: released on 2026-10-16 ([release](https://github.com/kubernetes-sigs/lws/releases/tag/v1.0.0)); the post's 2026-10-09 addendum predates it. Per that addendum this is not a new CRD group, KEP-666 stays Alpha, and pre-slices DisaggregatedSets must finish one rollout on v0.10/v0.11 before the upgrade.
 
 ## 2026-09-17: KEP-5972 Dynamic Containers（合并前快照）
 
 - [KEP-5972 Dynamic Containers：把十年不变的 Pod 容器列表改成动态执行信封 (Chinese)](./2026-09-17/2026-09-17-kep-5972-dynamic-containers_zh.md)
 
-A Chinese KEP briefing drafted against the still-open upstream proposal. Publish
-only after [kubernetes/enhancements#6169](https://github.com/kubernetes/enhancements/pull/6169)
-merges; until then treat the API details as a snapshot of
-`d53aad1c`:
+A Chinese KEP briefing drafted against the then-open upstream proposal; the API
+details are a snapshot of `d53aad1c`.
+[kubernetes/enhancements#6169](https://github.com/kubernetes/enhancements/pull/6169)
+merged on 2026-09-25 (UTC) and the KEP now targets v1.38 alpha; the
+[2026-09-30 follow-up](./2026-09-30/2026-09-30-agent-sandbox-k8s-ecosystem-update_zh.md)
+covers the post-merge state:
 
 - **What it does**: lets running Pods add and remove main containers through
   `pods/dynamic`, turning the Pod into a resource envelope instead of a static

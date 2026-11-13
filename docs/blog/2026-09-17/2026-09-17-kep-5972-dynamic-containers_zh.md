@@ -2,7 +2,7 @@
 status: Draft
 maintainer: pacoxu
 date: 2026-09-17
-last_updated: 2026-09-17
+last_updated: 2026-11-13
 tags: kubernetes, kep, sig-node, dynamic-containers, in-place-resize, agent-sandbox, ai-infrastructure
 canonical_path: docs/blog/2026-09-17/2026-09-17-kep-5972-dynamic-containers_zh.md
 source_urls:
@@ -18,6 +18,12 @@ source_urls:
 
 # KEP-5972 Dynamic Containers：运行中增删 Pod 主容器（草案）
 
+> **2026-11-13 更新：**
+> [kubernetes/enhancements#6169](https://github.com/kubernetes/enhancements/pull/6169)
+> 已于 2026-09-25（UTC）合并，KEP 以 **v1.38 alpha** 为目标。下文仍是合并前快照，
+> 合并后的状态见
+> [2026-09-30 跟进文章](../2026-09-30/2026-09-30-agent-sandbox-k8s-ecosystem-update_zh.md)。
+>
 > **合并前快照。** 本文按 **2026-09-17** 排期，KEP 正文核对到
 > [tallclair/k8s-enhancements@`d53aad1c`][kep-snapshot]。
 > [kubernetes/enhancements#6169](https://github.com/kubernetes/enhancements/pull/6169)
@@ -263,7 +269,7 @@ UPDATE，收到需要 RBAC opt-in 的专用 subresource。Alpha 默认关，KEP 
 改十年行为，牵动安全、admission 和 SIG Apps；第一刀形状不稳，按会议节奏至少
 再留四周。实验可以在 branch 上做，不必先改 `main`。
 
-#6169 未合并，1.37 轨道被摘。exception 窗口里 Dawn 写了 **第二封信**：回避
+PR #6169 未合并，1.37 轨道被摘。exception 窗口里 Dawn 写了 **第二封信**：回避
 自己做最终 SIG 签字，交给 Derek Carr、Mrunal Patel、Peter Hunt：
 
 > The Timeline: This KEP was opened 9 days prior to the freeze, not 5. It is
@@ -291,7 +297,7 @@ fail-closed、`/allocated` 继续评，改瞄准 1.38。
 
 ### 3.3 配套代码
 
-#6169 讨论期已有：
+PR #6169 讨论期已有：
 
 - [`kubernetes/kubernetes#140659`](https://github.com/kubernetes/kubernetes/pull/140659)：
   Pod `/allocated`
