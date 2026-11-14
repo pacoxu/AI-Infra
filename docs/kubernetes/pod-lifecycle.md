@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-03-24
+last_updated: 2026-11-06
 tags: kubernetes, pod, lifecycle, scheduling, restart-policy, KEP-5307, KEP-5532
 canonical_path: docs/kubernetes/pod-lifecycle.md
 ---
@@ -71,7 +71,8 @@ Reality Check" - [KubeCon NA 2025](https://sched.co/28D8Z)*
 ## Recent Enhancements to Pod Lifecycle (Kubernetes 1.35+)
 
 The Kubernetes community continues to enhance Pod lifecycle management. Two
-significant enhancements are targeting Kubernetes 1.35:
+significant enhancements started landing in Kubernetes 1.35 (status checked
+against v1.37.0 feature gates):
 
 <img src="https://github.com/user-attachments/assets/1cc61c54-6cde-4bda-ab88-6c6568aa51b0" alt="restartPolicy may be enough">
 
@@ -91,7 +92,8 @@ certain conditions are met, preventing premature scheduling.
 
 ### 2. Container Restart Rules (KEP-5307)
 
-**Status**: Targeting Beta in Kubernetes 1.35
+**Status**: Alpha in 1.34, Beta (enabled by default) since Kubernetes 1.35
+(`ContainerRestartRules` feature gate)
 
 [KEP-5307](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5307-container-restart-policy/README.md)
 introduces fine-grained container-level restart policy rules with more
@@ -113,8 +115,10 @@ flexibility than the traditional Pod-level `restartPolicy`.
   - **Restart**: Traditional container-level restart without Pod termination
   - **RestartAllContainers**: Restart all containers in the Pod, including
     init containers (see KEP-5532)
-  - **TerminatePod** (TBD): Terminate the entire Pod
-  - **Complete** (TBD): Treat the container as completed
+  - **TerminatePod** (future action, not implemented as of v1.37):
+    Terminate the entire Pod
+  - **Complete** (future action, not implemented as of v1.37): Treat the
+    container as completed
 
 #### Benefits
 
@@ -130,7 +134,8 @@ policies](https://mp.weixin.qq.com/s/X_yhEtvkYh2RSp1F0p1UZA), including:
 
 ### 3. RestartAllContainers Action (KEP-5532)
 
-**Status**: Targeting Alpha in Kubernetes 1.35
+**Status**: Alpha in 1.35, Beta (enabled by default) since Kubernetes 1.36
+(`RestartAllContainersOnContainerExits` feature gate)
 
 [KEP-5532](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5532-restart-all-containers-on-container-exits/README.md)
 introduces a new action that can be triggered by container exits: restarting
@@ -583,8 +588,8 @@ Reality Check" - [KubeCon NA 2025](https://sched.co/28D8Z)*
 
 ## Pod 生命周期的近期增强（Kubernetes 1.35+）
 
-Kubernetes 社区持续增强 Pod 生命周期管理。两个重要的增强特性正在针对
-Kubernetes 1.35 版本开发：
+Kubernetes 社区持续增强 Pod 生命周期管理。两个重要的增强特性从
+Kubernetes 1.35 开始落地（按 v1.37.0 feature gate 复核）：
 
 <img src="https://github.com/user-attachments/assets/1cc61c54-6cde-4bda-ab88-6c6568aa51b0" alt="restartPolicy 可能就足够了">
 
@@ -603,7 +608,8 @@ SchedulingGates 允许您控制何时应调度 Pod。通过添加调度门控，
 
 ### 2. Container Restart Rules（容器重启规则，KEP-5307）
 
-**状态**：目标是在 Kubernetes 1.35 中达到 Beta 阶段
+**状态**：1.34 Alpha，自 Kubernetes 1.35 起 Beta 并默认开启
+（`ContainerRestartRules` feature gate）
 
 [KEP-5307](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5307-container-restart-policy/README.md)
 引入了细粒度的容器级重启策略规则，比传统的 Pod
@@ -623,8 +629,8 @@ SchedulingGates 允许您控制何时应调度 Pod。通过添加调度门控，
   - **Restart（重启）**：传统的容器级重启，不终止 Pod
   - **RestartAllContainers（重启所有容器）**：重启 Pod
     中的所有容器，包括 init 容器（参见 KEP-5532）
-  - **TerminatePod（待定）**：终止整个 Pod
-  - **Complete（待定）**：将容器视为已完成
+  - **TerminatePod（后续动作，截至 v1.37 尚未实现）**：终止整个 Pod
+  - **Complete（后续动作，截至 v1.37 尚未实现）**：将容器视为已完成
 
 #### 优势
 
@@ -636,7 +642,8 @@ SchedulingGates 允许您控制何时应调度 Pod。通过添加调度门控，
 
 ### 3. RestartAllContainers Action（重启所有容器动作，KEP-5532）
 
-**状态**：目标是在 Kubernetes 1.35 中达到 Alpha 阶段
+**状态**：1.35 Alpha，自 Kubernetes 1.36 起 Beta 并默认开启
+（`RestartAllContainersOnContainerExits` feature gate）
 
 [KEP-5532](https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/5532-restart-all-containers-on-container-exits/README.md)
 引入了一个可以由容器退出触发的新动作：重启 Pod 中的所有容器。

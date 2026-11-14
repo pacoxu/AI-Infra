@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-28
+last_updated: 2026-11-06
 tags: ai-agents, agentic-workflow, kubernetes, mcp, agent-platforms
 canonical_path: agent-infra/README.md
 ---
@@ -830,6 +830,20 @@ Llama Stack are in the "Adopt" position.
 - VolcEngine Native AI Agent Kit (MCP Hub, MCP Server)
 - Various agent frameworks adopting MCP for interoperability
 
+**Spec status (2026-11-06):**
+
+- The latest revision is
+  [`2026-07-28`](https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/specification/2026-07-28/changelog.mdx).
+  It makes MCP stateless: no `initialize` handshake and no `Mcp-Session-Id`.
+  Servers must implement `server/discover`, and server-initiated requests are
+  replaced by the Multi Round-Trip Requests (MRTR) pattern.
+- Authorization: Dynamic Client Registration is deprecated in favor of Client
+  ID Metadata Documents (CIMD). Keycloak has had experimental CIMD support
+  since 26.6.0.
+- Gateways and proxies should not assume sticky MCP sessions. Streamable HTTP
+  POST requests now carry the required `Mcp-Method` / `Mcp-Name` headers,
+  which gateways can inspect without parsing the JSON-RPC body.
+
 ### Agent-to-Agent (A2A) / Agent Communication Protocol (ACP)
 
 Next-generation protocols for agent collaboration:
@@ -1028,19 +1042,28 @@ Major AI model providers are making agents central to their platforms:
 
 ## RoadMap
 
-### Short-term (2026 Q1-Q2)
+Status reviewed on 2026-11-06. Upstream agent infra releases are tracked in
+[#415](https://github.com/pacoxu/AI-Infra/issues/415).
 
-- [ ] Expand documentation for each major agent platform
+### Short-term (2026 Q1-Q2, open items carried over to 2026 Q4)
+
+- [x] Expand documentation for each major agent platform
 - [ ] Create practical guides for deploying agents on Kubernetes
-- [ ] Document MCP implementation patterns
+  ([#257](https://github.com/pacoxu/AI-Infra/issues/257),
+  [#256](https://github.com/pacoxu/AI-Infra/issues/256))
+- [ ] Document MCP implementation patterns (MCP spec `2026-07-28`, CIMD
+  authorization)
 - [x] Add agent security best practices and sandbox infrastructure guide
 
-### Medium-term (2026 Q3-Q4)
+### Medium-term (2026 Q4 - 2027 H1)
 
 - [ ] Multi-agent system patterns and architectures
-- [ ] Agent observability and monitoring guide
+- [x] Agent observability and monitoring guide:
+  [Agent OTel GenAI](../docs/observability/agent-otel-genai.md)
 - [ ] Integration patterns with AI Gateway solutions
+  ([#370](https://github.com/pacoxu/AI-Infra/issues/370))
 - [ ] Cost optimization strategies for agent workloads
+  ([#262](https://github.com/pacoxu/AI-Infra/issues/262))
 
 ### Long-term (2027+)
 

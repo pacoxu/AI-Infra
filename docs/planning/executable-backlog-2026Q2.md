@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-03
+last_updated: 2026-11-06
 tags: roadmap, backlog, execution, issues, ai-native
 canonical_path: docs/planning/executable-backlog-2026Q2.md
 ---
@@ -68,6 +68,29 @@ canonical_path: docs/planning/executable-backlog-2026Q2.md
 2. `[N04]` 跨集群统一排队策略
 3. `[D01]` 模型权重统一存储与挂载基线
 
+### 执行状态快照（2026-11-06）
+
+Q2 窗口已过，未完成条目顺延到 2026 Q4。上游版本变化按领域在
+[#413](https://github.com/pacoxu/AI-Infra/issues/413)（Kubernetes / 调度 / 设备）、
+[#414](https://github.com/pacoxu/AI-Infra/issues/414)（推理）、
+[#415](https://github.com/pacoxu/AI-Infra/issues/415)（Agent Infra）、
+[#416](https://github.com/pacoxu/AI-Infra/issues/416)（训练 / 可观测）跟踪。
+
+| ID | 状态 | 关联 issue / PR | 落地物 / 下一步 |
+| --- | --- | --- | --- |
+| O01 | done | [#404](https://github.com/pacoxu/AI-Infra/pull/404) | `docs/observability/agent-otel-genai.md` |
+| O03 | in-progress | [#288](https://github.com/pacoxu/AI-Infra/issues/288) | 按 vLLM v0.32（MRV2 默认、Fast Start）重新对齐指标 |
+| H03 | todo | [#256](https://github.com/pacoxu/AI-Infra/issues/256) | 与 Pod/VM 准入策略一起交付 PSS 基线 |
+| H04 | todo | [#256](https://github.com/pacoxu/AI-Infra/issues/256) | 同上；对齐 AI Conformance KAR-0020（[#286](https://github.com/pacoxu/AI-Infra/issues/286)） |
+| E06 | todo | - | 尚未开 issue |
+| C01 | in-progress | [#285](https://github.com/pacoxu/AI-Infra/issues/285)（done）、[#376](https://github.com/pacoxu/AI-Infra/issues/376) | `scripts/dra-kueue-kwok/`；基线升级到 Kueue v0.20 |
+| C02 | in-progress | [#388](https://github.com/pacoxu/AI-Infra/issues/388) | v1.37 DRA gate 快照已更新；v1.38 跟踪中 |
+| C07 | todo | [#288](https://github.com/pacoxu/AI-Infra/issues/288) | `docs/inference/pd-disaggregation.md` 已有方案对比，缺实测 |
+| T13 | done | [#403](https://github.com/pacoxu/AI-Infra/pull/403)、[#371](https://github.com/pacoxu/AI-Infra/issues/371) | `docs/inference/inference-conformance.md`、`scripts/conformance/preflight.sh` |
+| N01 | todo | - | 尚未开 issue |
+| N04 | todo（已解除阻塞） | [#363](https://github.com/pacoxu/AI-Infra/issues/363) | MultiKueue 验证可基于 KWOK 脚本开始 |
+| D01 | in-progress | - | `docs/inference/model-distribution-stack.md` 已覆盖分发链路，缺挂载基线 |
+
 ## 5. Issue 切分格式（统一 DoD）
 
 每个 issue 使用以下结构：
@@ -87,7 +110,26 @@ Definition of Done（统一）：
 
 ## 6. 事实状态快照（需要定期复核）
 
-以下结论仅作为本次规划快照，日期：`2026-04-03`。
+### 2026-11-06 复核
+
+- DRA：核心能力自 v1.34 GA。v1.37 新增 GA：`DRADeviceTaints`、
+  `DRADeviceTaintRules`、`DRAExtendedResource`、`DRAResourceClaimDeviceStatus`。
+  Partitionable / Consumable Capacity 等仍为 Beta（见
+  [#388](https://github.com/pacoxu/AI-Infra/issues/388)）。
+- OTel GenAI Semantic Conventions：已拆分到独立仓库
+  [open-telemetry/semantic-conventions-genai](https://github.com/open-telemetry/semantic-conventions-genai)，
+  仍为 Development，尚无 release。
+- MCP：最新规范版本 `2026-07-28` 将 Dynamic Client Registration 标为 deprecated，
+  替代方案为 CIMD；最早在 2027-07-28 及之后发布的版本中移除。
+- Keycloak：26.6.0 起提供实验性 CIMD（`--features=cimd`）；截至 26.8.2
+  未见升级为正式支持，仍按风险前提处理。
+- Envoy AI Gateway：v1.2.0 起更名为
+  [Agent Router](https://github.com/theagentrouter/agent-router)。T12 的落地文件名需要相应调整（见
+  [#370](https://github.com/pacoxu/AI-Infra/issues/370)）。
+
+### 2026-04-03 初始快照
+
+以下结论仅作为初次规划快照，日期：`2026-04-03`。
 
 - DRA：按 Kubernetes 文档相关页面，设备分配能力处于稳定阶段。
 - OTel GenAI Semantic Conventions：仍在 Development 阶段。
@@ -100,16 +142,19 @@ Definition of Done（统一）：
 
 为兼容当前仓库结构，首批优先新增/更新以下文件：
 
-- `docs/observability/agent-otel-genai.md`
-- `docs/kubernetes/dra-identity-governance.md`
-- `docs/kubernetes/agent-runtime-guardrails.md`
-- `docs/inference/inference-conformance.md`
-- `docs/inference/envoy-ai-gateway.md`
-- `docs/training/slm-finetune-serving.md`
-- `agent-infra/mcp-auth-cimd.md`
-- `case-study/telco-rightsizing.md`
-- `scripts/conformance/preflight.sh`
-- `scripts/airgapped/sync-models.sh`
+- [x] `docs/observability/agent-otel-genai.md`
+- [ ] `docs/kubernetes/dra-identity-governance.md`
+- [ ] `docs/kubernetes/agent-runtime-guardrails.md`
+- [x] `docs/inference/inference-conformance.md`
+- [ ] `docs/inference/envoy-ai-gateway.md`（项目已更名 Agent Router，见
+  [#370](https://github.com/pacoxu/AI-Infra/issues/370)）
+- [ ] `docs/training/slm-finetune-serving.md`
+- [ ] `agent-infra/mcp-auth-cimd.md`
+- [ ] `case-study/telco-rightsizing.md`
+- [x] `scripts/conformance/preflight.sh`
+- [ ] `scripts/airgapped/sync-models.sh`
+
+状态复核于 2026-11-06。
 
 ## 8. 维护方式
 

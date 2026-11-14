@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-21
+last_updated: 2026-11-06
 tags: roadmap, planning, future-work, ai-native
 ---
 
@@ -57,6 +57,13 @@ organized by AI Native focus areas:
 
 For actionable items that can be converted directly into issues, use:
 [Executable Backlog 2026 Q2](./docs/planning/executable-backlog-2026Q2.md).
+Its 2026-11-06 status snapshot lists which Q2 items are done and which carry
+over to Q4. Upstream releases are tracked per area in
+[#413](https://github.com/pacoxu/AI-Infra/issues/413) (Kubernetes /
+scheduling / devices), [#414](https://github.com/pacoxu/AI-Infra/issues/414)
+(inference), [#415](https://github.com/pacoxu/AI-Infra/issues/415) (agent
+infra), and [#416](https://github.com/pacoxu/AI-Infra/issues/416) (training /
+observability).
 
 Execution rhythm for this quarter:
 
@@ -77,7 +84,8 @@ execution and acceptance criteria.
 ### Resource Scheduling
 
 - **DRA updates**: New Dynamic Resource Allocation implementations like
-  [dranet](https://github.com/google/dranet)
+  [dranet](https://github.com/kubernetes-sigs/dranet) (moved from
+  `google/dranet`, now archived)
 - **Heterogeneous Computing**: Multi-accelerator scheduling across GPU, TPU,
   NPU, and custom ASICs
 - **Topology-Aware Scheduling**: GPU/network topology optimization for
@@ -202,6 +210,7 @@ for distributed training and inference.
   materials to help engineers practice AI infrastructure concepts
 - **Agentic Workflow development**: Deep dive into platforms like Dify, KAgent,
   or Dagger - [Issue #30](https://github.com/pacoxu/AI-Infra/issues/30)
+  (closed; continued in [agent-infra](./agent-infra/README.md))
 - **AI SRE Practices**: Site reliability engineering adapted for AI workloads
 - **Autonomous Platform Patterns**: Self-healing, auto-scaling, and
   self-optimizing AI infrastructure
@@ -226,7 +235,9 @@ for distributed training and inference.
 - **Observability**: Advanced monitoring and metrics for AI workloads
   - eBPF for LLM (Deepflow)
   - AutoScaling Metrics and Strategies: TTFT, TPOT, ITL, etc.
-  - [Issue #78](https://github.com/pacoxu/AI-Infra/issues/78)
+  - [Issue #78](https://github.com/pacoxu/AI-Infra/issues/78) (closed;
+    agent tracing baseline:
+    [Agent OTel GenAI](./docs/observability/agent-otel-genai.md))
 
 ### Inference Frameworks & Distributed Serving
 
@@ -391,7 +402,9 @@ multilingual capabilities, and RAG quality.
 ### Agent Communication
 
 - **MCP and A2A**: Model Context Protocol and Agent-to-Agent communication -
-  [Issue #32](https://github.com/pacoxu/AI-Infra/issues/32)
+  [Issue #32](https://github.com/pacoxu/AI-Infra/issues/32) (closed; MCP spec
+  is now `2026-07-28`, see
+  [agent-infra MCP](./agent-infra/README.md#model-context-protocol-mcp))
 
 ### Typical End-to-End Stack Architectures
 
@@ -443,12 +456,13 @@ contribute learning materials, please:
 ## 📅 Update Schedule
 
 **This roadmap is reviewed and updated every quarter** to ensure it remains
-current with the rapidly evolving AI infrastructure landscape. The next
-scheduled review is planned for Q2 2026.
+current with the rapidly evolving AI infrastructure landscape. The latest
+review was completed on 2026-11-06, and the next scheduled review is planned
+for 2027 Q1.
 
 If you notice that items on this roadmap have become outdated or if you'd like
 to propose new topics, please open an issue or submit a pull request.
 
 ---
 
-Last updated: 2026-04-03
+Last updated: 2026-11-06

@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-04-15
+last_updated: 2026-11-06
 tags: inference, pd-disaggregation, prefill-decode, llm-optimization
 canonical_path: docs/inference/pd-disaggregation.md
 ---
@@ -677,9 +677,18 @@ Dynamo's disaggregation implementation enables:
 
 ### AIBrix
 
-- WIP issue:
-  [Add Prefill/Decode Disaggregation Support in Inference Gateway](https://github.com/vllm-project/aibrix/issues/1223)
-  and [#958](https://github.com/vllm-project/aibrix/issues/958).
+- P/D disaggregation shipped in
+  [AIBrix v0.4.0](https://github.com/vllm-project/aibrix/releases/tag/v0.4.0)
+  (2025-08-05) with the StormService and RoleSet CRDs plus gateway P/D
+  routing. The earlier tracking issues
+  ([#1223](https://github.com/vllm-project/aibrix/issues/1223),
+  [#958](https://github.com/vllm-project/aibrix/issues/958)) are closed.
+- [AIBrix v0.8.0](https://github.com/vllm-project/aibrix/releases/tag/v0.8.0)
+  (2026-10-13) adds the Conductor prefill/decode score policy for the PD
+  router, TensorRT-LLM generation-first P/D routing, and more P/D failure
+  handling.
+- Docs:
+  [P/D disaggregation routing](https://github.com/vllm-project/aibrix/blob/main/docs/source/features/gateway-routing/pd-disaggregation.rst).
 
 ### KServe
 

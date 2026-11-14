@@ -270,7 +270,7 @@ spec:
 
 ### Integration with Kueue and DRANET
 
-[DRANET](https://github.com/google/dranet) integrates with Kueue's
+[DRANET](https://github.com/kubernetes-sigs/dranet) integrates with Kueue's
 topology-aware scheduling using node labels:
 
 ```yaml
@@ -404,7 +404,7 @@ for comprehensive coverage of DRA topology management and migration.
 
 ### NVIDIA DRA Driver for GPUs
 
-<a href="https://github.com/NVIDIA/k8s-dra-driver-gpu">**NVIDIA DRA Driver for
+<a href="https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu">**NVIDIA DRA Driver for
 GPUs**</a> is NVIDIA's reference implementation of DRA for GPU resource
 management.
 
@@ -412,9 +412,9 @@ management.
 
 The driver includes two kubelet plugins:
 
-- <a href="https://github.com/NVIDIA/k8s-dra-driver-gpu/tree/main/cmd/gpu-kubelet-plugin">**gpu-kubelet-plugin**</a>:
+- <a href="https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/tree/main/cmd/gpu-kubelet-plugin">**gpu-kubelet-plugin**</a>:
   Standard GPU resource allocation using DRA
-- <a href="https://github.com/NVIDIA/k8s-dra-driver-gpu/tree/main/cmd/compute-domain-kubelet-plugin">**compute-domain-kubelet-plugin**</a>:
+- <a href="https://github.com/kubernetes-sigs/dra-driver-nvidia-gpu/tree/main/cmd/compute-domain-kubelet-plugin">**compute-domain-kubelet-plugin**</a>:
   Advanced plugin for compute domain management
 
 **Key Features:**

@@ -155,7 +155,7 @@ validates performance at production-scale clusters.
 
 ## DRANet: Network Bandwidth Optimization
 
-[DRANet](https://github.com/google/dranet) is Google's implementation of DRA
+[DRANet](https://github.com/kubernetes-sigs/dranet) is Google's implementation of DRA
 for network resources, demonstrating significant performance improvements.
 
 **Key Results:**
@@ -411,7 +411,7 @@ groups:
 
 - [DRA Test Cases PR](https://github.com/kubernetes/perf-tests/pull/3368)
 - [DRA CI Configuration](https://github.com/kubernetes/test-infra/pull/35699)
-- [DRANet GitHub Repository](https://github.com/google/dranet)
+- [DRANet GitHub Repository](https://github.com/kubernetes-sigs/dranet)
 - [All DRA KEPs](https://github.com/kubernetes/enhancements/issues/?q=is%3Aissue%20%20DRA%20in%3Atitle)
 
 ---
