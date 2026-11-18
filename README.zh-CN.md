@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-28
+last_updated: 2026-11-17
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -140,6 +140,7 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [AI 智能体平台与框架](./agent-infra/README.md)
 - [生产级 Agent Infra：9 层 + 4 横切能力](./agent-infra/ai-agent-infra-9-layers-zh.md)
 - [Agent 沙箱控制面（2026-10）](./agent-infra/sandbox-control-planes-zh.md)
+- [Agent 沙箱项目全景：11 个项目按层对比（2026-11）](./agent-infra/sandbox-landscape-2026-11-zh.md)
 - [Agent Sandbox 运行时基准：runc / gVisor / Kata / VM](./agent-infra/runtime-benchmark.md)
 
 #### 案例研究
@@ -327,7 +328,10 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
       Kata Containers 或 Firecracker 隔离
     - [`Agent Substrate`](https://github.com/agent-substrate/substrate):
       面向有状态智能体会话的核心系统和高密度 Kubernetes 运行时，支持
-      suspend/resume 与实时流量路由
+      suspend/resume 与实时流量路由。v1.0.0，2026-11 起为 CNCF Sandbox。
+      专题：[Agent 沙箱项目全景](./agent-infra/sandbox-landscape-2026-11-zh.md)
+    - [`Google AX`](https://github.com/google/ax): 跑在 Agent Substrate 上的
+      智能体平台（`Task`、`Workspace`、`Gateway`、`Model`），v0.3.x 预览
     - [`Agent Infra Sandbox`](https://github.com/agent-infra/sandbox): 社区
       沙箱基础设施
     - [`OpenKruise Agents`](https://github.com/openkruise/agents): Agent Sandbox
@@ -363,6 +367,8 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
     - [`Anthropic Sandbox Runtime`](https://github.com/anthropics/sandbox-runtime):
       不依赖容器或虚拟机的操作系统级文件与网络限制（`srt`：macOS Seatbelt、
       Linux bubblewrap、Windows Filtering Platform）
+    - [`Microsoft NVX`](https://github.com/microsoft/nvx): 研究原型。基于 OpenVMM
+      的跨平台微 VM 沙箱（KVM、MSHV、WHP）
     - **ACK Agent Sandbox 容器版**: 阿里云上的身份、出口策略、基线巡检和运行时
       防护，叠在 OpenKruise Agents 数据面上。专题：
       [中文简报](./agent-infra/sandbox-control-planes-zh.md)

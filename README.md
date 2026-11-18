@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-28
+last_updated: 2026-11-17
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -142,6 +142,7 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [AI Agent Platforms and Frameworks](./agent-infra/README.md)
 - [Production Agent Infra: 9 Layers + 4 Cross-Cutting Capabilities](./agent-infra/ai-agent-infra-9-layers-zh.md)
 - [Agent Sandbox Control Planes (Chinese, 2026-10)](./agent-infra/sandbox-control-planes-zh.md)
+- [Agent Sandbox Landscape: 11 Projects by Layer (Chinese, 2026-11)](./agent-infra/sandbox-landscape-2026-11-zh.md)
 - [Agent Sandbox Runtime Benchmark: runc vs gVisor vs Kata vs VM](./agent-infra/runtime-benchmark.md)
 
 #### Case Studies
@@ -337,7 +338,10 @@ can perceive, reason, and act.
       Kata Containers, or Firecracker isolation
     - [`Agent Substrate`](https://github.com/agent-substrate/substrate):
       Core system and high-density Kubernetes runtime for stateful agent actors with
-      suspend/resume and real-time routing
+      suspend/resume and real-time routing; v1.0.0 and CNCF Sandbox since
+      2026-11. Landscape: [中文](./agent-infra/sandbox-landscape-2026-11-zh.md)
+    - [`Google AX`](https://github.com/google/ax): agent platform on Agent
+      Substrate (`Task`, `Workspace`, `Gateway`, `Model`); v0.3.x preview
     - [`Agent Infra Sandbox`](https://github.com/agent-infra/sandbox): Community
       sandbox infrastructure
     - [`OpenKruise Agents`](https://github.com/openkruise/agents): Agent Sandbox
@@ -379,6 +383,8 @@ can perceive, reason, and act.
       OS-level filesystem and network restrictions for arbitrary processes
       (`srt`: Seatbelt, bubblewrap, or Windows Filtering Platform), without a
       container or VM
+    - [`Microsoft NVX`](https://github.com/microsoft/nvx): research prototype;
+      cross-platform microVM sandbox on OpenVMM (KVM, MSHV, WHP)
     - **ACK Agent Sandbox 容器版**: Alibaba Cloud identity, egress policy,
       baseline scan, and runtime guardrails on top of the OpenKruise Agents
       data plane. Briefing:

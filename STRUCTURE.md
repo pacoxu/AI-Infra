@@ -44,7 +44,10 @@ AI-Infra/
 │   └── archive-blog/                  # Historical blog posts archive
 ├── agent-infra/                       # Agent Infra docs and benchmark assets
 │   ├── README.md                      # Agent platforms, sandboxes, and ecosystem
+│   ├── ai-agent-infra-9-layers-zh.md  # 9 layers + 4 cross-cutting capabilities
 │   ├── runtime-benchmark.md           # runc/gVisor/Kata/VM benchmark
+│   ├── sandbox-control-planes-zh.md   # Sandbox control planes (2026-10)
+│   ├── sandbox-landscape-2026-11-zh.md # Sandbox projects by layer (2026-11)
 │   └── scripts/
 │       └── agent-sandbox-benchmark/   # Reproducible benchmark scripts
 ├── case-study/                        # Per-vendor open source portfolios
@@ -117,6 +120,10 @@ Kthena, KServe, llm-d, Dynamo). Anchor documents include
   view: 9 layers plus security, release, FinOps, and DevEx cross-cutting
   capabilities
 - `runtime-benchmark.md` - Runtime benchmark and reproducibility guide
+- `sandbox-control-planes-zh.md` - Dated Chinese briefing (2026-10): local
+  policy sandboxes, the OpenKruise Agents data plane, and ACK security plane
+- `sandbox-landscape-2026-11-zh.md` - Dated Chinese briefing (2026-11):
+  agent sandbox projects compared by layer, with per-project notes
 
 **Cross-references**: Links to `../docs/kubernetes/isolation.md` for
 sandboxing, `../docs/inference/memory-context-db.md` for agent memory

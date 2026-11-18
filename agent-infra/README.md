@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-10-28
+last_updated: 2026-11-17
 tags: ai-agents, agentic-workflow, kubernetes, mcp, agent-platforms
 canonical_path: agent-infra/README.md
 ---
@@ -24,6 +24,7 @@ Language Models (LLMs) as their core reasoning engine.
 - [Agent Development Frameworks](#agent-development-frameworks)
 - [Agent Sandbox Infrastructure](#agent-sandbox-infrastructure)
 - [Sandbox control planes (2026-10)](./sandbox-control-planes-zh.md)
+- [Sandbox landscape (2026-11)](./sandbox-landscape-2026-11-zh.md)
 - [Agent Infrastructure Components](#agent-infrastructure-components)
 - [CNCF and Ecosystem Initiatives](#cncf-and-ecosystem-initiatives)
 - [Learning Topics](#learning-topics)
@@ -181,7 +182,14 @@ Custom Resources.
 - Built-in agent lifecycle management
 - Integration with Kubernetes RBAC and security policies
 
-**Status**: CNCF Sandbox (2024)
+**Status**: CNCF Sandbox (accepted 2025-05-22). Latest release: v1.0.1
+(2026-11-12).
+
+**1.x execution model**: agents are still declared as Kubernetes custom
+resources (`Agent`, `Harness`), but the controller hands execution to
+[Agent Substrate](#agent-substrate), which owns suspend, resume, and
+snapshots. kagent 1.x therefore spans both the CRD-managed and the
+own-scheduler sandbox routes. It speaks A2A, MCP, and gRPC.
 
 **Use Cases:**
 
@@ -283,7 +291,8 @@ layers and can consume `kubernetes-sigs/agent-sandbox` APIs.
 
 ### Agent Substrate
 
-<a href="https://github.com/agent-substrate/substrate">`agent-substrate/substrate`</a>
+<a href="https://github.com/agent-substrate/substrate">`agent-substrate/substrate`</a>:
+**CNCF Sandbox Project**
 
 Agent Substrate is a Kubernetes-based runtime and control plane for
 agent-like workloads. Instead of keeping one Pod bound to one long-lived
@@ -292,12 +301,22 @@ ready workers and keeps the Kubernetes control plane out of the hot path.
 
 **Key Features:**
 
-- Actor/worker multiplexing for higher density
-- Suspend/resume lifecycle for stateful sessions
+- Actor/worker multiplexing for higher density; actors run as child cgroups
+  inside a worker Pod
+- Suspend/resume with process memory snapshots; restore is reported under
+  500 ms
 - Real-time assignment and traffic routing to active workers
-- gVisor-based OCI container execution with framework-agnostic compatibility
+- One dedicated sandbox per running actor: gVisor by default, or a Kata +
+  Cloud Hypervisor microVM, selected per `WorkerPool`; framework-agnostic OCI
+  images
+- `WorkerPool` and `SandboxConfig` are CRDs; actor state lives in
+  Substrate's own control plane (`ate`) and PostgreSQL, not in Kubernetes
+  objects
 
-**Status**: Very early development; not production-ready yet
+**Status**: v1.0.0 (2026-11-05). On 2026-11-05 Google announced the donation
+of Agent Substrate, gVisor, and OpenRL to the CNCF at Sandbox level
+([Google Open Source Blog](https://opensource.googleblog.com/2026/11/sandboxing-untrusted-ai-agents-at-scale.html)).
+kagent 1.x and [Google AX](#google-ax) run on top of it.
 
 **Use Cases:**
 
@@ -307,6 +326,25 @@ ready workers and keeps the Kubernetes control plane out of the hot path.
   Pod-per-session orchestration
 
 See also: [CNCF: Why sandboxing your agent is not enough](https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough/)
+
+### Google AX
+
+<a href="https://github.com/google/ax">`google/ax`</a>
+
+Google AX is an agent platform built on Agent Substrate. It is not a
+Kubernetes CRD controller: `ax install` deploys `ax-server` plus PostgreSQL,
+and `ax.io/v1alpha1` manifests are applied with the `ax` CLI.
+
+**Key Features:**
+
+- Four primitives: `Task`, `Workspace`, `Gateway`, and `Model`
+- Each `Task` runs as a Substrate actor and inherits sub-second suspend and
+  resume
+- Requires Kubernetes 1.36+ with Agent Substrate installed
+
+**Status**: v0.3.1 (2026-09-25); expect breaking changes before a stable
+release. Not CNCF-hosted: Google's 2026-11 donation covered Agent Substrate,
+gVisor, and OpenRL.
 
 ### Agent Infra Sandbox
 
@@ -391,9 +429,10 @@ community), the current sandbox/runtime ecosystem can be summarized as:
   project with `Sandbox` CRD, `SandboxWarmPool`, and deep GKE integration.
 - **Agent runtime substrate — `agent-substrate/substrate`**: Core runtime
   system for invocation-based agent wake-up, suspend/resume, and shared
-  worker pools on Kubernetes.
-- **Alibaba `OpenSandbox`**: Four sandbox types (`Coding`, `GUI`, `Exec`,
-  `RL`) plus a three-tier isolation design for heterogeneous agent workloads.
+  worker pools on Kubernetes. v1.0.0 and CNCF Sandbox since 2026-11.
+- **`OpenSandbox`** (from Alibaba, now `opensandbox-group/OpenSandbox`): Four
+  sandbox types (`Coding`, `GUI`, `Exec`, `RL`) plus a three-tier isolation
+  design for heterogeneous agent workloads.
 - **OpenKruise Agents (v0.6.0)**: `SandboxSet` warm pools plus an in-cluster
   data plane (`traffic-proxy`, `sandbox-gateway`, EPE). L3/L4 allowlists, L7
   and MCP tool policy, Secret-backed credential injection, `PoolAutoscaler`,
@@ -407,6 +446,49 @@ community), the current sandbox/runtime ecosystem can be summarized as:
 These projects indicate a convergence path: **standardized CRD control plane +
 durable actor/session runtime + pluggable sandbox runtime backends + warm pool
 or snapshot-based latency control**.
+
+#### Agent Sandbox Landscape Update (2026-11)
+
+Checked against each repository on 2026-11-17. Versions move quickly, and
+startup or restore figures are project-reported. Full Chinese comparison with
+per-project notes:
+[Agent 沙箱项目全景（2026-11）](./sandbox-landscape-2026-11-zh.md).
+
+| Project | Layer | Relation to Kubernetes | Isolation boundary | Version (2026-11-17) |
+| --- | --- | --- | --- | --- |
+| [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox) | Sandbox primitive | `Sandbox` = one stateful Pod; CRDs + controller | Whatever the RuntimeClass provides: gVisor, Kata (QEMU / Firecracker), urunc, AWS Nitro, and more | v1.0.11 |
+| [OpenSandbox](https://github.com/opensandbox-group/OpenSandbox) | Sandbox service | Kubernetes provider is its own `BatchSandbox` (default) or SIG agent-sandbox; Docker runtime also supported | RuntimeClass: gVisor / Kata / Firecracker | 1.3.0-rc.1 |
+| [openkruise/agents](https://github.com/openkruise/agents) | Sandbox primitive + data plane | `agents.kruise.io` CRDs plus an E2B-compatible API | RuntimeClass | v0.6.0 |
+| [agent-substrate/substrate](https://github.com/agent-substrate/substrate) | Actor runtime | `WorkerPool` / `SandboxConfig` CRDs; actor state in its own control plane + PostgreSQL | One gVisor (default) or Kata + Cloud Hypervisor microVM per running actor | v1.0.0 |
+| [kagent](https://github.com/kagent-dev/kagent) | Agent orchestration | `Agent` / `Harness` CRDs; execution delegated to Substrate | Inherits Substrate | v1.0.1 |
+| [google/ax](https://github.com/google/ax) | Agent orchestration | Runs on Substrate; own `ax-server` + PostgreSQL; `ax.io/v1alpha1` via the `ax` CLI, not CRDs | Inherits Substrate | v0.3.1 |
+| [CubeSandbox](https://github.com/TencentCloud/CubeSandbox) | Sandbox service | Own scheduler (CubeMaster); Kubernetes deployment in preview since v0.6 | One KVM microVM (RustVMM) per sandbox | v0.8.0 |
+| [E2B](https://github.com/e2b-dev/E2B) | Sandbox service (cloud + self-host) | Own API and per-node orchestrator; Terraform, Kubernetes manifests, or single-host Embed | One Firecracker microVM per sandbox | SDK 2.64.0 |
+| [microsandbox](https://github.com/superradcompany/microsandbox) | Embeddable microVM library | None; runs on the local host | libkrun microVM on Linux KVM, macOS Apple silicon, or Windows WHP | v0.7.15 |
+| [microsoft/nvx](https://github.com/microsoft/nvx) | Embeddable microVM (research prototype) | None; no CRI integration | OpenVMM microVM; KVM / MSHV on Linux, WHP on Windows | v0.1.0-dev |
+| [anthropics/sandbox-runtime](https://github.com/anthropics/sandbox-runtime) | Process-level sandbox | None | No container or VM: Seatbelt, bubblewrap + seccomp, Windows (alpha) | v0.0.83 |
+
+Corrections to the common "Kubernetes-managed vs. own scheduler" split:
+
+- **Google AX** is not a Kubernetes-managed (CRD) platform. It needs Agent
+  Substrate on Kubernetes 1.36+, runs each `Task` as a Substrate actor, and
+  ships its own server and database. Its fourth primitive, `Gateway`, is often
+  left out.
+- **kagent 1.x** spans both routes: the API is CRDs, execution is Substrate.
+- **OpenSandbox** defaults to its own `BatchSandbox`; SIG agent-sandbox is an
+  optional provider.
+- **CubeSandbox** can be deployed on Kubernetes, but Kubernetes only hosts it;
+  scheduling stays in CubeMaster.
+- **E2B's API is a de facto protocol**: CubeSandbox and OpenKruise Agents both
+  expose E2B-compatible APIs.
+
+`sandbox-runtime` and NVX belong to neither route. `sandbox-runtime` is an
+OS-level capability fence that shares the host kernel: writes and network
+are denied by default, and egress goes through a host proxy with a domain
+allowlist. Stack it inside a container or microVM rather than use it instead
+of one. NVX sits next to microsandbox as a cross-platform microVM building
+block from Microsoft Research and Azure Research, with no Kubernetes
+integration or published startup numbers yet.
 
 #### Kubernetes Dynamic Containers Update (2026-09-30)
 
@@ -461,7 +543,7 @@ runtimes:
 
 | Layer | Candidate Projects | Primary Role | Selection Notes |
 | ----- | ------------------ | ------------ | --------------- |
-| Agent-facing sandbox platform | [OpenSandbox](https://github.com/alibaba/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | SDK/API, sandbox lifecycle, command/file/browser execution, templates | Use OpenSandbox as the broad self-hosted default; evaluate CubeSandbox for high-density E2B-compatible microVM pools. Daytona's production code went closed-source on 2026-06-11; the public repo is archived at v0.190.0 and receives no further fixes. |
+| Agent-facing sandbox platform | [OpenSandbox](https://github.com/opensandbox-group/OpenSandbox), [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), [E2B](https://github.com/e2b-dev/e2b), [Daytona](https://github.com/daytonaio/daytona), [Sandbox0](https://github.com/sandbox0-ai/sandbox0) | SDK/API, sandbox lifecycle, command/file/browser execution, templates | Use OpenSandbox as the broad self-hosted default; evaluate CubeSandbox for high-density E2B-compatible microVM pools. Daytona's production code went closed-source on 2026-06-11; the public repo is archived at v0.190.0 and receives no further fixes. |
 | Kubernetes lifecycle API | [kubernetes-sigs/agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox), [agent-sandbox/agent-sandbox](https://github.com/agent-sandbox/agent-sandbox), [volcano-sh/agentcube](https://github.com/volcano-sh/agentcube) | CRD/controller, warm pools, stable sandbox identity, scheduling hooks | `kubernetes-sigs/agent-sandbox` is the neutral K8s API layer; `agent-sandbox/agent-sandbox` adds REST/MCP and E2B compatibility; AgentCube is still proposal/early design. |
 | Kubernetes sandbox workload with data plane | [openkruise/agents](https://github.com/openkruise/agents) | `SandboxSet` warm pool, E2B API, in-pod L4 deny, gateway L7 / MCP ACL, credential injection, pool autoscaling, pause/resume | v0.6.0 (2026-10-07) ships `traffic-proxy` and `traffic-control-plane`. Parallel to SIG Agent Sandbox: same job (lifecycle plus isolation policy), different API group (`agents.kruise.io`). `CheckpointRestore` keeps rootfs and cannot change the business image. |
 | Managed ACK sandbox security plane | ACK Agent Sandbox 容器版 (`ack-agent-identity`, `ack-agent-sec-scanner`, `ack-sandbox-manager`) | RRSA/STS and API-key injection, OAuth user delegation, enhanced L4/L7, baseline drift scan, cloud guardrails, Tetragon | Productizes the OpenKruise data plane: `ack-sandbox-manager` 0.6.8 installs `agents.kruise.io` TrafficPolicy CRDs. Static scan does not cover ASI07/08/10. See the [security briefing](./sandbox-control-planes-zh.md). |
@@ -793,7 +875,7 @@ boundary choices**.
 - <a href="https://gaocegege.com/Blog/genai/unikernel-agent">高策: Agent
   sandbox 可能的选型以及 unikernel 的机会</a>
 - <a href="https://github.com/e2b-dev/e2b">e2b (Firecracker sandbox)</a>
-- <a href="https://github.com/alibaba/OpenSandbox">OpenSandbox</a>
+- <a href="https://github.com/opensandbox-group/OpenSandbox">OpenSandbox</a>
 - <a href="https://github.com/TencentCloud/CubeSandbox">CubeSandbox</a>
 - <a href="https://github.com/containerd/nerdbox">containerd/nerdbox</a>
 - <a href="https://github.com/buildkite/cleanroom">Cleanroom</a>
@@ -801,6 +883,12 @@ boundary choices**.
 - <a href="https://github.com/superradcompany/microsandbox">microsandbox</a>
 - <a href="https://github.com/anthropics/sandbox-runtime">Anthropic Sandbox Runtime</a>
   (`srt`): OS policy guardrails without a container or VM
+- <a href="https://github.com/microsoft/nvx">Microsoft NVX</a>: research
+  microVM sandbox on OpenVMM (KVM, MSHV, WHP)
+- <a href="https://github.com/google/ax">Google AX</a>: agent platform on
+  Agent Substrate
+- <a href="./sandbox-landscape-2026-11-zh.md">Agent 沙箱项目全景（2026-11）</a>:
+  layer-by-layer comparison in Chinese
 - <a href="https://github.com/Katakate/k7">k7 (Kata sandbox)</a>
 - <a href="https://unikraft.org/">Unikraft</a>
 - <a href="../docs/kubernetes/isolation.md#6-agent-sandbox">Detailed implementation
