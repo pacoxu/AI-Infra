@@ -526,6 +526,10 @@ Recommended Kubernetes shape:
    v0.6.0 implements that proxy path with `tokenTransformation` on the egress
    gateway, resolving a Kubernetes Secret per request.
 
+For an enforceable Pod-versus-VM decision matrix, trusted input contract,
+Kyverno admission manifest, and exception/audit/recovery flow, see the
+[Agent Workload Sandbox Admission Policy](../../agent-infra/admission-policy.md).
+
 The July 2026 CNCF article
 <a href="https://www.cncf.io/blog/2026/07/07/why-sandboxing-your-agent-is-not-enough/">
 Why sandboxing your agent is not enough</a> frames the distinction clearly:

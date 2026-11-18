@@ -23,6 +23,7 @@ Language Models (LLMs) as their core reasoning engine.
 - [Agent Infra Ecosystem Snapshot (2026)](#agent-infra-ecosystem-snapshot-2026)
 - [Agent Development Frameworks](#agent-development-frameworks)
 - [Agent Sandbox Infrastructure](#agent-sandbox-infrastructure)
+- [Agent Workload Sandbox Admission Policy](./admission-policy.md)
 - [Sandbox control planes (2026-10)](./sandbox-control-planes-zh.md)
 - [Agent Infrastructure Components](#agent-infrastructure-components)
 - [CNCF and Ecosystem Initiatives](#cncf-and-ecosystem-initiatives)
