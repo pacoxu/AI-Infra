@@ -1,8 +1,8 @@
 {
   "meta": {
     "title": "AI Infra Landscape",
-    "version": "2026-03",
-    "last_updated": "2026-07-09",
+    "version": "2026-11",
+    "last_updated": "2026-11-18",
     "note": "Regenerate diagrams/ai-infra-landscape.svg with node scripts/generate-landscape-svg.js"
   },
   "axes": {
@@ -15,67 +15,67 @@
     {
       "id": "q1",
       "label": "App + Emerging",
-      "x": 22,
-      "y": 92
+      "x": 1,
+      "y": 52.5
     },
     {
       "id": "q2",
       "label": "App + Mature",
-      "x": 74,
-      "y": 92
+      "x": 86,
+      "y": 52.5
     },
     {
       "id": "q3",
       "label": "Infra + Emerging",
-      "x": 22,
-      "y": 8
+      "x": 1,
+      "y": 2
     },
     {
       "id": "q4",
       "label": "Infra + Mature",
-      "x": 74,
-      "y": 8
+      "x": 86,
+      "y": 2
     }
   ],
   "ecosystem": [
     {
       "name": "PyTorch",
-      "x": 56,
+      "x": 43,
       "group": "training",
       "logo": "PT",
       "logo_image": "diagrams/logos/landscape/pytorch.png"
     },
     {
       "name": "JAX",
-      "x": 63,
+      "x": 52,
       "group": "training",
       "logo": "JX",
       "logo_image": "diagrams/logos/landscape/jax.png"
     },
     {
       "name": "TensorFlow",
-      "x": 70,
+      "x": 61,
       "group": "training",
       "logo": "TF",
       "logo_image": "diagrams/logos/landscape/tensorflow.png"
     },
     {
       "name": "MLX",
-      "x": 77,
+      "x": 70,
       "group": "training",
       "logo": "MX",
       "logo_image": "diagrams/logos/landscape/mlx.svg"
     },
     {
       "name": "Hugging Face",
-      "x": 85,
+      "x": 79,
       "group": "inference",
       "logo": "HF",
       "logo_image": "diagrams/logos/landscape/huggingface.png"
     },
     {
       "name": "DeepSpeed",
-      "x": 91,
+      "x": 88,
       "group": "training",
       "logo": "DS",
       "logo_image": "diagrams/logos/landscape/deepspeed.png"
@@ -96,22 +96,22 @@
     },
     {
       "label": "Workflow",
-      "y": 80,
+      "y": 81,
       "group": "workflow"
     },
     {
       "label": "Training",
-      "y": 74,
+      "y": 75,
       "group": "training"
     },
     {
       "label": "Serverless",
-      "y": 68,
+      "y": 69,
       "group": "workflow"
     },
     {
       "label": "Cloud-native Inference",
-      "y": 65,
+      "y": 63,
       "group": "inference"
     },
     {
@@ -164,8 +164,8 @@
   "projects": [
     {
       "name": "K8s Agent Sandbox",
-      "x": 8,
-      "y": 96,
+      "x": 36,
+      "y": 87,
       "group": "workflow",
       "stage": "early",
       "logo": "AS",
@@ -173,20 +173,30 @@
     },
     {
       "name": "Agent Substrate",
-      "x": 10,
-      "y": 78,
+      "x": 22,
+      "y": 76,
       "group": "workflow",
       "stage": "early",
       "logo": "SU",
       "url": "https://github.com/agent-substrate/substrate"
     },
     {
-      "name": "OpenSandbox",
-      "x": 25,
+      "name": "OpenShell",
+      "x": 10,
       "y": 96,
       "group": "workflow",
       "stage": "early",
-      "logo": "OS"
+      "logo": "SH",
+      "url": "https://github.com/NVIDIA/OpenShell"
+    },
+    {
+      "name": "OpenSandbox",
+      "x": 28,
+      "y": 91,
+      "group": "workflow",
+      "stage": "early",
+      "logo": "OS",
+      "url": "https://github.com/opensandbox-group/OpenSandbox"
     },
     {
       "name": "CubeSandbox",
@@ -198,19 +208,21 @@
     },
     {
       "name": "kagent",
-      "x": 42,
+      "x": 46,
       "y": 96,
       "group": "workflow",
       "stage": "mature",
-      "logo": "KA"
+      "logo": "KA",
+      "url": "https://github.com/kagent-dev/kagent"
     },
     {
       "name": "AgentRegistry",
-      "x": 29,
-      "y": 90,
+      "x": 31,
+      "y": 96,
       "group": "workflow",
       "stage": "early",
-      "logo": "AR"
+      "logo": "AR",
+      "url": "https://github.com/agentregistry-dev/agentregistry"
     },
     {
       "name": "Volcano AgentCube",
@@ -222,7 +234,7 @@
     },
     {
       "name": "Dagger",
-      "x": 55,
+      "x": 57,
       "y": 96,
       "group": "workflow",
       "stage": "mature",
@@ -263,12 +275,22 @@
     },
     {
       "name": "Dynamo",
-      "x": 50,
+      "x": 57,
       "y": 68,
       "group": "inference",
       "stage": "mature",
       "logo": "DY",
-      "logo_image": "diagrams/logos/landscape/dynamo.png"
+      "logo_image": "diagrams/logos/landscape/dynamo.png",
+      "url": "https://github.com/ai-dynamo/dynamo"
+    },
+    {
+      "name": "llm-d",
+      "x": 57,
+      "y": 64,
+      "group": "inference",
+      "stage": "mature",
+      "logo": "LD",
+      "url": "https://github.com/llm-d/llm-d"
     },
     {
       "name": "OME",
@@ -304,12 +326,13 @@
     },
     {
       "name": "kubeRay",
-      "x": 36,
-      "y": 58,
+      "x": 46,
+      "y": 56,
       "group": "inference",
-      "stage": "early",
+      "stage": "mature",
       "logo": "KR",
-      "logo_image": "diagrams/logos/landscape/kuberay.png"
+      "logo_image": "diagrams/logos/landscape/kuberay.png",
+      "url": "https://github.com/ray-project/kuberay"
     },
     {
       "name": "Semantic Router",
@@ -321,20 +344,21 @@
     },
     {
       "name": "Gateway API Inference Extension",
-      "x": 52,
-      "y": 87,
+      "x": 68,
+      "y": 86,
       "group": "gateway",
-      "stage": "early",
-      "logo": "GA"
+      "stage": "mature",
+      "logo": "GA",
+      "url": "https://github.com/kubernetes-sigs/gateway-api-inference-extension"
     },
     {
-      "name": "Envoy AI Gateway",
-      "x": 50,
-      "y": 76,
+      "name": "Agent Router",
+      "x": 55,
+      "y": 77,
       "group": "gateway",
-      "stage": "early",
-      "logo": "EA",
-      "logo_image": "diagrams/logos/landscape/envoy.png"
+      "stage": "mature",
+      "logo": "RT",
+      "url": "https://github.com/theagentrouter/agent-router"
     },
     {
       "name": "kgateway",
@@ -343,6 +367,15 @@
       "group": "gateway",
       "stage": "mature",
       "logo": "KG"
+    },
+    {
+      "name": "agentgateway",
+      "x": 52,
+      "y": 91,
+      "group": "gateway",
+      "stage": "mature",
+      "logo": "AG",
+      "url": "https://github.com/agentgateway/agentgateway"
     },
     {
       "name": "knoway",
@@ -363,7 +396,7 @@
     },
     {
       "name": "Kong",
-      "x": 66,
+      "x": 68,
       "y": 66,
       "group": "gateway",
       "stage": "mature",
@@ -399,7 +432,7 @@
     },
     {
       "name": "Kubeflow",
-      "x": 90,
+      "x": 95,
       "y": 75,
       "group": "training",
       "stage": "mature",
@@ -444,7 +477,7 @@
     {
       "name": "LWS",
       "x": 50,
-      "y": 45,
+      "y": 46,
       "group": "scheduling",
       "stage": "early",
       "logo": "LW",
@@ -469,11 +502,12 @@
     },
     {
       "name": "KAI Scheduler",
-      "x": 40,
+      "x": 44,
       "y": 32,
       "group": "scheduling",
       "stage": "early",
-      "logo": "KI"
+      "logo": "KI",
+      "url": "https://github.com/kai-scheduler/KAI-Scheduler"
     },
     {
       "name": "Volcano",
@@ -495,7 +529,7 @@
     },
     {
       "name": "WAS",
-      "x": 28,
+      "x": 33,
       "y": 34,
       "group": "scheduling",
       "stage": "early",
@@ -514,16 +548,25 @@
     {
       "name": "Koordinator",
       "x": 55,
-      "y": 31,
+      "y": 32,
       "group": "scheduling",
       "stage": "mature",
       "logo": "KD",
       "logo_image": "diagrams/logos/landscape/koordinator.png"
     },
     {
-      "name": "PodRestart",
-      "x": 42,
+      "name": "HAMi",
+      "x": 62,
       "y": 28,
+      "group": "scheduling",
+      "stage": "mature",
+      "logo": "HA",
+      "url": "https://github.com/Project-HAMi/HAMi"
+    },
+    {
+      "name": "PodRestart",
+      "x": 47,
+      "y": 27,
       "group": "kernel",
       "stage": "early",
       "logo": "PR",
@@ -531,28 +574,28 @@
     },
     {
       "name": "Pod In-place Resize",
-      "x": 64,
-      "y": 30,
+      "x": 72,
+      "y": 32,
       "group": "kernel",
-      "stage": "early",
+      "stage": "mature",
       "logo": "IR",
       "tags": ["k8s-feature"]
     },
     {
       "name": "ImageVolume",
-      "x": 54,
-      "y": 23,
+      "x": 66,
+      "y": 16,
       "group": "kernel",
-      "stage": "early",
+      "stage": "mature",
       "logo": "IV",
       "tags": ["k8s-feature"]
     },
     {
       "name": "DRA",
-      "x": 52,
-      "y": 27,
+      "x": 75,
+      "y": 28,
       "group": "kernel",
-      "stage": "early",
+      "stage": "mature",
       "logo": "DR",
       "logo_image": "diagrams/logos/landscape/dra.png",
       "tags": ["k8s-feature"]
@@ -610,7 +653,7 @@
     {
       "name": "ORAS",
       "x": 64,
-      "y": 27,
+      "y": 24,
       "group": "kernel",
       "stage": "mature",
       "logo": "OR",
@@ -645,7 +688,7 @@
     },
     {
       "name": "KubeVirt",
-      "x": 78,
+      "x": 83,
       "y": 14,
       "group": "kernel",
       "stage": "mature",

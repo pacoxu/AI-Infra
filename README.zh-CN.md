@@ -31,7 +31,7 @@ tags: ai-infrastructure, kubernetes, learning-path, landscape
 
 ## 📑 目录
 
-- [AI-Infra 全景图](#-ai-infra-全景图-2026年3月)
+- [AI-Infra 全景图](#-ai-infra-全景图-2026年11月)
 - [AI Infra 定义](#-ai-infra-定义)
 - [AI 基础设施工程师学习路径](#-ai-基础设施工程师学习路径)
   - [0. 内核与运行时](#-0-内核与运行时底层内核)
@@ -158,7 +158,7 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 - [博客列表（含最近文章）](./BLOG.md)
 - [完整博客索引](./docs/blog/README.md)
 
-## 📊 AI-Infra 全景图 (2026年3月)
+## 📊 AI-Infra 全景图 (2026年11月)
 
 **图例:**
 
