@@ -178,7 +178,8 @@
       "group": "workflow",
       "stage": "early",
       "logo": "SU",
-      "url": "https://github.com/agent-substrate/substrate"
+      "url": "https://github.com/agent-substrate/substrate",
+      "logo_image": "diagrams/logos/landscape/agent-substrate.png"
     },
     {
       "name": "OpenShell",
@@ -197,6 +198,16 @@
       "stage": "early",
       "logo": "OS",
       "url": "https://github.com/opensandbox-group/OpenSandbox"
+    },
+    {
+      "name": "OpenKruise Agents",
+      "x": 35,
+      "y": 77,
+      "group": "workflow",
+      "stage": "early",
+      "logo": "OK",
+      "logo_image": "diagrams/logos/landscape/openkruise.png",
+      "url": "https://github.com/openkruise/agents"
     },
     {
       "name": "CubeSandbox",
@@ -258,14 +269,6 @@
       "logo": "E2"
     },
     {
-      "name": "Daytona",
-      "x": 80,
-      "y": 82,
-      "group": "workflow",
-      "stage": "mature",
-      "logo": "DT"
-    },
-    {
       "name": "AIBrix",
       "x": 47,
       "y": 72,
@@ -301,20 +304,14 @@
       "logo": "OM"
     },
     {
-      "name": "llmaz",
-      "x": 21,
-      "y": 66,
-      "group": "inference",
-      "stage": "early",
-      "logo": "LM"
-    },
-    {
       "name": "rbg",
       "x": 47,
       "y": 60,
       "group": "inference",
       "stage": "mature",
-      "logo": "RB"
+      "logo": "RB",
+      "logo_image": "diagrams/logos/landscape/sglang.png",
+      "url": "https://github.com/sgl-project/rbg"
     },
     {
       "name": "kthena",
@@ -335,12 +332,14 @@
       "url": "https://github.com/ray-project/kuberay"
     },
     {
-      "name": "Semantic Router",
-      "x": 44,
+      "name": "vLLM-SR",
+      "x": 48,
       "y": 82,
       "group": "gateway",
-      "stage": "early",
-      "logo": "SR"
+      "stage": "mature",
+      "logo": "SR",
+      "logo_image": "diagrams/logos/landscape/vllm.png",
+      "url": "https://github.com/vllm-project/semantic-router"
     },
     {
       "name": "Gateway API Inference Extension",
@@ -378,14 +377,6 @@
       "url": "https://github.com/agentgateway/agentgateway"
     },
     {
-      "name": "knoway",
-      "x": 34,
-      "y": 74,
-      "group": "gateway",
-      "stage": "early",
-      "logo": "KW"
-    },
-    {
       "name": "Higress",
       "x": 66,
       "y": 78,
@@ -393,15 +384,6 @@
       "stage": "mature",
       "logo": "HG",
       "logo_image": "diagrams/logos/landscape/higress.png"
-    },
-    {
-      "name": "Kong",
-      "x": 68,
-      "y": 66,
-      "group": "gateway",
-      "stage": "mature",
-      "logo": "KO",
-      "logo_image": "diagrams/logos/landscape/kong.png"
     },
     {
       "name": "Istio",
@@ -493,14 +475,6 @@
       "logo_image": "diagrams/logos/landscape/jobset.png"
     },
     {
-      "name": "Godel",
-      "x": 22,
-      "y": 40,
-      "group": "scheduling",
-      "stage": "mature",
-      "logo": "GD"
-    },
-    {
       "name": "KAI Scheduler",
       "x": 44,
       "y": 32,
@@ -528,12 +502,13 @@
       "logo_image": "diagrams/logos/landscape/kueue.png"
     },
     {
-      "name": "WAS",
+      "name": "Workload-Aware Scheduling",
       "x": 33,
-      "y": 34,
+      "y": 42,
       "group": "scheduling",
       "stage": "early",
       "logo": "WA",
+      "tags": ["k8s-feature"],
       "url": "https://kubernetes.io/blog/2025/12/29/kubernetes-v1-35-introducing-workload-aware-scheduling/"
     },
     {
@@ -564,15 +539,6 @@
       "url": "https://github.com/Project-HAMi/HAMi"
     },
     {
-      "name": "PodRestart",
-      "x": 47,
-      "y": 27,
-      "group": "kernel",
-      "stage": "early",
-      "logo": "PR",
-      "tags": ["k8s-feature"]
-    },
-    {
       "name": "Pod In-place Resize",
       "x": 72,
       "y": 32,
@@ -582,13 +548,14 @@
       "tags": ["k8s-feature"]
     },
     {
-      "name": "ImageVolume",
-      "x": 66,
-      "y": 16,
+      "name": "Dynamic Containers",
+      "x": 10,
+      "y": 36,
       "group": "kernel",
-      "stage": "mature",
-      "logo": "IV",
-      "tags": ["k8s-feature"]
+      "stage": "early",
+      "logo": "DC",
+      "tags": ["k8s-feature"],
+      "url": "https://github.com/kubernetes/enhancements/issues/5972"
     },
     {
       "name": "DRA",
@@ -649,6 +616,16 @@
       "stage": "early",
       "logo": "MP",
       "url": "https://github.com/modelpack"
+    },
+    {
+      "name": "MatrixHub",
+      "x": 21,
+      "y": 22,
+      "group": "kernel",
+      "stage": "early",
+      "logo": "MH",
+      "logo_image": "diagrams/logos/landscape/matrixhub.png",
+      "url": "https://github.com/matrixhub-ai/matrixhub"
     },
     {
       "name": "ORAS",
