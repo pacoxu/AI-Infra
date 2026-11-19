@@ -10,7 +10,7 @@ const outPath = path.join(repoRoot, 'diagrams', 'ai-infra-landscape.svg');
 const data = JSON.parse(fs.readFileSync(dataPath, 'utf8'));
 const logoCache = new Map();
 
-const canvas = { width: 1800, height: 1150 };
+const canvas = { width: 1800, height: 1165 };
 const chart = { x: 110, y: 130, width: 1420, height: 900 };
 const notesX = chart.x + chart.width + 30;
 const notesWidth = 220;
@@ -274,6 +274,7 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
       .title { font: 700 42px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #111827; }
       .subtitle { font: 500 19px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #4b5563; }
       .axis-label { font: 600 26px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #374151; }
+      .axis-x { font: 600 20px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #4b5563; }
       .quad-label { font: 600 16px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #6b7280; }
       .legend { font: 500 15px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #374151; }
       .project-label { font: 600 14px ui-sans-serif, -apple-system, Segoe UI, Helvetica, Arial, sans-serif; fill: #111827; }
@@ -302,10 +303,10 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
   <line x1="${chart.x + chart.width / 2}" y1="${chart.y}" x2="${chart.x + chart.width / 2}" y2="${chart.y + chart.height}" stroke="#4b5563" stroke-width="2" stroke-dasharray="6 5" />
   <line x1="${chart.x}" y1="${chart.y + chart.height / 2}" x2="${chart.x + chart.width}" y2="${chart.y + chart.height / 2}" stroke="#4b5563" stroke-width="2" stroke-dasharray="6 5" />
 
-  <text x="${chart.x + chart.width / 2}" y="${chart.y - 24}" text-anchor="middle" class="axis-label">${escapeXml(data.axes.y_top)}</text>
-  <text x="${chart.x + chart.width / 2}" y="${chart.y + chart.height + 78}" text-anchor="middle" class="axis-label">${escapeXml(data.axes.y_bottom)}</text>
-  <text x="${chart.x - 18}" y="${chart.y + chart.height / 2}" text-anchor="end" class="axis-label">${escapeXml(data.axes.x_left)}</text>
-  <text x="${chart.x + chart.width + 18}" y="${chart.y + chart.height / 2}" class="axis-label">${escapeXml(data.axes.x_right)}</text>
+  <text x="${chart.x + chart.width / 2}" y="${chart.y - 14}" text-anchor="middle" class="axis-label">${escapeXml(data.axes.y_top)}</text>
+  <text x="${chart.x + chart.width / 2}" y="${chart.y + chart.height + 40}" text-anchor="middle" class="axis-label">${escapeXml(data.axes.y_bottom)}</text>
+  <text x="${chart.x}" y="${chart.y + chart.height + 38}" class="axis-x">← ${escapeXml(data.axes.x_left)}</text>
+  <text x="${chart.x + chart.width}" y="${chart.y + chart.height + 38}" text-anchor="end" class="axis-x">${escapeXml(data.axes.x_right)} →</text>
 
   ${data.quadrants
     .map(
@@ -314,16 +315,15 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
     )
     .join('\n  ')}
 
-  <text x="${chart.x}" y="104" class="legend">Legend: dashed border = early stage / under exploration | K8s tag = Kubernetes native feature</text>
-
   ${data.ecosystem.map((item, index) => ecosystemNode(item, index)).join('\n  ')}
 
   ${data.projects.map((project, index) => projectNode(project, index)).join('\n  ')}
 
   ${data.right_notes.map((note) => noteNode(note)).join('\n  ')}
 
-  <text x="${chart.x}" y="${chart.y + chart.height + 38}" class="footer">Scope note: this landscape includes selected runtime projects when they are directly relevant to AI/agent workloads.</text>
-  <text x="${chart.x}" y="${chart.y + chart.height + 58}" class="footer">Maintenance: edit diagrams/ai-infra-landscape.data.json then run node scripts/generate-landscape-svg.js</text>
+  <text x="${chart.x}" y="${chart.y + chart.height + 76}" class="legend">Legend: dashed border = early stage / under exploration | K8s tag = Kubernetes native feature</text>
+  <text x="${chart.x}" y="${chart.y + chart.height + 100}" class="footer">Scope note: this landscape includes selected runtime projects when they are directly relevant to AI/agent workloads.</text>
+  <text x="${chart.x}" y="${chart.y + chart.height + 120}" class="footer">Maintenance: edit diagrams/ai-infra-landscape.data.json then run node scripts/generate-landscape-svg.js</text>
 </svg>
 `;
 

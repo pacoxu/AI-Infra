@@ -33,7 +33,7 @@ where to focus their learning.
 
 ## 📑 Table of Contents
 
-- [AI-Infra Landscape](#-ai-infra-landscape-2026-march)
+- [AI-Infra Landscape](#-ai-infra-landscape-2026-november)
 - [AI Infra Definition](#-ai-infra-definition)
 - [Learning Path for AI Infra Engineers](#-learning-path-for-ai-infra-engineers)
   - [0. Kernel & Runtime (底层内核)](#-0-kernel--runtime-底层内核)
@@ -160,7 +160,7 @@ src="https://github.com/user-attachments/assets/dcdb9f6a-c554-4878-b4b6-1be29498
 
 - [Blog List](./BLOG.md)
 
-## 📊 AI-Infra Landscape (2026 March)
+## 📊 AI-Infra Landscape (2026 November)
 
 **Legend:**
 
