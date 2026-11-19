@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-11-17
+last_updated: 2026-11-19
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -225,7 +225,7 @@ workloads in Kubernetes clusters.
   - **Batch Scheduling**: Kueue, Volcano, koordinator, Godel, YuniKorn
     ([Kubernetes WG Batch](https://github.com/kubernetes/community/blob/master/wg-batch/README.md))
   - **GPU Scheduling**: HAMI, NVIDIA Kai Scheduler
-  - **Inference Orchestration**: Grove (hierarchical gang scheduling, topology-aware placement)
+  - **Inference Orchestration**: Grove (v1beta1 API, hierarchical gang scheduling, topology-aware placement)
   - **GPU Management**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins,
     NVIDIA AICR
   - **Workload Management**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling,
@@ -309,9 +309,13 @@ can perceive, reason, and act.
 
 - **Projects to Learn:**
   - AI Gateway:
-    - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
+    - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension):
+      API/CRD/conformance; full EPP, BBR, and Latency Predictor are in llm-d since v1.6
+    - [`llm-d`](https://github.com/llm-d/llm-d): v1.0.0 inference control plane
     - [`Agent Router`](https://github.com/theagentrouter/agent-router): formerly
       Envoy AI Gateway; an Agentic AI Foundation (AAIF) project since 2026-09
+    - [`agentgateway`](https://github.com/agentgateway/agentgateway): v1.7 AI/agent
+      gateway capabilities formerly in kgateway
     - [`Istio`](https://github.com/istio/istio)
     - [`KGateway`](https://github.com/kgateway-dev/kgateway): previously known as Gloo.
     - [`DaoCloud knoway`](https://github.com/knoway-dev/knoway)
@@ -324,7 +328,7 @@ can perceive, reason, and act.
       with MCP support, elasticity, memory management, and full observability
   - Kubernetes-Native Agent Platforms:
     - [`KAgent`](https://github.com/kagent-dev/kagent): CNCF Sandbox - K8s-native
-      agent orchestration
+      agent orchestration; v1.0.1
     - [`Volcano AgentCube`](https://github.com/volcano-sh/agentcube): Agent
       orchestration in Volcano ecosystem
     - [`Volcano Kthena`](https://github.com/volcano-sh/kthena): Advanced agent
@@ -494,7 +498,7 @@ For GPU fault detection and self-healing, see the
 ### 6. Ecosystem Initiatives
 
 - **Projects to Learn:**
-  - [`Model Spec`](https://github.com/modelpack/model-spec): CNCF Sandbox
+  - [`ModelPack (Model Spec)`](https://github.com/modelpack/model-spec): CNCF Sandbox
   - [`ImageVolume`](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
   - [`Pod In-place Resize`](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources)
 

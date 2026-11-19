@@ -2,7 +2,7 @@
   "meta": {
     "title": "AI Infra Landscape",
     "version": "2026-11",
-    "last_updated": "2026-11-18",
+    "last_updated": "2026-11-19",
     "note": "Regenerate diagrams/ai-infra-landscape.svg with node scripts/generate-landscape-svg.js"
   },
   "axes": {
@@ -176,7 +176,7 @@
       "x": 22,
       "y": 76,
       "group": "workflow",
-      "stage": "early",
+      "stage": "mature",
       "logo": "SU",
       "url": "https://github.com/agent-substrate/substrate",
       "logo_image": "diagrams/logos/landscape/agent-substrate.png"
@@ -301,7 +301,8 @@
       "y": 64,
       "group": "inference",
       "stage": "early",
-      "logo": "OM"
+      "logo": "OM",
+      "url": "https://github.com/ome-projects/ome"
     },
     {
       "name": "rbg",
@@ -329,7 +330,7 @@
       "stage": "mature",
       "logo": "KR",
       "logo_image": "diagrams/logos/landscape/kuberay.png",
-      "url": "https://github.com/ray-project/kuberay"
+      "url": "https://github.com/kuberay-project/kuberay"
     },
     {
       "name": "vLLM-SR",
@@ -342,7 +343,7 @@
       "url": "https://github.com/vllm-project/semantic-router"
     },
     {
-      "name": "Gateway API Inference Extension",
+      "name": "Gateway API Inference Extension (API/CRD)",
       "x": 68,
       "y": 86,
       "group": "gateway",
@@ -365,7 +366,8 @@
       "y": 82,
       "group": "gateway",
       "stage": "mature",
-      "logo": "KG"
+      "logo": "KG",
+      "url": "https://github.com/kgateway-dev/kgateway"
     },
     {
       "name": "agentgateway",
@@ -509,7 +511,7 @@
       "stage": "early",
       "logo": "WA",
       "tags": ["k8s-feature"],
-      "url": "https://kubernetes.io/blog/2025/12/29/kubernetes-v1-35-introducing-workload-aware-scheduling/"
+      "url": "https://kubernetes.io/blog/2026/08/26/kubernetes-v1-37-release/"
     },
     {
       "name": "YuniKorn",
@@ -601,21 +603,13 @@
       "logo": "FC"
     },
     {
-      "name": "Model Spec",
-      "x": 10,
-      "y": 20,
-      "group": "kernel",
-      "stage": "early",
-      "logo": "MS"
-    },
-    {
       "name": "ModelPack",
       "x": 12,
       "y": 26,
       "group": "kernel",
       "stage": "early",
       "logo": "MP",
-      "url": "https://github.com/modelpack"
+      "url": "https://github.com/modelpack/model-spec"
     },
     {
       "name": "MatrixHub",

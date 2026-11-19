@@ -1,7 +1,7 @@
 ---
 status: Active
 maintainer: pacoxu
-last_updated: 2026-11-17
+last_updated: 2026-11-19
 tags: ai-infrastructure, kubernetes, learning-path, landscape
 ---
 
@@ -221,7 +221,7 @@ Kubernetes 集群中 AI 工作负载的高级调度、工作负载编排和设�
   - **批处理调度**: Kueue, Volcano, koordinator, Godel, YuniKorn
     ([Kubernetes WG Batch](https://github.com/kubernetes/community/blob/master/wg-batch/README.md))
   - **GPU 调度**: HAMI, NVIDIA Kai Scheduler
-  - **推理编排**: Grove（层次化 Gang 调度、拓扑感知放置）
+  - **推理编排**: Grove（v1beta1 API、层次化 Gang 调度、拓扑感知放置）
   - **GPU 管理**: NVIDIA GPU Operator, NVIDIA DRA Driver, Device Plugins,
     NVIDIA AICR
   - **工作负载管理**: LWS (LeaderWorkset), Pod Groups, Gang Scheduling,
@@ -301,9 +301,13 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
 
 - **学习项目:**
   - AI 网关:
-    - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension)
+    - [`Gateway API Inference Extension`](https://github.com/kubernetes-sigs/gateway-api-inference-extension):
+      API/CRD/conformance；v1.6 起完整 EPP、BBR 和 Latency Predictor 移至 llm-d
+    - [`llm-d`](https://github.com/llm-d/llm-d): v1.0.0 推理控制面
     - [`Agent Router`](https://github.com/theagentrouter/agent-router): 原 Envoy AI
       Gateway，2026-09 起为 Agentic AI Foundation（AAIF）项目
+    - [`agentgateway`](https://github.com/agentgateway/agentgateway): v1.7，
+      承接此前位于 kgateway 的 AI/agent 网关能力
     - [`Istio`](https://github.com/istio/istio)
     - [`KGateway`](https://github.com/kgateway-dev/kgateway): 前称 Gloo
     - [`DaoCloud knoway`](https://github.com/knoway-dev/knoway)
@@ -316,7 +320,7 @@ AI 网关为 LLM API 提供路由、负载均衡和管理，
       弹性扩缩容、内存管理和全链路可观测性
   - Kubernetes 原生智能体平台:
     - [`KAgent`](https://github.com/kagent-dev/kagent): CNCF Sandbox - K8s 原生
-      智能体编排
+      智能体编排；v1.0.1
     - [`Volcano AgentCube`](https://github.com/volcano-sh/agentcube): Volcano
       生态系统中的智能体编排
     - [`Volcano Kthena`](https://github.com/volcano-sh/kthena): Volcano 中的高级智能体调度
@@ -469,7 +473,7 @@ LLM 评估平台（TruLens, Deepchecks）的全面介绍。
 ### 6. 生态系统倡议
 
 - **学习项目:**
-  - [`Model Spec`](https://github.com/modelpack/model-spec): CNCF Sandbox
+  - [`ModelPack（Model Spec）`](https://github.com/modelpack/model-spec): CNCF Sandbox
   - [`ImageVolume`](https://github.com/kubernetes/enhancements/tree/master/keps/sig-node/4639-oci-volume-source)
   - [`Pod In-place Resize`](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources)
 
