@@ -93,6 +93,9 @@ workload isolation.
   isolation techniques including cgroups, security contexts, user namespaces,
   VM-based isolation (Kata Containers, gVisor), and checkpoint/restore for
   AI workloads
+- **[Agent Workload Sandbox Admission Policy](../../agent-infra/admission-policy.md)**:
+  Decision matrix, Kyverno admission example, fail-closed routing, exception,
+  audit, and recovery workflow for agent workloads
 
 #### Scalability and Large-Scale Clusters
 
